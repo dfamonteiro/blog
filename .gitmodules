@@ -1,0 +1,7 @@
+[submodule "blog/themes/hugo-coder"]
+	path = blog/themes/hugo-coder
+	url = https://github.com/luizdepra/hugo-coder.git
+[submodule "blog/public"]
+	path = blog/public
+	url = git@github.com:dfamonteiro/dfamonteiro.github.io.git
+	branch = main
