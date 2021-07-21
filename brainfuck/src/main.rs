@@ -129,6 +129,8 @@ impl BFVM {
     fn run(&mut self) {
         while self.code_pointer < self.code.len() {
             match &self.code[self.code_pointer] {
+                // Memory values can and do overflow and underflow,
+                // hence the use of overflowing_add and overflowing_sub
                 OpCode::Increment(i) => {
                     self.memory[self.mem_pointer] =
                         self.memory[self.mem_pointer].overflowing_add(*i).0
@@ -149,7 +151,7 @@ impl BFVM {
             if let OpCode::Jump {destination, direction} = &self.code[self.code_pointer] {
                 let zero = self.memory[self.mem_pointer] == 0;
                 if (direction == &Direction::Forward && zero)
-                    || direction == &Direction::Backward && !zero
+                    || (direction == &Direction::Backward && !zero)
                 {
                     self.code_pointer = *destination;
                 } else {
