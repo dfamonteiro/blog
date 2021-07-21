@@ -1,11 +1,8 @@
-use std::io::Read;
 use std::fs;
+use std::io::Read;
 
 fn main() {
-    BFVM::new(
-        &fs::read_to_string("mandelbrot.bf").unwrap(),
-    )
-    .run();
+    BFVM::new(&fs::read_to_string("mandelbrot.bf").unwrap()).run();
 }
 
 #[derive(Eq, PartialEq)]
@@ -80,7 +77,13 @@ fn compile(code: &Vec<char>) -> Vec<OpCode> {
             ']' => {
                 let dest = jumps.pop().unwrap();
 
-                if !matches!(&res[dest], OpCode::Jump{destination : _, direction : _}) {
+                if !matches!(
+                    &res[dest],
+                    OpCode::Jump {
+                        destination: _,
+                        direction: _
+                    }
+                ) {
                     panic!();
                 }
 
