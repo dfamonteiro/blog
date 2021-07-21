@@ -51,6 +51,9 @@ impl BFVM {
         while index < code.len() {
             match code[index] {
                 '<' | '>' | '+' | '-' => {
+                    // These 4 operators can be be treated the same way:
+                    // For example, if a sequence of "<<<<<" appears,
+                    // they get condensed to a MoveLeft(5) opcode
                     let hit = code[index];
                     let mut len = 1;
                     while index + len < code.len() && code[index + len] == hit {
@@ -79,7 +82,7 @@ impl BFVM {
     
                 '[' => {
                     if index + 2 < code.len() && code[index + 1] == '-' && code[index + 2] == ']' {
-                        // [-]
+                        // If this pattern "[-]" appears, it means it is just zeroing out a value
                         res.push(OpCode::Zero);
                         index += 3;
                     } else {
@@ -89,17 +92,18 @@ impl BFVM {
                         });
                         index += 1;
     
-                        jumps.push(res.len() - 1);
+                        jumps.push(res.len() - 1); // Updating the jumps stack so that
+                                                   // we keep track of the index of this '['
                     }
                 }
                 ']' => {
                     let dest = jumps.pop().unwrap();
     
-                    if !matches!(
+                    if !matches!( // Sanity check to make sure there is a forward Jump at dest
                         &res[dest],
                         OpCode::Jump {
                             destination: _,
-                            direction: _
+                            direction: Direction::Forward,
                         }
                     ) {
                         panic!();
@@ -116,7 +120,7 @@ impl BFVM {
                     });
                     index += 1;
                 }
-                _ => index += 1,
+                _ => index += 1, // A comment char, moving on
             }
         }
         res
