@@ -127,11 +127,11 @@ impl BFVM {
             match &self.code[self.code_pointer] {
                 OpCode::Increment(i) => {
                     self.memory[self.mem_pointer] =
-                        self.memory[self.mem_pointer].overflowing_add(i.clone()).0
+                        self.memory[self.mem_pointer].overflowing_add(*i).0
                 }
                 OpCode::Decrement(i) => {
                     self.memory[self.mem_pointer] =
-                        self.memory[self.mem_pointer].overflowing_sub(i.clone()).0
+                        self.memory[self.mem_pointer].overflowing_sub(*i).0
                 }
                 OpCode::MoveLeft(i) => self.mem_pointer -= i,
                 OpCode::MoveRight(i) => self.mem_pointer += i,
@@ -140,22 +140,19 @@ impl BFVM {
                 OpCode::Write => print!("{}", self.memory[self.mem_pointer] as char),
                 _ => (),
             }
-
-            match &self.code[self.code_pointer] {
-                OpCode::Jump {
-                    destination,
-                    direction,
-                } => {
-                    let zero = self.memory[self.mem_pointer] == 0;
-                    if (direction == &Direction::Forward && zero)
-                        || direction == &Direction::Backward && !zero
-                    {
-                        self.code_pointer = destination.clone();
-                    } else {
-                        self.code_pointer += 1;
-                    }
+            
+            // Code pointer manipulation logic is handled separately
+            if let OpCode::Jump {destination, direction} = &self.code[self.code_pointer] {
+                let zero = self.memory[self.mem_pointer] == 0;
+                if (direction == &Direction::Forward && zero)
+                    || direction == &Direction::Backward && !zero
+                {
+                    self.code_pointer = *destination;
+                } else {
+                    self.code_pointer += 1;
                 }
-                _ => self.code_pointer += 1,
+            } else {
+                self.code_pointer += 1;
             }
         }
     }
