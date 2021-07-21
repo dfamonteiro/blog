@@ -1,7 +1,19 @@
+// Copyright 2021 Daniel Monteiro
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+// The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+//! Welcome to the documentation of the Brainfuck IR compiler source code
+//!
+//! For disambiguation purposes, a cell is a byte in memory, and the pointer points towards the instruction currently being executed
+
 use std::fs;
 use std::io::Read;
 
 fn main() {
+    // Given that this code was mainly written for blogging purposes, I harcoded the file path.
+    // A more polished main() would make use of something like clap (https://clap.rs)
+    // to take the path of the source file as a command line argument
     BFVM::new(&fs::read_to_string("mandelbrot.bf").unwrap()).run();
 }
 
@@ -11,20 +23,31 @@ enum Direction {
     Backward,
 }
 
+/// Brainfuck source code gets compiled to an intermediate representation made up of `OpCode`s
 enum OpCode {
+    /// Increments the value in the cell by x (can overflow)
     Increment(u8),
+    /// Decrements the value in the cell by x (can underflow)
     Decrement(u8),
+    /// Moves the pointer x values to the left
     MoveLeft(usize),
+    /// Moves the pointer x values to the right
     MoveRight(usize),
+    /// Sets the value in cell to 0
     Zero,
+    /// Reads a value into the cell
     Read,
+    /// Prints the value from the cell as an ASCII character
     Write,
+    /// Jump to destination if:
+    /// - The value from the cell is 0 and the direction is [Direction::Forward]
+    /// - The value from the cell is not 0 and the direction is [Direction::Backward]
     Jump {
         destination: usize,
         direction: Direction,
     },
 }
-
+/// The **B**rain**f**uck **V**irtual **M**achine holds all the data necessary to compile and run a Brainfuck program
 struct BFVM {
     memory: [u8; 300000],
     mem_pointer: usize,
@@ -35,6 +58,7 @@ struct BFVM {
 
 impl BFVM {
     fn new(code: &str) -> Self {
+        //! Compiles the `code` into IR and sets up the VM to make sure that it's ready to run
         Self {
             memory: [0; 300000],
             mem_pointer: 0,
@@ -44,6 +68,7 @@ impl BFVM {
     }
 
     fn compile(code: &Vec<char>) -> Vec<OpCode> {
+        //! Compiles the `code` into IR i.e. a vector of [OpCode]s
         let mut res: Vec<OpCode> = Vec::new();
         let mut index = 0;
         let mut jumps: Vec<usize> = Vec::new();
@@ -127,6 +152,7 @@ impl BFVM {
     }
 
     fn run(&mut self) {
+        //! Runs the VM
         while self.code_pointer < self.code.len() {
             match &self.code[self.code_pointer] {
                 // Memory values can and do overflow and underflow,
@@ -164,6 +190,7 @@ impl BFVM {
     }
 
     fn read_input(&mut self) {
+        //! Reads a single `char` from `stdin`
         let input: Option<u8> = std::io::stdin()
             .bytes()
             .next()
