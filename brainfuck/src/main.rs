@@ -25,85 +25,6 @@ enum OpCode {
     },
 }
 
-fn compile(code: &Vec<char>) -> Vec<OpCode> {
-    let mut res = Vec::new();
-    let mut index = 0;
-    let mut jumps: Vec<usize> = Vec::new();
-
-    while index < code.len() {
-        match code[index] {
-            '<' | '>' | '+' | '-' => {
-                let hit = code[index];
-                let mut len = 1;
-                while index + len < code.len() && code[index + len] == hit {
-                    len += 1;
-                }
-
-                let opcode = match code[index] {
-                    '<' => OpCode::MoveLeft(len),
-                    '>' => OpCode::MoveRight(len),
-                    '+' => OpCode::Increment(len as u8),
-                    '-' => OpCode::Decrement(len as u8),
-                    _ => panic!(),
-                };
-
-                res.push(opcode);
-                index += len;
-            }
-            '.' => {
-                res.push(OpCode::Write);
-                index += 1;
-            }
-            ',' => {
-                res.push(OpCode::Read);
-                index += 1;
-            }
-
-            '[' => {
-                if index + 2 < code.len() && code[index + 1] == '-' && code[index + 2] == ']' {
-                    // [-]
-                    res.push(OpCode::Zero);
-                    index += 3;
-                } else {
-                    res.push(OpCode::Jump {
-                        direction: Direction::Forward,
-                        destination: 0,
-                    });
-                    index += 1;
-
-                    jumps.push(res.len() - 1);
-                }
-            }
-            ']' => {
-                let dest = jumps.pop().unwrap();
-
-                if !matches!(
-                    &res[dest],
-                    OpCode::Jump {
-                        destination: _,
-                        direction: _
-                    }
-                ) {
-                    panic!();
-                }
-
-                res[dest] = OpCode::Jump {
-                    direction: Direction::Forward,
-                    destination: res.len(),
-                };
-
-                res.push(OpCode::Jump {
-                    direction: Direction::Backward,
-                    destination: dest,
-                });
-                index += 1;
-            }
-            _ => index += 1,
-        }
-    }
-    res
-}
-
 struct BFVM {
     memory: [u8; 300000],
     mem_pointer: usize,
@@ -117,9 +38,88 @@ impl BFVM {
         Self {
             memory: [0; 300000],
             mem_pointer: 0,
-            code: compile(&code.chars().collect()),
+            code: BFVM::compile(&code.chars().collect()),
             code_pointer: 0,
         }
+    }
+
+    fn compile(code: &Vec<char>) -> Vec<OpCode> {
+        let mut res: Vec<OpCode> = Vec::new();
+        let mut index = 0;
+        let mut jumps: Vec<usize> = Vec::new();
+    
+        while index < code.len() {
+            match code[index] {
+                '<' | '>' | '+' | '-' => {
+                    let hit = code[index];
+                    let mut len = 1;
+                    while index + len < code.len() && code[index + len] == hit {
+                        len += 1;
+                    }
+    
+                    let opcode = match code[index] {
+                        '<' => OpCode::MoveLeft(len),
+                        '>' => OpCode::MoveRight(len),
+                        '+' => OpCode::Increment(len as u8),
+                        '-' => OpCode::Decrement(len as u8),
+                        _ => panic!(),
+                    };
+    
+                    res.push(opcode);
+                    index += len;
+                }
+                '.' => {
+                    res.push(OpCode::Write);
+                    index += 1;
+                }
+                ',' => {
+                    res.push(OpCode::Read);
+                    index += 1;
+                }
+    
+                '[' => {
+                    if index + 2 < code.len() && code[index + 1] == '-' && code[index + 2] == ']' {
+                        // [-]
+                        res.push(OpCode::Zero);
+                        index += 3;
+                    } else {
+                        res.push(OpCode::Jump {
+                            direction: Direction::Forward,
+                            destination: 0,
+                        });
+                        index += 1;
+    
+                        jumps.push(res.len() - 1);
+                    }
+                }
+                ']' => {
+                    let dest = jumps.pop().unwrap();
+    
+                    if !matches!(
+                        &res[dest],
+                        OpCode::Jump {
+                            destination: _,
+                            direction: _
+                        }
+                    ) {
+                        panic!();
+                    }
+    
+                    res[dest] = OpCode::Jump {
+                        direction: Direction::Forward,
+                        destination: res.len(),
+                    };
+    
+                    res.push(OpCode::Jump {
+                        direction: Direction::Backward,
+                        destination: dest,
+                    });
+                    index += 1;
+                }
+                _ => index += 1,
+            }
+        }
+        res
     }
 
     fn run(&mut self) {
