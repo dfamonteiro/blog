@@ -112,3 +112,157 @@ enum Direction {
 ```
 
 As you can see, not only did we mitigated the repetitiveness of the memory-manipulating instructions but we also turned the `[` `]` jump instructions into a O(1) operation by precalculating the destination instruction index. An instruction that zeroes out the cell was also introduced, in order to replace the `[-]` pattern.
+
+## Compiling Brainfuck code
+
+Now that we designed our IR, we need to write a function that compiles the source code. We start by dealing with the repetitive memory-manipulating instructions (`+` `-` `<` `>`):
+
+```rust
+impl BFVM {
+    fn new(code: &str) -> Self {
+        ...
+    }
+
+    fn compile(code: &Vec<char>) -> Vec<OpCode> {
+        //! Compiles the `code` into IR i.e. a vector of [OpCode]s
+        let mut res: Vec<OpCode> = Vec::new();
+        let mut index = 0;
+        let mut jumps: Vec<usize> = Vec::new();
+    
+        while index < code.len() {
+            match code[index] {
+                '<' | '>' | '+' | '-' => {
+                    // These 4 operators can be be treated the same way:
+                    // For example, if a sequence of "<<<<<" appears,
+                    // they get condensed to a MoveLeft(5) opcode
+                    let hit = code[index];
+                    let mut len = 1;
+                    while index + len < code.len() && code[index + len] == hit {
+                        len += 1;
+                    }
+    
+                    let opcode = match code[index] {
+                        '<' => OpCode::MoveLeft(len),
+                        '>' => OpCode::MoveRight(len),
+                        '+' => OpCode::Increment(len as u8),
+                        '-' => OpCode::Decrement(len as u8),
+                        _ => panic!(),
+                    };
+    
+                    res.push(opcode);
+                    index += len;
+                }
+```
+
+The `Read` and `Write` opcodes are quite straightforward to compile:
+
+```rust
+                '.' => {
+                    res.push(OpCode::Write);
+                    index += 1;
+                }
+                ',' => {
+                    res.push(OpCode::Read);
+                    index += 1;
+                }
+```
+
+Whenever a `[` instruction is found, we are dealing with one of two cases:
+
+- If we're dealing with the `[-]`, emit a `Zero` opcode
+- Otherwise, it's just a `Jump` opcode. We keep track of this forward jump by pushing its index in `jumps` stack, so that when we find the corresponding `]` we can fill in the `destination` field.
+
+```rust
+                '[' => {
+                    if index + 2 < code.len() && code[index + 1] == '-' && code[index + 2] == ']' {
+                        // If this pattern "[-]" appears, it means it is just zeroing out a value
+                        res.push(OpCode::Zero);
+                        index += 3;
+                    } else {
+                        res.push(OpCode::Jump {
+                            direction: Direction::Forward,
+                            destination: 0,
+                        });
+                        index += 1;
+    
+                        jumps.push(res.len() - 1); // Updating the jumps stack so that
+                                                   // we keep track of the index of this '['
+                    }
+                }
+```
+
+When we deal with a `]` instruction, we need to make sure we have both jumps pointing at each other:
+
+```rust
+                ']' => {
+                    let dest = jumps.pop().unwrap();
+    
+                    res[dest] = OpCode::Jump {
+                        direction: Direction::Forward,
+                        destination: res.len(),
+                    };
+    
+                    res.push(OpCode::Jump {
+                        direction: Direction::Backward,
+                        destination: dest,
+                    });
+                    index += 1;
+                }
+                _ => index += 1, // A comment char, moving on
+            }
+        }
+        res
+    }
+}
+```
+
+## Running our intermediate representation
+
+Now that we compiled our source code, we need to run it. Luckily for us, Rust's `match` statement excels at dealing with the various values of a `enum`:
+
+```rust
+impl BFVM {
+    ...
+    fn run(&mut self) {
+        //! Runs the VM
+        while self.code_pointer < self.code.len() {
+            match &self.code[self.code_pointer] {
+                // Memory values can and do overflow and underflow,
+                // hence the use of overflowing_add and overflowing_sub
+                OpCode::Increment(i) => {
+                    self.memory[self.mem_pointer] =
+                        self.memory[self.mem_pointer].overflowing_add(*i).0
+                }
+                OpCode::Decrement(i) => {
+                    self.memory[self.mem_pointer] =
+                        self.memory[self.mem_pointer].overflowing_sub(*i).0
+                }
+                OpCode::MoveLeft(i) => self.mem_pointer -= i,
+                OpCode::MoveRight(i) => self.mem_pointer += i,
+                OpCode::Zero => self.memory[self.mem_pointer] = 0,
+                OpCode::Read => self.read_input(),
+                OpCode::Write => print!("{}", self.memory[self.mem_pointer] as char),
+                _ => (),
+            }
+```
+
+The code pointer manipulation logic is handled separately to ensure that it is done correctly:
+
+```rust
+            if let OpCode::Jump {destination, direction} = &self.code[self.code_pointer] {
+                let zero = self.memory[self.mem_pointer] == 0;
+                if (direction == &Direction::Forward && zero)
+                    || (direction == &Direction::Backward && !zero)
+                {
+                    self.code_pointer = *destination;
+                } else {
+                    self.code_pointer += 1;
+                }
+            } else {
+                self.code_pointer += 1;
+            }
+        }
+    }
+    ...
+}
+```
