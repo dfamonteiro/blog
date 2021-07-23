@@ -111,7 +111,7 @@ enum Direction {
 }
 ```
 
-As you can see, not only did we mitigated the repetitiveness of the memory-manipulating instructions but we also turned the `[` `]` jump instructions into a O(1) operation by precalculating the destination instruction index. An instruction that zeroes out the cell was also introduced, in order to replace the `[-]` pattern.
+As you can see, not only did we mitigated the repetitiveness of the memory-manipulating instructions but we also turned the `[` `]` jump instructions into a O(1) operation by precomputing the destination instruction index. An instruction that zeroes out the cell was also introduced, in order to replace the `[-]` pattern.
 
 ## Compiling Brainfuck code
 
@@ -170,7 +170,7 @@ The `Read` and `Write` opcodes are quite straightforward to compile:
 Whenever a `[` instruction is found, we are dealing with one of two cases:
 
 - If we're dealing with the `[-]`, emit a `Zero` opcode
-- Otherwise, it's just a `Jump` opcode. We keep track of this forward jump by pushing its index in `jumps` stack, so that when we find the corresponding `]` we can fill in the `destination` field.
+- Otherwise, it's just a `Jump` opcode. We keep track of this forward jump by pushing its index to the `jumps` stack, so that when we find the corresponding `]` we can fill in the `destination` field.
 
 ```rust
                 '[' => {
