@@ -24,6 +24,20 @@ In order to execute a Brainfuck program, four crucial elements are needed:
 3. The memory (an infinite[^2] array of byte-sized cells)
 4. The memory pointer
 
+Here is a Rust example of what a Brainfuck "VM" might look like:
+
+```rust
+/// The Brainfuck Virtual Machine holds all the data
+/// necessary to compile and run a Brainfuck program
+struct BFVM {
+    memory: [u8; 300000],
+    mem_pointer: usize,
+
+    code: Vec<OpCode>,
+    code_pointer: usize,
+}
+```
+
 ### The Brainfuck instruction set
 
 Brainfuck puts the _Reduced_ in RISC, featuring a grand total of 8 instructions:
