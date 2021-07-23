@@ -37,7 +37,7 @@ Brainfuck puts the _Reduced_ in RISC, featuring a grand total of 8 instructions:
 - `[` - jumps to the matching `]`, if the value of the cell is 0
 - `]` - jumps to the matching `[`, if the value of the cell is **not** 0
 
-If you are looking to better understand some of Brainfuck's nuances, I very much recommend this [informal specification](https://github.com/brain-lang/brainfuck/blob/master/brainfuck.md "An informal Brainfuck specification").
+If you are looking to better understand some of Brainfuck's nuances, I very much recommend this [informal specification](https://github.com/brain-lang/brainfuck/blob/master/brainfuck.md "An informal Brainfuck specification"), from which the instruction set subchapter is mostly based on.
 
 [^2]: 300000 cells is infinite enough.
 
