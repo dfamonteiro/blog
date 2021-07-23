@@ -43,7 +43,7 @@ If you are looking to better understand some of Brainfuck's nuances, I very much
 
 ## Potential for improvement
 
-For what brainfuck makes up in simplicity, it loses out in expressiveness and efficiency (or a lack thereof). Please take a look at the code excerpt below:
+For what Brainfuck makes up in simplicity, it loses out in expressiveness and efficiency (or a lack thereof). Please take a look at the code excerpt below:
 
 ```brainfuck
 +++++++++++++[->++>>>+++++>++>+<<<<<<]>>>>>++++++>--->>>>>>>>>>+++++++++++++++[[
@@ -52,3 +52,49 @@ For what brainfuck makes up in simplicity, it loses out in expressiveness and ef
 <<]>>>>>>>[-<<<<<<<+>>>>>>>]<<<<<<<[->>>>>>>+<<+<<<<<]>>>>>>>>>+++++++++++++++[[
 >>>>>>>>>]+>[-]>[-]>[-]>[-]>[-]>[-]>[-]>[-]>[-]<<<<<<<<<[<<<<<<<<<]>>>>>>>>>-]+[
 ```
+
+When I look at Brainfuck code, the thing that strikes me most is how repetitive it looks. For example, the first line starts with 13 `+` instructions in a row. I could just as easily find examples for the other three memory-manipulating instructions (`-` `<` `>`).
+
+Another pattern that comes up often is this one: `[-]`. This loop decrements the value of the cell until it reaches 0.
+
+Lastly, finding the matching `]` for the respective `[` (or vice-versa) can be very time-consuming, depending on how much of your program is enclosed by this bracket pair.
+
+### An improved intermediate representation
+
+Taking these inefficiencies into account, we can develop a higher-level and more performant abstraction:
+
+```rust
+/// Brainfuck source code gets compiled
+/// to an intermediate representation made up of `OpCode`s
+enum OpCode {
+    /// Increments the value in the cell by x (can overflow)
+    Increment(u8),
+    /// Decrements the value in the cell by x (can underflow)
+    Decrement(u8),
+    /// Moves the pointer x values to the left
+    MoveLeft(usize),
+    /// Moves the pointer x values to the right
+    MoveRight(usize),
+    /// Sets the value in cell to 0
+    Zero,
+    /// Reads a value into the cell
+    Read,
+    /// Prints the value from the cell as an ASCII character
+    Write,
+    /// Jump to destination if:
+    /// - The value from the cell is 0 and the direction is [Direction::Forward]
+    /// - The value from the cell is not 0 and the direction is [Direction::Backward]
+    Jump {
+        destination: usize,
+        direction: Direction,
+    },
+}
+
+#[derive(Eq, PartialEq)]
+enum Direction {
+    Forward,
+    Backward,
+}
+```
+
+As you can see, not only did we mitigated the repetitiveness of the memory-manipulating instructions but we also turned the `[` `]` jump instructions into a O(1) operation by precalculating the destination instruction index. An instruction that zeroes out the cell was also introduced, in order to replace the `[-]` pattern.
