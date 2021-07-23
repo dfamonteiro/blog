@@ -1,5 +1,5 @@
 +++ 
-draft = true
+draft = false
 date = 2021-07-21T23:11:53+01:00
 title = "Developing an intermediate representation of Brainfuck using Rust"
 description = "If you think that optimizing Brainfuck is a waste of time, you are definitely correct! Nevertheless, it is a very useful programming exercise to leverage the type system of a language."
