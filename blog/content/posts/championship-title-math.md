@@ -1,7 +1,7 @@
 +++ 
 draft = true
 date = 2021-07-23T21:40:37+01:00
-title = "When can a driver clinch the title: a nuanced analysis"
+title = "How soon can a driver clinch the title: a nuanced analysis"
 description = ""
 slug = ""
 authors = []
@@ -11,5 +11,54 @@ externalLink = ""
 series = []
 +++
 
-Hello, there
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plotly.com/~chris/1638.embed" height="525" width="100%"></iframe>
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer>
+</script>
+
+The 2020 Formula 1 championship was one of the most uncompetitive seasons in recent history. Facing an underpowered Ferrari[^1] and a RedBull plagued with rear instability problems, Mercedes in some people's eyes had already won the title[^2] before even turning a wheel in a free practice session. Lewis Hamilton, however, did need to beat his teammate Valttery Bottas in order to win the driver's championship, but anyone who watches F1 knows that Hamilton is simply on another level, compared to Bottas. Ultimately, Hamilton clinched the title with three races to go at the Turkish Grand Prix with a memorable charge through the field. Watching this domination, I wondered to myself: what is the theoretical soonest that a championship can be wrapped up? Lets find out.
+
+## Lewis always wins, Max always comes second
+
+Lets start by concretely defining our problem
+
+> Let:
+>
+> - $N$ be the total number of races in a season
+> - $l$ be the number of races that Lewis wins and Max comes second
+> - $m$ be the number of races that Max wins and Lewis doesn't score points
+> - $P\_l$ be the number of points that Lewis got by the end of the season
+> - $P\_m$ be the number of points that Max got by the end of the season
+>
+> Such that $N = l + m$.
+>
+> A win ($P\_1$) is worth 25 points, a second place ($P\_2$) is worth 18 points.
+>
+> Determine how low $l$ can be, given that $P\_l > P\_m$ and $N = 17$.
+
+This will be our starting point
+$$P\_l > P\_m$$
+
+We can start by expanding $P\_l$ and $P\_m$
+$$P\_1 l > P\_2 l + P\_1 m$$
+
+$m$ can be replaced by $N - l$
+$$P\_1 l > P\_2 l + P\_1 (N - l)$$
+$$P\_1 l > P\_2 l + P\_1 N - P\_1 l$$
+
+Now, it's simply a matter of isolating $l$
+$$P\_1 l - P\_2 l + P\_1 l > P\_1 N$$
+$$(P\_1 - P\_2 + P\_1) l > P\_1 N$$
+$$(2 P\_1 - P\_2) l > P\_1 N$$
+$$l > \frac {P\_1 N}{2 P\_1 - P\_2}$$
+
+Lets replace the constants by their values
+$$l > \frac {25 * 17}{2 * 25 - 18}$$
+$$l > \frac {425}{32}$$
+$$l > 13.28125$$
+$$l \geqslant 14$$
+
+Lewis Hamilton would need to win 14 races in order to clinch the title. However, I'd argue that given that RedBull were the only team capable of catching Mercedes, I'd declare Lewis Hamilton the champion if he had a points tally so big that RedBull could finish 1-2 in every remaining race and it wouldn't be enough to catch Hamilton.
+
+[^1]: I look forward to the day that the details of the deal made between Ferrari and the FIA regarding Ferrari's _creativity_ are disclosed (i.e. never)
+
+[^2]: It doesn't help that they found a loophole in the regulations that allows them to adjust the [toe](https://en.wikipedia.org/wiki/Toe_(automotive) "Toe Wikipedia page") of the car by longitudinally pushing and pulling the steering column. I do wonder if they regretted not saving this innovation for a more rainy day, now that we see how the 2021 season is playing out...
