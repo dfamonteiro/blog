@@ -97,7 +97,7 @@ $$l \geqslant 11$$
 Lewis Hamilton would need to win only 11 races and be on the podium for the rest of the season in order to secure the championship.
 
 ## Visualizing all the possibilities
-
+ 
 <!-- It's fair to say that I'm not going get code quality awards for the code below... -->
 
 <link rel="stylesheet" href="/css/championship_chart.css">
@@ -105,6 +105,6 @@ Lewis Hamilton would need to win only 11 races and be on the podium for the rest
 <canvas id="myChart" width="400" height="200"></canvas>
 <script src="/javascript/championship_chart.js" defer></script>
 
-$D\_0 = $ <input id="D0" type="number" value="0">
-$S\_l = $ <input id="Sl" type="number" value="7">
-$N = $    <input id="N" type="number" value="17">
+<label for="D0">$D\_0 = $</label> <input id="D0" type="number" value="0" autocomplete="off">
+<label for="Sl">$S\_l = $</label> <input id="Sl" type="number" value="7" autocomplete="off">
+<label for="N">$N = $</label>     <input id="N" type="number" value="17" autocomplete="off">
