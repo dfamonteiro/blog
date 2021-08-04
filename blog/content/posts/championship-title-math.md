@@ -11,10 +11,6 @@ externalLink = ""
 series = []
 +++
 
-<script type="text/javascript"
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer>
-</script>
-
 The 2020 Formula 1 championship was one of the most uncompetitive seasons in recent history. Facing an underpowered Ferrari[^1] and a RedBull plagued with rear instability problems, Mercedes in some people's eyes had already won the title[^2] before even turning a wheel in a free practice session. Lewis Hamilton, however, did need to beat his teammate Valttery Bottas in order to win the driver's championship, but anyone who watches F1 knows that Hamilton is simply on another level, compared to Bottas. Ultimately, Hamilton clinched the title with three races to go at the Turkish Grand Prix with a memorable charge through the field. Watching this domination, I wondered to myself: what is the theoretical soonest that a championship can be wrapped up? Lets find out.
 
 [^1]: I look forward to the day that the details of the deal made between Ferrari and the FIA regarding Ferrari's _creativity_ are disclosed (i.e. never)
