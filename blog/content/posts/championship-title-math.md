@@ -1,11 +1,11 @@
 +++ 
-draft = true
+draft = false
 date = 2021-07-23T21:40:37+01:00
 title = "How soon can a driver clinch the title: a nuanced analysis"
-description = ""
+description = "We go way too deep in the mathematical nuances of securing a championship"
 slug = ""
-authors = []
-tags = []
+authors = ["Daniel Monteiro"]
+tags = ["motorsport", "maths"]
 categories = []
 externalLink = ""
 series = []
