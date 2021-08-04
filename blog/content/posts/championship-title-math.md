@@ -69,8 +69,8 @@ Instead of assuming that Hamilton doesn't finish in the points every, lets presu
 > - $l$ be the number of races that Lewis wins and Max comes second
 > - $m$ be the number of races that Max wins and Lewis comes third
 > - $D\_0$ be the starting points difference between Lewis and Max
-> - $S\_l$ be the points swing that happens if Lewis comes first and Max second (25 - 18 = 7)
-> - $S\_m$ be the points swing that happens if Lewis comes third and Max third (15 - 25 = -10)
+> - $S\_l$ be the points swing that happen if Lewis comes first and Max second (25 - 18 = 7)
+> - $S\_m$ be the points swing that happen if Lewis comes third and Max third (15 - 25 = -10)
 >
 > Such that $N = l + m$.
 >
@@ -98,7 +98,7 @@ Lewis Hamilton would need to win only 11 races and be on the podium for the rest
 
 ## Visualizing all the possibilities
 
-We've seen what happens if Lewis finishes in third. We also saw what happens if Lewis finishes in eleventh. But what if he finishes second? or fourth? or seventh? We simply have to adjust the amount of point that lewis loses to Max. You can even plot it in a chart, with $S\_m$ as the X axis and $l$ as the Y axis. Feel free to change the constants below!
+We've seen what happens if Lewis finishes in third. We also saw what happens if Lewis finishes in eleventh. But what if he finishes second? or fourth? or seventh? We simply have to adjust the amount of point that Lewis loses to Max. You can even plot it in a chart, with $S\_m$ as the X axis and $l$ as the Y axis. Feel free to change the constants below!
 
 <!-- It's fair to say that I'm not going get code quality awards for the code below... -->
 
