@@ -97,7 +97,9 @@ $$l \geqslant 11$$
 Lewis Hamilton would need to win only 11 races and be on the podium for the rest of the season in order to secure the championship.
 
 ## Visualizing all the possibilities
- 
+
+We've seen what happens if Lewis finishes in third. We also saw what happens if Lewis finishes in eleventh. But what if he finishes second? or fourth? or seventh? We simply have to adjust the amount of point that lewis loses to Max. You can even plot it in a chart, with $S\_m$ as the X axis and $l$ as the Y axis. Feel free to change the constants below!
+
 <!-- It's fair to say that I'm not going get code quality awards for the code below... -->
 
 <link rel="stylesheet" href="/css/championship_chart.css">
