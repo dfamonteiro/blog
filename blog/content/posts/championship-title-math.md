@@ -68,25 +68,25 @@ Instead of assuming that Hamilton doesn't finish in the points every, lets presu
 > - $N$ be the total number of races in a season
 > - $l$ be the number of races that Lewis wins and Max comes second
 > - $m$ be the number of races that Max wins and Lewis comes third
-> - $D\_o$ be the starting points difference between Lewis and Max
+> - $D\_0$ be the starting points difference between Lewis and Max
 > - $S\_l$ be the points swing that happens if Lewis comes first and Max second (25 - 18 = 7)
 > - $S\_m$ be the points swing that happens if Lewis comes third and Max third (15 - 25 = -10)
 >
 > Such that $N = l + m$.
 >
-> Determine how low $l$ can be, given that $D\_o + S\_l l + S\_m m > 0$ and $N = 17$.
+> Determine how low $l$ can be, given that $D\_0 + S\_l l + S\_m m > 0$ and $N = 17$.
 
 We'll start here
-$$D\_o + S\_l l + S\_m m > 0$$
+$$D\_0 + S\_l l + S\_m m > 0$$
 
 $m$ can be replaced by $N - l$
-$$D\_o + S\_l l + S\_m (N - l) > 0$$
-$$D\_o + S\_l l + S\_m N - S\_m l > 0$$
+$$D\_0 + S\_l l + S\_m (N - l) > 0$$
+$$D\_0 + S\_l l + S\_m N - S\_m l > 0$$
 
 Let's solve for $l$
-$$S\_l l - S\_m l > - D\_o - S\_m N$$
-$$(S\_l - S\_m) l > - D\_o - S\_m N$$
-$$l > \frac{- D\_o - S\_m N}{S\_l - S\_m}$$
+$$S\_l l - S\_m l > - D\_0 - S\_m N$$
+$$(S\_l - S\_m) l > - D\_0 - S\_m N$$
+$$l > \frac{- D\_0 - S\_m N}{S\_l - S\_m}$$
 
 Let's replace the constants by their values
 $$l > \frac {-0 - (-10)*17}{7 - (-10)}$$
@@ -94,4 +94,17 @@ $$l > \frac {170}{17}$$
 $$l > 10$$
 $$l \geqslant 11$$
 
-Lewis Hamilton would only need to win 11 races and be on the podium for the rest of the season to secure the championship.
+Lewis Hamilton would need to win only 11 races and be on the podium for the rest of the season in order to secure the championship.
+
+## Visualizing all the possibilities
+
+<!-- It's fair to say that I'm not going get code quality awards for the code below... -->
+
+<link rel="stylesheet" href="/css/championship_chart.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0/dist/chart.min.js"></script>
+<canvas id="myChart" width="400" height="200"></canvas>
+<script src="/javascript/championship_chart.js" defer></script>
+
+$D\_0 = $ <input id="D0" type="number" value="0">
+$S\_l = $ <input id="Sl" type="number" value="7">
+$N = $    <input id="N" type="number" value="17">
