@@ -95,7 +95,7 @@ We now have everything necessary to isolate $N\_p$, but there is no point contin
 Feel free to change the values below, if you wish!
 
 Guia circuit power requirement:
-- <label title="Guia circuit power requirement" for="power_requirements">$P\_g = $</label> <input id="power_requirements" type="number" value="96" autocomplete="off"> (kw)
+- <label title="Guia circuit power requirement" for="power_requirements">$P\_g = $</label> <input id="power_requirements" type="number" value="96" autocomplete="off" style="width: 5ch;"> (kw)
 - <label title="Guia circuit lap time in race pace" for="lap time">$t\_g = $</label>           <input id="lap time" type="number" value="150" autocomplete="off"> (s)
 - <label title="Energy required to do a lap of the Guia circuit in race pace" for="lap energy">$E\_g = $</label>         <input id="lap energy" type="number" value="4" autocomplete="off"> (kwh)
 

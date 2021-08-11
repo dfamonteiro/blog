@@ -121,3 +121,14 @@ document.getElementById("race_time").addEventListener("input", updateGraph);
 document.getElementById("car_energy").addEventListener("input", updateGraph);
 document.getElementById("recharge_power").addEventListener("input", updateGraph);
 document.getElementById("pit_delta").addEventListener("input", updateGraph);
+
+function update_power_requirement(event) {
+  let lap_time = document.getElementById("lap time").valueAsNumber;
+  let energy = document.getElementById("lap energy").valueAsNumber;
+  console.log(lap_time, energy);
+  document.getElementById("power_requirements").value = (energy*3600/lap_time).toFixed(1);
+  updateGraph(event);
+}
+
+document.getElementById("lap time").addEventListener("input", update_power_requirement);
+document.getElementById("lap energy").addEventListener("input", update_power_requirement);
