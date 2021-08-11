@@ -86,3 +86,24 @@ Determining the average race pace power is a matter of dividing the total energy
 $$ P\_r =  \frac{E\_s + N\_p E\_r}{\frac {t\_r - N\_p(t\_d + t\_r)}{3600}} = 3600\frac{E\_s + N\_p E\_r}{t\_r - N\_p(t\_d + t\_r)}$$
 
 We now have everything necessary to isolate $N\_p$, but there is no point continuing this exercise, now that we know how to define $P\_g$ and $P\_r$. Lets do something a lot more interesting with these formulas instead...
+
+## Seeing the bigger picture
+
+<link rel="stylesheet" href="/css/championship_chart.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0/dist/chart.min.js"></script>
+
+Feel free to change the values below, if you wish!
+
+Guia circuit power requirement:
+- <label title="Guia circuit power requirement" for="power_requirements">$P\_g = $</label> <input id="power_requirements" type="number" value="96" autocomplete="off"> (kw)
+- <label title="Guia circuit lap time in race pace" for="lap time">$t\_g = $</label>           <input id="lap time" type="number" value="150" autocomplete="off"> (s)
+- <label title="Energy required to do a lap of the Guia circuit in race pace" for="lap energy">$E\_g = $</label>         <input id="lap energy" type="number" value="4" autocomplete="off"> (kwh)
+
+Pit stop-related values:
+- <label title="Race time" for="race_time">$t\_r = $</label>         <input id="race_time" type="number" value="47" autocomplete="off"> (minutes)
+- <label title="Battery charge at the start of the race" for="car_energy">$E\_s = $</label>        <input id="car_energy" type="number" value="51" autocomplete="off"> (kwh)
+- <label title="Battery recharging rate" for="recharge_power">$P\_b = $</label>        <input id="recharge_power" type="number" value="600" autocomplete="off"> (kw)
+- <label title="Time necessary to drive through the pit lane without stopping" for="pit_delta">$t\_d = $</label>        <input id="pit_delta" type="number" value="20" autocomplete="off"> (s)
+
+<canvas id="myChart" width="400" height="200"></canvas>
+<script src="/javascript/formula_E_gen3_chart.js" defer></script>
