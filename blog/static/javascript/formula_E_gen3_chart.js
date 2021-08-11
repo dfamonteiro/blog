@@ -132,3 +132,12 @@ function update_power_requirement(event) {
 
 document.getElementById("lap time").addEventListener("input", update_power_requirement);
 document.getElementById("lap energy").addEventListener("input", update_power_requirement);
+
+function update_lap_energy(event) {
+  let power_requirements = document.getElementById("power_requirements").valueAsNumber;
+  let lap_time = document.getElementById("lap time").valueAsNumber;
+
+  document.getElementById("lap energy").value = (power_requirements * lap_time / 3600).toFixed(1);
+}
+
+document.getElementById("power_requirements").addEventListener("input", update_lap_energy);
