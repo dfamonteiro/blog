@@ -1,5 +1,5 @@
 +++ 
-draft = true
+draft = false
 date = 2021-08-05T19:33:17+01:00
 title = "Can Formula E race at Macau?"
 description = "Let's take a look at how much of an impact pit stops could have in the Gen3 era of Formula E"
