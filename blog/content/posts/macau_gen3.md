@@ -51,6 +51,38 @@ The [Gen3 Formula E car](https://motorsport.tech/formula-e/gen3-formula-es-big-s
 | Regeneration (back/front)  | 250 (250/0) kW | 600 (350/250) kw | +140%  |
 | Total weight (inc. driver) | 903kg          | 780kg            | -13.6% |
 
-The one area that wasn't improved on was battery charge... or was it? Surprise, the Gen3 era will feature recharging pit stops! The Gen3 car will be able to come into the pits and stop for 30 seconds to recharge the battery at a rate of 600kw, putting 5kwh back into the battery. This is revolutionary because for every pit stop you add to a race, not only less time is spent racing (and consuming energy), but also more energy is added to the total available. Hopefully, this means that circuit designers won't need to add chicanes because they can simply add another pit stop.
+The one area that wasn't improved on was battery charge... or was it? Surprise, the Gen3 era will feature recharging pit stops! The Gen3 car will be able to come into the pits and stop for 30 seconds to recharge the battery at a rate of 600kw, putting 5kwh back into the battery. This is revolutionary because for every pit stop you add to a race, not only less time is spent racing (and consuming energy), but also more energy is added to the car. Hopefully, this means that circuit designers won't need to add chicanes because they can simply add another pit stop.
 
-## _How_ many pit stops would Macau need?
+## _How many_ pit stops would Macau need?
+
+Now that we know that FE could go to Macau by using recharging pit stops. How can we determine the exact number? Lets take a look at the math:
+
+Before we get started, lets name our variables:
+
+- $P\_g$ - Guia circuit power requirement (kw)
+- $t\_g$ - Guia circuit lap time in race pace (s)
+- $E\_g$ - Energy required to do a lap of the Guia circuit in race pace (kwh)
+- $P\_r$ - Average race pace power (kw)
+- $t\_r$ - Race time (s)
+- $N\_p$ - Number of pit stops
+- $E\_s$ - Battery charge at the start of the race (kwh)
+- $E\_r$ - Energy gained during a pit stop (kwh)
+- $t\_d$ - Time necessary to drive through the pit lane _without stopping_ (s)
+- $t\_r$ - Time spent stationary recharging in a pit stop (s)
+
+The goal is to have more than enough power to sustain the power requirements of the Guia Circuit
+$$P\_r \geqslant P\_g$$
+
+The power requirement of the guia circuit is straightforward to determine
+$$P\_g = \frac {E\_g}{\frac {t\_g}{3600}} = 3600 \frac{E\_g}{t\_g}$$
+
+The _total_ energy available to the car in the entire race can be calculated as follows
+$$ E\_s + N\_p E\_r$$
+
+The time spent under racing conditions (measured in hours) is calculated in a similar manner
+$$\frac{t\_r - N\_p(t\_d + t\_r)}{3600}$$
+
+Determining the average race pace power is a matter of dividing the total energy by the time
+$$ P\_r =  \frac{E\_s + N\_p E\_r}{\frac {t\_r - N\_p(t\_d + t\_r)}{3600}} = 3600\frac{E\_s + N\_p E\_r}{t\_r - N\_p(t\_d + t\_r)}$$
+
+We now have everything necessary to isolate $N\_p$, but there is no point continuing this exercise, now that we know how to define $P\_g$ and $P\_r$. Lets do something a lot more interesting with these formulas instead...
