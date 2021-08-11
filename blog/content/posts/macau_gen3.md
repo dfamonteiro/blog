@@ -32,7 +32,7 @@ This race was such a hit that the Monaco E-Prix became a permanent fixture of th
 
 The Guia circuit is one of the most challenging race circuits on the planet. It combines an extremely twisty and technical section of road with an enormous 2 kilometer-long straight. Overtaking around this track is done pretty much exclusively on the straight with the aid of slipstream[^4].
 
-This massive straight does pose a problem for Formula E's energy-constrained races: Are the Gen2 cars capable of enduring ~47 minutes[^5] of this track? Probably not. How about the Gen3 cars? They have a trick up their sleeves...
+This massive straight does pose a problem for Formula E's energy-constrained races: Are the Gen2 cars capable of enduring ~47 minutes[^5] of this track? Probably not. How about the Gen3 cars? Well, they have a trick up their sleeves...
 
 [^4]: Formula 3 cars have the luxury of DRS if they are within 1 second of the car ahead.
 
@@ -51,11 +51,11 @@ The [Gen3 Formula E car](https://motorsport.tech/formula-e/gen3-formula-es-big-s
 | Regeneration (back/front)  | 250 (250/0) kW | 600 (350/250) kw | +140%  |
 | Total weight (inc. driver) | 903kg          | 780kg            | -13.6% |
 
-The one area that wasn't improved on was battery charge... or was it? Surprise, the Gen3 era will feature recharging pit stops! The Gen3 car will be able to come into the pits and stop for 30 seconds to recharge the battery at a rate of 600kw, putting 5kwh back into the battery. This is revolutionary because for every pit stop you add to a race, not only less time is spent racing (and consuming energy), but also more energy is added to the car. Hopefully, this means that circuit designers won't need to add chicanes because they can simply add another pit stop.
+The one area that wasn't improved on was battery charge... or was it? Surprise: the Gen3 era will feature recharging pit stops! The Gen3 car will be able to come into the pits and stop for 30 seconds to recharge the battery at a rate of 600kw, putting 5kwh back into the battery. This is revolutionary because for every pit stop you add to a race, not only less time is spent racing (and consuming energy), but also more energy is added to the car. Hopefully, this means that circuit designers won't need to add chicanes to their layouts because they can add another pit stop instead.
 
-## _How many_ pit stops would Macau need?
+## How many pit stops would Macau need?
 
-Now that we know that FE could go to Macau by using recharging pit stops. How can we determine the exact number? Lets take a look at the math:
+Now that we know that FE could go to Macau by using recharging pit stops. How can we determine the exact number? Lets take a look at the math (feel free to [skip](#seeing-the-bigger-picture "Skip to next chapter") this chapter):
 
 Before we get started, lets name our variables:
 
@@ -66,7 +66,7 @@ Before we get started, lets name our variables:
 - $t\_r$ - Race time (s)
 - $N\_p$ - Number of pit stops
 - $E\_s$ - Battery charge at the start of the race (kwh)
-- $E\_r$ - Energy gained during a pit stop (kwh)
+- $E\_p$ - Energy gained during a pit stop (kwh)
 - $t\_d$ - Time necessary to drive through the pit lane _without stopping_ (s)
 - $t\_p$ - Time spent stationary recharging in a pit stop (s)
 
@@ -77,13 +77,13 @@ The power requirement of the guia circuit is straightforward to determine
 $$P\_g = \frac {E\_g}{\frac {t\_g}{3600}} = 3600 \frac{E\_g}{t\_g}$$
 
 The _total_ energy available to the car in the entire race can be calculated as follows
-$$ E\_s + N\_p E\_r$$
+$$ E\_s + N\_p E\_p$$
 
 The time spent under racing conditions (measured in hours) is calculated in a similar manner
 $$\frac{t\_r - N\_p(t\_d + t\_p)}{3600}$$
 
 Determining the average race pace power is a matter of dividing the total energy by the time
-$$ P\_r =  \frac{E\_s + N\_p E\_r}{\frac {t\_r - N\_p(t\_d + t\_p)}{3600}} = 3600\frac{E\_s + N\_p E\_r}{t\_r - N\_p(t\_d + t\_p)}$$
+$$ P\_r =  \frac{E\_s + N\_p E\_p}{\frac {t\_r - N\_p(t\_d + t\_p)}{3600}} = 3600\frac{E\_s + N\_p E\_p}{t\_r - N\_p(t\_d + t\_p)}$$
 
 We now have everything necessary to isolate $N\_p$, but there is no point continuing this exercise, now that we know how to define $P\_g$ and $P\_r$. Lets do something a lot more interesting with these formulas instead...
 
@@ -109,3 +109,13 @@ Pit stop-related values:
 <script src="/javascript/formula_E_gen3_chart.js" defer></script>
 
 Looking at the chart, only a 4-stop strategy is possible with the current Gen3 capabilities. A 3-stop strategy with a 39s stop time could be possible in the near future, however.
+
+## The actual challenge that Formula E has to overcome
+
+Formula E could have already used the full Monaco layout when it raced there in season 5. It chose not to due to fear of being naively[^6] compared to Formula 1. Luckily for Formula E, the race was so good that whenever a comparison of F1 and FE appeared, they had this fantastic E-Prix on back of their minds and realized that speed doesn't necessarily correlate with good racing.
+
+Formula E will face the same conundrum if it wishes to go to Macau. The Macau Grand Prix features Formula 3 cars that would narrowly beat FE cars in the straights[^7] and soundly beat them in the corners, because they are lighter and have more downforce. Will this dissuade Formula E from coming to Macau? I very much hope not.
+
+[^6]: Lets take the front and rear wings off and put all-weather tyres in a Formula 1 car, then we can talk about comparisons. A Formula E car could easily go 4-5 seconds faster if it used slick tyres. It simply chooses not to because developing all-weather tyres for electric cars is a much better value proposition (and a lot more road-relevant) for a tyre manufacturer.
+
+[^7]: Formula E cars are biased towards acceleration, rather than top end.
