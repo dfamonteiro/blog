@@ -47,7 +47,7 @@ for (let i = 0; i < 61; i++) {
 const data = {
     labels: seconds,
     datasets: [{
-      label: 'Macau power requirement',
+      label: 'Guia circuit power requirement',
       backgroundColor: 'gray',
       borderColor: 'gray',
       data: new Array(61).fill(96),

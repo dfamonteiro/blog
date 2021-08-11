@@ -68,7 +68,7 @@ Before we get started, lets name our variables:
 - $E\_s$ - Battery charge at the start of the race (kwh)
 - $E\_r$ - Energy gained during a pit stop (kwh)
 - $t\_d$ - Time necessary to drive through the pit lane _without stopping_ (s)
-- $t\_r$ - Time spent stationary recharging in a pit stop (s)
+- $t\_p$ - Time spent stationary recharging in a pit stop (s)
 
 The goal is to have more than enough power to sustain the power requirements of the Guia Circuit
 $$P\_r \geqslant P\_g$$
@@ -80,19 +80,19 @@ The _total_ energy available to the car in the entire race can be calculated as 
 $$ E\_s + N\_p E\_r$$
 
 The time spent under racing conditions (measured in hours) is calculated in a similar manner
-$$\frac{t\_r - N\_p(t\_d + t\_r)}{3600}$$
+$$\frac{t\_r - N\_p(t\_d + t\_p)}{3600}$$
 
 Determining the average race pace power is a matter of dividing the total energy by the time
-$$ P\_r =  \frac{E\_s + N\_p E\_r}{\frac {t\_r - N\_p(t\_d + t\_r)}{3600}} = 3600\frac{E\_s + N\_p E\_r}{t\_r - N\_p(t\_d + t\_r)}$$
+$$ P\_r =  \frac{E\_s + N\_p E\_r}{\frac {t\_r - N\_p(t\_d + t\_p)}{3600}} = 3600\frac{E\_s + N\_p E\_r}{t\_r - N\_p(t\_d + t\_p)}$$
 
 We now have everything necessary to isolate $N\_p$, but there is no point continuing this exercise, now that we know how to define $P\_g$ and $P\_r$. Lets do something a lot more interesting with these formulas instead...
 
 ## Seeing the bigger picture
 
+With the formulas that we derived, we can visualize _every_ pit stop strategy worth considering, by putting the charging time ($t\_p$) on the X axis and the average race pace power ($P\_r$) on the Y axis. All the dots that are above the Guia circuit power requirement (gray line) are strategies that work. Feel free to change the values below, if you wish!
+
 <link rel="stylesheet" href="/css/championship_chart.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0/dist/chart.min.js"></script>
-
-Feel free to change the values below, if you wish!
 
 Guia circuit power requirement:
 - <label title="Guia circuit power requirement" for="power_requirements">$P\_g = $</label> <input id="power_requirements" type="number" value="96" autocomplete="off" style="width: 5ch;"> (kw)
@@ -107,3 +107,5 @@ Pit stop-related values:
 
 <canvas id="myChart" width="400" height="200"></canvas>
 <script src="/javascript/formula_E_gen3_chart.js" defer></script>
+
+Looking at the chart, only a 4-stop strategy is possible with the current Gen3 capabilities. A 3-stop strategy with a 39s stop time could be possible in the near future, however.
