@@ -50,4 +50,8 @@ unsafe= true # This allows html to be embedded
 [[menu.main]]
     name = "Exams"
     weight = 3
-    url = "https://dfamonteiro.github.io/FEUP-exams-website/"
+    url = "https://dfamonteiro.com/FEUP-exams-website/"
+[[menu.main]]
+    name = "Motorsport Schedule"
+    weight = 4
+    url = "https://dfamonteiro.com/motorsport-schedule/"
