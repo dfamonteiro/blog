@@ -56,6 +56,8 @@ def update_elo(old_rating : Dict[str, float], race_result : List[str], k : float
         
         return old_rating[driver] + elo_delta
     
+    assert old_rating.keys() == set(race_result) and len(old_rating.keys()) == len(race_result)
+
     return {driver : update_driver_elo(old_rating, race_result, driver) for driver in race_result}
 
 if __name__ == "__main__":
