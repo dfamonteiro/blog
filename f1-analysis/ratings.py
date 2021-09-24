@@ -1,5 +1,6 @@
 import shelve
-from typing import Dict, List
+import json
+from typing import Any, Dict, List, Union
 
 from pyergast import pyergast
 
@@ -60,6 +61,48 @@ def update_elo(old_rating : Dict[str, float], race_result : List[str], k : float
 
     return {driver : update_driver_elo(old_rating, race_result, driver) for driver in race_result}
 
+def deduplicate(l : List[Any]) -> List[Any]:
+    return list(dict.fromkeys(l))
+
+def generate_rating_history(db : shelve.Shelf) -> Dict[str, Union[str, Dict[str, float]]]:
+    res = {}
+
+    for race in sorted(db.keys()):
+        # You may be wondering why we need to deduplicate the race results.
+        # Well, for example: in the third race of the 1950 Formula One season,
+        # Tony Bettenhausen retired from the race, and then rejoined the race
+        # as a codriver of another car, meaning he appears twice in the same standings.
+        drivers    = deduplicate(list(db[race]["driver"]))
+        drivers_id = deduplicate(list(db[race]["driverID"]))
+
+        driver_ratings = {}
+
+        for driver, driver_id in zip(drivers, drivers_id):
+            if driver_id not in res:
+                print(f"Adding new driver: {driver}")
+                res[driver_id] = {
+                    "name" : driver,
+                    "rating history" : {}
+                }
+                driver_ratings[driver_id] = 1500
+
+                if driver_id == "bettenhausen":
+                    print(race)
+            else:
+                rating_history = res[driver_id]["rating history"]
+                latest_race = max(rating_history.keys())
+                driver_ratings[driver_id] = rating_history[latest_race]
+
+        assert driver_ratings.keys() == update_elo(driver_ratings, drivers_id).keys()
+
+        for driver_id, new_rating in update_elo(driver_ratings, drivers_id).items():
+            res[driver_id]["rating history"][race] = new_rating
+    
+    return res
+
 if __name__ == "__main__":
     with shelve.open("race-results", "c") as db:
         update_race_results(db)
+        with open("driver ratings.json", "w") as file:
+            json.dump(generate_rating_history(db), file)
+        
