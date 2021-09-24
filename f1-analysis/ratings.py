@@ -64,10 +64,10 @@ def update_elo(old_rating : Dict[str, float], race_result : List[str], k : float
 def deduplicate(l : List[Any]) -> List[Any]:
     return list(dict.fromkeys(l))
 
-def generate_rating_history(db : shelve.Shelf) -> Dict[str, Union[str, Dict[str, float]]]:
+def generate_rating_history(db : shelve.Shelf, races : List[str]) -> Dict[str, Union[str, Dict[str, float]]]:
     res = {}
 
-    for race in sorted(db.keys()):
+    for race in races:
         # You may be wondering why we need to deduplicate the race results.
         # Well, for example: in the third race of the 1950 Formula One season,
         # Tony Bettenhausen retired from the race, and then rejoined the race
@@ -104,5 +104,5 @@ if __name__ == "__main__":
     with shelve.open("race-results", "c") as db:
         update_race_results(db)
         with open("driver ratings.json", "w") as file:
-            json.dump(generate_rating_history(db), file)
+            json.dump(generate_rating_history(db, sorted(db.keys())), file)
         
