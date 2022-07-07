@@ -1,6 +1,8 @@
 import shelve
 import json
+import pathlib
 from typing import Any, Dict, List, Union
+
 
 from pyergast import pyergast
 
@@ -101,8 +103,11 @@ def generate_rating_history(db : shelve.Shelf, races : List[str]) -> Dict[str, U
     return res
 
 if __name__ == "__main__":
-    with shelve.open("race-results", "c") as db:
+    race_results = pathlib.Path(__file__).parent / "race-results"
+    driver_ratings = pathlib.Path(__file__).parent / "driver ratings.json"
+
+    with shelve.open(race_results, "c") as db:
         update_race_results(db)
-        with open("driver ratings.json", "w") as file:
+        with open(driver_ratings, "w") as file:
             json.dump(generate_rating_history(db, sorted(db.keys())), file)
         
