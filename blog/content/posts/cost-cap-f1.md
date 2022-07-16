@@ -59,18 +59,18 @@ Let's say that Ferrari is the only team that overshoots the cap and they do it b
 
 Let's take a look at a cost cap situation inspired by the 2022 drama and how this rule would apply.
 
-| F1 team      | Cost cap breach ($m) | Penalty payment ($m) | Penalty income ($m) | Net income ($m) |
-|--------------|----------------------|----------------------|---------------------|-----------------|
-| RedBull      | 8                    | -72                  | 23                  | -49             |
-| Ferrari      | 7                    | -63                  | 24                  | -39             |
-| Mercedes     | 7                    | -63                  | 24                  | -39             |
-| McLaren      | 4                    | -36                  | 27                  | -9              |
-| Alpine       | 3                    | -27                  | 28                  | 1               |
-| Alfa Romeo   | 0                    | 0                    | 31                  | 31              |
-| Haas         | 0                    | 0                    | 31                  | 31              |
-| Alphatauri   | 0                    | 0                    | 31                  | 31              |
-| Aston Martin | 2                    | -18                  | 29                  | 11              |
-| Williams     | 0                    | 0                    | 31                  | 31              |
+| F1 team      | Cost cap breach ($m) | Penalty payment ($m) | Penalty income ($m) |          Net income ($m)           |
+|--------------|----------------------|----------------------|---------------------|------------------------------------|
+| RedBull      | 8                    | -72                  | 23                  | <span style="color:red">-49</span> |
+| Ferrari      | 7                    | -63                  | 24                  | <span style="color:red">-39</span> |
+| Mercedes     | 7                    | -63                  | 24                  | <span style="color:red">-39</span> |
+| McLaren      | 4                    | -36                  | 27                  | <span style="color:red">-9</span>  |
+| Alpine       | 3                    | -27                  | 28                  | <span style="color:green">1</span> |
+| Alfa Romeo   | 0                    | 0                    | 31                  | <span style="color:green">31</span>|
+| Haas         | 0                    | 0                    | 31                  | <span style="color:green">31</span>|
+| Alphatauri   | 0                    | 0                    | 31                  | <span style="color:green">31</span>|
+| Aston Martin | 2                    | -18                  | 29                  | <span style="color:green">11</span>|
+| Williams     | 0                    | 0                    | 31                  | <span style="color:green">31</span>|
 
 Rather surprisingly, Alpine and Aston Martin managed to be net positive, despite breaching the cost cap. Meanwhile, Williams and a couple other backmarkers are flying first class with a \\$31m blank check. The most curious case is definitely RedBull, which is in this weird situation where they lose \\$49m with the main team and gain \\$31m with their junior team (an overall \\$18m net loss).
 
