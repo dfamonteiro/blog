@@ -107,4 +107,4 @@ If you _really_ want to stamp out repeat cost cap infringements, then this is yo
 
 Ultimately, the exact numbers of the penalties don't really matter. They can always be tweaked (but be careful with how _soft_ you want your soft cap to actually be). 
 
-in the end, what ultimately matters are the core ideas behind each proposal. Hopefully, they gave you something to think about, when it comes to cost caps.
+In the end, what ultimately matters are the core ideas behind each proposal. Hopefully, they gave you something to think about, when it comes to cost caps.
