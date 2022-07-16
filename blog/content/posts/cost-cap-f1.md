@@ -1,6 +1,6 @@
 +++ 
-draft = true
-date = 2022-07-10T22:52:04+01:00
+draft = false
+date = 2022-07-16T00:52:04+01:00
 title = "Formula 1's cost cap could be improved: here's how"
 description = "The top 4 teams can't stop whining about the cost cap, so I came up with some interesting ways to make teams think twice about breaching the cost cap, without actually setting a hard limit"
 slug = ""
