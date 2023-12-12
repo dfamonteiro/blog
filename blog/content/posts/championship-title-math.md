@@ -107,6 +107,6 @@ We've seen what happens if Lewis finishes in third. We also saw what happens if 
 <canvas id="myChart" width="400" height="200"></canvas>
 <script src="/javascript/championship_chart.js" defer></script>
 
-<label for="D0">$D\_0 = $</label> <input id="D0" type="number" value="0" autocomplete="off">
-<label for="Sl">$S\_l = $</label> <input id="Sl" type="number" value="7" autocomplete="off">
-<label for="N">$N = $</label>     <input id="N" type="number" value="17" autocomplete="off">
+<label for="D0">$D\_0 = $</label> <input id="D0" type="number" value="0"  autocomplete="off">
+<label for="Sl">$S\_l = $</label> <input id="Sl" type="number" value="7"  autocomplete="off">
+<label for="N">$N = $</label>     <input id="N"  type="number" value="17" autocomplete="off">
