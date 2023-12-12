@@ -1,0 +1,3556 @@
+{
+    "2010-2": {
+        "atr_races": [
+            {
+                "name": "Bahrain Grand Prix",
+                "date": [
+                    2010,
+                    3,
+                    14
+                ],
+                "round": 1,
+                "season": 2010,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Australian Grand Prix",
+                "date": [
+                    2010,
+                    3,
+                    28
+                ],
+                "round": 2,
+                "season": 2010,
+                "winner": "mclaren"
+            },
+            {
+                "name": "Malaysian Grand Prix",
+                "date": [
+                    2010,
+                    4,
+                    4
+                ],
+                "round": 3,
+                "season": 2010,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Chinese Grand Prix",
+                "date": [
+                    2010,
+                    4,
+                    18
+                ],
+                "round": 4,
+                "season": 2010,
+                "winner": "mclaren"
+            },
+            {
+                "name": "Spanish Grand Prix",
+                "date": [
+                    2010,
+                    5,
+                    9
+                ],
+                "round": 5,
+                "season": 2010,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Monaco Grand Prix",
+                "date": [
+                    2010,
+                    5,
+                    16
+                ],
+                "round": 6,
+                "season": 2010,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Turkish Grand Prix",
+                "date": [
+                    2010,
+                    5,
+                    30
+                ],
+                "round": 7,
+                "season": 2010,
+                "winner": "mclaren"
+            },
+            {
+                "name": "Canadian Grand Prix",
+                "date": [
+                    2010,
+                    6,
+                    13
+                ],
+                "round": 8,
+                "season": 2010,
+                "winner": "mclaren"
+            },
+            {
+                "name": "European Grand Prix",
+                "date": [
+                    2010,
+                    6,
+                    27
+                ],
+                "round": 9,
+                "season": 2010,
+                "winner": "red_bull"
+            }
+        ],
+        "latest_index": 8,
+        "standings": {
+            "mclaren": 1,
+            "red_bull": 2,
+            "ferrari": 3,
+            "mercedes": 4,
+            "alpine": 5,
+            "aston_martin": 6,
+            "williams": 7,
+            "alphatauri": 8,
+            "sauber": 9
+        }
+    },
+    "2011-1": {
+        "atr_races": [
+            {
+                "name": "British Grand Prix",
+                "date": [
+                    2010,
+                    7,
+                    11
+                ],
+                "round": 10,
+                "season": 2010,
+                "winner": "red_bull"
+            },
+            {
+                "name": "German Grand Prix",
+                "date": [
+                    2010,
+                    7,
+                    25
+                ],
+                "round": 11,
+                "season": 2010,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Hungarian Grand Prix",
+                "date": [
+                    2010,
+                    8,
+                    1
+                ],
+                "round": 12,
+                "season": 2010,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Belgian Grand Prix",
+                "date": [
+                    2010,
+                    8,
+                    29
+                ],
+                "round": 13,
+                "season": 2010,
+                "winner": "mclaren"
+            },
+            {
+                "name": "Italian Grand Prix",
+                "date": [
+                    2010,
+                    9,
+                    12
+                ],
+                "round": 14,
+                "season": 2010,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Singapore Grand Prix",
+                "date": [
+                    2010,
+                    9,
+                    26
+                ],
+                "round": 15,
+                "season": 2010,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Japanese Grand Prix",
+                "date": [
+                    2010,
+                    10,
+                    10
+                ],
+                "round": 16,
+                "season": 2010,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Korean Grand Prix",
+                "date": [
+                    2010,
+                    10,
+                    24
+                ],
+                "round": 17,
+                "season": 2010,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Brazilian Grand Prix",
+                "date": [
+                    2010,
+                    11,
+                    7
+                ],
+                "round": 18,
+                "season": 2010,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Abu Dhabi Grand Prix",
+                "date": [
+                    2010,
+                    11,
+                    14
+                ],
+                "round": 19,
+                "season": 2010,
+                "winner": "red_bull"
+            }
+        ],
+        "latest_index": 18,
+        "standings": {
+            "red_bull": 1,
+            "mclaren": 2,
+            "ferrari": 3,
+            "mercedes": 4,
+            "alpine": 5,
+            "williams": 6,
+            "aston_martin": 7,
+            "sauber": 8,
+            "alphatauri": 9
+        }
+    },
+    "2011-2": {
+        "atr_races": [
+            {
+                "name": "Australian Grand Prix",
+                "date": [
+                    2011,
+                    3,
+                    27
+                ],
+                "round": 1,
+                "season": 2011,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Malaysian Grand Prix",
+                "date": [
+                    2011,
+                    4,
+                    10
+                ],
+                "round": 2,
+                "season": 2011,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Chinese Grand Prix",
+                "date": [
+                    2011,
+                    4,
+                    17
+                ],
+                "round": 3,
+                "season": 2011,
+                "winner": "mclaren"
+            },
+            {
+                "name": "Turkish Grand Prix",
+                "date": [
+                    2011,
+                    5,
+                    8
+                ],
+                "round": 4,
+                "season": 2011,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Spanish Grand Prix",
+                "date": [
+                    2011,
+                    5,
+                    22
+                ],
+                "round": 5,
+                "season": 2011,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Monaco Grand Prix",
+                "date": [
+                    2011,
+                    5,
+                    29
+                ],
+                "round": 6,
+                "season": 2011,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Canadian Grand Prix",
+                "date": [
+                    2011,
+                    6,
+                    12
+                ],
+                "round": 7,
+                "season": 2011,
+                "winner": "mclaren"
+            },
+            {
+                "name": "European Grand Prix",
+                "date": [
+                    2011,
+                    6,
+                    26
+                ],
+                "round": 8,
+                "season": 2011,
+                "winner": "red_bull"
+            }
+        ],
+        "latest_index": 26,
+        "standings": {
+            "red_bull": 1,
+            "mclaren": 2,
+            "ferrari": 3,
+            "alpine": 4,
+            "mercedes": 5,
+            "sauber": 6,
+            "alphatauri": 7,
+            "aston_martin": 8,
+            "williams": 9
+        }
+    },
+    "2012-1": {
+        "atr_races": [
+            {
+                "name": "British Grand Prix",
+                "date": [
+                    2011,
+                    7,
+                    10
+                ],
+                "round": 9,
+                "season": 2011,
+                "winner": "ferrari"
+            },
+            {
+                "name": "German Grand Prix",
+                "date": [
+                    2011,
+                    7,
+                    24
+                ],
+                "round": 10,
+                "season": 2011,
+                "winner": "mclaren"
+            },
+            {
+                "name": "Hungarian Grand Prix",
+                "date": [
+                    2011,
+                    7,
+                    31
+                ],
+                "round": 11,
+                "season": 2011,
+                "winner": "mclaren"
+            },
+            {
+                "name": "Belgian Grand Prix",
+                "date": [
+                    2011,
+                    8,
+                    28
+                ],
+                "round": 12,
+                "season": 2011,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Italian Grand Prix",
+                "date": [
+                    2011,
+                    9,
+                    11
+                ],
+                "round": 13,
+                "season": 2011,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Singapore Grand Prix",
+                "date": [
+                    2011,
+                    9,
+                    25
+                ],
+                "round": 14,
+                "season": 2011,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Japanese Grand Prix",
+                "date": [
+                    2011,
+                    10,
+                    9
+                ],
+                "round": 15,
+                "season": 2011,
+                "winner": "mclaren"
+            },
+            {
+                "name": "Korean Grand Prix",
+                "date": [
+                    2011,
+                    10,
+                    16
+                ],
+                "round": 16,
+                "season": 2011,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Indian Grand Prix",
+                "date": [
+                    2011,
+                    10,
+                    30
+                ],
+                "round": 17,
+                "season": 2011,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Abu Dhabi Grand Prix",
+                "date": [
+                    2011,
+                    11,
+                    13
+                ],
+                "round": 18,
+                "season": 2011,
+                "winner": "mclaren"
+            },
+            {
+                "name": "Brazilian Grand Prix",
+                "date": [
+                    2011,
+                    11,
+                    27
+                ],
+                "round": 19,
+                "season": 2011,
+                "winner": "red_bull"
+            }
+        ],
+        "latest_index": 37,
+        "standings": {
+            "red_bull": 1,
+            "mclaren": 2,
+            "ferrari": 3,
+            "mercedes": 4,
+            "alpine": 5,
+            "aston_martin": 6,
+            "sauber": 7,
+            "alphatauri": 8,
+            "williams": 9
+        }
+    },
+    "2012-2": {
+        "atr_races": [
+            {
+                "name": "Australian Grand Prix",
+                "date": [
+                    2012,
+                    3,
+                    18
+                ],
+                "round": 1,
+                "season": 2012,
+                "winner": "mclaren"
+            },
+            {
+                "name": "Malaysian Grand Prix",
+                "date": [
+                    2012,
+                    3,
+                    25
+                ],
+                "round": 2,
+                "season": 2012,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Chinese Grand Prix",
+                "date": [
+                    2012,
+                    4,
+                    15
+                ],
+                "round": 3,
+                "season": 2012,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Bahrain Grand Prix",
+                "date": [
+                    2012,
+                    4,
+                    22
+                ],
+                "round": 4,
+                "season": 2012,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Spanish Grand Prix",
+                "date": [
+                    2012,
+                    5,
+                    13
+                ],
+                "round": 5,
+                "season": 2012,
+                "winner": "williams"
+            },
+            {
+                "name": "Monaco Grand Prix",
+                "date": [
+                    2012,
+                    5,
+                    27
+                ],
+                "round": 6,
+                "season": 2012,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Canadian Grand Prix",
+                "date": [
+                    2012,
+                    6,
+                    10
+                ],
+                "round": 7,
+                "season": 2012,
+                "winner": "mclaren"
+            },
+            {
+                "name": "European Grand Prix",
+                "date": [
+                    2012,
+                    6,
+                    24
+                ],
+                "round": 8,
+                "season": 2012,
+                "winner": "ferrari"
+            }
+        ],
+        "latest_index": 45,
+        "standings": {
+            "red_bull": 1,
+            "mclaren": 2,
+            "alpine": 3,
+            "ferrari": 4,
+            "mercedes": 5,
+            "sauber": 6,
+            "williams": 7,
+            "aston_martin": 8,
+            "alphatauri": 9
+        }
+    },
+    "2013-1": {
+        "atr_races": [
+            {
+                "name": "British Grand Prix",
+                "date": [
+                    2012,
+                    7,
+                    8
+                ],
+                "round": 9,
+                "season": 2012,
+                "winner": "red_bull"
+            },
+            {
+                "name": "German Grand Prix",
+                "date": [
+                    2012,
+                    7,
+                    22
+                ],
+                "round": 10,
+                "season": 2012,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Hungarian Grand Prix",
+                "date": [
+                    2012,
+                    7,
+                    29
+                ],
+                "round": 11,
+                "season": 2012,
+                "winner": "mclaren"
+            },
+            {
+                "name": "Belgian Grand Prix",
+                "date": [
+                    2012,
+                    9,
+                    2
+                ],
+                "round": 12,
+                "season": 2012,
+                "winner": "mclaren"
+            },
+            {
+                "name": "Italian Grand Prix",
+                "date": [
+                    2012,
+                    9,
+                    9
+                ],
+                "round": 13,
+                "season": 2012,
+                "winner": "mclaren"
+            },
+            {
+                "name": "Singapore Grand Prix",
+                "date": [
+                    2012,
+                    9,
+                    23
+                ],
+                "round": 14,
+                "season": 2012,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Japanese Grand Prix",
+                "date": [
+                    2012,
+                    10,
+                    7
+                ],
+                "round": 15,
+                "season": 2012,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Korean Grand Prix",
+                "date": [
+                    2012,
+                    10,
+                    14
+                ],
+                "round": 16,
+                "season": 2012,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Indian Grand Prix",
+                "date": [
+                    2012,
+                    10,
+                    28
+                ],
+                "round": 17,
+                "season": 2012,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Abu Dhabi Grand Prix",
+                "date": [
+                    2012,
+                    11,
+                    4
+                ],
+                "round": 18,
+                "season": 2012,
+                "winner": "alpine"
+            },
+            {
+                "name": "United States Grand Prix",
+                "date": [
+                    2012,
+                    11,
+                    18
+                ],
+                "round": 19,
+                "season": 2012,
+                "winner": "mclaren"
+            },
+            {
+                "name": "Brazilian Grand Prix",
+                "date": [
+                    2012,
+                    11,
+                    25
+                ],
+                "round": 20,
+                "season": 2012,
+                "winner": "mclaren"
+            }
+        ],
+        "latest_index": 57,
+        "standings": {
+            "red_bull": 1,
+            "ferrari": 2,
+            "mclaren": 3,
+            "alpine": 4,
+            "mercedes": 5,
+            "sauber": 6,
+            "aston_martin": 7,
+            "williams": 8,
+            "alphatauri": 9
+        }
+    },
+    "2013-2": {
+        "atr_races": [
+            {
+                "name": "Australian Grand Prix",
+                "date": [
+                    2013,
+                    3,
+                    17
+                ],
+                "round": 1,
+                "season": 2013,
+                "winner": "alpine"
+            },
+            {
+                "name": "Malaysian Grand Prix",
+                "date": [
+                    2013,
+                    3,
+                    24
+                ],
+                "round": 2,
+                "season": 2013,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Chinese Grand Prix",
+                "date": [
+                    2013,
+                    4,
+                    14
+                ],
+                "round": 3,
+                "season": 2013,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Bahrain Grand Prix",
+                "date": [
+                    2013,
+                    4,
+                    21
+                ],
+                "round": 4,
+                "season": 2013,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Spanish Grand Prix",
+                "date": [
+                    2013,
+                    5,
+                    12
+                ],
+                "round": 5,
+                "season": 2013,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Monaco Grand Prix",
+                "date": [
+                    2013,
+                    5,
+                    26
+                ],
+                "round": 6,
+                "season": 2013,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Canadian Grand Prix",
+                "date": [
+                    2013,
+                    6,
+                    9
+                ],
+                "round": 7,
+                "season": 2013,
+                "winner": "red_bull"
+            },
+            {
+                "name": "British Grand Prix",
+                "date": [
+                    2013,
+                    6,
+                    30
+                ],
+                "round": 8,
+                "season": 2013,
+                "winner": "mercedes"
+            }
+        ],
+        "latest_index": 65,
+        "standings": {
+            "red_bull": 1,
+            "mercedes": 2,
+            "ferrari": 3,
+            "alpine": 4,
+            "aston_martin": 5,
+            "mclaren": 6,
+            "alphatauri": 7,
+            "sauber": 8,
+            "williams": 9
+        }
+    },
+    "2014-1": {
+        "atr_races": [
+            {
+                "name": "German Grand Prix",
+                "date": [
+                    2013,
+                    7,
+                    7
+                ],
+                "round": 9,
+                "season": 2013,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Hungarian Grand Prix",
+                "date": [
+                    2013,
+                    7,
+                    28
+                ],
+                "round": 10,
+                "season": 2013,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Belgian Grand Prix",
+                "date": [
+                    2013,
+                    8,
+                    25
+                ],
+                "round": 11,
+                "season": 2013,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Italian Grand Prix",
+                "date": [
+                    2013,
+                    9,
+                    8
+                ],
+                "round": 12,
+                "season": 2013,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Singapore Grand Prix",
+                "date": [
+                    2013,
+                    9,
+                    22
+                ],
+                "round": 13,
+                "season": 2013,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Korean Grand Prix",
+                "date": [
+                    2013,
+                    10,
+                    6
+                ],
+                "round": 14,
+                "season": 2013,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Japanese Grand Prix",
+                "date": [
+                    2013,
+                    10,
+                    13
+                ],
+                "round": 15,
+                "season": 2013,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Indian Grand Prix",
+                "date": [
+                    2013,
+                    10,
+                    27
+                ],
+                "round": 16,
+                "season": 2013,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Abu Dhabi Grand Prix",
+                "date": [
+                    2013,
+                    11,
+                    3
+                ],
+                "round": 17,
+                "season": 2013,
+                "winner": "red_bull"
+            },
+            {
+                "name": "United States Grand Prix",
+                "date": [
+                    2013,
+                    11,
+                    17
+                ],
+                "round": 18,
+                "season": 2013,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Brazilian Grand Prix",
+                "date": [
+                    2013,
+                    11,
+                    24
+                ],
+                "round": 19,
+                "season": 2013,
+                "winner": "red_bull"
+            }
+        ],
+        "latest_index": 76,
+        "standings": {
+            "red_bull": 1,
+            "mercedes": 2,
+            "ferrari": 3,
+            "alpine": 4,
+            "mclaren": 5,
+            "aston_martin": 6,
+            "sauber": 7,
+            "alphatauri": 8,
+            "williams": 9
+        }
+    },
+    "2014-2": {
+        "atr_races": [
+            {
+                "name": "Australian Grand Prix",
+                "date": [
+                    2014,
+                    3,
+                    16
+                ],
+                "round": 1,
+                "season": 2014,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Malaysian Grand Prix",
+                "date": [
+                    2014,
+                    3,
+                    30
+                ],
+                "round": 2,
+                "season": 2014,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Bahrain Grand Prix",
+                "date": [
+                    2014,
+                    4,
+                    6
+                ],
+                "round": 3,
+                "season": 2014,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Chinese Grand Prix",
+                "date": [
+                    2014,
+                    4,
+                    20
+                ],
+                "round": 4,
+                "season": 2014,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Spanish Grand Prix",
+                "date": [
+                    2014,
+                    5,
+                    11
+                ],
+                "round": 5,
+                "season": 2014,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Monaco Grand Prix",
+                "date": [
+                    2014,
+                    5,
+                    25
+                ],
+                "round": 6,
+                "season": 2014,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Canadian Grand Prix",
+                "date": [
+                    2014,
+                    6,
+                    8
+                ],
+                "round": 7,
+                "season": 2014,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Austrian Grand Prix",
+                "date": [
+                    2014,
+                    6,
+                    22
+                ],
+                "round": 8,
+                "season": 2014,
+                "winner": "mercedes"
+            }
+        ],
+        "latest_index": 84,
+        "standings": {
+            "mercedes": 1,
+            "red_bull": 2,
+            "ferrari": 3,
+            "aston_martin": 4,
+            "williams": 5,
+            "mclaren": 6,
+            "alphatauri": 7,
+            "alpine": 8,
+            "sauber": 10
+        }
+    },
+    "2015-1": {
+        "atr_races": [
+            {
+                "name": "British Grand Prix",
+                "date": [
+                    2014,
+                    7,
+                    6
+                ],
+                "round": 9,
+                "season": 2014,
+                "winner": "mercedes"
+            },
+            {
+                "name": "German Grand Prix",
+                "date": [
+                    2014,
+                    7,
+                    20
+                ],
+                "round": 10,
+                "season": 2014,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Hungarian Grand Prix",
+                "date": [
+                    2014,
+                    7,
+                    27
+                ],
+                "round": 11,
+                "season": 2014,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Belgian Grand Prix",
+                "date": [
+                    2014,
+                    8,
+                    24
+                ],
+                "round": 12,
+                "season": 2014,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Italian Grand Prix",
+                "date": [
+                    2014,
+                    9,
+                    7
+                ],
+                "round": 13,
+                "season": 2014,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Singapore Grand Prix",
+                "date": [
+                    2014,
+                    9,
+                    21
+                ],
+                "round": 14,
+                "season": 2014,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Japanese Grand Prix",
+                "date": [
+                    2014,
+                    10,
+                    5
+                ],
+                "round": 15,
+                "season": 2014,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Russian Grand Prix",
+                "date": [
+                    2014,
+                    10,
+                    12
+                ],
+                "round": 16,
+                "season": 2014,
+                "winner": "mercedes"
+            },
+            {
+                "name": "United States Grand Prix",
+                "date": [
+                    2014,
+                    11,
+                    2
+                ],
+                "round": 17,
+                "season": 2014,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Brazilian Grand Prix",
+                "date": [
+                    2014,
+                    11,
+                    9
+                ],
+                "round": 18,
+                "season": 2014,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Abu Dhabi Grand Prix",
+                "date": [
+                    2014,
+                    11,
+                    23
+                ],
+                "round": 19,
+                "season": 2014,
+                "winner": "mercedes"
+            }
+        ],
+        "latest_index": 95,
+        "standings": {
+            "mercedes": 1,
+            "red_bull": 2,
+            "williams": 3,
+            "ferrari": 4,
+            "mclaren": 5,
+            "aston_martin": 6,
+            "alphatauri": 7,
+            "alpine": 8,
+            "sauber": 10
+        }
+    },
+    "2015-2": {
+        "atr_races": [
+            {
+                "name": "Australian Grand Prix",
+                "date": [
+                    2015,
+                    3,
+                    15
+                ],
+                "round": 1,
+                "season": 2015,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Malaysian Grand Prix",
+                "date": [
+                    2015,
+                    3,
+                    29
+                ],
+                "round": 2,
+                "season": 2015,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Chinese Grand Prix",
+                "date": [
+                    2015,
+                    4,
+                    12
+                ],
+                "round": 3,
+                "season": 2015,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Bahrain Grand Prix",
+                "date": [
+                    2015,
+                    4,
+                    19
+                ],
+                "round": 4,
+                "season": 2015,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Spanish Grand Prix",
+                "date": [
+                    2015,
+                    5,
+                    10
+                ],
+                "round": 5,
+                "season": 2015,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Monaco Grand Prix",
+                "date": [
+                    2015,
+                    5,
+                    24
+                ],
+                "round": 6,
+                "season": 2015,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Canadian Grand Prix",
+                "date": [
+                    2015,
+                    6,
+                    7
+                ],
+                "round": 7,
+                "season": 2015,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Austrian Grand Prix",
+                "date": [
+                    2015,
+                    6,
+                    21
+                ],
+                "round": 8,
+                "season": 2015,
+                "winner": "mercedes"
+            }
+        ],
+        "latest_index": 103,
+        "standings": {
+            "mercedes": 1,
+            "ferrari": 2,
+            "williams": 3,
+            "red_bull": 4,
+            "aston_martin": 5,
+            "alpine": 6,
+            "sauber": 7,
+            "alphatauri": 8,
+            "mclaren": 9
+        }
+    },
+    "2016-1": {
+        "atr_races": [
+            {
+                "name": "British Grand Prix",
+                "date": [
+                    2015,
+                    7,
+                    5
+                ],
+                "round": 9,
+                "season": 2015,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Hungarian Grand Prix",
+                "date": [
+                    2015,
+                    7,
+                    26
+                ],
+                "round": 10,
+                "season": 2015,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Belgian Grand Prix",
+                "date": [
+                    2015,
+                    8,
+                    23
+                ],
+                "round": 11,
+                "season": 2015,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Italian Grand Prix",
+                "date": [
+                    2015,
+                    9,
+                    6
+                ],
+                "round": 12,
+                "season": 2015,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Singapore Grand Prix",
+                "date": [
+                    2015,
+                    9,
+                    20
+                ],
+                "round": 13,
+                "season": 2015,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Japanese Grand Prix",
+                "date": [
+                    2015,
+                    9,
+                    27
+                ],
+                "round": 14,
+                "season": 2015,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Russian Grand Prix",
+                "date": [
+                    2015,
+                    10,
+                    11
+                ],
+                "round": 15,
+                "season": 2015,
+                "winner": "mercedes"
+            },
+            {
+                "name": "United States Grand Prix",
+                "date": [
+                    2015,
+                    10,
+                    25
+                ],
+                "round": 16,
+                "season": 2015,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Mexican Grand Prix",
+                "date": [
+                    2015,
+                    11,
+                    1
+                ],
+                "round": 17,
+                "season": 2015,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Brazilian Grand Prix",
+                "date": [
+                    2015,
+                    11,
+                    15
+                ],
+                "round": 18,
+                "season": 2015,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Abu Dhabi Grand Prix",
+                "date": [
+                    2015,
+                    11,
+                    29
+                ],
+                "round": 19,
+                "season": 2015,
+                "winner": "mercedes"
+            }
+        ],
+        "latest_index": 114,
+        "standings": {
+            "mercedes": 1,
+            "ferrari": 2,
+            "williams": 3,
+            "red_bull": 4,
+            "aston_martin": 5,
+            "alpine": 6,
+            "alphatauri": 7,
+            "sauber": 8,
+            "mclaren": 9
+        }
+    },
+    "2016-2": {
+        "atr_races": [
+            {
+                "name": "Australian Grand Prix",
+                "date": [
+                    2016,
+                    3,
+                    20
+                ],
+                "round": 1,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Bahrain Grand Prix",
+                "date": [
+                    2016,
+                    4,
+                    3
+                ],
+                "round": 2,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Chinese Grand Prix",
+                "date": [
+                    2016,
+                    4,
+                    17
+                ],
+                "round": 3,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Russian Grand Prix",
+                "date": [
+                    2016,
+                    5,
+                    1
+                ],
+                "round": 4,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Spanish Grand Prix",
+                "date": [
+                    2016,
+                    5,
+                    15
+                ],
+                "round": 5,
+                "season": 2016,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Monaco Grand Prix",
+                "date": [
+                    2016,
+                    5,
+                    29
+                ],
+                "round": 6,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Canadian Grand Prix",
+                "date": [
+                    2016,
+                    6,
+                    12
+                ],
+                "round": 7,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "European Grand Prix",
+                "date": [
+                    2016,
+                    6,
+                    19
+                ],
+                "round": 8,
+                "season": 2016,
+                "winner": "mercedes"
+            }
+        ],
+        "latest_index": 122,
+        "standings": {
+            "mercedes": 1,
+            "ferrari": 2,
+            "red_bull": 3,
+            "williams": 4,
+            "aston_martin": 5,
+            "alphatauri": 6,
+            "mclaren": 7,
+            "haas": 8,
+            "alpine": 9,
+            "sauber": 10
+        }
+    },
+    "2017-1": {
+        "atr_races": [
+            {
+                "name": "Austrian Grand Prix",
+                "date": [
+                    2016,
+                    7,
+                    3
+                ],
+                "round": 9,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "British Grand Prix",
+                "date": [
+                    2016,
+                    7,
+                    10
+                ],
+                "round": 10,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Hungarian Grand Prix",
+                "date": [
+                    2016,
+                    7,
+                    24
+                ],
+                "round": 11,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "German Grand Prix",
+                "date": [
+                    2016,
+                    7,
+                    31
+                ],
+                "round": 12,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Belgian Grand Prix",
+                "date": [
+                    2016,
+                    8,
+                    28
+                ],
+                "round": 13,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Italian Grand Prix",
+                "date": [
+                    2016,
+                    9,
+                    4
+                ],
+                "round": 14,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Singapore Grand Prix",
+                "date": [
+                    2016,
+                    9,
+                    18
+                ],
+                "round": 15,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Malaysian Grand Prix",
+                "date": [
+                    2016,
+                    10,
+                    2
+                ],
+                "round": 16,
+                "season": 2016,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Japanese Grand Prix",
+                "date": [
+                    2016,
+                    10,
+                    9
+                ],
+                "round": 17,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "United States Grand Prix",
+                "date": [
+                    2016,
+                    10,
+                    23
+                ],
+                "round": 18,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Mexican Grand Prix",
+                "date": [
+                    2016,
+                    10,
+                    30
+                ],
+                "round": 19,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Brazilian Grand Prix",
+                "date": [
+                    2016,
+                    11,
+                    13
+                ],
+                "round": 20,
+                "season": 2016,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Abu Dhabi Grand Prix",
+                "date": [
+                    2016,
+                    11,
+                    27
+                ],
+                "round": 21,
+                "season": 2016,
+                "winner": "mercedes"
+            }
+        ],
+        "latest_index": 135,
+        "standings": {
+            "mercedes": 1,
+            "red_bull": 2,
+            "ferrari": 3,
+            "aston_martin": 4,
+            "williams": 5,
+            "mclaren": 6,
+            "alphatauri": 7,
+            "haas": 8,
+            "alpine": 9,
+            "sauber": 10
+        }
+    },
+    "2017-2": {
+        "atr_races": [
+            {
+                "name": "Australian Grand Prix",
+                "date": [
+                    2017,
+                    3,
+                    26
+                ],
+                "round": 1,
+                "season": 2017,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Chinese Grand Prix",
+                "date": [
+                    2017,
+                    4,
+                    9
+                ],
+                "round": 2,
+                "season": 2017,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Bahrain Grand Prix",
+                "date": [
+                    2017,
+                    4,
+                    16
+                ],
+                "round": 3,
+                "season": 2017,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Russian Grand Prix",
+                "date": [
+                    2017,
+                    4,
+                    30
+                ],
+                "round": 4,
+                "season": 2017,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Spanish Grand Prix",
+                "date": [
+                    2017,
+                    5,
+                    14
+                ],
+                "round": 5,
+                "season": 2017,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Monaco Grand Prix",
+                "date": [
+                    2017,
+                    5,
+                    28
+                ],
+                "round": 6,
+                "season": 2017,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Canadian Grand Prix",
+                "date": [
+                    2017,
+                    6,
+                    11
+                ],
+                "round": 7,
+                "season": 2017,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Azerbaijan Grand Prix",
+                "date": [
+                    2017,
+                    6,
+                    25
+                ],
+                "round": 8,
+                "season": 2017,
+                "winner": "red_bull"
+            }
+        ],
+        "latest_index": 143,
+        "standings": {
+            "mercedes": 1,
+            "ferrari": 2,
+            "red_bull": 3,
+            "aston_martin": 4,
+            "williams": 5,
+            "alphatauri": 6,
+            "haas": 7,
+            "alpine": 8,
+            "sauber": 9,
+            "mclaren": 10
+        }
+    },
+    "2018-1": {
+        "atr_races": [
+            {
+                "name": "Austrian Grand Prix",
+                "date": [
+                    2017,
+                    7,
+                    9
+                ],
+                "round": 9,
+                "season": 2017,
+                "winner": "mercedes"
+            },
+            {
+                "name": "British Grand Prix",
+                "date": [
+                    2017,
+                    7,
+                    16
+                ],
+                "round": 10,
+                "season": 2017,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Hungarian Grand Prix",
+                "date": [
+                    2017,
+                    7,
+                    30
+                ],
+                "round": 11,
+                "season": 2017,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Belgian Grand Prix",
+                "date": [
+                    2017,
+                    8,
+                    27
+                ],
+                "round": 12,
+                "season": 2017,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Italian Grand Prix",
+                "date": [
+                    2017,
+                    9,
+                    3
+                ],
+                "round": 13,
+                "season": 2017,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Singapore Grand Prix",
+                "date": [
+                    2017,
+                    9,
+                    17
+                ],
+                "round": 14,
+                "season": 2017,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Malaysian Grand Prix",
+                "date": [
+                    2017,
+                    10,
+                    1
+                ],
+                "round": 15,
+                "season": 2017,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Japanese Grand Prix",
+                "date": [
+                    2017,
+                    10,
+                    8
+                ],
+                "round": 16,
+                "season": 2017,
+                "winner": "mercedes"
+            },
+            {
+                "name": "United States Grand Prix",
+                "date": [
+                    2017,
+                    10,
+                    22
+                ],
+                "round": 17,
+                "season": 2017,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Mexican Grand Prix",
+                "date": [
+                    2017,
+                    10,
+                    29
+                ],
+                "round": 18,
+                "season": 2017,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Brazilian Grand Prix",
+                "date": [
+                    2017,
+                    11,
+                    12
+                ],
+                "round": 19,
+                "season": 2017,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Abu Dhabi Grand Prix",
+                "date": [
+                    2017,
+                    11,
+                    26
+                ],
+                "round": 20,
+                "season": 2017,
+                "winner": "mercedes"
+            }
+        ],
+        "latest_index": 155,
+        "standings": {
+            "mercedes": 1,
+            "ferrari": 2,
+            "red_bull": 3,
+            "aston_martin": 4,
+            "williams": 5,
+            "alpine": 6,
+            "alphatauri": 7,
+            "haas": 8,
+            "mclaren": 9,
+            "sauber": 10
+        }
+    },
+    "2018-2": {
+        "atr_races": [
+            {
+                "name": "Australian Grand Prix",
+                "date": [
+                    2018,
+                    3,
+                    25
+                ],
+                "round": 1,
+                "season": 2018,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Bahrain Grand Prix",
+                "date": [
+                    2018,
+                    4,
+                    8
+                ],
+                "round": 2,
+                "season": 2018,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Chinese Grand Prix",
+                "date": [
+                    2018,
+                    4,
+                    15
+                ],
+                "round": 3,
+                "season": 2018,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Azerbaijan Grand Prix",
+                "date": [
+                    2018,
+                    4,
+                    29
+                ],
+                "round": 4,
+                "season": 2018,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Spanish Grand Prix",
+                "date": [
+                    2018,
+                    5,
+                    13
+                ],
+                "round": 5,
+                "season": 2018,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Monaco Grand Prix",
+                "date": [
+                    2018,
+                    5,
+                    27
+                ],
+                "round": 6,
+                "season": 2018,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Canadian Grand Prix",
+                "date": [
+                    2018,
+                    6,
+                    10
+                ],
+                "round": 7,
+                "season": 2018,
+                "winner": "ferrari"
+            },
+            {
+                "name": "French Grand Prix",
+                "date": [
+                    2018,
+                    6,
+                    24
+                ],
+                "round": 8,
+                "season": 2018,
+                "winner": "mercedes"
+            }
+        ],
+        "latest_index": 163,
+        "standings": {
+            "mercedes": 1,
+            "ferrari": 2,
+            "red_bull": 3,
+            "alpine": 4,
+            "mclaren": 5,
+            "aston_martin": 6,
+            "haas": 7,
+            "alphatauri": 8,
+            "sauber": 9,
+            "williams": 10
+        }
+    },
+    "2019-1": {
+        "atr_races": [
+            {
+                "name": "Austrian Grand Prix",
+                "date": [
+                    2018,
+                    7,
+                    1
+                ],
+                "round": 9,
+                "season": 2018,
+                "winner": "red_bull"
+            },
+            {
+                "name": "British Grand Prix",
+                "date": [
+                    2018,
+                    7,
+                    8
+                ],
+                "round": 10,
+                "season": 2018,
+                "winner": "ferrari"
+            },
+            {
+                "name": "German Grand Prix",
+                "date": [
+                    2018,
+                    7,
+                    22
+                ],
+                "round": 11,
+                "season": 2018,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Hungarian Grand Prix",
+                "date": [
+                    2018,
+                    7,
+                    29
+                ],
+                "round": 12,
+                "season": 2018,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Belgian Grand Prix",
+                "date": [
+                    2018,
+                    8,
+                    26
+                ],
+                "round": 13,
+                "season": 2018,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Italian Grand Prix",
+                "date": [
+                    2018,
+                    9,
+                    2
+                ],
+                "round": 14,
+                "season": 2018,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Singapore Grand Prix",
+                "date": [
+                    2018,
+                    9,
+                    16
+                ],
+                "round": 15,
+                "season": 2018,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Russian Grand Prix",
+                "date": [
+                    2018,
+                    9,
+                    30
+                ],
+                "round": 16,
+                "season": 2018,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Japanese Grand Prix",
+                "date": [
+                    2018,
+                    10,
+                    7
+                ],
+                "round": 17,
+                "season": 2018,
+                "winner": "mercedes"
+            },
+            {
+                "name": "United States Grand Prix",
+                "date": [
+                    2018,
+                    10,
+                    21
+                ],
+                "round": 18,
+                "season": 2018,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Mexican Grand Prix",
+                "date": [
+                    2018,
+                    10,
+                    28
+                ],
+                "round": 19,
+                "season": 2018,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Brazilian Grand Prix",
+                "date": [
+                    2018,
+                    11,
+                    11
+                ],
+                "round": 20,
+                "season": 2018,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Abu Dhabi Grand Prix",
+                "date": [
+                    2018,
+                    11,
+                    25
+                ],
+                "round": 21,
+                "season": 2018,
+                "winner": "mercedes"
+            }
+        ],
+        "latest_index": 176,
+        "standings": {
+            "mercedes": 1,
+            "ferrari": 2,
+            "red_bull": 3,
+            "alpine": 4,
+            "haas": 5,
+            "mclaren": 6,
+            "aston_martin": 7,
+            "sauber": 8,
+            "alphatauri": 9,
+            "williams": 10
+        }
+    },
+    "2019-2": {
+        "atr_races": [
+            {
+                "name": "Australian Grand Prix",
+                "date": [
+                    2019,
+                    3,
+                    17
+                ],
+                "round": 1,
+                "season": 2019,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Bahrain Grand Prix",
+                "date": [
+                    2019,
+                    3,
+                    31
+                ],
+                "round": 2,
+                "season": 2019,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Chinese Grand Prix",
+                "date": [
+                    2019,
+                    4,
+                    14
+                ],
+                "round": 3,
+                "season": 2019,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Azerbaijan Grand Prix",
+                "date": [
+                    2019,
+                    4,
+                    28
+                ],
+                "round": 4,
+                "season": 2019,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Spanish Grand Prix",
+                "date": [
+                    2019,
+                    5,
+                    12
+                ],
+                "round": 5,
+                "season": 2019,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Monaco Grand Prix",
+                "date": [
+                    2019,
+                    5,
+                    26
+                ],
+                "round": 6,
+                "season": 2019,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Canadian Grand Prix",
+                "date": [
+                    2019,
+                    6,
+                    9
+                ],
+                "round": 7,
+                "season": 2019,
+                "winner": "mercedes"
+            },
+            {
+                "name": "French Grand Prix",
+                "date": [
+                    2019,
+                    6,
+                    23
+                ],
+                "round": 8,
+                "season": 2019,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Austrian Grand Prix",
+                "date": [
+                    2019,
+                    6,
+                    30
+                ],
+                "round": 9,
+                "season": 2019,
+                "winner": "red_bull"
+            }
+        ],
+        "latest_index": 185,
+        "standings": {
+            "mercedes": 1,
+            "ferrari": 2,
+            "red_bull": 3,
+            "mclaren": 4,
+            "alpine": 5,
+            "sauber": 6,
+            "aston_martin": 7,
+            "alphatauri": 8,
+            "haas": 9,
+            "williams": 10
+        }
+    },
+    "2020-1": {
+        "atr_races": [
+            {
+                "name": "British Grand Prix",
+                "date": [
+                    2019,
+                    7,
+                    14
+                ],
+                "round": 10,
+                "season": 2019,
+                "winner": "mercedes"
+            },
+            {
+                "name": "German Grand Prix",
+                "date": [
+                    2019,
+                    7,
+                    28
+                ],
+                "round": 11,
+                "season": 2019,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Hungarian Grand Prix",
+                "date": [
+                    2019,
+                    8,
+                    4
+                ],
+                "round": 12,
+                "season": 2019,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Belgian Grand Prix",
+                "date": [
+                    2019,
+                    9,
+                    1
+                ],
+                "round": 13,
+                "season": 2019,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Italian Grand Prix",
+                "date": [
+                    2019,
+                    9,
+                    8
+                ],
+                "round": 14,
+                "season": 2019,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Singapore Grand Prix",
+                "date": [
+                    2019,
+                    9,
+                    22
+                ],
+                "round": 15,
+                "season": 2019,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Russian Grand Prix",
+                "date": [
+                    2019,
+                    9,
+                    29
+                ],
+                "round": 16,
+                "season": 2019,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Japanese Grand Prix",
+                "date": [
+                    2019,
+                    10,
+                    13
+                ],
+                "round": 17,
+                "season": 2019,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Mexican Grand Prix",
+                "date": [
+                    2019,
+                    10,
+                    27
+                ],
+                "round": 18,
+                "season": 2019,
+                "winner": "mercedes"
+            },
+            {
+                "name": "United States Grand Prix",
+                "date": [
+                    2019,
+                    11,
+                    3
+                ],
+                "round": 19,
+                "season": 2019,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Brazilian Grand Prix",
+                "date": [
+                    2019,
+                    11,
+                    17
+                ],
+                "round": 20,
+                "season": 2019,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Abu Dhabi Grand Prix",
+                "date": [
+                    2019,
+                    12,
+                    1
+                ],
+                "round": 21,
+                "season": 2019,
+                "winner": "mercedes"
+            }
+        ],
+        "latest_index": 197,
+        "standings": {
+            "mercedes": 1,
+            "ferrari": 2,
+            "red_bull": 3,
+            "mclaren": 4,
+            "alpine": 5,
+            "alphatauri": 6,
+            "aston_martin": 7,
+            "sauber": 8,
+            "haas": 9,
+            "williams": 10
+        }
+    },
+    "2020-2": {
+        "atr_races": [],
+        "latest_index": 197,
+        "standings": {
+            "mercedes": 1,
+            "ferrari": 2,
+            "red_bull": 3,
+            "mclaren": 4,
+            "alpine": 5,
+            "alphatauri": 6,
+            "aston_martin": 7,
+            "sauber": 8,
+            "haas": 9,
+            "williams": 10
+        }
+    },
+    "2021-1": {
+        "atr_races": [
+            {
+                "name": "Austrian Grand Prix",
+                "date": [
+                    2020,
+                    7,
+                    5
+                ],
+                "round": 1,
+                "season": 2020,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Styrian Grand Prix",
+                "date": [
+                    2020,
+                    7,
+                    12
+                ],
+                "round": 2,
+                "season": 2020,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Hungarian Grand Prix",
+                "date": [
+                    2020,
+                    7,
+                    19
+                ],
+                "round": 3,
+                "season": 2020,
+                "winner": "mercedes"
+            },
+            {
+                "name": "British Grand Prix",
+                "date": [
+                    2020,
+                    8,
+                    2
+                ],
+                "round": 4,
+                "season": 2020,
+                "winner": "mercedes"
+            },
+            {
+                "name": "70th Anniversary Grand Prix",
+                "date": [
+                    2020,
+                    8,
+                    9
+                ],
+                "round": 5,
+                "season": 2020,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Spanish Grand Prix",
+                "date": [
+                    2020,
+                    8,
+                    16
+                ],
+                "round": 6,
+                "season": 2020,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Belgian Grand Prix",
+                "date": [
+                    2020,
+                    8,
+                    30
+                ],
+                "round": 7,
+                "season": 2020,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Italian Grand Prix",
+                "date": [
+                    2020,
+                    9,
+                    6
+                ],
+                "round": 8,
+                "season": 2020,
+                "winner": "alphatauri"
+            },
+            {
+                "name": "Tuscan Grand Prix",
+                "date": [
+                    2020,
+                    9,
+                    13
+                ],
+                "round": 9,
+                "season": 2020,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Russian Grand Prix",
+                "date": [
+                    2020,
+                    9,
+                    27
+                ],
+                "round": 10,
+                "season": 2020,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Eifel Grand Prix",
+                "date": [
+                    2020,
+                    10,
+                    11
+                ],
+                "round": 11,
+                "season": 2020,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Portuguese Grand Prix",
+                "date": [
+                    2020,
+                    10,
+                    25
+                ],
+                "round": 12,
+                "season": 2020,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Emilia Romagna Grand Prix",
+                "date": [
+                    2020,
+                    11,
+                    1
+                ],
+                "round": 13,
+                "season": 2020,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Turkish Grand Prix",
+                "date": [
+                    2020,
+                    11,
+                    15
+                ],
+                "round": 14,
+                "season": 2020,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Bahrain Grand Prix",
+                "date": [
+                    2020,
+                    11,
+                    29
+                ],
+                "round": 15,
+                "season": 2020,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Sakhir Grand Prix",
+                "date": [
+                    2020,
+                    12,
+                    6
+                ],
+                "round": 16,
+                "season": 2020,
+                "winner": "aston_martin"
+            },
+            {
+                "name": "Abu Dhabi Grand Prix",
+                "date": [
+                    2020,
+                    12,
+                    13
+                ],
+                "round": 17,
+                "season": 2020,
+                "winner": "red_bull"
+            }
+        ],
+        "latest_index": 214,
+        "standings": {
+            "mercedes": 1,
+            "red_bull": 2,
+            "mclaren": 3,
+            "aston_martin": 4,
+            "alpine": 5,
+            "ferrari": 6,
+            "alphatauri": 7,
+            "sauber": 8,
+            "haas": 9,
+            "williams": 10
+        }
+    },
+    "2021-2": {
+        "atr_races": [
+            {
+                "name": "Bahrain Grand Prix",
+                "date": [
+                    2021,
+                    3,
+                    28
+                ],
+                "round": 1,
+                "season": 2021,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Emilia Romagna Grand Prix",
+                "date": [
+                    2021,
+                    4,
+                    18
+                ],
+                "round": 2,
+                "season": 2021,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Portuguese Grand Prix",
+                "date": [
+                    2021,
+                    5,
+                    2
+                ],
+                "round": 3,
+                "season": 2021,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Spanish Grand Prix",
+                "date": [
+                    2021,
+                    5,
+                    9
+                ],
+                "round": 4,
+                "season": 2021,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Monaco Grand Prix",
+                "date": [
+                    2021,
+                    5,
+                    23
+                ],
+                "round": 5,
+                "season": 2021,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Azerbaijan Grand Prix",
+                "date": [
+                    2021,
+                    6,
+                    6
+                ],
+                "round": 6,
+                "season": 2021,
+                "winner": "red_bull"
+            },
+            {
+                "name": "French Grand Prix",
+                "date": [
+                    2021,
+                    6,
+                    20
+                ],
+                "round": 7,
+                "season": 2021,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Styrian Grand Prix",
+                "date": [
+                    2021,
+                    6,
+                    27
+                ],
+                "round": 8,
+                "season": 2021,
+                "winner": "red_bull"
+            }
+        ],
+        "latest_index": 222,
+        "standings": {
+            "red_bull": 1,
+            "mercedes": 2,
+            "mclaren": 3,
+            "ferrari": 4,
+            "alphatauri": 5,
+            "aston_martin": 6,
+            "alpine": 7,
+            "sauber": 8,
+            "williams": 9,
+            "haas": 10
+        }
+    },
+    "2022-1": {
+        "atr_races": [
+            {
+                "name": "Austrian Grand Prix",
+                "date": [
+                    2021,
+                    7,
+                    4
+                ],
+                "round": 9,
+                "season": 2021,
+                "winner": "red_bull"
+            },
+            {
+                "name": "British Grand Prix",
+                "date": [
+                    2021,
+                    7,
+                    18
+                ],
+                "round": 10,
+                "season": 2021,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Hungarian Grand Prix",
+                "date": [
+                    2021,
+                    8,
+                    1
+                ],
+                "round": 11,
+                "season": 2021,
+                "winner": "alpine"
+            },
+            {
+                "name": "Belgian Grand Prix",
+                "date": [
+                    2021,
+                    8,
+                    29
+                ],
+                "round": 12,
+                "season": 2021,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Dutch Grand Prix",
+                "date": [
+                    2021,
+                    9,
+                    5
+                ],
+                "round": 13,
+                "season": 2021,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Italian Grand Prix",
+                "date": [
+                    2021,
+                    9,
+                    12
+                ],
+                "round": 14,
+                "season": 2021,
+                "winner": "mclaren"
+            },
+            {
+                "name": "Russian Grand Prix",
+                "date": [
+                    2021,
+                    9,
+                    26
+                ],
+                "round": 15,
+                "season": 2021,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Turkish Grand Prix",
+                "date": [
+                    2021,
+                    10,
+                    10
+                ],
+                "round": 16,
+                "season": 2021,
+                "winner": "mercedes"
+            },
+            {
+                "name": "United States Grand Prix",
+                "date": [
+                    2021,
+                    10,
+                    24
+                ],
+                "round": 17,
+                "season": 2021,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Mexico City Grand Prix",
+                "date": [
+                    2021,
+                    11,
+                    7
+                ],
+                "round": 18,
+                "season": 2021,
+                "winner": "red_bull"
+            },
+            {
+                "name": "S\u00e3o Paulo Grand Prix",
+                "date": [
+                    2021,
+                    11,
+                    14
+                ],
+                "round": 19,
+                "season": 2021,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Qatar Grand Prix",
+                "date": [
+                    2021,
+                    11,
+                    21
+                ],
+                "round": 20,
+                "season": 2021,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Saudi Arabian Grand Prix",
+                "date": [
+                    2021,
+                    12,
+                    5
+                ],
+                "round": 21,
+                "season": 2021,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Abu Dhabi Grand Prix",
+                "date": [
+                    2021,
+                    12,
+                    12
+                ],
+                "round": 22,
+                "season": 2021,
+                "winner": "red_bull"
+            }
+        ],
+        "latest_index": 236,
+        "standings": {
+            "mercedes": 1,
+            "red_bull": 2,
+            "ferrari": 3,
+            "mclaren": 4,
+            "alpine": 5,
+            "alphatauri": 6,
+            "aston_martin": 7,
+            "williams": 8,
+            "sauber": 9,
+            "haas": 10
+        }
+    },
+    "2022-2": {
+        "atr_races": [
+            {
+                "name": "Bahrain Grand Prix",
+                "date": [
+                    2022,
+                    3,
+                    20
+                ],
+                "round": 1,
+                "season": 2022,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Saudi Arabian Grand Prix",
+                "date": [
+                    2022,
+                    3,
+                    27
+                ],
+                "round": 2,
+                "season": 2022,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Australian Grand Prix",
+                "date": [
+                    2022,
+                    4,
+                    10
+                ],
+                "round": 3,
+                "season": 2022,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Emilia Romagna Grand Prix",
+                "date": [
+                    2022,
+                    4,
+                    24
+                ],
+                "round": 4,
+                "season": 2022,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Miami Grand Prix",
+                "date": [
+                    2022,
+                    5,
+                    8
+                ],
+                "round": 5,
+                "season": 2022,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Spanish Grand Prix",
+                "date": [
+                    2022,
+                    5,
+                    22
+                ],
+                "round": 6,
+                "season": 2022,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Monaco Grand Prix",
+                "date": [
+                    2022,
+                    5,
+                    29
+                ],
+                "round": 7,
+                "season": 2022,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Azerbaijan Grand Prix",
+                "date": [
+                    2022,
+                    6,
+                    12
+                ],
+                "round": 8,
+                "season": 2022,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Canadian Grand Prix",
+                "date": [
+                    2022,
+                    6,
+                    19
+                ],
+                "round": 9,
+                "season": 2022,
+                "winner": "red_bull"
+            }
+        ],
+        "latest_index": 245,
+        "standings": {
+            "red_bull": 1,
+            "ferrari": 2,
+            "mercedes": 3,
+            "mclaren": 4,
+            "alpine": 5,
+            "sauber": 6,
+            "alphatauri": 7,
+            "aston_martin": 8,
+            "haas": 9,
+            "williams": 10
+        }
+    },
+    "2023-1": {
+        "atr_races": [
+            {
+                "name": "British Grand Prix",
+                "date": [
+                    2022,
+                    7,
+                    3
+                ],
+                "round": 10,
+                "season": 2022,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Austrian Grand Prix",
+                "date": [
+                    2022,
+                    7,
+                    10
+                ],
+                "round": 11,
+                "season": 2022,
+                "winner": "ferrari"
+            },
+            {
+                "name": "French Grand Prix",
+                "date": [
+                    2022,
+                    7,
+                    24
+                ],
+                "round": 12,
+                "season": 2022,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Hungarian Grand Prix",
+                "date": [
+                    2022,
+                    7,
+                    31
+                ],
+                "round": 13,
+                "season": 2022,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Belgian Grand Prix",
+                "date": [
+                    2022,
+                    8,
+                    28
+                ],
+                "round": 14,
+                "season": 2022,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Dutch Grand Prix",
+                "date": [
+                    2022,
+                    9,
+                    4
+                ],
+                "round": 15,
+                "season": 2022,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Italian Grand Prix",
+                "date": [
+                    2022,
+                    9,
+                    11
+                ],
+                "round": 16,
+                "season": 2022,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Singapore Grand Prix",
+                "date": [
+                    2022,
+                    10,
+                    2
+                ],
+                "round": 17,
+                "season": 2022,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Japanese Grand Prix",
+                "date": [
+                    2022,
+                    10,
+                    9
+                ],
+                "round": 18,
+                "season": 2022,
+                "winner": "red_bull"
+            },
+            {
+                "name": "United States Grand Prix",
+                "date": [
+                    2022,
+                    10,
+                    23
+                ],
+                "round": 19,
+                "season": 2022,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Mexico City Grand Prix",
+                "date": [
+                    2022,
+                    10,
+                    30
+                ],
+                "round": 20,
+                "season": 2022,
+                "winner": "red_bull"
+            },
+            {
+                "name": "S\u00e3o Paulo Grand Prix",
+                "date": [
+                    2022,
+                    11,
+                    13
+                ],
+                "round": 21,
+                "season": 2022,
+                "winner": "mercedes"
+            },
+            {
+                "name": "Abu Dhabi Grand Prix",
+                "date": [
+                    2022,
+                    11,
+                    20
+                ],
+                "round": 22,
+                "season": 2022,
+                "winner": "red_bull"
+            }
+        ],
+        "latest_index": 258,
+        "standings": {
+            "red_bull": 1,
+            "ferrari": 2,
+            "mercedes": 3,
+            "alpine": 4,
+            "mclaren": 5,
+            "sauber": 6,
+            "aston_martin": 7,
+            "haas": 8,
+            "alphatauri": 9,
+            "williams": 10
+        }
+    },
+    "2023-2": {
+        "atr_races": [
+            {
+                "name": "Bahrain Grand Prix",
+                "date": [
+                    2023,
+                    3,
+                    5
+                ],
+                "round": 1,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Saudi Arabian Grand Prix",
+                "date": [
+                    2023,
+                    3,
+                    19
+                ],
+                "round": 2,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Australian Grand Prix",
+                "date": [
+                    2023,
+                    4,
+                    2
+                ],
+                "round": 3,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Azerbaijan Grand Prix",
+                "date": [
+                    2023,
+                    4,
+                    30
+                ],
+                "round": 4,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Miami Grand Prix",
+                "date": [
+                    2023,
+                    5,
+                    7
+                ],
+                "round": 5,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Monaco Grand Prix",
+                "date": [
+                    2023,
+                    5,
+                    28
+                ],
+                "round": 6,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Spanish Grand Prix",
+                "date": [
+                    2023,
+                    6,
+                    4
+                ],
+                "round": 7,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Canadian Grand Prix",
+                "date": [
+                    2023,
+                    6,
+                    18
+                ],
+                "round": 8,
+                "season": 2023,
+                "winner": "red_bull"
+            }
+        ],
+        "latest_index": 266,
+        "standings": {
+            "red_bull": 1,
+            "mercedes": 2,
+            "aston_martin": 3,
+            "ferrari": 4,
+            "alpine": 5,
+            "mclaren": 6,
+            "sauber": 7,
+            "haas": 8,
+            "williams": 9,
+            "alphatauri": 10
+        }
+    },
+    "2024-1": {
+        "atr_races": [
+            {
+                "name": "Austrian Grand Prix",
+                "date": [
+                    2023,
+                    7,
+                    2
+                ],
+                "round": 9,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "British Grand Prix",
+                "date": [
+                    2023,
+                    7,
+                    9
+                ],
+                "round": 10,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Hungarian Grand Prix",
+                "date": [
+                    2023,
+                    7,
+                    23
+                ],
+                "round": 11,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Belgian Grand Prix",
+                "date": [
+                    2023,
+                    7,
+                    30
+                ],
+                "round": 12,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Dutch Grand Prix",
+                "date": [
+                    2023,
+                    8,
+                    27
+                ],
+                "round": 13,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Italian Grand Prix",
+                "date": [
+                    2023,
+                    9,
+                    3
+                ],
+                "round": 14,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Singapore Grand Prix",
+                "date": [
+                    2023,
+                    9,
+                    17
+                ],
+                "round": 15,
+                "season": 2023,
+                "winner": "ferrari"
+            },
+            {
+                "name": "Japanese Grand Prix",
+                "date": [
+                    2023,
+                    9,
+                    24
+                ],
+                "round": 16,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Qatar Grand Prix",
+                "date": [
+                    2023,
+                    10,
+                    8
+                ],
+                "round": 17,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "United States Grand Prix",
+                "date": [
+                    2023,
+                    10,
+                    22
+                ],
+                "round": 18,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Mexico City Grand Prix",
+                "date": [
+                    2023,
+                    10,
+                    29
+                ],
+                "round": 19,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "S\u00e3o Paulo Grand Prix",
+                "date": [
+                    2023,
+                    11,
+                    5
+                ],
+                "round": 20,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Las Vegas Grand Prix",
+                "date": [
+                    2023,
+                    11,
+                    19
+                ],
+                "round": 21,
+                "season": 2023,
+                "winner": "red_bull"
+            },
+            {
+                "name": "Abu Dhabi Grand Prix",
+                "date": [
+                    2023,
+                    11,
+                    26
+                ],
+                "round": 22,
+                "season": 2023,
+                "winner": "red_bull"
+            }
+        ],
+        "latest_index": 280,
+        "standings": {
+            "red_bull": 1,
+            "mercedes": 2,
+            "ferrari": 3,
+            "mclaren": 4,
+            "aston_martin": 5,
+            "alpine": 6,
+            "williams": 7,
+            "alphatauri": 8,
+            "sauber": 9,
+            "haas": 10
+        }
+    }
+}
