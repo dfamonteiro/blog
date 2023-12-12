@@ -1,5 +1,5 @@
 +++ 
-draft = true
+draft = false
 date = 2023-12-03T22:00:08Z
 title = "The Formula 1 ATR rules have to account for dominance"
 description = ""
