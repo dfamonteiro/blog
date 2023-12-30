@@ -37,6 +37,11 @@ unsafe= true # This allows html to be embedded
     icon = "fa fa-twitter fa-2x"
     weight = 2
     url = "https://twitter.com/dfamonteiro/"
+[[params.social]]
+    name = "Linkedin"
+    icon = "fa fa-linkedin fa-2x"
+    weight = 3
+    url = "https://www.linkedin.com/in/dfamonteiro/"
 
 # Menu links
 [[menu.main]]
@@ -47,10 +52,6 @@ unsafe= true # This allows html to be embedded
     name = "About"
     weight = 2
     url = "/about/"
-[[menu.main]]
-    name = "Exams"
-    weight = 3
-    url = "https://dfamonteiro.com/FEUP-exams-website/"
 [[menu.main]]
     name = "Motorsport Schedule"
     weight = 4
