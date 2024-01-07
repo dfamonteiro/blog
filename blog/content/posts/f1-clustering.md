@@ -20,6 +20,7 @@ I was finishing my [Formula 1 Cornering Performance Breakdown](https://github.co
 ## The data
 
 Now that we've gone over the basics, let's take a moment to understand how to interpret the data that will be shown in this blog post. Take a look at the example below:
+
 ```text
                    STRAIGHT     LOW  MEDIUM-LOW  MEDIUM-HIGH    HIGH
 Azerbaijan GP        51.201  24.801      24.201        0.000   0.000
