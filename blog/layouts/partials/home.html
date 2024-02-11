@@ -1,6 +1,18 @@
 <section class="container centered" style="align-items: start;">
     <div class="about">
       <link rel="stylesheet" href="/css/custom.css">
+      <script>
+        function myFunction() {
+          let body = document.getElementsByClassName("colorscheme-light");
+          let card = document.getElementsByClassName("card")[0];
+          if (body.length > 0) {
+            card.style.filter = "invert(1)";
+          } else {
+            card.style.filter = "invert(0)";
+          }
+        }
+        setInterval(myFunction, 100);
+      </script>
       <div class="card"></div>
       {{ if and (isset .Site.Params "avatarurl") (not (isset .Site.Params "gravatar")) }}
         {{ with .Site.Params.avatarURL }}
