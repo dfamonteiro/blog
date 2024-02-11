@@ -1,0 +1,17 @@
+@keyframes flickOpacity {
+  0%   {opacity: 1; background: url("/images/logo_normal.svg") no-repeat;}
+  40%  {opacity: 0; background: url("/images/logo_normal.svg") no-repeat;}
+  50%  {opacity: 0; background: url("/images/logo_guidelines.svg") no-repeat;}
+  60%  {opacity: 0; background: url("/images/logo_guidelines.svg") no-repeat;}
+  100% {opacity: 1; background: url("/images/logo_guidelines.svg") no-repeat;}
+}
+
+.card {
+  width: 210px;
+  height: 325px;
+  background: url("/images/logo_normal.svg") no-repeat;
+  display: inline-block;
+}
+.card:hover , .card:active{
+  animation: flickOpacity 0.4s forwards;
+}

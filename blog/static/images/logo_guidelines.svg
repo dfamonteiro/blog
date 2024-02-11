@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="210" height="325" viewBox="-105.0 -162.5 210 325">
+<defs>
+</defs>
+<g transform="">
+<circle cx="0" cy="80" r="80" fill="transparent" stroke-width="1" stroke="white" />
+<circle cx="0" cy="80" r="60" fill="transparent" stroke-width="1" stroke="white" />
+<rect x="-75.00472574903591" y="52.17391304347827" width="150.00945149807183" height="20" fill="transparent" stroke-width="1" stroke="white" />
+<path d="M75.00472574903591,52.17391304347827 L0,-150" stroke="white" stroke-width="1" />
+<path d="M-75.00472574903591,52.17391304347827 L0,-150" stroke="white" stroke-width="1" />
+<path d="M53.67273654406817,52.17391304347827 L-21.33198920496774,-150" stroke="white" stroke-width="1" />
+<path d="M-53.67273654406817,52.17391304347827 L21.33198920496774,-150" stroke="white" stroke-width="1" />
+<path d="M-100.0,32.17391304347827 L100.0,32.17391304347827" stroke="white" stroke-width="1" />
+<path d="M-100.0,-47.82608695652173 L100.0,-47.82608695652173" stroke="white" stroke-width="1" />
+<path d="M37.90561408822245,-47.82608695652173 L3.123005392570292,45.92982022977316" stroke="white" stroke-width="1" />
+<path d="M16.573624883254713,-47.82608695652173 L-18.208983812397445,45.92982022977316" stroke="white" stroke-width="1" />
+<path d="M-37.90561408822245,-47.82608695652173 L-3.1230053925702848,45.92982022977316" stroke="white" stroke-width="1" />
+<path d="M-16.573624883254713,-47.82608695652173 L18.208983812397452,45.92982022977316" stroke="white" stroke-width="1" />
+</g>
+</svg>
