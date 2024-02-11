@@ -12,7 +12,7 @@ unsafe= true # This allows html to be embedded
 
 [params]
     author = "Daniel Monteiro"
-    info = "Software engineering student"
+    info = "Software engineer"
     description = "Daniel Monteiro's personal website"
     keywords = "blog,developer,personal,engineering"
 
