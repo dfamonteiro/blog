@@ -52,7 +52,3 @@ unsafe= true # This allows html to be embedded
     name = "About"
     weight = 2
     url = "/about/"
-[[menu.main]]
-    name = "Motorsport Schedule"
-    weight = 4
-    url = "https://dfamonteiro.com/motorsport-schedule/"
