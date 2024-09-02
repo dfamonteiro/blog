@@ -44,7 +44,7 @@ Before we start writing code, we should begin by making our lives easier by clea
 | Natsiou  | Ring         | Red    | Beer     | Baleton  |
 | Finch    | Diamond      | Purple | Whiskey  | Dunwall  |
 
-We also need to define how the solution will be structured. When solved this riddle manually I used a grid, and there's no reason to not do the same here:
+We also need to define how the solution will be structured. When I solved this riddle by hand I used a grid, and there's no reason to not do the same here:
 
 |              | **Far-left** | **Left** | **Middle** | **Right** | **Far-right** |
 |--------------|--------------|----------|------------|-----------|---------------|
@@ -56,7 +56,7 @@ We also need to define how the solution will be structured. When solved this rid
 
 ### Initial setup (code)
 
-We will be using python as our programming language and [OR-Tools](https://developers.google.com/optimization "OR-Tools home page") as our constraint solver. Let's begin with a very basic MVP:
+We will be using python as our programming language and [OR-Tools](https://developers.google.com/optimization "OR-Tools home page") as our constraint solver. Let's start with a very basic MVP:
 
 ```python
 from ortools.sat.python import cp_model
@@ -201,7 +201,7 @@ def enforce_different_values_for_every_category():
             model.Add(seat_total == 1)
 ```
 
-Now every woman gets her own seat:
+Now every lady gets her own seat:
 
 ```txt
 PS C:\Users\Daniel\Desktop\github\blog\jindosh-riddle> python solver.py
@@ -309,7 +309,7 @@ def enforce_first_paragraph():
     enforce_a_next_to_b(("Heirloom", "Snuff Tin"), ("Origin", "Dabokva"))
 ```
 
-`enforce_a_next_to_b` is an auxiliary funcion that enforces "person with characteristic `a` is next to person with characteristic `b`". This constraint shows up multiple times in both paragraphs, which justifies moving this logic to its own seperate function:
+`enforce_a_next_to_b` is an auxiliary funcion that enforces "person with characteristic `a` is next to person with characteristic `b`". This constraint shows up multiple times in both paragraphs, which justifies moving this logic to its own separate function:
 
 ```python
 def enforce_a_next_to_b(a : Tuple[str, str], b : Tuple[str, str]):
@@ -405,4 +405,4 @@ Heirloom: Ring          Snuff Tin     War Medal     Bird Pendant  Diamond
 
 ## Conclusion
 
-I was pleasantly surprised by how well the riddle's facts mapped to python code. I had a lot of fun solving the riddle using constraint programming but it remains to be seen if simply solving the riddle by hand would be a quicker approach. It doesn't really matter, in the end: when it comes to games, the only metric that has ever mattered is whether or not you are having fun playing them.
+I was pleasantly surprised by how well the riddle's facts mapped to python code. I had a lot of fun solving the riddle using constraint programming but it remains to be seen if simply solving the riddle by hand would be a quicker approach. It doesn't really matter in the end: when it comes to games, the only metric that has ever mattered is whether or not you are having fun playing them.
