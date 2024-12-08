@@ -11,7 +11,7 @@ externalLink = ""
 series = []
 +++
 
-I was playing Dishonored II (great game, by the way), when I came across a locked door. In order to make progress in the game, I had to open this door. When you get close to it, you begin to realise that there is more to this door than it first meets the eye:
+I was playing Dishonored II, when I came across a locked door. In order to make progress in the game, I had to open this door. When you get close to it, you begin to realise that there is more to this door than it first meets the eye:
 
 <figure>
     <img src="/images/Jindosh-Lock.png" alt="Guia circuit track layout">
