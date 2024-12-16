@@ -1,7 +1,7 @@
 +++ 
 draft = true
 date = 2024-12-08T13:52:39Z
-title = "Solving the mathematics of Factorio Quality: Part 1"
+title = "Solving the mathematics of Factorio Quality: The Fundamentals"
 description = ""
 slug = ""
 authors = ["Daniel Monteiro"]
@@ -26,7 +26,7 @@ Factorio is a game that makes you think. It gives such fascinating production an
 
 Getting a complete understanding of the probabilities behind the mass production of quality items is not easy, and neither is converting this set of probabilities into workable flow rates. With this is mind, and after struggling with this myself, I have decided to write a series of blog posts detailing step by step the math required to truly understand quality. I will assume that the reader has played Factorio: Space Age and has a working understanding of the quality mechanic, but even if you haven't played Factorio before, feel free to follow along. Without further ado, let's begin:
 
-## The fundamentals: Building the quality matrix
+## Building the quality matrix
 
 When you insert a quality module in a assembler[^2], a new stat appears on the machine's tooltip: Quality. The goal of this chapter is to convert this singular value into a probability matrix.
 
@@ -44,7 +44,7 @@ This quality chance, which I will call $q$ from now on, represents the probabili
     <figcaption> Quality upgrade probability table generalized for any quality chance $q$. <br>(image source: <a href="https://wiki.factorio.com/Quality">Factorio Wiki</a>)</figcaption>
 </div>
 
-At this point, we can think of writing a function $f(q)$ that returns a 5x5 probability matrix $Q_q$
+At this point, we have a solid enough understanding of quality for us to try to replicate some of the results found in [Factorio Wiki](https://wiki.factorio.com/Quality) with our own python code, which will be very useful in the future when we what to test several scenarios and do some data analysis. We will start our python implementation of these quality concepts by writing a function $f(q)$ that returns a 5x5 probability matrix $Q_q$:
 
 ```python
 class QualityTier(IntEnum):
@@ -123,30 +123,30 @@ def quality_matrix(quality_chance : float) -> np.ndarray:
     return res
 ```
 
-```text
+Calling `quality_matrix(10)` returns the following result:
 
+$$Q_{10} =
+\begin{bmatrix}
+    0.9 & 0.09 & 0.009 & 0.0009 & 0.0001 \\\\
+    0   & 0.9  & 0.09  & 0.009  & 0.001  \\\\
+    0   & 0    & 0.9   & 0.09   & 0.01   \\\\
+    0   & 0    & 0     & 0.9    & 0.1    \\\\
+    0   & 0    & 0     & 0      & 1      \\\\
+\end{bmatrix}$$
 
+Which perfectly matches the table in the wiki:
 
+<div style="text-align:center">
+    <img src="/images/10-percent-quality-table.png" alt="Quality upgrade probability table for a quality chance of 10%"/>
+    <figcaption> Quality upgrade probability table for a quality chance of 10%. <br>(image source: <a href="https://wiki.factorio.com/Quality">Factorio Wiki</a>)</figcaption>
+</div>
 
+## Building the production matrix
 
+Now that we have our quality matrix we can use it as a basis for creating production matrices that reflect any crafting or recycling scenario.
 
+TODO
 
+## Next steps: [**Pure Recycling Loop**](/posts/factorio-pure-recycling-loop/)
 
-
-
-
-
-
-
-<script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: true });
-</script>
-Here is a mermaid diagram:
-<pre class="mermaid">
-      graph TD
-      A[Client] --> B[Load Balancer]
-      B --> C[Server01]
-      B --> D[Server02]
-</pre>
-```
+Now that we have a mathematical foundation firmly set in place, our attention will turn towards solving specific quality grinding scenarios starting with the simplest of them all: a [pure recycling loop](/posts/factorio-pure-recycling-loop/).
