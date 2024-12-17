@@ -143,9 +143,24 @@ Which perfectly matches the table in the wiki:
 
 ## Building the production matrix
 
-Now that we have our quality matrix we can use it as a basis for creating production matrices that reflect any crafting or recycling scenario.
+Now that we have our quality matrix we can use it as a basis for creating production matrices that reflect any crafting or recycling scenario. For any crafting situation there are only two values we need to worry about: the **quality chance** of the machine and the **production ratio** of output items relative to input items.
 
-TODO
+We have already talked extensively about the quality chance, so let's take a moment to understand how to come up with a production ratio for an arbitrary scenario. Let's take blue circuits as an example:
+
+<div style="text-align:center">
+    <img src="/images/Blue-Circuit-Recipe.png" alt="Blue circuit crafting recipe"/>
+    <figcaption> Blue circuit crafting recipe. <br>(image source: <a href="https://wiki.factorio.com/Processing_unit">Factorio Wiki</a>)</figcaption>
+</div>
+
+In order to craft a single blue circuit you need 22 solid ingredients, leading to a rather low production ratio of 0.04545. Luckily for us, we haven't factored in productivity yet. Let's assume that:
+
+- We researched 3 levels of blue circuit productivity (+30% Productivity)
+- The circuits are being crafted in a [EM Plant](https://wiki.factorio.com/Electromagnetic_plant) (+50% Productivity)
+- The EM plant has one tier 3 productivity module (+10% Productivity)
+
+In total we have a 90% productivity bonus, which means we get a borderline 2 for 1 deal for blue circuit crafting. We can now update our production ratio value:
+
+$$ r = \frac{o}{i} (1 + p) = \frac{1}{22} (1 + \frac{9}{10}) = \frac{19}{220} = 0.0863636$$
 
 ## Next steps: [**Pure Recycling Loop**](/posts/factorio-pure-recycling-loop/)
 
