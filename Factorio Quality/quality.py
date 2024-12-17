@@ -142,5 +142,5 @@ def recycler_loop_quick_stats():
 
 if __name__ == "__main__":
     np.set_printoptions(suppress=True)
-
+    # print(quality_matrix(10))
     recycler_loop_quick_stats()
