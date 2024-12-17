@@ -143,6 +143,8 @@ Which perfectly matches the table in the wiki:
 
 ## Building the production matrix
 
+### Production ratio
+
 Now that we have our quality matrix we can use it as a basis for creating production matrices that reflect any crafting or recycling scenario. For any crafting situation there are only two values we need to worry about: the **quality chance** of the machine and the **production ratio** of output items relative to input items.
 
 We have already talked extensively about the quality chance, so let's take a moment to understand how to come up with a production ratio for an arbitrary scenario. Let's take blue circuits as an example:
@@ -161,6 +163,10 @@ In order to craft a single blue circuit you need 22 solid ingredients, leading t
 In total we have a 90% productivity bonus, which means we get a borderline 2 for 1 deal for blue circuit crafting. We can now update our production ratio value:
 
 $$ r = \frac{o}{i} (1 + p) = \frac{1}{22} (1 + \frac{9}{10}) = \frac{19}{220} = 0.0863636$$
+
+### Production matrix
+
+TODO: investigate if a custom Identity matrix could be useful for crafting production matrices. If we want to keep quality q, we want to load that level with quality modules
 
 ## Next steps: [**Pure Recycling Loop**](/posts/factorio-pure-recycling-loop/)
 
