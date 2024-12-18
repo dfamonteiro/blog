@@ -166,7 +166,38 @@ $$ r = \frac{o}{i} (1 + p) = \frac{1}{22} (1 + \frac{9}{10}) = \frac{19}{220} = 
 
 ### Production matrix
 
-TODO: investigate if a custom Identity matrix could be useful for crafting production matrices. If we want to keep quality q, we want to load that level with quality modules
+Building a basic production matrix is as simple as multiplying the corresponding quality matrix by the production ratio:
+
+$$ P_{q, r} = r Q_q $$
+
+The corresponding python function is just as straightforward:
+
+```python
+def basic_production_matrix(quality_chance : float, production_ratio : float) -> np.ndarray:
+    "Returns the production matrix for the corresponding quality_chance and production_ratio"
+    return quality_matrix(quality_chance) * production_ratio
+```
+
+Now that we know the basics, let's calculate the production matrix for the EM plant from the previous subchapter, which has 1 T3 productivity module and 4 T3 quality modules (i.e. 10% quality chance):
+
+$$ P_{10, \frac{19}{220}} = \frac{19}{220} Q_{10} =
+\begin{bmatrix}
+    0.07772727 & 0.00777273 & 0.00077727 & 0.00007773 & 0.00000864 \\\\
+    0          & 0.07772727 & 0.00777273 & 0.00077727 & 0.00008636 \\\\
+    0          & 0          & 0.07772727 & 0.00777273 & 0.00086364 \\\\
+    0          & 0          & 0          & 0.07772727 & 0.00863636 \\\\
+    0          & 0          & 0          & 0          & 0.08636364 \\\\
+\end{bmatrix}$$
+
+This matrix is completely fine at first glance, but what if we want to anything even remotely complex?
+
+- If we're crafting with legendary ingredients, why not load the EM Plant with the best quality modules you have?
+- What if we want to remove all legendary items from the system?
+- What if want my EM Plants to have more quality modules for lower quality items, and more productivity modules for the higher quality items?
+
+The solution for these issues is to have the ability to customize the quality chance & production ratio for every row in the matrix:
+
+TODO: show fancy function
 
 ## Next steps: [**Pure Recycling Loop**](/posts/factorio-pure-recycling-loop/)
 

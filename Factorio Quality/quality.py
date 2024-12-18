@@ -1,7 +1,7 @@
 import numpy as np
 
 from enum import IntEnum
-from typing import Union
+from typing import Union, List, Tuple
 
 class QualityTier(IntEnum):
     Normal    = 0
@@ -75,31 +75,20 @@ def quality_matrix(quality_chance : float) -> np.ndarray:
     return res
 
 
-def production_matrix(quality_chance : float, production_multiplier : float = 1, save_threshold : Union[QualityTier, None] = QualityTier.Legendary) -> np.ndarray:
-    """Returns the production matrix for the corresponding `quality_chance` and `production_multiplier` 
-    which indicates the rate of how many items of a tier are transformed to items of another tier. This rate is relative to an input item.
+def basic_production_matrix(quality_chance : float, production_ratio : float = 1) -> np.ndarray:
+    "Returns the production matrix for the corresponding `quality_chance` and `production_ratio`"
+    return quality_matrix(quality_chance) * production_ratio
+
+def custom_production_matrix(parameters_per_row : List[Tuple[float, float]]) -> np.ndarray:
+    """_summary_
 
     Args:
-        quality_chance (float): Quality chance (in %).
-        production_multiplier (float, optional): How many output items you get per input item. Defaults to 1.
-        save_threshold (Union[QualityTier, None], optional): Sets the lower limit for what items of a specific tier will "exit" the recycling loop. 
-            Defaults to QualityTier.Legendary, but can be set to `None` if you want to recycle legendary input.
+        parameters_per_row (List[Tuple[float, float]]): _description_
 
     Returns:
-        np.ndarray: 5x5 matrix. The columns represent the input quality tier and go from legendary to normal, from left to right.
-            The lines represent the output quality tier and go from normal to legendary, from top to bottom.
+        np.ndarray: _description_
     """
-
-    res = quality_matrix(quality_chance) * production_multiplier
-
-    if save_threshold != None:
-        for tier in range(save_threshold, 5):
-            # Zero out the entire row (this represents removing
-            # the items of this specific quality from the system)
-            for column in range(0, 5):
-                res[tier][column] = 0
-    
-    return res
+    pass #TODO
 
 def recycler_loop(input_amount : float, quality_chance : float) -> np.ndarray:
     """Returns the amount of output items produced by a simple recycler loop
@@ -114,8 +103,8 @@ def recycler_loop(input_amount : float, quality_chance : float) -> np.ndarray:
             represents the amount of items of quality `i` produced by the loop (0 = normal, 4 = legendary).
             Amount of normal quality items does not include the `input_amount`
     """
-
-    recycler_matrix = production_matrix(quality_chance, 0.25, QualityTier.Legendary)
+    recycler_matrix = basic_production_matrix(quality_chance, 0.25)
+    recycler_matrix[4][4] = 0
     input_belt = np.array([input_amount, 0, 0, 0, 0])
     result_flows = [input_belt]
 
@@ -143,4 +132,5 @@ def recycler_loop_quick_stats():
 if __name__ == "__main__":
     np.set_printoptions(suppress=True)
     # print(quality_matrix(10))
-    recycler_loop_quick_stats()
+    # recycler_loop_quick_stats()
+    print(basic_production_matrix(10, 19/220))
