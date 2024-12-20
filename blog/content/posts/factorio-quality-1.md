@@ -229,6 +229,17 @@ def custom_production_matrix(parameters_per_row : List[Tuple[float, float]]) -> 
     return res
 ```
 
+Now that we're armed with this new function, we can easily modify the EM scenario in order to only have productivity modules when crafting with legendary items:
+
+```python
+print(custom_production_matrix([(10, (1 + 0.9)/22)] * 4 + [(0, (1 + 1.3)/22)]))
+# [[0.07772727 0.00777273 0.00077727 0.00007773 0.00000864]
+#  [0.         0.07772727 0.00777273 0.00077727 0.00008636]
+#  [0.         0.         0.07772727 0.00777273 0.00086364]
+#  [0.         0.         0.         0.07772727 0.00863636]
+#  [0.         0.         0.         0.         0.10454545]]
+```
+
 ### How to use the production matrix
 
 ## Next steps: [**Pure Recycling Loop**](/posts/factorio-pure-recycling-loop/)
