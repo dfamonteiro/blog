@@ -197,7 +197,39 @@ This matrix is completely fine at first glance, but what if we want to anything 
 
 The solution for these issues is to have the ability to customize the quality chance & production ratio for every row in the matrix:
 
-TODO: show fancy function
+```python
+def custom_production_matrix(parameters_per_row : List[Tuple[float, float]]) -> np.ndarray:
+    """Returns a production matrix where every row has a specific quality chance
+        and prodution ratio.
+
+    Args:
+        parameters_per_row (List[Tuple[float, float]]): List of five tuples. Each tuple
+            indicates the quality chance and production ratio for the respective row.
+
+    Returns:
+        np.ndarray: 5x5 production matrix.
+    """
+
+    # Basic validations
+    assert len(parameters_per_row) == 5
+    assert type(parameters_per_row) == list
+    for pair in parameters_per_row:
+        assert type(pair) == tuple
+        assert len(pair) == 2
+
+    res = np.zeros((5,5))
+
+    for row in range(5):
+        quality_chance, production_ratio = parameters_per_row[row]
+
+        for column in range(5):
+            res[row][column] =\
+                quality_probability(quality_chance, row, column) * production_ratio
+
+    return res
+```
+
+### How to use the production matrix
 
 ## Next steps: [**Pure Recycling Loop**](/posts/factorio-pure-recycling-loop/)
 

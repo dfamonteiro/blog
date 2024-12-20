@@ -76,19 +76,36 @@ def quality_matrix(quality_chance : float) -> np.ndarray:
 
 
 def basic_production_matrix(quality_chance : float, production_ratio : float = 1) -> np.ndarray:
-    "Returns the production matrix for the corresponding `quality_chance` and `production_ratio`"
+    "Returns the production matrix for the corresponding `quality_chance` and `production_ratio`."
     return quality_matrix(quality_chance) * production_ratio
 
 def custom_production_matrix(parameters_per_row : List[Tuple[float, float]]) -> np.ndarray:
-    """_summary_
+    """Returns a production matrix where every row has a specific quality chance and prodution ratio.
 
     Args:
-        parameters_per_row (List[Tuple[float, float]]): _description_
+        parameters_per_row (List[Tuple[float, float]]): List of five tuples. Each tuple indicates the
+            quality chance and production ratio for the respective row.
 
     Returns:
-        np.ndarray: _description_
+        np.ndarray: 5x5 production matrix.
     """
-    pass #TODO
+
+    # Basic validations
+    assert len(parameters_per_row) == 5
+    assert type(parameters_per_row) == list
+    for pair in parameters_per_row:
+        assert type(pair) == tuple
+        assert len(pair) == 2
+
+    res = np.zeros((5,5))
+    
+    for row in range(5):
+        quality_chance, production_ratio = parameters_per_row[row]
+
+        for column in range(5):
+            res[row][column] = quality_probability(quality_chance, row, column) * production_ratio
+    
+    return res
 
 def recycler_loop(input_amount : float, quality_chance : float) -> np.ndarray:
     """Returns the amount of output items produced by a simple recycler loop
@@ -103,8 +120,7 @@ def recycler_loop(input_amount : float, quality_chance : float) -> np.ndarray:
             represents the amount of items of quality `i` produced by the loop (0 = normal, 4 = legendary).
             Amount of normal quality items does not include the `input_amount`
     """
-    recycler_matrix = basic_production_matrix(quality_chance, 0.25)
-    recycler_matrix[4][4] = 0
+    recycler_matrix = custom_production_matrix([(quality_chance, 0.25)] * 4 + [(0, 0)])
     input_belt = np.array([input_amount, 0, 0, 0, 0])
     result_flows = [input_belt]
 
@@ -132,5 +148,5 @@ def recycler_loop_quick_stats():
 if __name__ == "__main__":
     np.set_printoptions(suppress=True)
     # print(quality_matrix(10))
-    # recycler_loop_quick_stats()
-    print(basic_production_matrix(10, 19/220))
+    recycler_loop_quick_stats()
+    # print(basic_production_matrix(10, 19/220))
