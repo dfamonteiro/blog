@@ -1,5 +1,5 @@
 +++ 
-draft = true
+draft = false
 date = 2024-12-08T13:52:39Z
 title = "Solving the mathematics of Factorio Quality: The Fundamentals"
 description = ""
@@ -226,13 +226,68 @@ print(custom_production_matrix([(10, (1 + 0.9)/22)] * 4 + [(0, (1 + 1.3)/22)]))
 #  [0.         0.         0.         0.         0.10454545]]
 ```
 
-### How to use the production matrix
+### How to use the production matrix: a simple exercise
 
-Recicler scenario:
-10 normal iron plates/s
-5 rare iron plates/s
-4 epic iron plates/s
+We have spent all this time coming up with this production matrices, but we still don't know how to use them. Let's change that by solving a simple exercise:
 
-## Next steps: [**Pure Recycling Loop**](/posts/factorio-pure-recycling-loop/)
+> A recycler with 2 rare and 2 epic T3 quality modules is being fed iron plates of several qualities:
+> - 10 normal iron plates/s
+> - 5 rare iron plates/s
+> - 4 epic iron plates/s
+>
+> How many iron plates of each quality level are being produced by the recycler?
 
-Now that we have a mathematical foundation firmly set in place, our attention will turn towards solving specific quality grinding scenarios starting with the simplest of them all: a [pure recycling loop](/posts/factorio-pure-recycling-loop/).
+Our first step is to calculate the quality chance $q$:
+
+$$ q = 4 * 2 + 4.7 * 2 = 17.6\\% $$
+
+The production ratio $r$ of a recycler is quite straightforward to calculate, but please note that the input $i$ and output $o$ of a recipe are switched in the production ratio formula because we are _recycling_:
+
+$$ r = \frac{i}{o} (1 + p) = \frac{i}{o} (1 + (- 0.75)) = \frac{i}{4o}$$
+
+Iron plates recycle into themselves, which means $i = o = 1$ and the production ratio $r$ is 0.25. We can now create the production matrix for the recycler:
+
+```python
+custom_production_matrix([(17.6, 0.25)] * 5)
+```
+
+$$ \begin{bmatrix}
+    0.206 & 0.0396 & 0.00396 & 0.000396 & 0.000044 \\\\
+    0     & 0.206 & 0.0396   & 0.00396  & 0.00044 \\\\
+    0     & 0     & 0.206    & 0.0396   & 0.0044 \\\\
+    0     & 0     & 0        & 0.206    & 0.044 \\\\
+    0     & 0     & 0        & 0        & 0.25 \\\\
+\end{bmatrix}$$
+
+Notice how the numbers of each row add up to the production ratio value of 0.25, as we expected.
+
+We have our recycler in the form of a matrix, we're only missing the intake for it, which will be represented by a row vector with five values (one for each level of quality):
+
+$$ \vec{f} = \begin{bmatrix} 10 & 0 & 5 & 4 & 0 \end{bmatrix}$$
+
+In order to get the solution $\vec{s}$ for our little exercise, we simply multiply $\vec{f}$ by the production matrix of the recycler:
+
+```python
+np.array([10, 0, 5, 4, 0]) @ custom_production_matrix([(17.6, 0.25)] * 5)
+```
+
+$$ \vec{s} = \begin{bmatrix} 10 & 0 & 5 & 4 & 0 \end{bmatrix} \cdot \begin{bmatrix}
+    0.206 & 0.0396 & 0.00396 & 0.000396 & 0.000044 \\\\
+    0     & 0.206 & 0.0396   & 0.00396  & 0.00044 \\\\
+    0     & 0     & 0.206    & 0.0396   & 0.0044 \\\\
+    0     & 0     & 0        & 0.206    & 0.044 \\\\
+    0     & 0     & 0        & 0        & 0.25 \\\\
+\end{bmatrix} $$
+
+$$ \vec{s} = \begin{bmatrix} 2.06 & 0.396 & 1.0696 & 1.02596 & 0.19844 \end{bmatrix}$$
+
+We can confidently say that the recycler will produce:
+- 2.06 normal iron plates/s
+- 0.396 uncommon iron plates/s
+- 1.0696 rare iron plates/s
+- 1.02596 epic iron plates/s
+- 0.19844 legendary iron plates/s
+
+## Next step: [**Pure Recycling Loop**](/posts/factorio-pure-recycling-loop/)
+
+We have a mathematical foundation firmly set in place. Our attention will now turn towards solving specific quality grinding scenarios starting with the simplest of them all: a [pure recycling loop](/posts/factorio-pure-recycling-loop/).
