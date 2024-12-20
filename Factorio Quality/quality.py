@@ -84,7 +84,7 @@ def custom_production_matrix(parameters_per_row : List[Tuple[float, float]]) -> 
 
     Args:
         parameters_per_row (List[Tuple[float, float]]): List of five tuples. Each tuple indicates the
-            quality chance and production ratio for the respective row.
+            quality chance (%) and production ratio for the respective row.
 
     Returns:
         np.ndarray: 5x5 production matrix.

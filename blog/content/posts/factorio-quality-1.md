@@ -70,12 +70,6 @@ def quality_probability(
     Returns:
         float: A probability from 0 to 1.
     """
-    
-    # Basic validations
-    assert 0 <= quality_chance <= 100
-    assert 0 <= input_tier  <= 4 and type(input_tier)  == int
-    assert 0 <= output_tier <= 4 and type(output_tier) == int
-
     # Some QoL conversions
     quality_chance /= 100
     i = input_tier
@@ -204,19 +198,11 @@ def custom_production_matrix(parameters_per_row : List[Tuple[float, float]]) -> 
 
     Args:
         parameters_per_row (List[Tuple[float, float]]): List of five tuples. Each tuple
-            indicates the quality chance and production ratio for the respective row.
+            indicates the quality chance (%) and production ratio for the respective row.
 
     Returns:
         np.ndarray: 5x5 production matrix.
     """
-
-    # Basic validations
-    assert len(parameters_per_row) == 5
-    assert type(parameters_per_row) == list
-    for pair in parameters_per_row:
-        assert type(pair) == tuple
-        assert len(pair) == 2
-
     res = np.zeros((5,5))
 
     for row in range(5):
@@ -241,6 +227,11 @@ print(custom_production_matrix([(10, (1 + 0.9)/22)] * 4 + [(0, (1 + 1.3)/22)]))
 ```
 
 ### How to use the production matrix
+
+Recicler scenario:
+10 normal iron plates/s
+5 rare iron plates/s
+4 epic iron plates/s
 
 ## Next steps: [**Pure Recycling Loop**](/posts/factorio-pure-recycling-loop/)
 
