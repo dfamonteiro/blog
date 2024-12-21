@@ -5,7 +5,7 @@ title = "Solving the mathematics of Factorio Quality: The Fundamentals"
 description = ""
 slug = ""
 authors = ["Daniel Monteiro"]
-tags = ["maths", "programming"]
+tags = ["maths", "programming", "Factorio Quality"]
 categories = []
 externalLink = ""
 series = []
@@ -288,6 +288,6 @@ We can confidently say that the recycler will produce:
 - 1.02596 epic iron plates/s
 - 0.19844 legendary iron plates/s
 
-## Next step: [**Pure Recycling Loop**](/posts/factorio-pure-recycling-loop/)
+## Next step: [**Pure Recycler Loop**](/posts/factorio-pure-recycler-loop/)
 
-We have a mathematical foundation firmly set in place. Our attention will now turn towards solving specific quality grinding scenarios starting with the simplest of them all: a [pure recycling loop](/posts/factorio-pure-recycling-loop/).
+We have a mathematical foundation firmly set in place. Our attention will now turn towards solving specific quality grinding scenarios starting with the simplest of them all: a [pure recycler loop](/posts/factorio-pure-recycler-loop/).
