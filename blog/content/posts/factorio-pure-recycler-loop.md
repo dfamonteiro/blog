@@ -77,12 +77,14 @@ In order to get the total production of Q5 items (the fifth value of vector $\ve
 
 $$ \vec{s} = \vec{s_1} + \vec{s_2} + \vec{s_3} + \vec{s_4} + \vec{s_n} + \vec{s_{n+1}} + ...$$
 
-$\vec{s_x}$ is the state of the system after recycler $x$ and can be represented in the following manner:
+$\vec{s_x}$ is the state of the system after recycler $x$ and can be represented in the following manner[^1]:
+
+[^1]: It does make sense that $\vec{s_x}$ is recursive. After all, if you want to know the state of the system after the 7th recycler, you need the state of the 6th recycler, which in turn needs the 5th recycler etc etc.
 
 $$ \vec{s_x} = \vec{s_{x-1}} \cdot R_q \newline
 \vec{s_1} = \vec{f}$$
 
-$\vec{f}$ represents the input into the system, let's assume assume that it will be a single belt of Q1 items <nobr>($\vec{f}= \begin{bmatrix} 1 & 0 & 0 & 0 & 0 \end{bmatrix}$)</nobr>. $R_q$ is a recycler production matrix with quality chance $q$, and a production ratio of 0.25 for Q1-Q4 and 0 for Q5 to simulate the legendary items being removed from the system and put into a box. Maybe a function to create these recycler matrices with ease could be useful:
+$\vec{f}$ represents the input into the system, let's assume assume that it will be a single belt of Q1 items <nobr>($\vec{f}= \begin{bmatrix} 1 & 0 & 0 & 0 & 0 \end{bmatrix}$)</nobr>. $R_q$ is a recycler production matrix with quality chance $q$, and a production ratio of 0.25 for Q1-Q4 and 0 for Q5 to simulate the legendary items being removed from the system and put into a box. Let's write a function to help us create these recycler matrices:
 
 ```python
 def recycler_matrix(quality_chance : float, quality_to_keep : int = 5) -> np.ndarray:
