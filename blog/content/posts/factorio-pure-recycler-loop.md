@@ -16,7 +16,7 @@ series = []
     mermaid.initialize({ startOnLoad: true });
 </script>
 
-The pure recycler loop is the simplest possible way to grind for legendary items, making it the logical next step of our quality analysis journey. Armed with the knowledge we gained from the [previous post](/posts/factorio-quality-1/) of [this series](/tags/factorio-quality/), we're going to calculate the efficiency of this quality grinding method and do some statistical analysis of how the production of quality items is affected by the quality chance of the Recyclers.
+The pure recycler loop is the simplest possible way to grind for legendary items, making it the logical next step of our quality analysis journey. Armed with the knowledge we gained from the [previous post](/posts/factorio-quality-1/) of [this series](/tags/factorio-quality/), we're going to calculate the efficiency of this quality grinding method and do some statistical analysis of how the production of quality items is affected by the quality chance of the recyclers.
 
 <div style="text-align:center">
     <img src="/images/Pure-Recycler-Loop.webp" alt="Blue circuit crafting recipe"/>
@@ -69,4 +69,6 @@ flowchart TD
     Rn1 -->|Q<=4|Rn2[...]
 </pre>
 
-Doing this trick does get rid of the loop and gives us a more workable linear problem. Unfortunately, this comes at a cost of having to handle the recycler line being theoretically infinite. In practice, the system runs out of items very quickly because 3/4 of the items are voided in every step of the recycler chain.
+Doing this trick does get rid of the loop and gives us a more workable linear problem. Unfortunately, this comes at a cost of having to handle the recycler line being theoretically infinite. In practice, the system runs out of items very quickly because 3/4 of the items are voided in every step of the recycler chain and the items that don't get voided will eventually turn into legendary items and be removed from the system.
+
+## Calculating the production rates of the infinite recycler line
