@@ -1,6 +1,8 @@
 from quality import custom_production_matrix
 import numpy as np
+from functools import lru_cache
 
+@lru_cache()
 def recycler_matrix(quality_chance : float, quality_to_keep : int = 5) -> np.ndarray:
     """Returns a matrix of a recycler with quality chance `quality_chance`
     that saves any item of quality level `quality_to_keep` or above.

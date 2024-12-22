@@ -81,9 +81,8 @@ $\vec{s_x}$ is the state of the system after recycler $x$ and can be represented
 
 $$ \vec{s_x} = \vec{s_{x-1}} \cdot R_q \newline
 \vec{s_1} = \vec{f}$$
-<!-- $$ $$ -->
 
-$R_q$ is a recycler production matrix with quality chance $q$, and a production ratio of 0.25 for Q1-Q4 and 0 for Q5 to simulate the legendary items being removed from the system and put into a box. Maybe a function to create these recycler matrices with ease could be useful:
+$\vec{f}$ represents the input into the system, let's assume assume that it will be a single belt of Q1 items <nobr>($\vec{f}= \begin{bmatrix} 1 & 0 & 0 & 0 & 0 \end{bmatrix}$)</nobr>. $R_q$ is a recycler production matrix with quality chance $q$, and a production ratio of 0.25 for Q1-Q4 and 0 for Q5 to simulate the legendary items being removed from the system and put into a box. Maybe a function to create these recycler matrices with ease could be useful:
 
 ```python
 def recycler_matrix(quality_chance : float, quality_to_keep : int = 5) -> np.ndarray:
