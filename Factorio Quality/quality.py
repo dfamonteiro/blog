@@ -107,46 +107,7 @@ def custom_production_matrix(parameters_per_row : List[Tuple[float, float]]) -> 
     
     return res
 
-def recycler_loop(input_amount : float, quality_chance : float) -> np.ndarray:
-    """Returns the amount of output items produced by a simple recycler loop
-    as a vector that represents the distribution of qualities.
-
-    Args:
-        input_flow (float): Number of items that enter the system in an arbitrary timeframe (items/s, belts, etc.)
-        quality_chance (float): Quality chance of the recyclers (in %).
-
-    Returns:
-        np.ndarray: Vector with 5 values. The value in position `i` of the vector 
-            represents the amount of items of quality `i` produced by the loop (0 = normal, 4 = legendary).
-            Amount of normal quality items does not include the `input_amount`
-    """
-    recycler_matrix = custom_production_matrix([(quality_chance, 0.25)] * 4 + [(0, 0)])
-    input_belt = np.array([input_amount, 0, 0, 0, 0])
-    result_flows = [input_belt]
-
-    while True:
-        result_flows.append(
-            result_flows[-1].dot(recycler_matrix)
-        )
-
-        if sum(result_flows[-2] - result_flows[-1]) < 1E-10:
-            break
-    
-    return sum(result_flows[1:])
-
-
-def recycler_loop_quick_stats():
-    "Recycler loop quick stats, shown in the terminal output"
-    
-    for i in list(range(1, 25)) + [24.8]:
-        print(f"{i}: {1000/recycler_loop(1000, i)[4]}")
-    print()
-    for i in list(range(25)) + [24.8]:
-        print(f"{i}: {recycler_loop(1000, i)}")
-
-
 if __name__ == "__main__":
     np.set_printoptions(suppress=True)
     # print(quality_matrix(10))
-    recycler_loop_quick_stats()
     # print(basic_production_matrix(10, 19/220))

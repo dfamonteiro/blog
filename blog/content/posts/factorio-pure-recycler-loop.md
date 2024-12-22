@@ -71,4 +71,40 @@ flowchart TD
 
 Doing this trick does get rid of the loop and gives us a more workable linear problem. Unfortunately, this comes at a cost of having to handle the recycler line being theoretically infinite. In practice, the system runs out of items very quickly because 3/4 of the items are voided in every step of the recycler chain and the items that don't get voided will eventually turn into legendary items and be removed from the system.
 
-## Calculating the production rates of the infinite recycler line
+## Calculating the production rate of the infinite recycler line
+
+In order to get the total production of Q5 items (the fifth value of vector $\vec{s}$), we have to add the Q5 production of every single recycler in the infinite chain:
+
+$$ \vec{s} = \vec{s_1} + \vec{s_2} + \vec{s_3} + \vec{s_4} + \vec{s_n} + \vec{s_{n+1}} + ...$$
+
+$\vec{s_x}$ is the state of the system after recycler $x$ and can be represented in the following manner:
+
+$$ \vec{s_x} = \vec{s_{x-1}} \cdot R_q \newline
+\vec{s_1} = \vec{f}$$
+<!-- $$ $$ -->
+
+$R_q$ is a recycler production matrix with quality chance $q$, and a production ratio of 0.25 for Q1-Q4 and 0 for Q5 to simulate the legendary items being removed from the system and put into a box. Maybe a function to create these recycler matrices with ease could be useful:
+
+```python
+def recycler_matrix(quality_chance : float, quality_to_keep : int = 5) -> np.ndarray:
+    """Returns a matrix of a recycler with quality chance `quality_chance`
+    that saves any item of quality level `quality_to_keep` or above.
+
+    Args:
+        quality_chance (float): Quality chance of the recyclers (in %).
+        quality_to_keep (int): Minimum quality level of the items to be removed from the system
+            (By default only removes legendaries).
+
+    Returns:
+        np.ndarray: Standard production matrix.
+    """
+    assert quality_chance > 0
+    assert type(quality_to_keep) == int and 1 <= quality_to_keep <= 5
+
+    recycling_rows = quality_to_keep - 1
+    saving_rows = 5 - recycling_rows
+
+    return custom_production_matrix(
+        [(quality_chance, 0.25)] * recycling_rows + [(0, 0)] * saving_rows
+    )
+```
