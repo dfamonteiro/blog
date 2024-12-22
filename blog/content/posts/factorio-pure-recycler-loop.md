@@ -40,7 +40,7 @@ flowchart LR
 </pre>
 Notice how I'm using "Q" as a shorthand for the level of quality of the items. Q=1 means common items and Q=5 means legendary items.
 
-Finding a way to get around loops is never easy. Fortunately for us, we can take a page from compiler optimization book and unroll the loop:
+Finding a way to get around loops is never easy. Fortunately for us, we can take a page from the compiler optimization book and unroll the loop:
 
 <pre style="text-align:center" class="mermaid">
 ---
