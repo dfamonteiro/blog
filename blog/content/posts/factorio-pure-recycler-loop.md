@@ -109,3 +109,44 @@ def recycler_matrix(quality_chance : float, quality_to_keep : int = 5) -> np.nda
         [(quality_chance, 0.25)] * recycling_rows + [(0, 0)] * saving_rows
     )
 ```
+
+For the remainder of this chapter, let's assume that we're working with a quality chance $q$ of 10%:
+
+```python
+print(recycler_matrix(10))
+```
+
+$$ R_{10} = \begin{bmatrix}
+  0.225 & 0.0225 & 0.00225 & 0.000225 & 0.000025 \\\\
+  0     & 0.225  & 0.0225  & 0.00225  & 0.00025 \\\\
+  0     & 0      & 0.225   & 0.0225   & 0.0025 \\\\
+  0     & 0      & 0       & 0.225    & 0.025 \\\\
+  0     & 0      & 0       & 0        & 0 \\\\
+\end{bmatrix}$$
+
+We have everything we need to compute $\vec{s}$, but instead of calculating a neverending sum of recursive functions, allow me to present a simpler alternative with a simple `for`-loop:
+
+```python
+def recycler_loop(
+        input_vector : float,
+        quality_chance : float,
+        quality_to_keep : int = 5) -> np.ndarray:
+    """Returns a vector with values for each quality level that mean different things,
+    depending on whether that quality is kept or recycled
+
+    Returns:
+        np.ndarray: Vector with values for each quality level.
+    """
+
+    result_flows = [input_vector]
+    while True:
+        result_flows.append(
+            result_flows[-1].dot(recycler_matrix(quality_chance, quality_to_keep))
+        )
+
+        if sum(result_flows[-2] - result_flows[-1]) < 1E-10:
+            # There's nothing left in the system
+            break
+
+    return sum(result_flows)
+```
