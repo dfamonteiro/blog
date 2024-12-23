@@ -1,6 +1,7 @@
 from quality import custom_production_matrix
 import numpy as np
 from functools import lru_cache
+from typing import Union
 
 @lru_cache()
 def recycler_matrix(quality_chance : float, quality_to_keep : int = 5) -> np.ndarray:
@@ -26,7 +27,7 @@ def recycler_matrix(quality_chance : float, quality_to_keep : int = 5) -> np.nda
     )
 
 def recycler_loop(
-        input_vector : float,
+        input_vector : Union[np.array, float],
         quality_chance : float,
         quality_to_keep : int = 5) -> np.ndarray:
     """Returns a vector with values for each quality level that mean different things,
@@ -35,7 +36,8 @@ def recycler_loop(
         - If the quality is recycled: the value is the internal flow rate of items of that quality level in the system.
     
     Args:
-        input_vector (float): The flow rate of items going into the system
+        input_vector (np.array): The flow rate of items going into the system. If a single value is passed, 
+            it is assumed to be the input rate of Q1 items going into the system.
         quality_chance (float): Quality chance of the recycler loop (in %).
         quality_to_keep (int): Minimum quality level of the items to be removed from the system
             (By default only removes legendaries).
@@ -43,18 +45,21 @@ def recycler_loop(
     Returns:
         np.ndarray: Vector with values for each quality level.
     """
+    if type(input_vector) in (float, int):
+        input_vector = np.array([input_vector, 0, 0, 0, 0])
     
     result_flows = [input_vector]
     while True:
         result_flows.append(
-            result_flows[-1].dot(recycler_matrix(quality_chance, quality_to_keep))
+            result_flows[-1] @ recycler_matrix(quality_chance, quality_to_keep)
         )
 
         if sum(result_flows[-2] - result_flows[-1]) < 1E-10:
             # There's nothing left in the system
             break
-    
+
     return sum(result_flows)
+
 
 def bmatrix(a): # https://stackoverflow.com/questions/17129290/numpy-2d-and-1d-array-to-latex-bmatrix
     """Returns a LaTeX bmatrix
@@ -82,4 +87,5 @@ def recycler_loop_quick_stats():
 if __name__ == "__main__":
     np.set_printoptions(suppress=True)
     
-    print(bmatrix(recycler_matrix(10)))
+    print(recycler_loop(1, 24.8) * 100)
+    print(1/recycler_loop(1, 24.8)[4])

@@ -124,24 +124,28 @@ $$ R_{10} = \begin{bmatrix}
   0     & 0      & 0       & 0        & 0 \\\\
 \end{bmatrix}$$
 
-We have everything we need to compute $\vec{s}$, but instead of calculating a neverending sum of recursive functions, allow me to present a simpler alternative with a simple `for`-loop:
+We have everything we need to compute $\vec{s}$, but instead of calculating a neverending sum of recursive functions, allow me to present a simpler alternative with a simple `for`-loop[^2]:
+
+[^2]: Please note that I cut a big part of the `recycler_loop`'s doc string to make it more readable in the context of this blogpost. If you want the full description of this function, please click [here](https://github.com/dfamonteiro/blog/blob/main/Factorio%20Quality/pure_recycler_loop.py#L28C1-L57).
 
 ```python
 def recycler_loop(
-        input_vector : float,
+        input_vector : Union[np.array, float],
         quality_chance : float,
         quality_to_keep : int = 5) -> np.ndarray:
     """Returns a vector with values for each quality level that mean different things,
-    depending on whether that quality is kept or recycled
+    depending on whether that quality is kept or recycled.
 
     Returns:
         np.ndarray: Vector with values for each quality level.
     """
+    if type(input_vector) in (float, int):
+        input_vector = np.array([input_vector, 0, 0, 0, 0])
 
     result_flows = [input_vector]
     while True:
         result_flows.append(
-            result_flows[-1].dot(recycler_matrix(quality_chance, quality_to_keep))
+            result_flows[-1] @ recycler_matrix(quality_chance, quality_to_keep)
         )
 
         if sum(result_flows[-2] - result_flows[-1]) < 1E-10:
@@ -150,3 +154,17 @@ def recycler_loop(
 
     return sum(result_flows)
 ```
+
+### Basic analysis of the function `recycler_loop`'s output
+
+Let's see what happens when we call this function:
+
+```python
+recycler_loop(1, 10)
+```
+
+$$\vec{s} = \begin{bmatrix} 1.29032258 & 0.03746098 & 0.00483367 & 0.0006237 & 0.0000693 \end{bmatrix}$$
+
+And here we have our first big result: if you feed a belt of common items into a recycler loop with T3 normal modules, you'll get an output of 0.0000693 belts of legendary items, which means that this specific setup has an efficiency of 0.00693%. If we invert this number, we get the number of normal items required to craft one legendary item, which is 14430... yikes, that's quite a bit.
+
+What happens if we use legendary quality modules? Well, in that case the quality chance increases to 24.8%, the efficiency of the recycler loop setup increases to 0.03667% and the number of normal items required to craft a legendary item decreases to 2726.91: a >5x improvement but still quite inefficient when compared when compared to other quality grinding methods.
