@@ -167,4 +167,6 @@ $$\vec{s} = \begin{bmatrix} 1.29032258 & 0.03746098 & 0.00483367 & 0.0006237 & 0
 
 And here we have our first big result: if you feed a belt of common items into a recycler loop with T3 normal modules, you'll get an output of 0.0000693 belts of legendary items, which means that this specific setup has an efficiency of 0.00693%. If we invert this number, we get the number of normal items required to craft one legendary item, which is 14430... yikes, that's quite a bit.
 
-What happens if we use legendary quality modules? Well, in that case the quality chance increases to 24.8%, the efficiency of the recycler loop setup increases to 0.03667% and the number of normal items required to craft a legendary item decreases to 2726.91: a >5x improvement but still quite inefficient when compared when compared to other quality grinding methods.
+What happens if we use legendary quality modules? Well, in that case the quality chance increases to 24.8%, the efficiency of the recycler loop setup increases to 0.03667% and the number of normal items required to craft a legendary item decreases to 2726.91[^3]: a >5x improvement but still quite inefficient when compared when compared to other quality grinding methods.
+
+[^3]: This is consistent with the results [other](https://www.reddit.com/r/factorio/comments/1gxu6im/comment/lyjujzg/) [people](https://youtu.be/O2QcGNIlFCk?si=rc4xe1xtAySzCEI7&t=120) have been getting.
