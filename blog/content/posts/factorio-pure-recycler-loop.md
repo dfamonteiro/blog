@@ -171,6 +171,6 @@ What happens if we use legendary quality modules? Well, in that case the quality
 
 [^3]: This is consistent with the results [other](https://www.reddit.com/r/factorio/comments/1gxu6im/comment/lyjujzg/) [people](https://youtu.be/O2QcGNIlFCk?si=rc4xe1xtAySzCEI7&t=120) have been getting.
 
-Finally, we need to understand what that the other 4 values in the return vector mean: they represent the _internal_ flow of the system when it reaches a steady state. If we add the first 4 values of the vector we get 1.332844, which is the number of belts that the recycler loop needs to support in order for 1 input belt to be fully consumed. Should we wish to get the production rates for lower qualities, we would need to set the `quality_to_keep` parameter to a lower value.
+Finally, we need to understand what that the other 4 values in the return vector mean: they represent the _internal_ flow of the system when it reaches a steady state. If we add the first 4 values of the vector we get 1.332844, which is the number of belts that the recycler loop needs to support in order for 1 input belt to be fully consumed. Should we wish to get the production rates for lower qualities, we would need to set the `quality_to_keep` parameter to a lower value and run the `recycler_loop` function specifically for that quality level.
 
 ## Statistical analysis
