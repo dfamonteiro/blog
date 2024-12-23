@@ -174,3 +174,51 @@ What happens if we use legendary quality modules? Well, in that case the quality
 Finally, we need to understand what that the other 4 values in the return vector mean: they represent the _internal_ flow of the system when it reaches a steady state. If we add the first 4 values of the vector we get 1.332844, which is the number of belts that the recycler loop needs to support in order for 1 input belt to be fully consumed. Should we wish to get the production rates for lower qualities, we would need to set the `quality_to_keep` parameter to a lower value and run the `recycler_loop` function specifically for that quality level.
 
 ## Statistical analysis
+
+Now that pure recyler loops have been completely figured out, all that remains to be done is to create some helpful charts.
+
+### Number of normal items needed to craft a legendary item
+
+In the previous chapter we calculated how many normal items were needed for a legendary item for the qualities of 10% and 24.8%. Let's do the same calculation for all quality levels:
+
+```python
+indices = list(range(1, 25)) + [24.8]
+ratios = [float(1/recycler_loop(1, i)[4]) for i in indices]
+
+print(f"{indices=}")
+print(f"{ratios=}")
+# indices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 24.8]
+# ratios=[275537.6188099327, 126925.19559177945, 78182.11949565915, 54324.731972068614, 40366.883416794, 31320.37503248879, 25052.454970936447, 20500.388421332522, 17076.449879282212, 14430.015645433099, 12339.492586876928, 10658.332376632781, 9285.998982461751, 8151.406056252092, 7203.000009109451, 6402.577635616764, 5721.297803873242, 5137.031906270301, 4632.558279121844, 4194.304003533878, 3811.450711699854, 3475.287804518467, 3178.73735561973, 2916.000006871485, 2726.9095125910867]
+```
+
+<pre style="text-align:center" class="mermaid" id="normal-to-legendary-ratio">
+---
+title: Normal items needed to craft a legendary item
+config:
+  theme: dark
+---
+xychart-beta
+    title "Normal items needed to craft a legendary item"
+    x-axis [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 24.8]
+    y-axis "Number of normal items" 0 --> 270000
+    line [275537.6188099327, 126925.19559177945, 78182.11949565915, 54324.731972068614, 40366.883416794, 31320.37503248879, 25052.454970936447, 20500.388421332522, 17076.449879282212, 14430.015645433099, 12339.492586876928, 10658.332376632781, 9285.998982461751, 8151.406056252092, 7203.000009109451, 6402.577635616764, 5721.297803873242, 5137.031906270301, 4632.558279121844, 4194.304003533878, 3811.450711699854, 3475.287804518467, 3178.73735561973, 2916.000006871485, 2726.9095125910867]
+</pre>
+
+<pre style="text-align:center" class="mermaid" id="normal-to-legendary-ratio">
+---
+title: Normal items needed to craft a legendary item (starting from 10%)
+config:
+  theme: dark
+---
+xychart-beta
+    title "Normal items needed to craft a legendary item (starting from 10%)"
+    x-axis [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 24.8]
+    y-axis "Number of normal items" 0 --> 14000
+    line [14430.015645433099, 12339.492586876928, 10658.332376632781, 9285.998982461751, 8151.406056252092, 7203.000009109451, 6402.577635616764, 5721.297803873242, 5137.031906270301, 4632.558279121844, 4194.304003533878, 3811.450711699854, 3475.287804518467, 3178.73735561973, 2916.000006871485, 2726.9095125910867]
+</pre>
+
+<style>
+/* #normal-to-legendary-ratio svg[aria-roledescription="xychart"] g.line-plot-0 path {
+    stroke: #000 !important;
+} */
+</style>

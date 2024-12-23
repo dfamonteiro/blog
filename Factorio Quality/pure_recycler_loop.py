@@ -75,17 +75,22 @@ def bmatrix(a): # https://stackoverflow.com/questions/17129290/numpy-2d-and-1d-a
     rv +=  [r'\end{bmatrix}']
     return '\n'.join(rv)
 
+def normal_to_legendary_ratio():
+    indices = list(range(1, 25)) + [24.8]
+    ratios = [float(1/recycler_loop(1, i)[4]) for i in indices]
+
+    print(f"{indices[9:]=}")
+    print(f"{ratios[9:]=}")
+
 def recycler_loop_quick_stats():
     "Recycler loop quick stats, shown in the terminal output"
     
-    for i in list(range(1, 25)) + [24.8]:
-        print(f"{i}: {1000/recycler_loop(1000, i)[4]}")
-    print()
     for i in list(range(25)) + [24.8]:
         print(f"{i}: {recycler_loop(1000, i)}")
 
 if __name__ == "__main__":
     np.set_printoptions(suppress=True)
     
-    print(recycler_loop(1, 24.8) * 100)
-    print(1/recycler_loop(1, 24.8)[4])
+    # print(sum(recycler_loop(1, 24.8)[i] for i in range(4)))
+    # print(1/recycler_loop(1, 24.8)[4])
+    normal_to_legendary_ratio()
