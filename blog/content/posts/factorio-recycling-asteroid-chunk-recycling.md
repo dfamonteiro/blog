@@ -1,6 +1,6 @@
 +++ 
 draft = true
-date = 2024-12-18T23:42:06Z
+date = 2024-12-16T23:42:06Z
 title = "Solving the mathematics of Factorio Quality: Asteroid Chunk Recycling"
 description = ""
 slug = ""

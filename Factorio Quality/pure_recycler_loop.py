@@ -82,15 +82,22 @@ def normal_to_legendary_ratio():
     print(f"{indices[9:]=}")
     print(f"{ratios[9:]=}")
 
-def recycler_loop_quick_stats():
-    "Recycler loop quick stats, shown in the terminal output"
-    
-    for i in list(range(25)) + [24.8]:
-        print(f"{i}: {recycler_loop(1000, i)}")
+def efficiency_data():
+    indices = list(range(1, 25)) + [24.8]
+
+    uncommon  = [float(recycler_loop(100, i, 2)[1]) for i in indices]
+    rare      = [float(recycler_loop(100, i, 3)[2]) for i in indices]
+    epic      = [float(recycler_loop(100, i, 4)[3]) for i in indices]
+    legendary = [float(recycler_loop(100, i, 5)[4]) for i in indices]
+
+    print(f"{uncommon=}")
+    print(f"{rare=}")
+    print(f"{epic=}")
+    print(f"{legendary=}")
 
 if __name__ == "__main__":
     np.set_printoptions(suppress=True)
     
     # print(sum(recycler_loop(1, 24.8)[i] for i in range(4)))
     # print(1/recycler_loop(1, 24.8)[4])
-    normal_to_legendary_ratio()
+    efficiency_data()

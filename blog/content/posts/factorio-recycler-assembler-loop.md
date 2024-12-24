@@ -1,6 +1,6 @@
 +++ 
 draft = true
-date = 2024-12-16T23:42:06Z
+date = 2024-12-17T23:42:06Z
 title = "Solving the mathematics of Factorio Quality: Recycler-Assembler Loop"
 description = ""
 slug = ""
