@@ -4,7 +4,7 @@ from functools import lru_cache
 from typing import Union
 
 @lru_cache()
-def recycler_matrix(quality_chance : float, quality_to_keep : int = 5) -> np.ndarray:
+def recycler_matrix(quality_chance : float, quality_to_keep : int = 5, production_ratio : float = 0.25) -> np.ndarray:
     """Returns a matrix of a recycler with quality chance `quality_chance`
     that saves any item of quality level `quality_to_keep` or above.
 
@@ -12,24 +12,27 @@ def recycler_matrix(quality_chance : float, quality_to_keep : int = 5) -> np.nda
         quality_chance (float): Quality chance of the recyclers (in %).
         quality_to_keep (int): Minimum quality level of the items to be removed from the system
             (By default only removes legendaries).
+        production_ratio (float): Productivity ratio of the recyclers (0.25 by default)
 
     Returns:
         np.ndarray: Standard production matrix.
     """
     assert quality_chance > 0
     assert type(quality_to_keep) == int and 1 <= quality_to_keep <= 5
+    assert production_ratio >= 0
 
     recycling_rows = quality_to_keep - 1
     saving_rows = 5 - recycling_rows
 
     return custom_production_matrix(
-        [(quality_chance, 0.25)] * recycling_rows + [(0, 0)] * saving_rows
+        [(quality_chance, production_ratio)] * recycling_rows + [(0, 0)] * saving_rows
     )
 
 def recycler_loop(
         input_vector : Union[np.array, float],
         quality_chance : float,
-        quality_to_keep : int = 5) -> np.ndarray:
+        quality_to_keep : int = 5,
+        production_ratio : float = 0.25) -> np.ndarray:
     """Returns a vector with values for each quality level that mean different things,
     depending on whether that quality is kept or recycled:
         - If the quality is kept: the value is the production rate of items of that quality level.
@@ -51,7 +54,7 @@ def recycler_loop(
     result_flows = [input_vector]
     while True:
         result_flows.append(
-            result_flows[-1] @ recycler_matrix(quality_chance, quality_to_keep)
+            result_flows[-1] @ recycler_matrix(quality_chance, quality_to_keep, production_ratio)
         )
 
         if sum(result_flows[-2] - result_flows[-1]) < 1E-10:
