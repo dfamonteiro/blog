@@ -11,7 +11,7 @@ externalLink = ""
 series = []
 +++
 
-Asteroid chunk recycling is one of the the most effective methods to get legendary resources in Factorio. It is one of the more unique quality grinding setups you'll ever find, but the calculations needed to assess the efficiency of this method are quite straightforward, as it will be shown in this blog post.
+Asteroid chunk recycling is one of the the most effective methods to get legendary resources in Factorio. It is one of the more unique quality grinding setups you'll ever find, but the calculations needed to assess the efficiency of this method are quite straightforward, as it will be shown in this blog post. Please note that I will assume that the reader has read my analysis of [pure recyler loops](/posts/factorio-pure-recycler-loop/).
 
 <div style="text-align:center">
     <img src="/images/quality-recycling-screenshot.jpg" alt="The 3 tiers of quality modules"/>
