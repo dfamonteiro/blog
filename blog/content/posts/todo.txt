@@ -1,0 +1,25 @@
++++ 
+draft = true
+date = 2024-12-17T23:42:06Z
+title = "Solving the mathematics of Factorio Quality: Recycler-Assembler Loop"
+description = ""
+slug = ""
+authors = ["Daniel Monteiro"]
+tags = ["maths", "programming", "Factorio Quality"]
+categories = []
+externalLink = ""
+series = []
++++
+
++++ 
+draft = true
+date = 2024-12-21T02:19:10Z
+title = "The User Story Assignment Problem"
+description = ""
+slug = ""
+authors = ["Daniel Monteiro"]
+tags = ["maths", "programming"]
+categories = []
+externalLink = ""
+series = []
++++
