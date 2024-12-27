@@ -18,5 +18,9 @@ Asteroid chunk recycling is one of the the most effective methods to get legenda
     <figcaption>Screenshot of an asteroid chunk recycling setup.<br>(image source: <a href="https://youtu.be/gZCFnG8HDCA?si=gj-YBPIGAiUe_OTY&t=2297">Konage</a>)</figcaption>
 </div>
 
-## Simply a better version of the pure recycling loop
+## Simply a better version of the pure recycler loop
 
+<div style="text-align:center">
+    <img src="/images/asteroid-reprocessing-recipes.png" alt="Quality upgrade probability table generalized for any quality chance Q"/>
+    <figcaption> The reprocessing recipes for all three asteroid types. <br>(image source: <a href="https://wiki.factorio.com/Crusher">Factorio Wiki</a>)</figcaption>
+</div>
