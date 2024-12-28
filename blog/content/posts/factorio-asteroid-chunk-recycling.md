@@ -188,3 +188,19 @@ For every "epic" crusher in the setup we need:
     - x3.35 increase relative to number of "uncommon" crushers.
 
 [^2]: Power required by 545 crushers: 304.11MW. Average power consumption of the Principality of Liechtenstein in 2015: 44.9MW.
+
+#### My personal asteroid crusher count recommendation
+
+Having only one "epic" crusher is quite annoying because you have to switch between 3 different recipes on demand. I personally prefer having an asteroid crushing setup with 3 "epic" crushers, one for each recipe:
+
+```python
+print(asteroid_crusher_loop(1, 12.4)[:4] * 3 / asteroid_crusher_loop(1, 12.4)[3])
+# [63.3431025  18.9013108   7.53020136  3.        ]
+```
+
+Here is my personal recommendation:
+
+- 60 "common" crushers (I'd organize them in 4 rows of 15).
+- 18 "uncommon" crushers
+- 9 "rare" crushers (slight overkill, but I want to keep every number divisible by 3)
+- 3 "epic" crushers (one for each asteroid type)
