@@ -150,6 +150,41 @@ xychart-beta
 #asteroid-chunk-recycling-loop-efficiency-chart svg[aria-roledescription="xychart"] g.line-plot-3 path {stroke: #ff9500 !important;}
 </style>
 
-The fact that we don't even need a separate chart for epic and legendary efficiency speaks volumes to how good asteroid recycling is. If you have normal T3 quality modules the efficiency will be 0.26%, otherwise if you happen to have legendary T3 quality modules, the efficiency improves by an order of magnitude to 2.0964%[^1].
+The fact that we don't even need a separate chart for epic and legendary efficiency speaks volumes about how good asteroid recycling is. If you have normal T3 quality modules the efficiency will be 0.26%, otherwise if you happen to have legendary T3 quality modules, the efficiency improves by an order of magnitude to 2.0964%[^1].
 
 [^1]: This is consistent with the results [other people](https://youtu.be/gZCFnG8HDCA?si=2veyz-4isrfpC62v&t=2383) have been getting.
+
+### Number of crushers required per quality level
+
+When you build these asteroid reprocessing ships you can probably wing it with the amount of crushers you use for every quality level and be completely fine. However, we can do better with the tools we have at our disposal.
+Let's assume that we're feeding a full belt of asteroid chunks to the system:
+
+```python
+print(asteroid_crusher_loop(1, 12.4)[:4])
+# [3.34224599 0.9973119  0.3973248  0.1582925 ]
+```
+
+As you might recall from the [previous blog post](/posts/factorio-pure-recycler-loop/#basic-analysis-of-the-function-recycler_loops-output), the first four values of this function represent the internal flow of the system. Knowing this, we can infer that in order to fully process a full green belt of asteroid chunks we need:
+
+- Enough "common" crushers to process 3.34 belts of asteroids (~371 crushers).
+- Enough "uncommon" crushers to process 1 belt of asteroids (~111 crushers).
+- Enough "rare" crushers to process 0.4 belts of asteroids (~45 crushers).
+- Enough "epic" crushers to process 0.16 belts of asteroids (~18 crushers).
+
+Building a ship with this many crushers would be a massive undertaking (and it would require a fusion plant big enough to power Liechtenstein[^2]). Instead of constraining the asteroid recycling setup by the input belt, let's limit ourselves by the number of "epic" crushers in the setup:
+
+```python
+print(asteroid_crusher_loop(1, 12.4)[:4] / asteroid_crusher_loop(1, 12.4)[3])
+# [21.1143675   6.30043693  2.51006712  1.        ]
+```
+
+For every "epic" crusher in the setup we need:
+
+- 2.51 "rare" crushers.
+    - x2.51 increase relative to number of "epic" crushers.
+- 6.3 "uncommon" crushers.
+    - x2.51 increase relative to number of "rare" crushers.
+- 21.11 "common" crushers.
+    - x3.35 increase relative to number of "uncommon" crushers.
+
+[^2]: Power required by 545 crushers: 304.11MW. Average power consumption of the Principality of Liechtenstein in 2015: 44.9MW.

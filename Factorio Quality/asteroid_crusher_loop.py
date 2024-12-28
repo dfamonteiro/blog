@@ -30,6 +30,11 @@ def efficiency_data():
     print(f"{epic=}")
     print(f"{legendary=}")
 
+def number_of_crushers_required_per_quality_level():
+    print(asteroid_crusher_loop(1, 12.4)[:4])
+
+    print(asteroid_crusher_loop(1, 12.4)[:4] / asteroid_crusher_loop(1, 12.4)[3])
+
 if __name__ == "__main__":
     np.set_printoptions(suppress=True)
-    efficiency_data()
+    number_of_crushers_required_per_quality_level()
