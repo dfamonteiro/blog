@@ -166,32 +166,32 @@ print(asteroid_crusher_loop(1, 12.4)[:4])
 
 As you might recall from the [previous blog post](/posts/factorio-pure-recycler-loop/#basic-analysis-of-the-function-recycler_loops-output), the first four values of this function represent the internal flow of the system. Knowing this, we can infer that in order to fully process a full green belt of asteroid chunks we need:
 
-- Enough "common" crushers to process 3.34 belts of asteroids (~371 crushers).
-- Enough "uncommon" crushers to process 1 belt of asteroids (~111 crushers).
-- Enough "rare" crushers to process 0.4 belts of asteroids (~45 crushers).
-- Enough "epic" crushers to process 0.16 belts of asteroids (~18 crushers).
+- Enough common asteroid crushers to process 3.34 belts (~371 crushers).
+- Enough uncommon asteroid crushers to process 1 belt (~111 crushers).
+- Enough rare asteroid crushers to process 0.4 belts (~45 crushers).
+- Enough epic asteroid crushers to process 0.16 belts (~18 crushers).
 
-Building a ship with this many crushers would be a massive undertaking (and it would require a fusion plant big enough to power Liechtenstein[^2]). Instead of constraining the asteroid recycling setup by the input belt, let's limit ourselves by the number of "epic" crushers in the setup:
+Building a ship with this many crushers would be a massive undertaking (and it would require a fusion plant big enough to power Liechtenstein[^2]). Instead of constraining the asteroid recycling setup by the input belt, let's limit ourselves by the number of epic asteroid crushers in the setup:
 
 ```python
 print(asteroid_crusher_loop(1, 12.4)[:4] / asteroid_crusher_loop(1, 12.4)[3])
 # [21.1143675   6.30043693  2.51006712  1.        ]
 ```
 
-For every "epic" crusher in the setup we need:
+For every epic asteroid crusher in the setup we need:
 
-- 2.51 "rare" crushers.
-    - x2.51 increase relative to number of "epic" crushers.
-- 6.3 "uncommon" crushers.
-    - x2.51 increase relative to number of "rare" crushers.
-- 21.11 "common" crushers.
-    - x3.35 increase relative to number of "uncommon" crushers.
+- 2.51 rare asteroid crushers.
+    - x2.51 increase relative to number of epic asteroid crushers.
+- 6.3 uncommon asteroid crushers.
+    - x2.51 increase relative to number of rare asteroid crushers.
+- 21.11 common asteroid crushers.
+    - x3.35 increase relative to number of uncommon asteroid crushers.
 
 [^2]: Power required by 545 crushers: 304.11MW. Average power consumption of the Principality of Liechtenstein in 2015: 44.9MW.
 
 #### My personal asteroid crusher count recommendation
 
-Having only one "epic" crusher is quite annoying because you have to switch between 3 different recipes on demand. I personally prefer having an asteroid crushing setup with 3 "epic" crushers, one for each recipe:
+Having only one epic asteroid crusher is quite annoying because you have to switch between 3 different recipes on demand. I personally prefer having an asteroid crushing setup with 3 epic asteroid crushers, one for each recipe:
 
 ```python
 print(asteroid_crusher_loop(1, 12.4)[:4] * 3 / asteroid_crusher_loop(1, 12.4)[3])
@@ -200,7 +200,7 @@ print(asteroid_crusher_loop(1, 12.4)[:4] * 3 / asteroid_crusher_loop(1, 12.4)[3]
 
 Here is my personal recommendation:
 
-- 60 "common" crushers (I'd organize them in 4 rows of 15).
-- 18 "uncommon" crushers
-- 9 "rare" crushers (slight overkill, but I want to keep every number divisible by 3)
-- 3 "epic" crushers (one for each asteroid type)
+- 60 common asteroid crushers (I'd organize them in 4 rows of 15).
+- 18 uncommon asteroid crushers
+- 9 rare asteroid crushers (slight overkill, but I want to keep every number divisible by 3)
+- 3 epic asteroid crushers (one for each asteroid type)
