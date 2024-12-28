@@ -1,5 +1,5 @@
 +++ 
-draft = true
+draft = false
 date = 2024-12-27T16:59:26Z
 title = "Solving the mathematics of Factorio Quality: Asteroid Chunk Recycling"
 description = ""
@@ -181,11 +181,11 @@ print(asteroid_crusher_loop(1, 12.4)[:4] / asteroid_crusher_loop(1, 12.4)[3])
 For every epic asteroid crusher in the setup we need:
 
 - 2.51 rare asteroid crushers.
-    - x2.51 increase relative to number of epic asteroid crushers.
+    - x2.51 increase relative to the number of epic asteroid crushers.
 - 6.3 uncommon asteroid crushers.
-    - x2.51 increase relative to number of rare asteroid crushers.
+    - x2.51 increase relative to the number of rare asteroid crushers.
 - 21.11 common asteroid crushers.
-    - x3.35 increase relative to number of uncommon asteroid crushers.
+    - x3.35 increase relative to the number of uncommon asteroid crushers.
 
 [^2]: Power required by 545 crushers: 304.11MW. Average power consumption of the Principality of Liechtenstein in 2015: 44.9MW.
 
@@ -204,3 +204,7 @@ Here is my personal recommendation:
 - 18 uncommon asteroid crushers
 - 9 rare asteroid crushers (slight overkill, but I want to keep every number divisible by 3)
 - 3 epic asteroid crushers (one for each asteroid type)
+
+## Next step: [**recycler-assembler loops**](/posts/factorio-recycler-assembler-loop/)
+
+The only quality grinding setup that remains to be analysed is the recycler-assembler loop. That will be the goal of the [next](/posts/factorio-recycler-assembler-loop/) (and final) blog post of this series.
