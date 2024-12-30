@@ -35,47 +35,42 @@ def get_recycler_parameters(
     return [(quality_chance, production_ratio)] * recycling_rows + [(0, 0)] * saving_rows
 
 def get_assembler_parameters(
-        assembler_prod_modules : int, # Number of prod modules in assembler
-        assembler_qual_modules : int, # Number of qual modules in assembler
+        assembler_modules_config : Union[Tuple[float, float], List[Tuple[float, float]]], # Modules configuration of assemblers for every quality level
         quality_to_keep : int = 5, # Don't assemble legendary ingredients (default)
         base_prod_bonus : float = 0, # base productivity of assembler + productivity technologies
-        full_prod_in_legendary_assembler : bool = False, # Load assembler of legendary items with prod modules
         recipe_ratio : float = 1, # Ratio of items to ingredients of the recipe
-        assembler_modules : int = 4, # Number of module slots in assemblers
         prod_module_bonus : float = 25,
         qual_module_bonus : float = 6.2) -> List[Tuple[float, float]]:
     
-    assert assembler_prod_modules + assembler_qual_modules <= assembler_modules
+    production_rows = quality_to_keep - 1
 
-    prod_from_modules = assembler_prod_modules * prod_module_bonus # Helper variable
-    recycling_rows = quality_to_keep - 1
-    saving_rows = 5 - recycling_rows
+    res = [(0, 0)] * 5
 
-    # Assembler stats
-    production_ratio = (100 + base_prod_bonus + prod_from_modules) * recipe_ratio / 100
-    quality_chance = assembler_qual_modules * qual_module_bonus
+    for i, (prod_count, qual_count) in enumerate(assembler_modules_config):
+        if i == production_rows:
+            break
 
-    res = [(quality_chance, production_ratio)] * recycling_rows + [(0, 0)] * saving_rows
+        # Assembler stats
+        production_ratio = (100 + base_prod_bonus + prod_count * prod_module_bonus) * recipe_ratio / 100
+        quality_chance = qual_count * qual_module_bonus
 
-    if full_prod_in_legendary_assembler and quality_to_keep == 6: # Load assembler of legendary items with prod modules
-        production_ratio_full_productivity = (100 + base_prod_bonus + assembler_modules * prod_module_bonus) * recipe_ratio / 100
-        res[4] = (0, production_ratio_full_productivity)
+        res[i] = (quality_chance, production_ratio)
 
     return res
 
 def recycler_assembler_loop(
         input_vector : Union[np.array, float],
-        assembler_prod_modules : int, # Number of prod modules in assembler
-        assembler_qual_modules : int, # Number of qual modules in assembler
+        assembler_modules_config : Union[Tuple[float, float], List[Tuple[float, float]]], # Modules configuration of assemblers for every quality level
         items_quality_to_keep : Union[int, None] = 5, # Don't recycle legendary items (default)
         ingredients_quality_to_keep : Union[int, None] = 5, # Don't assemble legendary ingredients (default)
         base_prod_bonus : float = 0, # base productivity of assembler + productivity technologies
-        full_prod_in_legendary_assembler : bool = False, # Load assembler of legendary items with prod modules
         recipe_ratio : float = 1, # Ratio of items to ingredients of the recipe
-        assembler_modules : int = 4, # Number of module slots in assemblers
         prod_module_bonus : float = 25,
         qual_module_bonus : float = 6.2) -> np.array:
     
+    if type(assembler_modules_config) == tuple:
+        assembler_modules_config = [assembler_modules_config] * 5
+
     # Parameters for the production matrices
     recycler_parameters  = get_recycler_parameters(
         items_quality_to_keep if items_quality_to_keep != None else 6,
@@ -83,13 +78,10 @@ def recycler_assembler_loop(
         qual_module_bonus
     )
     assembler_parameters = get_assembler_parameters(
-        assembler_prod_modules,
-        assembler_qual_modules,
+        assembler_modules_config,
         ingredients_quality_to_keep if ingredients_quality_to_keep != None else 6,
         base_prod_bonus,
-        full_prod_in_legendary_assembler,
         recipe_ratio,
-        assembler_modules,
         prod_module_bonus,
         qual_module_bonus
     )
@@ -114,14 +106,14 @@ def recycler_assembler_loop(
 
 def correlation_quality_only_max_items():
     print("(D) Quality only, max items")
-    res = recycler_assembler_loop(100, 0, 4, ingredients_quality_to_keep = None)
+    res = recycler_assembler_loop(100, (0, 4), ingredients_quality_to_keep = None)
     print(res)
     print(f"{res[9]}%")
     # https://docs.google.com/spreadsheets/d/1fGQry4MZ6S95vWrt59TQoNRy1yJMx-er202ai0r4R-w/edit?gid=0#gid=0&range=E14
 
 def correlation_prod_only_max_items():
     print("(E) Prod only, max items")
-    res = recycler_assembler_loop(100, 4, 0, ingredients_quality_to_keep = None)
+    res = recycler_assembler_loop(100, (4, 0), ingredients_quality_to_keep = None)
     print(res)
     print(f"{res[9]}%")
     # https://docs.google.com/spreadsheets/d/1fGQry4MZ6S95vWrt59TQoNRy1yJMx-er202ai0r4R-w/edit?gid=0#gid=0&range=F14
@@ -138,10 +130,8 @@ def correlation_optimal_modules_max_items():
         config = (prod_count, qual_count)
         efficiency = float(recycler_assembler_loop(
             100, 
-            prod_count, 
-            qual_count, 
+            [(prod_count, qual_count)] * 4 + [(4, 0)], 
             ingredients_quality_to_keep = None, 
-            full_prod_in_legendary_assembler = True
         )[9])
 
         if best_efficiency < efficiency:
@@ -157,14 +147,14 @@ def correlation_optimal_modules_max_items():
 
 def correlation_quality_only_max_ingredients():
     print("(G) Quality only, max ingredients")
-    res = recycler_assembler_loop(100, 0, 4, items_quality_to_keep = None)
+    res = recycler_assembler_loop(100, (0, 4), items_quality_to_keep = None)
     print(res)
     print(f"{res[4]}%")
     # https://docs.google.com/spreadsheets/d/1fGQry4MZ6S95vWrt59TQoNRy1yJMx-er202ai0r4R-w/edit?gid=0#gid=0&range=H14
 
 def correlation_prod_only_max_ingredients():
     print("(H) Prod only, max ingredients")
-    res = recycler_assembler_loop(100, 4, 0, items_quality_to_keep = None)
+    res = recycler_assembler_loop(100, (4, 0), items_quality_to_keep = None)
     print(res)
     print(f"{res[4]}%")
     # https://docs.google.com/spreadsheets/d/1fGQry4MZ6S95vWrt59TQoNRy1yJMx-er202ai0r4R-w/edit?gid=0#gid=0&range=I14
@@ -179,7 +169,7 @@ def correlation_optimal_modules_max_ingredients():
     for prod_count in range(5):
         qual_count = 4 - prod_count
         config = (prod_count, qual_count)
-        efficiency = float(recycler_assembler_loop(100, prod_count, qual_count, items_quality_to_keep = None)[4])
+        efficiency = float(recycler_assembler_loop(100, (prod_count, qual_count), items_quality_to_keep = None)[4])
 
         if best_efficiency < efficiency:
             best_config = config
@@ -191,10 +181,19 @@ def correlation_optimal_modules_max_ingredients():
     print(f"Optimal config: {best_config[0]} productivity modules, {best_config[1]} quality modules")
     print(f"Optimal efficiency: {best_efficiency}%")
 
-if __name__ == "__main__":
-    np.set_printoptions(suppress=True, linewidth = 1000)
+def print_regulations():
+    correlation_quality_only_max_items()
+    print("=" * 100)
+    correlation_prod_only_max_items()
+    print("=" * 100)
+    correlation_optimal_modules_max_items()
+    print("=" * 100)
     correlation_quality_only_max_ingredients()
     print("=" * 100)
     correlation_prod_only_max_ingredients()
     print("=" * 100)
     correlation_optimal_modules_max_ingredients()
+
+if __name__ == "__main__":
+    np.set_printoptions(suppress=True, linewidth = 1000)
+    print_regulations()
