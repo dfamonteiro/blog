@@ -148,7 +148,7 @@ def correlation_optimal_modules_max_items():
             best_config = config
             best_efficiency = efficiency
 
-        res[config] = best_efficiency
+        res[config] = efficiency
     
     print(res)
     print(f"Optimal config: {best_config[0]} productivity modules, {best_config[1]} quality modules")
@@ -156,19 +156,45 @@ def correlation_optimal_modules_max_items():
     # https://docs.google.com/spreadsheets/d/1fGQry4MZ6S95vWrt59TQoNRy1yJMx-er202ai0r4R-w/edit?gid=0#gid=0&range=G14
 
 def correlation_quality_only_max_ingredients():
-    print("(D) Quality only, max ingredients")
+    print("(G) Quality only, max ingredients")
     res = recycler_assembler_loop(100, 0, 4, items_quality_to_keep = None)
     print(res)
     print(f"{res[4]}%")
     # https://docs.google.com/spreadsheets/d/1fGQry4MZ6S95vWrt59TQoNRy1yJMx-er202ai0r4R-w/edit?gid=0#gid=0&range=H14
 
 def correlation_prod_only_max_ingredients():
-    print("(E) Prod only, max ingredients")
+    print("(H) Prod only, max ingredients")
     res = recycler_assembler_loop(100, 4, 0, items_quality_to_keep = None)
     print(res)
     print(f"{res[4]}%")
     # https://docs.google.com/spreadsheets/d/1fGQry4MZ6S95vWrt59TQoNRy1yJMx-er202ai0r4R-w/edit?gid=0#gid=0&range=I14
 
+def correlation_optimal_modules_max_ingredients():
+    print("(I) Optimal modules, max ingredients")
+    res = {}
+
+    best_config = None
+    best_efficiency = 0
+
+    for prod_count in range(5):
+        qual_count = 4 - prod_count
+        config = (prod_count, qual_count)
+        efficiency = float(recycler_assembler_loop(100, prod_count, qual_count, items_quality_to_keep = None)[4])
+
+        if best_efficiency < efficiency:
+            best_config = config
+            best_efficiency = efficiency
+
+        res[config] = efficiency
+    
+    print(res)
+    print(f"Optimal config: {best_config[0]} productivity modules, {best_config[1]} quality modules")
+    print(f"Optimal efficiency: {best_efficiency}%")
+
 if __name__ == "__main__":
     np.set_printoptions(suppress=True, linewidth = 1000)
+    correlation_quality_only_max_ingredients()
+    print("=" * 100)
     correlation_prod_only_max_ingredients()
+    print("=" * 100)
+    correlation_optimal_modules_max_ingredients()
