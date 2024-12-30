@@ -57,8 +57,9 @@ def get_assembler_parameters(
 
     res = [(quality_chance, production_ratio)] * recycling_rows + [(0, 0)] * saving_rows
 
-    if full_prod_in_legendary_assembler and quality_to_keep <= 5: # Load assembler of legendary items with prod modules
-        res[4] = (0, assembler_modules * prod_module_bonus)
+    if full_prod_in_legendary_assembler and quality_to_keep == 6: # Load assembler of legendary items with prod modules
+        production_ratio_full_productivity = (100 + base_prod_bonus + assembler_modules * prod_module_bonus) * recipe_ratio / 100
+        res[4] = (0, production_ratio_full_productivity)
 
     return res
 
@@ -125,6 +126,35 @@ def correlation_prod_only_max_items():
     print(f"{res[9]}%")
     # https://docs.google.com/spreadsheets/d/1fGQry4MZ6S95vWrt59TQoNRy1yJMx-er202ai0r4R-w/edit?gid=0#gid=0&range=F14
 
+def correlation_optimal_modules_max_items():
+    print("(F) Optimal modules, max items")
+    res = {}
+
+    best_config = None
+    best_efficiency = 0
+
+    for prod_count in range(5):
+        qual_count = 4 - prod_count
+        config = (prod_count, qual_count)
+        efficiency = float(recycler_assembler_loop(
+            100, 
+            prod_count, 
+            qual_count, 
+            ingredients_quality_to_keep = None, 
+            full_prod_in_legendary_assembler = True
+        )[9])
+
+        if best_efficiency < efficiency:
+            best_config = config
+            best_efficiency = efficiency
+
+        res[config] = best_efficiency
+    
+    print(res)
+    print(f"Optimal config: {best_config[0]} productivity modules, {best_config[1]} quality modules")
+    print(f"Optimal efficiency: {best_efficiency}%")
+    # https://docs.google.com/spreadsheets/d/1fGQry4MZ6S95vWrt59TQoNRy1yJMx-er202ai0r4R-w/edit?gid=0#gid=0&range=G14
+
 if __name__ == "__main__":
     np.set_printoptions(suppress=True, linewidth = 1000)
-    
+    correlation_optimal_modules_max_items()
