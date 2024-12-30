@@ -1,5 +1,6 @@
 import numpy as np
 from typing import Union, List, Tuple
+import itertools
 
 from quality import custom_production_matrix
 
@@ -118,30 +119,29 @@ def correlation_prod_only_max_items():
     print(f"{res[9]}%")
     # https://docs.google.com/spreadsheets/d/1fGQry4MZ6S95vWrt59TQoNRy1yJMx-er202ai0r4R-w/edit?gid=0#gid=0&range=F14
 
+def get_config_string(config : List[Tuple[int, int]]):
+    return [f"{p}P{q}Q" for (p, q) in config]
+
 def correlation_optimal_modules_max_items():
     print("(F) Optimal modules, max items")
-    res = {}
 
     best_config = None
     best_efficiency = 0
 
-    for prod_count in range(5):
-        qual_count = 4 - prod_count
-        config = (prod_count, qual_count)
+    all_configs = itertools.product(* [[(4, 0), (3, 1), (2, 2), (1, 3), (0, 4)]] * 5)
+
+    for config in all_configs:
         efficiency = float(recycler_assembler_loop(
             100, 
-            [(prod_count, qual_count)] * 4 + [(4, 0)], 
+            list(config), 
             ingredients_quality_to_keep = None, 
         )[9])
 
         if best_efficiency < efficiency:
             best_config = config
             best_efficiency = efficiency
-
-        res[config] = efficiency
     
-    print(res)
-    print(f"Optimal config: {best_config[0]} productivity modules, {best_config[1]} quality modules")
+    print(f"Optimal config: {get_config_string(best_config)}")
     print(f"Optimal efficiency: {best_efficiency}%")
     # https://docs.google.com/spreadsheets/d/1fGQry4MZ6S95vWrt59TQoNRy1yJMx-er202ai0r4R-w/edit?gid=0#gid=0&range=G14
 
