@@ -155,6 +155,20 @@ def correlation_optimal_modules_max_items():
     print(f"Optimal efficiency: {best_efficiency}%")
     # https://docs.google.com/spreadsheets/d/1fGQry4MZ6S95vWrt59TQoNRy1yJMx-er202ai0r4R-w/edit?gid=0#gid=0&range=G14
 
+def correlation_quality_only_max_ingredients():
+    print("(D) Quality only, max ingredients")
+    res = recycler_assembler_loop(100, 0, 4, items_quality_to_keep = None)
+    print(res)
+    print(f"{res[4]}%")
+    # https://docs.google.com/spreadsheets/d/1fGQry4MZ6S95vWrt59TQoNRy1yJMx-er202ai0r4R-w/edit?gid=0#gid=0&range=H14
+
+def correlation_prod_only_max_ingredients():
+    print("(E) Prod only, max ingredients")
+    res = recycler_assembler_loop(100, 4, 0, items_quality_to_keep = None)
+    print(res)
+    print(f"{res[4]}%")
+    # https://docs.google.com/spreadsheets/d/1fGQry4MZ6S95vWrt59TQoNRy1yJMx-er202ai0r4R-w/edit?gid=0#gid=0&range=I14
+
 if __name__ == "__main__":
     np.set_printoptions(suppress=True, linewidth = 1000)
-    correlation_optimal_modules_max_items()
+    correlation_prod_only_max_ingredients()
