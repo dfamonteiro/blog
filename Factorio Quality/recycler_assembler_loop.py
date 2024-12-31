@@ -147,6 +147,10 @@ def correlation_optimal_modules_max_items():
     all_configs = get_all_configs(4)
 
     for config in tqdm(list(all_configs)):
+        if config[4] != (4, 0):
+            # Makes no sense to put quality modules on legendary item crafter
+            continue
+
         efficiency = float(recycler_assembler_loop(100, config, ingredients_quality_to_keep = None)[9])
 
         if best_efficiency < efficiency:
@@ -180,6 +184,10 @@ def correlation_optimal_modules_max_ingredients():
     all_configs = get_all_configs(4)
 
     for config in tqdm(list(all_configs)):
+        if config[4] != (4, 0):
+            # Makes no sense to put quality modules on legendary item crafter
+            continue
+
         efficiency = float(recycler_assembler_loop(100, list(config), items_quality_to_keep = None)[4])
 
         if best_efficiency < efficiency:
