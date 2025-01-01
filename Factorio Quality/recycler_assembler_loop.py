@@ -6,6 +6,17 @@ from tqdm import tqdm
 from quality import custom_production_matrix
 
 def custom_transition_matrix(recycler_matrix : np.ndarray, assembler_matrix : np.ndarray) -> np.ndarray:
+    """Creates a transition matrix based on the 
+    provided recycler and assembler production matrices.
+
+    Args:
+        recycler_matrix (np.ndarray): Recycler production matrix.
+        assembler_matrix (np.ndarray): Assembler production matrix.
+
+    Returns:
+        np.ndarray: Transition matrix with the recycler production matrix 
+        in the lower left and assembler production matrix in the upper right.
+    """
     res = np.zeros((10,10))
 
     for i in range(5):
@@ -16,6 +27,9 @@ def custom_transition_matrix(recycler_matrix : np.ndarray, assembler_matrix : np
     return res
 
 def factorio_wiki_repro():
+    print(custom_production_matrix([(25, 0.25)] * 4 + [(0, 0)]))
+    print(custom_production_matrix([(25, 1.5)] * 5))
+
     print(custom_transition_matrix(
         custom_production_matrix([(25, 0.25)] * 4 + [(0, 0)]), 
         custom_production_matrix([(25, 1.5)] * 5)

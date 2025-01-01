@@ -132,3 +132,108 @@ $$ \vec{v_2} = \vec{v_1} \cdot M = \begin{bmatrix} 0 & 1\end{bmatrix} \cdot \beg
 \end{bmatrix} = \begin{bmatrix} 1 & 0\end{bmatrix}$$
 
 The values flipped back!! This is exactly the behaviour we need from a matrix. Now we only have to find a way to fit our recycler and assembler matrices in $M$.
+
+### Assembling the transition matrix
+
+We have everything we need to assemble our transition matrix $T$. Let's assume that the assembler have a productivity of 50% and both the assembler and the recycler have a quality chance of 25%. Let's also assume that we only want to keep the legendary items of the loop. $A$ and $R$ would look like this:
+
+```python
+# The code and logic behind custom_production_matrix()
+# was already explained in previous blog posts.
+
+print(custom_production_matrix([(25, 1.5)] * 5)) # Assembler
+print(custom_production_matrix([(25, 0.25)] * 4 + [(0, 0)])) # Recycler
+```
+
+$$ A = \begin{bmatrix}
+  1.125 & 0.3375 & 0.03375 & 0.003375 & 0.000375\\\\
+  0     & 1.125  & 0.3375  & 0.03375  & 0.00375 \\\\
+  0     & 0      & 1.125   & 0.3375   & 0.0375  \\\\
+  0     & 0      & 0       & 1.125    & 0.375   \\\\
+  0     & 0      & 0       & 0        & 1.5     \\\\
+\end{bmatrix} $$
+
+$$ R = \begin{bmatrix}
+  0.1875 & 0.05625 & 0.005625 & 0.0005625 & 0.0000625\\\\
+  0      & 0.1875  & 0.05625  & 0.005625  & 0.000625 \\\\
+  0      & 0       & 0.1875   & 0.05625   & 0.00625  \\\\
+  0      & 0       & 0        & 0.1875    & 0.0625   \\\\
+  0      & 0       & 0        & 0         & 0        \\\\
+\end{bmatrix} $$
+
+Notice how the last row of $R$ is zeroed out so that legendary items are removed from our system. Let's design our transition matrix $T$ (with some inspiration from the stochastic matrix we created in the previous subchapter):
+
+$$T = \begin{bmatrix}
+  0 & A \\\\
+  R & 0 \\\\
+\end{bmatrix} $$
+
+The only thing left to do is to replace $A$ and $R$ with actual values:
+
+```python
+def custom_transition_matrix(
+        recycler_matrix : np.ndarray,
+        assembler_matrix : np.ndarray) -> np.ndarray:
+    """Creates a transition matrix based on the
+    provided recycler and assembler production matrices.
+
+    Args:
+        recycler_matrix (np.ndarray): Recycler production matrix.
+        assembler_matrix (np.ndarray): Assembler production matrix.
+
+    Returns:
+        np.ndarray: Transition matrix with the recycler production matrix 
+        in the lower left and assembler production matrix in the upper right.
+    """
+    res = np.zeros((10,10))
+
+    for i in range(5):
+        for j in range(5):
+            res[i + 5][j] = recycler_matrix[i, j]
+            res[i][j + 5] = assembler_matrix[i, j]
+
+    return res
+
+if __name__ == "__main__":
+    print(custom_transition_matrix(
+        custom_production_matrix([(25, 0.25)] * 4 + [(0, 0)]),
+        custom_production_matrix([(25, 1.5)] * 5)
+    ))
+
+    #[[0.        0.        0.        0.        0.        1.125     0.3375    0.03375   0.003375  0.000375 ]
+    # [0.        0.        0.        0.        0.        0.        1.125     0.3375    0.03375   0.00375  ]
+    # [0.        0.        0.        0.        0.        0.        0.        1.125     0.3375    0.0375   ]
+    # [0.        0.        0.        0.        0.        0.        0.        0.        1.125     0.375    ]
+    # [0.        0.        0.        0.        0.        0.        0.        0.        0.        1.5      ]
+    # [0.1875    0.05625   0.005625  0.0005625 0.0000625 0.        0.        0.        0.        0.       ]
+    # [0.        0.1875    0.05625   0.005625  0.000625  0.        0.        0.        0.        0.       ]
+    # [0.        0.        0.1875    0.05625   0.00625   0.        0.        0.        0.        0.       ]
+    # [0.        0.        0.        0.1875    0.0625    0.        0.        0.        0.        0.       ]
+    # [0.        0.        0.        0.        0.        0.        0.        0.        0.        0.       ]]
+```
+
+<div style="display: flex; justify-content: center;">
+
+$$T = \begin{bmatrix}
+  0      & 0       & 0        & 0         & 0         & 1.125 & 0.3375 & 0.03375 & 0.003375 & 0.000375 \\\\
+  0      & 0       & 0        & 0         & 0         & 0     & 1.125  & 0.3375  & 0.03375  & 0.00375  \\\\
+  0      & 0       & 0        & 0         & 0         & 0     & 0      & 1.125   & 0.3375   & 0.0375   \\\\
+  0      & 0       & 0        & 0         & 0         & 0     & 0      & 0       & 1.125    & 0.375    \\\\
+  0      & 0       & 0        & 0         & 0         & 0     & 0      & 0       & 0        & 1.5      \\\\
+  0.1875 & 0.05625 & 0.005625 & 0.0005625 & 0.0000625 & 0     & 0      & 0       & 0        & 0        \\\\
+  0      & 0.1875  & 0.05625  & 0.005625  & 0.000625  & 0     & 0      & 0       & 0        & 0        \\\\
+  0      & 0       & 0.1875   & 0.05625   & 0.00625   & 0     & 0      & 0       & 0        & 0        \\\\
+  0      & 0       & 0        & 0.1875    & 0.0625    & 0     & 0      & 0       & 0        & 0        \\\\
+  0      & 0       & 0        & 0         & 0         & 0     & 0      & 0       & 0        & 0        \\\\
+\end{bmatrix} $$
+
+</div>
+
+$T$ matches[^4] the matrix of the [Factorio wiki](https://wiki.factorio.com/Quality), which is a good sign that we've generated this matrix correctly:
+
+<div style="text-align:center">
+    <img src="/images/transition-matrix-table-wiki.png" alt="Blue circuit crafting recipe"/>
+    <figcaption> Example of a transition matrix with P=50% and Q=25%. <br>(image source: <a href="https://wiki.factorio.com/Quality">Factorio Wiki</a>)</figcaption>
+</div>
+
+[^4]: The `1` in the bottom right corner of the wiki table doesn't match with $T$. This is expected because I calculate the production rates in a slightly different way than most people do.
