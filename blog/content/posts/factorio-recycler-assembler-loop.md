@@ -57,21 +57,21 @@ config:
 flowchart TD
     A[Ingredient Input] --> A0
     A0 -->|Q<=4 Items| R0
-    A0 -->|Q5 Items| END[Q5 Item/Ingredient Storage]
+    A0 -->|Q=5 Items| END[Q5 Item/Ingredient Storage]
 
-    R0 -->|Q5 Ingredients| END
+    R0 -->|=5 Ingredients| END
     R0 -->|Q<=4 Ingredients| A1
 
-    A1 -->|Q5 Items| END
+    A1 -->|Q=5 Items| END
     A1 -->|Q<=4 Items| R1
 
-    R1 -->|Q5 Ingredients| END
+    R1 -->|Q=5 Ingredients| END
     R1 -->|Q<=4 Ingredients|An[An]
 
-    An -->|Q5 Items| END
+    An -->|Q=5 Items| END
     An -->|Q<=4 Items|Rn1[Rn]
 
-    Rn1 -->|Q5 Ingredients| END
+    Rn1 -->|Q=5 Ingredients| END
     Rn1 -->|Q<=4 Ingredients|Rn2[...]
 </pre>
 
