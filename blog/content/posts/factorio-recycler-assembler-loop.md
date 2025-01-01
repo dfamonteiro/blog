@@ -212,9 +212,9 @@ if __name__ == "__main__":
 #  [0.     0.      0.       0.        0.        0.    0.     0.      0.       0.      ]]
 ```
 
-<div style="display: flex; justify-content: center;">
+$$T = $$
 
-$$T = \begin{bmatrix}
+$$\small{\begin{bmatrix}
   0      & 0       & 0        & 0         & 0         & 1.125 & 0.3375 & 0.03375 & 0.003375 & 0.000375 \\\\
   0      & 0       & 0        & 0         & 0         & 0     & 1.125  & 0.3375  & 0.03375  & 0.00375  \\\\
   0      & 0       & 0        & 0         & 0         & 0     & 0      & 1.125   & 0.3375   & 0.0375   \\\\
@@ -225,9 +225,7 @@ $$T = \begin{bmatrix}
   0      & 0       & 0.1875   & 0.05625   & 0.00625   & 0     & 0      & 0       & 0        & 0        \\\\
   0      & 0       & 0        & 0.1875    & 0.0625    & 0     & 0      & 0       & 0        & 0        \\\\
   0      & 0       & 0        & 0         & 0         & 0     & 0      & 0       & 0        & 0        \\\\
-\end{bmatrix} $$
-
-</div>
+\end{bmatrix}} $$
 
 $T$ matches[^4] the matrix of the [Factorio wiki](https://wiki.factorio.com/Quality), which is a good sign that we've generated this matrix correctly:
 
