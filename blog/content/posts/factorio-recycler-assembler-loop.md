@@ -105,3 +105,30 @@ $$ \vec{r} = \vec{r_1} + \vec{r_2} + \vec{r_3} + \vec{r_4} + \vec{r_n} + \vec{r_
 I theory, this approach would work. In practice, however, having to flip-flop between items and ingredient vectors constantly is very annoying, confusing and hard to implement correctly without bugs. Luckily, we can make our lives a lot easier by having the matrix do the flip-flopping for us.
 
 ### Introducing [**stochastic matrices**](https://en.wikipedia.org/wiki/Stochastic_matrix)
+
+A stochastic matrix is a a square matrix whose values represent the probability of a state transitioning to another state[^3]. They are incredibly useful in a multitude of scientif fields and are also known as probability matrices, Markov matrices, substitution matrices, or as the [Factorio wiki](https://wiki.factorio.com/Quality) prefers to call them, **transition matrices**.
+
+[^3]: There is an argument to be made that the quality and production matrices used throughout this series of blog posts _are_ stochastic matrices.
+
+In our case, we have two states: ingredient and item. We also have two transitions: item->ingredient and ingredient->item. Creating the transition matrix $M$ for this simple use case is quite straightforward:
+
+$$ M = \begin{bmatrix}
+  0 & 1 \\\\
+  1 & 0 \\\\
+\end{bmatrix} $$
+
+Let's say that we have an input vector $\vec{v_0} = \begin{bmatrix} 1 & 0\end{bmatrix}$ whose first value represents the ingredients and the second value represents the items. Let's multiply $\vec{v}$ by $M$:
+
+$$ \vec{v_1} = \vec{v_0} \cdot M = \begin{bmatrix} 1 & 0\end{bmatrix} \cdot \begin{bmatrix}
+  0 & 1 \\\\
+  1 & 0 \\\\
+\end{bmatrix} = \begin{bmatrix} 0 & 1\end{bmatrix}$$
+
+The values of the vector flipped! Let's try it again:
+
+$$ \vec{v_2} = \vec{v_1} \cdot M = \begin{bmatrix} 0 & 1\end{bmatrix} \cdot \begin{bmatrix}
+  0 & 1 \\\\
+  1 & 0 \\\\
+\end{bmatrix} = \begin{bmatrix} 1 & 0\end{bmatrix}$$
+
+The values flipped back!! This is exactly the behaviour we need from a matrix. Now we only have to find a way to fit our recycler and assembler matrices in $M$.
