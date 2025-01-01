@@ -38,7 +38,7 @@ config:
   theme: dark
 ---
 flowchart TD
-    A[Ingredient Input] -->|Q0 Ingredients| B[Assembler]
+    A[Ingredient Input] -->|Q=0 Ingredients| B[Assembler]
     B -->|Q<=4 Items| C[Recycler]
     C -->|Q<=4 Ingredients| B
     B -->|Q=5 Items| D[Q5 Item Storage]
