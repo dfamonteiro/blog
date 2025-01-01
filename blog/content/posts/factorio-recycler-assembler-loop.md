@@ -16,7 +16,7 @@ series = []
     mermaid.initialize({ startOnLoad: true });
 </script>
 
-The recycler-assembler loop is probably the most commonly used quality grinding method in Factorio. It is a two step looping process where in the first step, the ingredients are crafted by an assembler into items, which are then recycled back into ingredients. By having quality and productivity[^1] modules in both the assembling and the recycling steps, the quality and items and ingredients in the loop will eventually improve all the way to legendary. Emulating a recycler-assembler loop is slightly more complex than the [pure recycling loops](/posts/factorio-pure-recycler-loop/) we have dealt with previously, but the same fundamental ideas still apply.
+The recycler-assembler loop is probably the most commonly used quality grinding method in Factorio. It is a two step looping process where in the first step, the ingredients are crafted by an assembler into items, which are then recycled back into ingredients. By having quality and productivity[^1] modules in both the assembling and the recycling steps, the quality and items and ingredients in the loop will eventually improve all the way to legendary. Emulating a recycler-assembler loop is slightly more complex than the [pure recycling loops](/posts/factorio-pure-recycler-loop/) we have dealt with previously, but the same fundamental ideas still apply. Please note that functions from previous blog posts will be reused here.
 
 [^1]: Productivity modules are only allowed under certain circumstances in the assembling step, whereas quality modules are always allowed in both the recycling and assembling steps.
 
@@ -59,7 +59,7 @@ flowchart TD
     A0 -->|Q<=4 Items| R0
     A0 -->|Q=5 Items| END[Q5 Item/Ingredient Storage]
 
-    R0 -->|=5 Ingredients| END
+    R0 -->|Q=5 Ingredients| END
     R0 -->|Q<=4 Ingredients| A1
 
     A1 -->|Q=5 Items| END
@@ -76,3 +76,32 @@ flowchart TD
 </pre>
 
 Doing this trick does get rid of the loop and gives us a more workable linear problem. Unfortunately, this comes at a cost of having to handle the recycler-assembler line being theoretically infinite. In practice, the system runs out of materials very quickly because all the materials that don't get voided will eventually turn into legendary items/ingredients and be removed from the system.
+
+## Crafting a transition matrix
+
+### An initial approach
+
+In theory, we could use the techniques we created in previous blog posts to calculate the outputs of this recycler-assembler line. We would need to know:
+
+- The production matrix of the recycler $R$.
+- The production matrix of the assembler $A$.
+- An input vector of ingredients $\vec{a_0}$.
+  - Let's assume that $\vec{a_0}= \begin{bmatrix} 1 & 0 & 0 & 0 & 0 \end{bmatrix}$ by default.
+- What is the output of the system and what gets recycled (items/ingredients, and of which quality).
+  - This information would be incorporated in $A$ and $R$ by zeroing out the necessary matrix rows.
+
+The state of the system would be represented by two vectors $\vec{a_x}$ and $\vec{r_x}$, that respectively represents the amount of ingredients and items after iteration $x$. In order to process $\vec{a_x}$ into $\vec{r_x}$ and vice versa, you must use the production matrices $R$ and $A$:
+
+$$ \vec{a_x} = \vec{r_{x}} \cdot R $$
+
+$$ \vec{r_x} = \vec{a_{x-1}} \cdot A $$
+
+The final step would be to collect the production statistics after every iteration:
+
+$$ \vec{a} = \vec{a_0} + \vec{a_1} + \vec{a_2} + \vec{a_3} + \vec{a_4} + \vec{a_n} + \vec{a_{n+1}} + ...$$
+
+$$ \vec{r} = \vec{r_1} + \vec{r_2} + \vec{r_3} + \vec{r_4} + \vec{r_n} + \vec{r_{n+1}} + ...$$
+
+I theory, this approach would work. In practice, however, having to flip-flop between items and ingredient vectors constantly is very annoying, confusing and hard to implement correctly without bugs. Luckily, we can make our lives a lot easier by having the matrix do the flip-flopping for us.
+
+### Introducing [**stochastic matrices**](https://en.wikipedia.org/wiki/Stochastic_matrix)
