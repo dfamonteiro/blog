@@ -282,3 +282,11 @@ Feeding 1 belt of ingredients to this loop will result in 0.02497 belts of legen
 These are the fundamentals of simulating recycler-assembler loops. Now, all that remains to be done is to determine which questions about this quality grinding method should be asked, and how to answer them with the tools we have at our disposal.
 
 ## Statistical analysis
+
+The simulation from the previous chapter works well enough for simple cases. Nevertheless, if we wish to simulate tons of variations in setups, we'll need a solution that doesn't involve having to manually calculate the productivity and quality chance of every row of the transition matrix.
+
+Having felt the need for a higher level approach so that I could stop dealing with productivity bonuses and quality chances, and start dealing with which modules go into which assemblers, I came up with the following function:
+
+```python
+abc
+```
