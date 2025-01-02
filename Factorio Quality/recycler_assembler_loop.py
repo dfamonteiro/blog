@@ -225,6 +225,26 @@ def print_regulations():
     print("=" * 100)
     correlation_optimal_modules_max_ingredients()
 
+
+def simple_recycler_assembler_loop():
+    input_vector = np.array([1] + [0] * 9)
+
+    transition_matrix = custom_transition_matrix( # Transition matrix from the previous subchapter
+        custom_production_matrix([(25, 0.25)] * 4 + [(0, 0)]),
+        custom_production_matrix([(25, 1.5)] * 5)
+    )
+    
+    result_flows = [input_vector]
+    while True:
+        result_flows.append(result_flows[-1] @ transition_matrix)
+
+        if sum(abs(result_flows[-2] - result_flows[-1])) < 1E-10:
+            # There's nothing left in the system
+            break
+
+    print(sum(result_flows))
+    print(" & ".join([str(float(round(i, 5))) for i in sum(result_flows)]))
+
 if __name__ == "__main__":
     np.set_printoptions(suppress=True, linewidth = 1000)
-    print_regulations()
+    simple_recycler_assembler_loop()

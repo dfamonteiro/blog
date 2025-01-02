@@ -212,7 +212,7 @@ if __name__ == "__main__":
 #  [0.     0.      0.       0.        0.        0.    0.     0.      0.       0.      ]]
 ```
 
-$$T = $$
+$$ T = $$
 
 $$\small{\begin{bmatrix}
   0      & 0       & 0        & 0         & 0         & 1.125 & 0.3375 & 0.03375 & 0.003375 & 0.000375 \\\\
@@ -227,11 +227,58 @@ $$\small{\begin{bmatrix}
   0      & 0       & 0        & 0         & 0         & 0     & 0      & 0       & 0        & 0        \\\\
 \end{bmatrix}} $$
 
-$T$ matches[^4] the matrix of the [Factorio wiki](https://wiki.factorio.com/Quality), which is a good sign that we've generated this matrix correctly:
+$T$ matches[^4] the matrix in the [Factorio wiki](https://wiki.factorio.com/Quality), which is a good sign that we generated this matrix correctly:
 
 <div style="text-align:center">
     <img src="/images/transition-matrix-table-wiki.png" alt="Blue circuit crafting recipe"/>
-    <figcaption> Example of a transition matrix with P=50% and Q=25%. <br>(image source: <a href="https://wiki.factorio.com/Quality">Factorio Wiki</a>)</figcaption>
+    <figcaption> Example of a transition matrix with P=50% and Q=25% from the <a href="https://wiki.factorio.com/Quality">Factorio Wiki</a>.</figcaption>
 </div>
 
 [^4]: The `1` in the bottom right corner of the wiki table doesn't match with $T$. This is expected because I calculate the production rates in a slightly different way than most people do.
+
+## Calculating the production rate of the infinite recycler-assembler line
+
+In order to get the total production of Q5 items (or ingredients), we have to add the Q5 production of every single recycler and assembler in the infinite chain:
+
+$$ \vec{t} = \vec{t_0} + \vec{t_1} + \vec{t_2} + \vec{t_3} + \vec{t_4} + \vec{t_n} + \vec{t_{n+1}} + ...$$
+
+$\vec{t_x}$ is the state of the system after one loop of recycler and assembler $x$. The first five values represent the ingredients in the system (from Q0 in the first position to Q5 in the fifth position) and the last five values represent the items in the system (with the quality increasing from left to right likewise). $\vec{t_x}$ can be calculated in the following manner:
+
+$$ \vec{t_x} = \vec{t_{x-1}} \cdot T $$
+
+$T$ is the previously discussed transition matrix. $ \vec{t_0} $ represents the input of the system, which by default will be a belt of common items:
+
+$$ \vec{t_0} = \begin{bmatrix} 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \end{bmatrix} $$
+
+We have everything needed to start simulating a recycler-assembler loop. Luckily for us, the code that was written to simulate [pure recycler loops](/posts/factorio-pure-recycler-loop/#calculating-the-production-rate-of-the-infinite-recycler-line) won't require too many tweaks to work with transition matrices:
+
+```python
+input_vector = np.array([1] + [0] * 9)
+
+# Transition matrix from the previous chapter
+transition_matrix = custom_transition_matrix(
+    custom_production_matrix([(25, 0.25)] * 4 + [(0, 0)]),
+    custom_production_matrix([(25, 1.5)] * 5)
+)
+
+result_flows = [input_vector]
+while True:
+    result_flows.append(result_flows[-1] @ transition_matrix)
+
+    if sum(abs(result_flows[-2] - result_flows[-1])) < 1E-10:
+        # There's nothing left in the system
+        break
+
+print(sum(result_flows))
+# [1.26732673 0.20327419 0.08342292 0.02966277 0.00632351 1.42574257 0.65640623 0.2052281  0.07266358 0.02497469]
+```
+
+Simulating a recycler-assembler loop with the transition matrix from the previous chapter yields the following result:
+
+$$\vec{t} = \begin{bmatrix} 1.267 & 0.203 & 0.083 & 0.0297 & 0.0063 & 1.426 & 0.656 & 0.205 & 0.073 & 0.02497 \end{bmatrix}$$
+
+Feeding 1 belt of ingredients to this loop will result in 0.02497 belts of legendary items being produced. In other words, this setup has an efficiency of 2.497%.
+
+These are the fundamentals of simulating recycler-assembler loops. Now, all that remains to be done is to determine which questions about this quality grinding method should be asked, and how to answer them with the tools we have at our disposal.
+
+## Statistical analysis
