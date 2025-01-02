@@ -363,3 +363,158 @@ This function has eight arguments:
 - `qual_module_bonus`: Quality chance bonus from quality modules. Defaults to 6.2%.
 
 With this function, we will be able to easily calculate the efficiency of every possible module allocation in the assemblers of the loop.
+
+## Statistical analysis
+
+In this final chapter, we will focus on calculating the efficiency of every relevant module configuration for every type of assembler. We will have to control for four variables:
+- Number of modules (assembler-specific).
+- Base productivity without modules (assembler-specific).
+- What is the output of the system (`Ingredients` or `Items`)[^6].
+- How should the modules be placed in the assemblers (`FullQuality`, `FullProductivity`, `Optimize`).
+
+[^6]: Outputting both legendary items and ingredients is also a valid possiblility, but we won't consider that today.
+
+The input to the system will consist of a belt of normal ingredients.
+
+The function below takes the four previously mentioned variables as arguments and outputs an efficiency value:
+
+```python
+def recycler_assembler_efficiency(
+        module_slots : int,
+        base_productivity : float,
+        system_output : SystemOutput,
+        module_strategy : ModuleStrategy) -> float:
+    "Returns the efficiency of the setup with the given parameters (%)."
+    assert module_slots >= 0 and base_productivity >= 0
+
+    if system_output == SystemOutput.ITEMS:
+        keep_items = 5
+        keep_ingredients = None
+    else: # system_output == SystemOutput.INGREDIENTS:
+        keep_items = None
+        keep_ingredients = 5
+
+    # What is the output of the system: ingredients or items?
+    result_index = 4 if system_output == SystemOutput.INGREDIENTS else 9
+
+    if module_strategy != ModuleStrategy.OPTIMIZE:
+        if module_strategy == ModuleStrategy.FULL_PRODUCTIVITY:
+            config = (module_slots, 0)
+        else:
+            config = (0, module_slots)
+
+        output = recycler_assembler_loop(
+            100, config, keep_items, keep_ingredients, base_productivity)
+        return output[result_index]
+    else:
+        best_config = None
+        best_efficiency = 0
+
+        all_configs = get_all_configs(module_slots)
+
+        for config in tqdm(list(all_configs)):
+            if config[4] != (module_slots, 0):
+                # Makes no sense to put quality modules on legendary item crafter
+                continue
+
+            output = recycler_assembler_loop(
+                100, list(config), keep_items, keep_ingredients, base_productivity)
+            efficiency = float(output[result_index])
+
+            if best_efficiency < efficiency:
+                best_config = config
+                best_efficiency = efficiency
+
+        return best_efficiency
+```
+
+Let's say that we want to calculate the efficiency of a recycler-assembler loop with cryogenic plants where you only take the items and the module configuration is optimized:
+
+```python
+print(f"{recycler_assembler_efficiency(8, 0, SystemOutput.ITEMS, ModuleStrategy.OPTIMIZE)}%")
+# 14.505597006563411%
+```
+
+Alternatively, you might want to use EM plants instead:
+
+```python
+print(f"{recycler_assembler_efficiency(5, 50, SystemOutput.ITEMS, ModuleStrategy.OPTIMIZE)}%")
+# 7.556345820541531%
+```
+
+And what if you're crafting blue circuits and have 10 levels of blue circuit productivity?
+
+```python
+productivity_research = 10
+efficiency = recycler_assembler_efficiency(
+    5, 50 + productivity_research * 10, SystemOutput.ITEMS, ModuleStrategy.OPTIMIZE)
+print(f"{efficiency}%")
+# 156.67377286511638%
+```
+
+Woah, 156.67%?! We're pretty much getting 3 legendary items for every two common ingredients. The reason for this anomaly is the absurdly high level of productivity of the EM plants (275%) and the fact that our input belt of ingredients transforms into 3.75 belts of items before getting to the recyclers. In matter of fact, if we get to level 13 of blue circuit productivity we should hit an "efficiency" of 400%, which is a limit imposed by the game to prevent net-positive recycling loops:
+
+```python
+productivity_research = 13
+efficiency = recycler_assembler_efficiency(
+    5, 50 + productivity_research * 10, SystemOutput.ITEMS, ModuleStrategy.OPTIMIZE)
+print(f"{efficiency}%")
+# 399.9999999999473%
+```
+
+If we change the system output to ingredients, the efficiency number should make a lot more sense:
+
+```python
+productivity_research = 13
+efficiency = recycler_assembler_efficiency(
+    5, 50 + productivity_research * 10, SystemOutput.INGREDIENTS, ModuleStrategy.OPTIMIZE)
+print(f"{efficiency}%")
+# 99.99999999998285%
+```
+
+As expected, the system is lossless.
+
+### Efficiency table for all assembler types
+
+```python
+DATA = { # (number of slots, base productivity)
+    "Electric furnace/Centrifuge" : (2, 0),
+    "Chemical Plant"              : (3, 0),
+    "Assembling machine"          : (4, 0),
+    "Foundry/Biochamber"          : (4, 50),
+    "Electromagnetic plant"       : (5, 50),
+    "Cryogenic plant"             : (8, 0),
+}
+OUTPUTS = (SystemOutput.ITEMS, SystemOutput.INGREDIENTS)
+STRATEGIES = (
+    ModuleStrategy.FULL_QUALITY,
+    ModuleStrategy.FULL_PRODUCTIVITY,
+    ModuleStrategy.OPTIMIZE
+)
+KEY_NAMES = {
+    (SystemOutput.ITEMS, ModuleStrategy.FULL_QUALITY) : "(D) Quality only, max items",
+    (SystemOutput.ITEMS, ModuleStrategy.FULL_PRODUCTIVITY) : "(E) Prod only, max items",
+    (SystemOutput.ITEMS, ModuleStrategy.OPTIMIZE) : "(F) Optimal modules, max items",
+    (SystemOutput.INGREDIENTS, ModuleStrategy.FULL_QUALITY) : "(G) Quality only, max ingredients",
+    (SystemOutput.INGREDIENTS, ModuleStrategy.FULL_PRODUCTIVITY) : "(H) Prod only, max ingredients",
+    (SystemOutput.INGREDIENTS, ModuleStrategy.OPTIMIZE) : "(I) Optimal modules, max ingredients",
+}
+
+table = {key : {} for key in DATA}
+
+for assembler_type, (slots, base_prod) in DATA.items():
+    for output in OUTPUTS:
+        for strategy in STRATEGIES:
+            eff = recycler_assembler_efficiency(slots, base_prod, output, strategy)
+            table[assembler_type][KEY_NAMES[(output, strategy)]] = eff
+
+print(pandas.DataFrame(table).T.to_string())
+#                      (D) Quality only, (E) Prod only, (F) Optimal modules, (G) Quality only,  (H) Prod only, (I) Optimal modules,
+#                              max items      max items            max items   max ingredients max ingredients      max ingredients
+# Electric furnace/Centrifuge   0.264155       0.197364             0.324414          0.156426       0.131576              0.174408
+# Chemical Plant                0.435917       0.418846             0.656637          0.234063       0.239340              0.312047
+# Assembling machine            0.646313       0.861710             1.251900          0.323126       0.430855              0.539714
+# Foundry/Biochamber            2.452490       3.503164             4.124319          1.001224       1.401265              1.547671
+# Electromagnetic plant         3.322265       7.074719             7.556346          1.299017       2.572625              2.657463
+# Cryogenic plant               1.866389      14.505597            14.505597          0.786774       4.835199              4.835199
+```

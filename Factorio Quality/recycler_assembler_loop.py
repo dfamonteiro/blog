@@ -2,6 +2,8 @@ import numpy as np
 from typing import Union, List, Tuple
 import itertools
 from tqdm import tqdm
+from enum import Enum
+import pandas
 
 from quality import custom_production_matrix
 
@@ -25,16 +27,6 @@ def custom_transition_matrix(recycler_matrix : np.ndarray, assembler_matrix : np
             res[i][j + 5] = assembler_matrix[i, j]
 
     return res
-
-def factorio_wiki_repro():
-    print(custom_production_matrix([(25, 0.25)] * 4 + [(0, 0)]))
-    print(custom_production_matrix([(25, 1.5)] * 5))
-
-    print(custom_transition_matrix(
-        custom_production_matrix([(25, 0.25)] * 4 + [(0, 0)]), 
-        custom_production_matrix([(25, 1.5)] * 5)
-    ))
-    # https://wiki.factorio.com/Quality
 
 def get_recycler_parameters(
         quality_to_keep : int = 5, # Don't recycle legendary items (default)
@@ -67,7 +59,7 @@ def get_assembler_parameters(
             break
 
         # Assembler stats
-        production_ratio = (100 + base_prod_bonus + prod_count * prod_module_bonus) * recipe_ratio / 100
+        production_ratio = (100 + min(base_prod_bonus + prod_count * prod_module_bonus, 300)) * recipe_ratio / 100
         quality_chance = qual_count * qual_module_bonus
 
         res[i] = (quality_chance, production_ratio)
@@ -139,6 +131,16 @@ def recycler_assembler_loop(
 
     return sum(result_flows)
 
+def factorio_wiki_repro():
+    print(custom_production_matrix([(25, 0.25)] * 4 + [(0, 0)]))
+    print(custom_production_matrix([(25, 1.5)] * 5))
+
+    print(custom_transition_matrix(
+        custom_production_matrix([(25, 0.25)] * 4 + [(0, 0)]), 
+        custom_production_matrix([(25, 1.5)] * 5)
+    ))
+    # https://wiki.factorio.com/Quality
+
 def correlation_quality_only_max_items():
     print("(D) Quality only, max items")
     res = recycler_assembler_loop(100, (0, 4), ingredients_quality_to_keep = None)
@@ -155,21 +157,6 @@ def correlation_prod_only_max_items():
 
 def get_config_string(config : List[Tuple[int, int]]):
     return [f"{p}P{q}Q" for (p, q) in config]
-
-def get_all_configs(module_slots : int):
-    module_variations_for_assembler = []
-
-    for p in range(module_slots + 1):
-        q = module_slots - p
-        module_variations_for_assembler.append((p, q))
-    
-    res = list(itertools.product(* [module_variations_for_assembler] * 5))
-
-    for i in range(len(res)):
-        res[i] = list(res[i])
-    
-    return res
-    
 
 def correlation_optimal_modules_max_items():
     print("(F) Optimal modules, max items")
@@ -244,6 +231,109 @@ def print_regulations():
     print("=" * 100)
     correlation_optimal_modules_max_ingredients()
 
+class SystemOutput(Enum):
+    INGREDIENTS = 0
+    ITEMS = 1
+
+class ModuleStrategy(Enum):
+    FULL_QUALITY = 0
+    FULL_PRODUCTIVITY = 1
+    OPTIMIZE = 2
+
+def get_all_configs(module_slots : int):
+    "Generate all possible configurations for an assembler with `n` module slots."
+    module_variations_for_assembler = []
+
+    for p in range(module_slots + 1):
+        q = module_slots - p
+        module_variations_for_assembler.append((p, q))
+    
+    res = list(itertools.product(* [module_variations_for_assembler] * 5))
+
+    for i in range(len(res)):
+        res[i] = list(res[i])
+    
+    return res
+
+def recycler_assembler_efficiency(
+        module_slots : int,
+        base_productivity : float,
+        system_output : SystemOutput,
+        module_strategy : ModuleStrategy) -> float:
+    "Returns the efficiency of the setup with the given parameters (%)."
+    assert module_slots >= 0 and base_productivity >= 0
+
+    if system_output == SystemOutput.ITEMS:
+        keep_items = 5
+        keep_ingredients = None
+    else: # system_output == SystemOutput.INGREDIENTS:
+        keep_items = None
+        keep_ingredients = 5
+    
+    # What is the output of the system: ingredients or items?
+    result_index = 4 if system_output == SystemOutput.INGREDIENTS else 9
+    
+    if module_strategy != ModuleStrategy.OPTIMIZE:
+        if module_strategy == ModuleStrategy.FULL_PRODUCTIVITY:
+            config = (module_slots, 0)
+        else:
+            config = (0, module_slots)
+        
+        output = recycler_assembler_loop(100, config, keep_items, keep_ingredients, base_productivity)
+        return output[result_index]
+    else:
+        best_config = None
+        best_efficiency = 0
+
+        all_configs = get_all_configs(module_slots)
+
+        for config in tqdm(list(all_configs)):
+            if config[4] != (module_slots, 0):
+                # Makes no sense to put quality modules on legendary item crafter
+                continue
+            
+            output = recycler_assembler_loop(100, list(config), keep_items, keep_ingredients, base_productivity)
+            efficiency = float(output[result_index])
+
+            if best_efficiency < efficiency:
+                best_config = config
+                best_efficiency = efficiency
+        
+        return best_efficiency
+
+def efficiency_table():
+    DATA = { # (number of slots, base productivity)
+        "Electric furnace/Centrifuge" : (2, 0),
+        "Chemical Plant"              : (3, 0),
+        "Assembling machine"          : (4, 0),
+        "Foundry/Biochamber"          : (4, 50),
+        "Electromagnetic plant"       : (5, 50),
+        "Cryogenic plant"             : (8, 0),
+    }
+    OUTPUTS = (SystemOutput.ITEMS, SystemOutput.INGREDIENTS)
+    STRATEGIES = (
+        ModuleStrategy.FULL_QUALITY,
+        ModuleStrategy.FULL_PRODUCTIVITY,
+        ModuleStrategy.OPTIMIZE
+    )
+    KEY_NAMES = {
+        (SystemOutput.ITEMS, ModuleStrategy.FULL_QUALITY) : "(D) Quality only, max items",
+        (SystemOutput.ITEMS, ModuleStrategy.FULL_PRODUCTIVITY) : "(E) Prod only, max items",
+        (SystemOutput.ITEMS, ModuleStrategy.OPTIMIZE) : "(F) Optimal modules, max items",
+        (SystemOutput.INGREDIENTS, ModuleStrategy.FULL_QUALITY) : "(G) Quality only, max ingredients",
+        (SystemOutput.INGREDIENTS, ModuleStrategy.FULL_PRODUCTIVITY) : "(H) Prod only, max ingredients",
+        (SystemOutput.INGREDIENTS, ModuleStrategy.OPTIMIZE) : "(I) Optimal modules, max ingredients",
+    }
+
+    table = {key : {} for key in DATA}
+
+    for assembler_type, (slots, base_prod) in DATA.items():
+        for output in OUTPUTS:
+            for strategy in STRATEGIES:
+                eff = recycler_assembler_efficiency(slots, base_prod, output, strategy)
+                table[assembler_type][KEY_NAMES[(output, strategy)]] = eff
+    
+    print(pandas.DataFrame(table).T.to_string())
 
 def simple_recycler_assembler_loop():
     input_vector = np.array([1] + [0] * 9)
@@ -266,4 +356,4 @@ def simple_recycler_assembler_loop():
 
 if __name__ == "__main__":
     np.set_printoptions(suppress=True, linewidth = 1000)
-    simple_recycler_assembler_loop()
+    efficiency_table()
