@@ -182,7 +182,7 @@ def custom_transition_matrix(
         assembler_matrix (np.ndarray): Assembler production matrix.
 
     Returns:
-        np.ndarray: Transition matrix with the recycler production matrix 
+        np.ndarray: Transition matrix with the recycler production matrix
         in the lower left and assembler production matrix in the upper right.
     """
     res = np.zeros((10,10))
@@ -281,7 +281,7 @@ Feeding 1 belt of ingredients to this loop will result in 0.02497 belts of legen
 
 These are the fundamentals of simulating recycler-assembler loops. Now, all that remains to be done is to determine which questions about this quality grinding method should be asked, and how to answer them with the tools we have at our disposal.
 
-## Statistical analysis
+## The recycler_assembler_loop() function
 
 The simulation from the previous chapter works well enough for simple cases. Nevertheless, if we wish to simulate tons of variations in setups, we'll need a solution that doesn't involve having to manually calculate the productivity and quality chance of every row of the transition matrix.
 
@@ -297,7 +297,7 @@ def recycler_assembler_loop(
         recipe_ratio : float = 1,
         prod_module_bonus : float = 25,
         qual_module_bonus : float = 6.2) -> np.array:
-    # The docstring was cut for the sake of brevity
+    # The docstring was cut from this code snippet for the sake of brevity
 
     if type(assembler_modules_config) == tuple:
         assembler_modules_config = [assembler_modules_config] * 5
@@ -324,7 +324,7 @@ def recycler_assembler_loop(
     while True:
         result_flows.append(
             result_flows[-1] @ custom_transition_matrix(
-                custom_production_matrix(recycler_parameters), 
+                custom_production_matrix(recycler_parameters),
                 custom_production_matrix(assembler_parameters)
             )
         )
@@ -336,4 +336,30 @@ def recycler_assembler_loop(
     return sum(result_flows)
 ```
 
-With this function, I'm able to focus on the thing that actually matters in these loops: optimal module type allocation in the assemblers.
+For the sake of keeping the the code snippet above as short as possible, I decided to leave out the auxiliary functions `get_recycler_parameters` and `get_assembler_parameters`, and the docstring for the function above[^5]. Given that we don't have a doc string, I will instead explain below what this function does in writing.
+
+[^5]: All the code written for this series of blog posts can be found [here](https://github.com/dfamonteiro/blog/tree/main/Factorio%20Quality).
+
+### recycler_assembler_loop() details
+
+The `recycler_assembler_loop()` function simulates a recycler-assembler loop by unrolling the loop into a line and processing the ingredients and items in the system until there is nothing left. The successive states of the system are then all added up and returned as a vector with 10 values. The first five values represent the ingredients and the last five values represent the items, going from common to legendary.
+
+The values of the vector mean different things, depending on whether items/ingredients of that quality are kept or reprocessed be the system:
+
+- **If they are kept**: the value is the production rate of ingredients/items of that quality level.
+- **If they are reprocessed**: the value is the internal flow rate of ingredients/items of that quality level in the system.
+
+This function has eight arguments:
+
+- `input_vector`: The input vector of the system.
+- `assembler_modules_config`: The module configuration (i.e. number of productivity and quality modules) of the assemblers of the system. Some examples:
+  - Let's say that you want to load every assembler with quality modules: `(0, 4)`.
+  - Now let's say that we want to load the legendary item crafter with productivity modules instead: `[(4, 0), (4, 0), (4, 0), (4, 0), (0, 4)]`.
+- `items_quality_to_keep`: Minimum quality level of the items to be removed from the system. If set to `None`, nothing is removed and all items are reprocessed.
+- `ingredients_quality_to_keep`: Minimum quality level of the ingredients to be removed from the system. If set to `None`, nothing is removed and all ingredients are reprocessed.
+- `base_prod_bonus`: Base productivity of assembler + productivity technologies (as a %).
+- `recipe_ratio` Ratio of items to ingredients of the crafting recipe.
+- `prod_module_bonus`: Productivity bonus from productivity modules. Defaults to 25%.
+- `qual_module_bonus`: Quality chance bonus from quality modules. Defaults to 6.2%.
+
+With this function, we will be able to easily calculate the efficiency of every possible module allocation in the assemblers of the loop.
