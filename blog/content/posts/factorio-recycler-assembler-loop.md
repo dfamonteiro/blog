@@ -288,5 +288,52 @@ The simulation from the previous chapter works well enough for simple cases. Nev
 Having felt the need for a higher level approach so that I could stop dealing with productivity bonuses and quality chances, and start dealing with which modules go into which assemblers, I came up with the following function:
 
 ```python
-abc
+def recycler_assembler_loop(
+        input_vector : Union[np.array, float],
+        assembler_modules_config : Union[Tuple[float, float], List[Tuple[float, float]]],
+        items_quality_to_keep : Union[int, None] = 5,
+        ingredients_quality_to_keep : Union[int, None] = 5,
+        base_prod_bonus : float = 0,
+        recipe_ratio : float = 1,
+        prod_module_bonus : float = 25,
+        qual_module_bonus : float = 6.2) -> np.array:
+    # The docstring was cut for the sake of brevity
+
+    if type(assembler_modules_config) == tuple:
+        assembler_modules_config = [assembler_modules_config] * 5
+
+    # Parameters for the production matrices
+    recycler_parameters  = get_recycler_parameters(
+        items_quality_to_keep if items_quality_to_keep != None else 6,
+        recipe_ratio,
+        qual_module_bonus
+    )
+    assembler_parameters = get_assembler_parameters(
+        assembler_modules_config,
+        ingredients_quality_to_keep if ingredients_quality_to_keep != None else 6,
+        base_prod_bonus,
+        recipe_ratio,
+        prod_module_bonus,
+        qual_module_bonus
+    )
+
+    if type(input_vector) in (float, int):
+        input_vector = np.array([input_vector] + [0] * 9)
+
+    result_flows = [input_vector]
+    while True:
+        result_flows.append(
+            result_flows[-1] @ custom_transition_matrix(
+                custom_production_matrix(recycler_parameters), 
+                custom_production_matrix(assembler_parameters)
+            )
+        )
+
+        if sum(abs(result_flows[-2] - result_flows[-1])) < 1E-10:
+            # There's nothing left in the system
+            break
+
+    return sum(result_flows)
 ```
+
+With this function, I'm able to focus on the thing that actually matters in these loops: optimal module type allocation in the assemblers.

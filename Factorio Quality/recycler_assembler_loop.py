@@ -83,6 +83,25 @@ def recycler_assembler_loop(
         recipe_ratio : float = 1, # Ratio of items to ingredients of the recipe
         prod_module_bonus : float = 25,
         qual_module_bonus : float = 6.2) -> np.array:
+    """Returns a vector with values for each quality level that mean different things, depending on whether that quality is kept or recycled:
+        - If the quality is kept: the value is the production rate of ingredients/items of that quality level.
+        - If the quality is recycled: the value is the internal flow rate of ingredients/items of that quality level in the system.
+    
+    The first five values represent the ingredients and the last five values represent the items.
+
+    Args:
+        input_vector (Union[np.array, float]): The ingredients and items intake of the system.
+        assembler_modules_config (Union[Tuple[float, float], List[Tuple[float, float]]]): Number of productivity and quality modules for the assemblers of each quality of item.
+        items_quality_to_keep (Union[int, None], optional): Minimum quality level of the items to be removed from the system. Defaults to 5 (Legendary). If set to None, nothing is removed.
+        ingredients_quality_to_keep (Union[int, None], optional): Minimum quality level of the ingredients to be removed from the system. Defaults to 5 (Legendary). If set to None, nothing is removed.
+        base_prod_bonus (float, optional): Base productivity of assembler + productivity technologies. Defaults to 0.
+        recipe_ratio (float, optional): Ratio of items to ingredients of the crafting recipe. Defaults to 1.
+        prod_module_bonus (float, optional): Productivity bonus from productivity modules. Defaults to 25%.
+        qual_module_bonus (float, optional): Quality chance bonus from quality modules. Defaults to 6.2%.
+
+    Returns:
+        np.array: Vector with values for each quality level. The first five values represent the ingredients and the last five values represent the items.
+    """
     
     if type(assembler_modules_config) == tuple:
         assembler_modules_config = [assembler_modules_config] * 5
