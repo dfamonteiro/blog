@@ -285,7 +285,7 @@ xychart-beta
 #pure-recycler-loop-efficiency-chart-only-epic-and-legendary svg[aria-roledescription="xychart"] g.line-plot-1 path {stroke: #ff9500 !important;}
 </style>
 
-## Next step: [**Asteroid Chunk Recycling**](/posts/factorio-recycling-asteroid-chunk-recycling/)
+## Next step: [**Asteroid Chunk Recycling**](/posts/factorio-asteroid-chunk-recycling/)
 
 I previously considered going straight to [recycler-assembler loops](/posts/factorio-recycler-assembler-loop/) and tackle the final frontier of recycling[^4] later. However, after thinking about it for bit, I concluded that asteroid chunk recycling is the logical next step for the series and builds elegantly on the analysis & tools created in this blog post that were required to tackle pure recycling loops.
 
