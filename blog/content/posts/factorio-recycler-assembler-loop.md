@@ -16,12 +16,12 @@ series = []
     mermaid.initialize({ startOnLoad: true });
 </script>
 
-The recycler-assembler loop is probably the most commonly used quality grinding method in Factorio. It is a two step looping process where in the first step, the ingredients are crafted by an assembler into items, which are then recycled back into ingredients. By having quality and productivity[^1] modules in both the assembling and the recycling steps, the quality and items and ingredients in the loop will eventually improve all the way to legendary. Emulating a recycler-assembler loop is slightly more complex than the [pure recycling loops](/posts/factorio-pure-recycler-loop/) we have dealt with previously, but the same fundamental ideas still apply. Please note that functions from previous blog posts will be reused here.
+The recycler-assembler loop is probably the most commonly used quality grinding method in Factorio. It is a two step looping process where in the first step, the ingredients are crafted by an assembler into items, which are then recycled back into ingredients. By having quality and productivity[^1] modules in both the assembling and the recycling steps, the quality and items and ingredients in the loop will eventually improve all the way to legendary quality. Emulating a recycler-assembler loop is slightly more complex than the [pure recycling loops](/posts/factorio-pure-recycler-loop/) we have dealt with previously, but the same fundamental ideas still apply. Please note that functions from previous blog posts will be reused here.
 
 [^1]: Productivity modules are only allowed under certain circumstances in the assembling step, whereas quality modules are always allowed in both the recycling and assembling steps.
 
 <div style="text-align:center">
-    <img src="/images/factorio-recycler-assembler-loop.webp" alt="Blue circuit crafting recipe"/>
+    <img src="/images/factorio-recycler-assembler-loop.webp" alt="Example of a recycler-assembler loop setup"/>
     <figcaption> Example of a recycler-assembler loop setup. <br> (Credit for this design: <a href="https://youtu.be/Z1BEXm4RIfs?si=XCf6b7F-cjY_5G5E&t=584">Konage</a>)</figcaption>
 </div>
 
@@ -50,7 +50,7 @@ Finding a way to get around loops is never easy. Fortunately for us, we can take
 
 <pre style="text-align:center" class="mermaid">
 ---
-title: Conceptual model of a pure recycler loop, unrolled into an infinite line
+title: Conceptual model of a recycler-assembler loop, unrolled into an infinite line
 config:
   theme: dark
 ---
@@ -75,7 +75,7 @@ flowchart TD
     Rn1 -->|Q<=4 Ingredients|Rn2[...]
 </pre>
 
-Doing this trick does get rid of the loop and gives us a more workable linear problem. Unfortunately, this comes at a cost of having to handle the recycler-assembler line being theoretically infinite. In practice, the system runs out of materials very quickly because all the materials that don't get voided will eventually turn into legendary items/ingredients and be removed from the system.
+Doing this trick does get rid of the loop and gives us a more workable linear problem. Unfortunately, this comes at a cost of having to handle the recycler-assembler line being theoretically infinite. In practice, the system runs out of materials very quickly because all the materials that don't get voided will eventually turn into legendary items/ingredients and will get removed from the system.
 
 ## Crafting a transition matrix
 
@@ -83,14 +83,14 @@ Doing this trick does get rid of the loop and gives us a more workable linear pr
 
 In theory, we could use the techniques we created in previous blog posts to calculate the outputs of this recycler-assembler line. We would need to know:
 
-- The production matrix of the recycler $R$.
+- The [production matrix](/posts/factorio-quality-1/#building-the-production-matrix) of the recycler $R$.
 - The production matrix of the assembler $A$.
 - An input vector of ingredients $\vec{a_0}$.
   - Let's assume that $\vec{a_0}= \begin{bmatrix} 1 & 0 & 0 & 0 & 0 \end{bmatrix}$ by default.
 - What is the output of the system and what gets recycled (items/ingredients, and of which quality).
   - This information would be incorporated in $A$ and $R$ by zeroing out the necessary matrix rows.
 
-The state of the system would be represented by two vectors $\vec{a_x}$ and $\vec{r_x}$, that respectively represents the amount of ingredients and items after iteration $x$. In order to process $\vec{a_x}$ into $\vec{r_x}$ and vice versa, you must use the production matrices $R$ and $A$:
+The state of the system would be represented by two vectors $\vec{a_x}$ and $\vec{r_x}$, which respectively represent the amount of ingredients and items after iteration $x$. In order to process $\vec{a_x}$ into $\vec{r_x}$ and vice versa, you must use the production matrices $R$ and $A$:
 
 $$ \vec{a_x} = \vec{r_{x}} \cdot R $$
 
@@ -106,11 +106,11 @@ I theory, this approach would work. In practice, however, having to flip-flop be
 
 ### Introducing [**stochastic matrices**](https://en.wikipedia.org/wiki/Stochastic_matrix)
 
-A stochastic matrix is a a square matrix whose values represent the probability of a state transitioning to another state[^3]. They are incredibly useful in a multitude of scientif fields and are also known as probability matrices, Markov matrices, substitution matrices, or as the [Factorio wiki](https://wiki.factorio.com/Quality) prefers to call them, **transition matrices**.
+A stochastic matrix is a a square matrix whose values represent the probability of a state transitioning to another state[^3]. They are incredibly useful in a multitude of scientific fields and are also known as probability matrices, Markov matrices, substitution matrices, or, as the [Factorio wiki](https://wiki.factorio.com/Quality) prefers to call them, **transition matrices**.
 
 [^3]: There is an argument to be made that the quality and production matrices used throughout this series of blog posts _are_ stochastic matrices.
 
-In our case, we have two states: ingredient and item. We also have two transitions: item->ingredient and ingredient->item. Creating the transition matrix $M$ for this simple use case is quite straightforward:
+In our case, we have two states: `ingredient` and `item`. We also have two transitions: `item`->`ingredient` and `ingredient`->`item`. Creating the transition matrix $M$ for this simple use case is quite straightforward:
 
 $$ M = \begin{bmatrix}
   0 & 1 \\\\
@@ -135,7 +135,7 @@ The values flipped back!! This is exactly the behaviour we need from a matrix. N
 
 ### Assembling the transition matrix
 
-We have everything we need to assemble our transition matrix $T$. Let's assume that the assembler have a productivity of 50% and both the assembler and the recycler have a quality chance of 25%. Let's also assume that we only want to keep the legendary items of the loop. $A$ and $R$ would look like this:
+We have everything we need to assemble our transition matrix $T$. Let's assume that the assembler has a productivity of 50% and both the assembler and the recycler have a quality chance of 25%. Let's also assume that we only want to keep the legendary items of the loop. $A$ and $R$ would look like this:
 
 ```python
 # The code and logic behind custom_production_matrix()
@@ -161,7 +161,7 @@ $$ R = \begin{bmatrix}
   0      & 0       & 0        & 0         & 0        \\\\
 \end{bmatrix} $$
 
-Notice how the last row of $R$ is zeroed out so that legendary items are removed from our system. Let's design our transition matrix $T$ (with some inspiration from the stochastic matrix we created in the previous subchapter):
+Notice how the last row of $R$ is zeroed out so that the legendary items are removed from our system. Let's design our transition matrix $T$ (with some inspiration from the stochastic matrix we created in the previous subchapter):
 
 $$T = \begin{bmatrix}
   0 & A \\\\
@@ -230,7 +230,7 @@ $$\small{\begin{bmatrix}
 $T$ matches[^4] the matrix in the [Factorio wiki](https://wiki.factorio.com/Quality), which is a good sign that we generated this matrix correctly:
 
 <div style="text-align:center">
-    <img src="/images/transition-matrix-table-wiki.png" alt="Blue circuit crafting recipe"/>
+    <img src="/images/transition-matrix-table-wiki.png" alt="Example of a transition matrix with P=50% and Q=25% from the Factorio Wiki"/>
     <figcaption> Example of a transition matrix with P=50% and Q=25% from the <a href="https://wiki.factorio.com/Quality">Factorio Wiki</a>.</figcaption>
 </div>
 
@@ -246,7 +246,7 @@ $\vec{t_x}$ is the state of the system after one loop of recycler and assembler 
 
 $$ \vec{t_x} = \vec{t_{x-1}} \cdot T $$
 
-$T$ is the previously discussed transition matrix. $ \vec{t_0} $ represents the input of the system, which by default will be a belt of common items:
+$T$ is the previously discussed transition matrix. $ \vec{t_0} $ represents the input of the system, which by default is a belt of common items:
 
 $$ \vec{t_0} = \begin{bmatrix} 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \end{bmatrix} $$
 
@@ -283,9 +283,9 @@ These are the fundamentals of simulating recycler-assembler loops. Now, all that
 
 ## The recycler_assembler_loop() function
 
-The simulation from the previous chapter works well enough for simple cases. Nevertheless, if we wish to simulate tons of variations in setups, we'll need a solution that doesn't involve having to manually calculate the productivity and quality chance of every row of the transition matrix.
+The simulation code from the previous chapter works well enough for simple cases. Nevertheless, if we wish to simulate tons of variations in setups, we'll need a solution that doesn't involve having to manually calculate the productivity and quality chance of every row of the transition matrix.
 
-Having felt the need for a higher level approach so that I could stop dealing with productivity bonuses and quality chances, and start dealing with which modules go into which assemblers, I came up with the following function:
+Having felt the need for a higher level approach to simulating recycler-assembler loops (so that I could stop dealing with productivity bonuses and quality chances and start dealing with quality and productivity modules), I came up with the following function:
 
 ```python
 def recycler_assembler_loop(
@@ -344,17 +344,17 @@ For the sake of keeping the the code snippet above as short as possible, I decid
 
 The `recycler_assembler_loop()` function simulates a recycler-assembler loop by unrolling the loop into a line and processing the ingredients and items in the system until there is nothing left. The successive states of the system are then all added up and returned as a vector with 10 values. The first five values represent the ingredients and the last five values represent the items, going from common to legendary.
 
-The values of the vector mean different things, depending on whether items/ingredients of that quality are kept or reprocessed be the system:
+The values of the vector mean different things, depending on whether items/ingredients of that quality are kept or reprocessed by the system:
 
-- **If they are kept**: the value is the production rate of ingredients/items of that quality level.
-- **If they are reprocessed**: the value is the internal flow rate of ingredients/items of that quality level in the system.
+- **If they are kept**: the value is the **production rate** of ingredients/items of that quality level.
+- **If they are reprocessed**: the value is the **internal flow rate** of ingredients/items of that quality level in the system.
 
 This function has eight arguments:
 
 - `input_vector`: The input vector of the system.
 - `assembler_modules_config`: The module configuration (i.e. number of productivity and quality modules) of the assemblers of the system. Some examples:
   - Let's say that you want to load every assembler with quality modules: `(0, 4)`.
-  - Now let's say that we want to load the legendary item crafter with productivity modules instead: `[(4, 0), (4, 0), (4, 0), (4, 0), (0, 4)]`.
+  - Now let's say that we want to load the legendary item crafter with productivity modules instead: `[(0, 4), (0, 4), (0, 4), (0, 4), (4, 0)]`.
 - `items_quality_to_keep`: Minimum quality level of the items to be removed from the system. If set to `None`, nothing is removed and all items are reprocessed.
 - `ingredients_quality_to_keep`: Minimum quality level of the ingredients to be removed from the system. If set to `None`, nothing is removed and all ingredients are reprocessed.
 - `base_prod_bonus`: Base productivity of assembler + productivity technologies (as a %).
@@ -376,7 +376,7 @@ In this final chapter, we will focus on calculating the efficiency of every rele
 
 The input to the system will consist of a belt of normal ingredients.
 
-The function below takes the four previously mentioned variables as arguments and outputs an efficiency value:
+The function below takes the four previously mentioned variables as arguments and outputs an efficiency value as a percentage:
 
 ```python
 def recycler_assembler_efficiency(
@@ -452,7 +452,7 @@ print(f"{efficiency}%")
 # 156.67377286511638%
 ```
 
-Woah, 156.67%?! We're pretty much getting 3 legendary items for every two common ingredients. The reason for this anomaly is the absurdly high level of productivity of the EM plants (275%) and the fact that our input belt of ingredients transforms into 3.75 belts of items before getting to the recyclers. In matter of fact, if we get to level 13 of blue circuit productivity we should hit an "efficiency" of 400%, which is a limit imposed by the game to prevent net-positive recycling loops:
+Woah, 156.67%?! We're pretty much getting 3 legendary items for every two common ingredients. The reason for this anomaly is the absurdly high level of productivity of the EM plants (275%) and the fact that our input belt of ingredients transforms into 3.75 belts of items before being touched by a single recycler. In matter of fact, if we get to level 13 of blue circuit productivity we should hit an "efficiency" of 400%, which reflects a limit imposed by the game to prevent net-positive recycling loops:
 
 ```python
 productivity_research = 13
@@ -478,7 +478,7 @@ As expected, the system is lossless.
 
 The only thing we haven't done yet[^7] is a table with every possible assembler type and every possible system output and module strategy combination:
 
-[^7]: I'm paraphrasing here. There's a ton of topics we haven't touched in this series of blog posts, such as having inputs with some quality items already, internal flow analysis of recycler-assembler loops (i.e. why it still makes sense to use legendary quality modules in lossless loops), efficiency of recycler-assembler loops when you feed it items instead of ingredients to name a few.
+[^7]: I'm paraphrasing here. There's a ton of topics we haven't touched in this series of blog posts, such as having inputs with some quality items/ingredients already, internal flow analysis of recycler-assembler loops (i.e. why it still makes sense to use legendary quality modules in lossless loops), efficiency of recycler-assembler loops when you feed it items instead of ingredients to name a few.
 
 ```python
 DATA = { # (number of slots, base productivity)
@@ -534,8 +534,8 @@ This will conclude our statistical analysis of recycler-assembler loops. We only
 
 ## Next step? Up to you to decide
 
-This is the end our journey unveiling the mathematical underpinnings of Factorio's Quality feature. Please do note that there's plenty left still to uncover and analyse (refer to this tooltip[^7]), but if reached this far you have every tool on your belt to chart a path by yourself.[^8]
+This marks the end our journey unveiling the mathematical underpinnings of Factorio's Quality feature. Please do note that there's plenty left still to uncover and analyse (refer to this tooltip[^7]), but if you reached this far you have every tool on your belt to chart a path by yourself.[^8] I'm no longer needed.
 
 [^8]: If you are looking for a more practical approach to quality, I heartily recommend Konage's [comprehensive quality guide](https://www.reddit.com/r/factorio/comments/1hhzpbb/comprehensive_quality_guide_get_everything).
 
-Lastly, I would like to thank you, the reader, for reading this blog post/series of blog posts. I hope you have learned something along the way.
+Lastly, I would like to thank you, the reader, for reading this blog post/series of blog posts. I hope you have learned something interesting along the way.
