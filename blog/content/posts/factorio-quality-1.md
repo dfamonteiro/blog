@@ -185,7 +185,7 @@ $$ P_{10, \frac{19}{220}} = \frac{19}{220} Q_{10} =
 
 This matrix is completely fine at first glance, but what if we want to anything even remotely complex?
 
-- If we're crafting with legendary ingredients, why not load the EM Plant with the best quality modules you have?
+- If we're crafting with legendary ingredients, why not load the EM Plant with the best productivity modules you have?
 - What if we want to remove all legendary items from the system?
 - What if want my EM Plants to have more quality modules for lower quality items, and more productivity modules for the higher quality items?
 
