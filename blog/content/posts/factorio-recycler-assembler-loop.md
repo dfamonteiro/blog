@@ -476,6 +476,10 @@ As expected, the system is lossless.
 
 ### Efficiency table for all assembler types
 
+The only thing we haven't done yet[^7] is a table with every possible assembler type and every possible system output and module strategy combination:
+
+[^7]: I'm paraphrasing here. There's a ton of topics we haven't touched in this series of blog posts, such as having inputs with some quality items already, internal flow analysis of recycler-assembler loops (i.e. why it still makes sense to use legendary quality modules in lossless loops), efficiency of recycler-assembler loops when you feed it items instead of ingredients to name a few.
+
 ```python
 DATA = { # (number of slots, base productivity)
     "Electric furnace/Centrifuge" : (2, 0),
@@ -518,3 +522,20 @@ print(pandas.DataFrame(table).T.to_string())
 # Electromagnetic plant         3.322265       7.074719             7.556346          1.299017       2.572625              2.657463
 # Cryogenic plant               1.866389      14.505597            14.505597          0.786774       4.835199              4.835199
 ```
+
+The values of this table perfectly match the [work](https://docs.google.com/spreadsheets/d/1IOgJuv9Vb7EXnHDPqRLjJeQpZrYCCjy3GQkYl73_ylk/edit?gid=0#gid=0) done by [Konage](https://www.youtube.com/@KonageYoutube):
+
+<div style="text-align:center">
+    <img src="/images/konage-table.png" alt="Konage table"/>
+    <figcaption> Screenshot of <a href="https://www.youtube.com/@KonageYoutube">Konage</a>'s <a href="https://docs.google.com/spreadsheets/d/1fGQry4MZ6S95vWrt59TQoNRy1yJMx-er202ai0r4R-w/edit?gid=0#gid=0">spreadsheet</a>.</figcaption>
+</div>
+
+This will conclude our statistical analysis of recycler-assembler loops. We only scratched the tip of the iceberg[^7] here, but this blog post is already way too long.
+
+## Next step? Up to you to decide
+
+This is the end our journey unveiling the mathematical underpinnings of Factorio's Quality feature. Please do note that there's plenty left still to uncover and analyse (refer to this tooltip[^7]), but if reached this far you have every tool on your belt to chart a path by yourself.[^8]
+
+[^8]: If you are looking for a more practical approach to quality, I heartily recommend Konage's [comprehensive quality guide](https://www.reddit.com/r/factorio/comments/1hhzpbb/comprehensive_quality_guide_get_everything).
+
+Lastly, I would like to thank you, the reader, for reading this blog post/series of blog posts. I hope you have learned something along the way.
