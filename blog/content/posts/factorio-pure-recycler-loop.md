@@ -19,7 +19,7 @@ series = []
 The pure recycler loop is the simplest possible way to grind for legendary items, making it the logical next step of our quality analysis journey. Armed with the knowledge we gained from the [previous post](/posts/factorio-quality-1/) of [this series](/tags/factorio-quality/), we're going to calculate the efficiency of this quality grinding method and do some statistical analysis of how the production of quality items is affected by the quality chance of the recyclers.
 
 <div style="text-align:center">
-    <img src="/images/Pure-Recycler-Loop.webp" alt="Blue circuit crafting recipe"/>
+    <img src="/images/Pure-Recycler-Loop.webp" alt="Example of a pure recycler loop setup"/>
     <figcaption> Example of a pure recycler loop setup</figcaption>
 </div>
 

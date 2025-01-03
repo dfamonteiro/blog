@@ -1,5 +1,5 @@
 +++ 
-draft = true
+draft = false
 date = 2024-12-28T22:09:26Z
 title = "Solving the mathematics of Factorio Quality: Recycler-Assembler Loop"
 description = ""
@@ -538,4 +538,4 @@ This marks the end our journey unveiling the mathematical underpinnings of Facto
 
 [^8]: If you are looking for a more practical approach to quality, I heartily recommend Konage's [comprehensive quality guide](https://www.reddit.com/r/factorio/comments/1hhzpbb/comprehensive_quality_guide_get_everything).
 
-Lastly, I would like to thank you, the reader, for reading this blog post/series of blog posts. I hope you have learned something interesting along the way.
+Lastly, I would like to thank you, the reader, for reading this blog post/series of blog posts. I hope you learned something interesting along the way.

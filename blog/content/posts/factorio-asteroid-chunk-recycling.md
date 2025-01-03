@@ -19,7 +19,7 @@ series = []
 Asteroid chunk recycling is one of the the most effective methods to get legendary resources in Factorio. It is one of the more unique quality grinding setups you'll ever find, but the calculations needed to assess the efficiency of this method are quite straightforward, as it will be shown in this blog post. Please note that I will assume that the reader has read my analysis of [pure recyler loops](/posts/factorio-pure-recycler-loop/).
 
 <div style="text-align:center">
-    <img src="/images/quality-recycling-screenshot.jpg" alt="The 3 tiers of quality modules"/>
+    <img src="/images/quality-recycling-screenshot.jpg" alt="Screenshot of an asteroid chunk recycling setup"/>
     <figcaption>Screenshot of an asteroid chunk recycling setup.<br>(image source: <a href="https://youtu.be/gZCFnG8HDCA?si=gj-YBPIGAiUe_OTY&t=2297">Konage</a>)</figcaption>
 </div>
 
@@ -28,7 +28,7 @@ Asteroid chunk recycling is one of the the most effective methods to get legenda
 The core mechanic that enables asteroid chunk recycling is the ability to reprocess asteroids chunks with quality modules in the crushers:
 
 <div style="text-align:center">
-    <img src="/images/asteroid-reprocessing-recipes.png" alt="Quality upgrade probability table generalized for any quality chance Q"/>
+    <img src="/images/asteroid-reprocessing-recipes.png" alt="The reprocessing recipes for all three asteroid types"/>
     <figcaption> The reprocessing recipes for all three asteroid types. <br>(image source: <a href="https://wiki.factorio.com/Crusher">Factorio Wiki</a>)</figcaption>
 </div>
 
