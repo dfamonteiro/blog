@@ -60,9 +60,10 @@ def search_for_all_solutions_sample_sat(n : int, file : TextIOWrapper):
     print(f"Number of solutions found: {solution_printer.solution_count()}")
 
 if __name__ == "__main__":
-    new_file_path = argv[1]
+    n_teams = int(argv[1])
+    new_file_path = argv[2]
     with open(new_file_path, "w") as f:
-        search_for_all_solutions_sample_sat(14, f)
+        search_for_all_solutions_sample_sat(n_teams, f)
 
 # 4  - 3
 # 6  - 15
