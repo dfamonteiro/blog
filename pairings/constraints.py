@@ -21,8 +21,6 @@ class VarArraySolutionPrinter(cp_model.CpSolverSolutionCallback):
 
 
 def search_for_all_solutions_sample_sat(n : int, file : TextIOWrapper):
-    """Showcases calling the solver to search for all solutions."""
-
     assert n % 2 == 0
 
     # Creates the model.
@@ -37,21 +35,27 @@ def search_for_all_solutions_sample_sat(n : int, file : TextIOWrapper):
     # Only list permutations
     model.AddAllDifferent(values)
 
-    # The first value of each pair must be
+    # The first value of each pairing must be lower than the first value of the following pairing
     for i in range(n//2 - 1):
         model.Add(values[i * 2] < values[(i + 1) * 2])
 
+    # For all pairings, the first value of the pairing must be lower than the second value of the pairing
     for i in range(n//2):
         model.Add(values[i * 2] < values[i * 2 + 1])
 
-    # Create a solver and solve.
+    # Create a solver and solve
     solver = cp_model.CpSolver()
+
+    # Print all solutions to a file
     solution_printer = VarArraySolutionPrinter(values, file)
-    # Enumerate all solutions.
+
+    # Enumerate all solutions
     solver.parameters.enumerate_all_solutions = True
-    # Solve.
+
+    # Solve
     status = solver.Solve(model, solution_printer)
 
+    # Debug info
     print(f"Status = {solver.StatusName(status)}")
     print(f"Number of solutions found: {solution_printer.solution_count()}")
 
