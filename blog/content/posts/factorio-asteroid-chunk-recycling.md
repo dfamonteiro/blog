@@ -200,10 +200,12 @@ print(asteroid_crusher_loop(1, 12.4)[:4] * 3 / asteroid_crusher_loop(1, 12.4)[3]
 
 Here is my personal recommendation:
 
-- 60 common asteroid crushers (I'd organize them in 4 rows of 15).
+- 60 common asteroid crushers (I'd organize them in 4 rows of 15)[^3].
 - 18 uncommon asteroid crushers
 - 9 rare asteroid crushers (slight overkill, but I want to keep every number divisible by 3)
 - 3 epic asteroid crushers (one for each asteroid type)
+
+[^3]: Please note that the ice reprocessing recipe runs twice as fast the other two reprocessing recipes, meaning that you'll need half as many crushers dedicated to that recipe. For example: for a total of 60 crushers, 12 (`t * 0.2`) should be ice crushers, 24 (`t * 0.4`) should be carbonic crushers and the remaining 24 (`t * 0.4`) should be metallic crushers. Thank you to Mark for highlighting this nuance to me.
 
 ## Next step: [**recycler-assembler loops**](/posts/factorio-recycler-assembler-loop/)
 
