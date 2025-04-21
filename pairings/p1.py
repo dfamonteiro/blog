@@ -43,6 +43,6 @@ if __name__ == "__main__":
     res = compute_pairings(n_teams)
 
     with open(new_file_path, "w") as f:
-        f.writelines(str(r) for r in res)
+        f.writelines(str(r) + "\n" for r in res)
         
     print(f"{len(res)} pairings found")

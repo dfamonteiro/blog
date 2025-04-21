@@ -1,26 +1,23 @@
-from io import TextIOWrapper
+from typing import List
 from ortools.sat.python import cp_model
 from sys import argv
 
 
-class VarArraySolutionPrinter(cp_model.CpSolverSolutionCallback):
-    """Print intermediate solutions to a file"""
-
-    def __init__(self, variables, file : TextIOWrapper):
+class VarArraySolutionAccumulator(cp_model.CpSolverSolutionCallback):
+    "Accumulates all the solutions in the `__res` variable"
+    def __init__(self, variables):
         cp_model.CpSolverSolutionCallback.__init__(self)
         self.__variables = variables
-        self.__solution_count = 0
-        self.file = file
+        self.__res = []
 
     def on_solution_callback(self):
-        self.__solution_count += 1
-        print([self.Value(v) for v in self.__variables], file=self.file)
+        self.__res.append([self.Value(v) for v in self.__variables])
 
-    def solution_count(self):
-        return self.__solution_count
+    def res(self) -> List[List[int]]:
+        return self.__res
 
 
-def search_for_all_solutions_sample_sat(n : int, file : TextIOWrapper):
+def search_for_all_solutions_sample_sat(n : int):
     assert n % 2 == 0
 
     # Creates the model.
@@ -47,23 +44,26 @@ def search_for_all_solutions_sample_sat(n : int, file : TextIOWrapper):
     solver = cp_model.CpSolver()
 
     # Print all solutions to a file
-    solution_printer = VarArraySolutionPrinter(values, file)
+    solution_printer = VarArraySolutionAccumulator(values)
 
     # Enumerate all solutions
     solver.parameters.enumerate_all_solutions = True
 
     # Solve
-    status = solver.Solve(model, solution_printer)
+    solver.Solve(model, solution_printer)
 
-    # Debug info
-    print(f"Status = {solver.StatusName(status)}")
-    print(f"Number of solutions found: {solution_printer.solution_count()}")
+    return solution_printer.res()
 
 if __name__ == "__main__":
     n_teams = int(argv[1])
     new_file_path = argv[2]
+
+    res = search_for_all_solutions_sample_sat(n_teams)
+        
     with open(new_file_path, "w") as f:
-        search_for_all_solutions_sample_sat(n_teams, f)
+        f.writelines(str(r) + "\n" for r in res)
+        
+    print(f"{len(res)} pairings found")
 
 # 4  - 3
 # 6  - 15
