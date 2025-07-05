@@ -39,6 +39,20 @@ series = []
 
 ## Project Hail Mary (Andy Weir)
 
+TODO
+
 ## Semiconductor Manufacturing Technology (Michael Quirk & Julian Serda)
 
 - I think that for anyone with a passing interest in semiconductor manufacturing technologyAnd technical mindset. I would recommend that they should read this book. I'm well aware that this is a text, a university level textbook. But I found it very very readable. And gives you a somewhat complete knowledge of the semiconductor manufacturing process Wish wish you would, you wouldn't be able to get. Just from reading books and. And listening to Youtube videos.
+
+## Fabless: The Transformation of the Semiconductor Industry (Daniel Nenni & Paul McLellan)
+
+- This was a book that highlighted some of the smaller players in the semiconductor industry. And it also really highlighted the importance of IP in the semiconductor industry, and showcased why it's a very viable business model. I feel like foundries (and NVIDIA) get all the the attention in the semiconductor industry. But this book does a good job of lighting some of the lesser-know players, such as the EDA design tool companies.
+
+## Fundamentals of Software Architecture: An Engineering Approach (Mark Richards & Neal Ford)
+
+- I really enjoyed this book and I felt that it was a very good launching pad for the field of software architecture. I have some opinions on the pacing of the book, though:
+  - In Part I of the book, there are four consecutive chapters about architecture characteristics. Whilst it is a very important topic to discuss, the way it was laid out on the book felt a bit too granular: maybe instead of 4 small chapters, 3 or 2 bigger chapters would suffice.
+  - Part II, in which we go through a selection of architecture styles in detail, is just fantastic. I read this section of the book in one sitting and enjoyed seeing some architecture patterns present at work being explained in excellent detail.
+  - Part III focused more on the more human and day-to-day aspects of being a software engineer (being a leader, negotiating, etc.). Some of the do's and dont's are a bit obvious, but I can't fault the authors for wanting to cover all the bases.
+- All in all, it's a book that I would recommend to anyone as their first literary foray into software architecture.
