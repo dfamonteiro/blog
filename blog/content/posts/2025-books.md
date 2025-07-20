@@ -14,7 +14,7 @@ series = []
 
 ## The Missing README (Chris Riccomini & Dmitriy Ryaboy)
 
-- It was recommended this book by a work colleague and I have to say that for junior engineers. Is a must read. Unfortunately in my case. I was already. Here and a couple of months into my current job, so it wasn't very didn't make any sense for me.
+- It was recommended this book by a work colleague and I have to say that for junior engineers, it's a must read. Unfortunately in my case, I was already a year and a couple of months into my current job, so it wasn't very relevant for me. Nevertheless, I'd recommend this book to anyone starting to work as a software engineer in a professional setting.
 
 ## The Manager's Path (Camille Fournier)
 
@@ -56,3 +56,8 @@ TODO
   - Part II, in which we go through a selection of architecture styles in detail, is just fantastic. I read this section of the book in one sitting and enjoyed seeing some architecture patterns present at work being explained in excellent detail.
   - Part III focused more on the more human and day-to-day aspects of being a software engineer (being a leader, negotiating, etc.). Some of the do's and dont's are a bit obvious, but I can't fault the authors for wanting to cover all the bases.
 - All in all, it's a book that I would recommend to anyone as their first literary foray into software architecture.
+
+## Ignition! An Informal History of Liquid Rocket Propellants (John D. Clark)
+
+- This book is a bit of a cult classic in the space & rocket community, and in my opinion, this reputation is completely deserved: John D. Clark makes a wonderful job of not only detailing the advancements of rocket propellant technology, but doing so in an incredibly charismatic manner, almost as if he is telling a tale to you personally after a couple of drinks. The number of different chemicals that have been tried as rocket propellants is something that is hard to believe when you are reading through the chapters: they really tried everything you can think of, and probably some substances you _really_ shouldn't be thinking of.
+- As a final note, this book does a really good job of filling in the blanks between the V2 program, and the american Redstone program. In hindsight it makes complete sense, but the primary stakeholders of liquid rocket propellant development was not necessarily NASA or orbital rockets, but actually the US military branches which needed storable (and ideally hypergolic) propellants for all sorts of missiles they were procuring.
