@@ -37,10 +37,6 @@ series = []
 
 - Another interesting aspect of this book is how the harsh conditions of the habitats. Went to a formation of a mini society. Inside it. With several strata.
 
-## Project Hail Mary (Andy Weir)
-
-TODO
-
 ## Semiconductor Manufacturing Technology (Michael Quirk & Julian Serda)
 
 - I think that for anyone with a passing interest in semiconductor manufacturing technologyAnd technical mindset. I would recommend that they should read this book. I'm well aware that this is a text, a university level textbook. But I found it very very readable. And gives you a somewhat complete knowledge of the semiconductor manufacturing process Wish wish you would, you wouldn't be able to get. Just from reading books and. And listening to Youtube videos.
@@ -61,3 +57,7 @@ TODO
 
 - This book is a bit of a cult classic in the space & rocket community, and in my opinion, this reputation is completely deserved: John D. Clark makes a wonderful job of not only detailing the advancements of rocket propellant technology, but doing so in an incredibly charismatic manner, almost as if he is telling a tale to you personally after a couple of drinks. The number of different chemicals that have been tried as rocket propellants is something that is hard to believe when you are reading through the chapters: they really tried everything you can think of, and probably some substances you _really_ shouldn't be thinking of.
 - As a final note, this book does a really good job of filling in the blanks between the V2 program, and the american Redstone program. In hindsight it makes complete sense, but the primary stakeholders of liquid rocket propellant development was not necessarily NASA or orbital rockets, but actually the US military branches which needed storable (and ideally hypergolic) propellants for all sorts of missiles they were procuring.
+
+## Project Hail Mary (Andy Weir)
+
+- Project Hail Mary is just an incredible book. I thought my days of reading fiction were over, but I guess this book is _the_ exception to the rule. Its scientific foundations are top notch, and I found the "fake" science to be very cohesively and elegantly designed: I'd like to highlight everything related to astrophage as the book's strong point, starting from the scientific discoveries (which are critical for the book's plot) all the way to the practicalities of using and handling large quantities of the stuff. <TODO: sister civ>Ultimately, it's a very good page turner: I managed to read the whole book in two days.
