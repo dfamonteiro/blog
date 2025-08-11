@@ -60,4 +60,6 @@ series = []
 
 ## Project Hail Mary (Andy Weir)
 
-- Project Hail Mary is just an incredible book. I thought my days of reading fiction were over, but I guess this book is _the_ exception to the rule. Its scientific foundations are top notch, and I found the "fake" science to be very cohesively and elegantly designed: I'd like to highlight everything related to astrophage as the book's strong point, starting from the scientific discoveries (which are critical for the book's plot) all the way to the practicalities of using and handling large quantities of the stuff. <TODO: sister civ>Ultimately, it's a very good page turner: I managed to read the whole book in two days.
+- Project Hail Mary is just an incredible book. I thought my days of reading fiction were over, but I guess this book is _the_ exception to the rule. Its scientific foundations are top notch, and I found the "fake" science to be very cohesively and elegantly designed: I'd like to highlight everything related to astrophage as the book's strong point, starting from the scientific discoveries (which are critical for the book's plot) all the way to the practicalities of using and handling large quantities of this fictitious life form.
+- Another aspect that I really enjoyed was Weir's take on making first contact with another sentient species with a roughly equivalent level of science and technology to ours: I wasn't expecting this at all when I first started reading the book and it was a nice surprise.
+- Ultimately, it's a very good page turner: I managed to read the whole book in two days.
