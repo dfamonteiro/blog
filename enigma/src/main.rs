@@ -120,13 +120,20 @@ fn decrypt(key : &EnigmaEncryptionKey, cyphertext: &str) -> String {
 }
 
 fn index_of_coincidence(text: &str) -> f64 {
-    let n = text.len();
+    // keep only A–Z letters and uppercase
+    let filtered: String = text
+        .chars()
+        .filter(|c| c.is_ascii_alphabetic())
+        .map(|c| c.to_ascii_uppercase())
+        .collect();
+
+    let n = filtered.len();
     if n <= 1 {
         return 0.0;
     }
 
     let mut freqs = HashMap::new();
-    for c in text.chars() {
+    for c in filtered.chars() {
         *freqs.entry(c).or_insert(0usize) += 1;
     }
 
