@@ -35,7 +35,7 @@ pub fn main() {
 
     for (_, candidate_key) in ring_setting_candidates {
         println!("Processing {:?}", candidate_key);
-        ring_position_candidates.append(&mut test_ring_positions(candidate_key, cyphertext, &english_language_model, 10));
+        ring_position_candidates.append(&mut test_ring_positions(candidate_key, cyphertext, 10));
     }
 
     ring_position_candidates.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap());
@@ -105,7 +105,7 @@ fn test_ring_settings(key: EnigmaEncryptionKey, cyphertext : &str, number_of_can
     res
 }
 
-fn test_ring_positions(key: EnigmaEncryptionKey, cyphertext : &str, language_model: &HashMap<String, f64>, number_of_candidates : usize) -> Vec<(f64, EnigmaEncryptionKey)> {
+fn test_ring_positions(key: EnigmaEncryptionKey, cyphertext : &str, number_of_candidates : usize) -> Vec<(f64, EnigmaEncryptionKey)> {
     let mut res: Vec<(f64, EnigmaEncryptionKey)> = Vec::new();
 
     for p1 in 1..27 {
@@ -115,7 +115,7 @@ fn test_ring_positions(key: EnigmaEncryptionKey, cyphertext : &str, language_mod
                 new_key.ring_positions = (p1, p2, p3);
                 let decryption = decrypt(&new_key, cyphertext);
 
-                res.push((english_score(&decryption, language_model), new_key));
+                res.push((index_of_coincidence(&decryption), new_key));
             }
         }
     }
