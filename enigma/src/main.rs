@@ -1,5 +1,7 @@
 use enigma_simulator::{EnigmaMachine, EnigmaBuilder};
 use std::collections::HashMap;
+use std::fs::File;
+use std::io::{self, BufRead};
 
 #[derive(Clone, Debug)]
 struct EnigmaEncryptionKey {
@@ -12,6 +14,7 @@ struct EnigmaEncryptionKey {
 
 pub fn main() {
     let cyphertext = "kxzzqebhqwvbmhhmgdtgsvoueoogtouisqblukcyfwgnbifmvjmwcwcqoftzewmmcbvtxvyhczfqwgcgrhqodqdj";
+    let english_language_model = build_statistical_language_model();
 
     let mut ring_setting_candidates: Vec<(f64, EnigmaEncryptionKey)> = Vec::new();
 
@@ -43,6 +46,42 @@ pub fn main() {
         println!("{}", decrypt(&candidate.1, cyphertext));
     }
     
+}
+
+fn english_score(text: &str, language_model: HashMap<String, f64>) -> f64 {
+    text.chars()
+        .collect::<Vec<char>>() // collect into a Vec<char>
+        .windows(3)             // take rolling windows of size 3
+        .map(|w| w.iter().collect::<String>())
+        .map(|s| language_model[&s]).sum::<f64>() / ((text.chars().count() - 2) as f64)
+}
+
+fn build_statistical_language_model() -> HashMap<String, f64> {
+    let file = File::open("english_trigrams.txt").unwrap();
+    let reader = io::BufReader::new(file);
+
+    let mut map = HashMap::new();
+
+    for line in reader.lines() {
+        let line = line.unwrap();
+        let mut parts = line.split_whitespace();
+
+        if let (Some(trigram), Some(count_str)) = (parts.next(), parts.next()) {
+            if let Ok(count) = count_str.parse::<usize>() {
+                map.insert(trigram.to_string(), count);
+            }
+        }
+    }
+
+    let total = map.values().sum::<usize>();
+
+    let mut res: HashMap<String, f64> = HashMap::new();
+
+    for (trigram, count) in map {
+        res.insert(trigram, (count as f64 / total as f64).log2()).unwrap();
+    }
+
+    res
 }
 
 fn test_ring_settings(key: EnigmaEncryptionKey, cyphertext : &str, number_of_candidates : usize) -> Vec<(f64, EnigmaEncryptionKey)> {
