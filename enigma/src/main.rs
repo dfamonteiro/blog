@@ -35,7 +35,7 @@ pub fn main() {
 
     for (_, candidate_key) in ring_setting_candidates {
         println!("Processing {:?}", candidate_key);
-        ring_position_candidates.append(&mut test_ring_positions(candidate_key, cyphertext, 10));
+        ring_position_candidates.append(&mut test_ring_positions(candidate_key, cyphertext, &english_language_model, 10));
     }
 
     ring_position_candidates.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap());
@@ -48,12 +48,12 @@ pub fn main() {
     
 }
 
-fn english_score(text: &str, language_model: HashMap<String, f64>) -> f64 {
+fn english_score(text: &str, language_model: &HashMap<String, f64>) -> f64 {
     text.chars()
         .collect::<Vec<char>>() // collect into a Vec<char>
         .windows(3)             // take rolling windows of size 3
         .map(|w| w.iter().collect::<String>())
-        .map(|s| language_model[&s]).sum::<f64>() / ((text.chars().count() - 2) as f64)
+        .map(|s| language_model.get(&s).unwrap_or(&0f64)).sum::<f64>() / ((text.chars().count() - 2) as f64)
 }
 
 fn build_statistical_language_model() -> HashMap<String, f64> {
@@ -78,7 +78,7 @@ fn build_statistical_language_model() -> HashMap<String, f64> {
     let mut res: HashMap<String, f64> = HashMap::new();
 
     for (trigram, count) in map {
-        res.insert(trigram, (count as f64 / total as f64).log2()).unwrap();
+        res.insert(trigram, (count as f64 / total as f64).log2());
     }
 
     res
@@ -105,7 +105,7 @@ fn test_ring_settings(key: EnigmaEncryptionKey, cyphertext : &str, number_of_can
     res
 }
 
-fn test_ring_positions(key: EnigmaEncryptionKey, cyphertext : &str, number_of_candidates : usize) -> Vec<(f64, EnigmaEncryptionKey)> {
+fn test_ring_positions(key: EnigmaEncryptionKey, cyphertext : &str, language_model: &HashMap<String, f64>, number_of_candidates : usize) -> Vec<(f64, EnigmaEncryptionKey)> {
     let mut res: Vec<(f64, EnigmaEncryptionKey)> = Vec::new();
 
     for p1 in 1..27 {
@@ -115,7 +115,7 @@ fn test_ring_positions(key: EnigmaEncryptionKey, cyphertext : &str, number_of_ca
                 new_key.ring_positions = (p1, p2, p3);
                 let decryption = decrypt(&new_key, cyphertext);
 
-                res.push((index_of_coincidence(&decryption), new_key));
+                res.push((english_score(&decryption, language_model), new_key));
             }
         }
     }
@@ -198,19 +198,23 @@ fn _demo() {
 // Encrypted (no   plugboard): kxzzqebhqwvbmhhmgdtgsvoueoogtouisqblukcyfwgnbifmvjmwcwcqoftzewmmcbvtxvyhczfqwgcgrhqodqdj
 
 
-// (0.05721003134796238, EnigmaEncryptionKey { reflector: 'B', rotors: (1, 4, 2), ring_positions: (26, 13, 14), ring_settings: (16, 12, 17), plugboard: "" })
-// AALFIVGLGTAMFLRIAILJKGYKAFPDLSJLMLGSJVAHMPMAKFJUMHPOOSGLSLHIDODSSDPOMTFLHADJHVMSHAWDQHPR
-// (0.056948798328108674, EnigmaEncryptionKey { reflector: 'B', rotors: (1, 2, 4), ring_positions: (17, 3, 3), ring_settings: (18, 19, 12), plugboard: "" })
-// VYIRCRXPFJFKTBJDQSLAKGPVAQKDYVFYZWADYALNNHYYJNJIOVHAGVYWFMXYYSFSAAFDYALEAAYTXNLZWLOZYYFY
-// (0.056948798328108674, EnigmaEncryptionKey { reflector: 'B', rotors: (1, 2, 3), ring_positions: (1, 1, 1), ring_settings: (2, 1, 11), plugboard: "" })
-// QGUQPNQZSNHKANSKNYAHAZGWSUNBXSTZBGGAZBXIHSKHKPNRDQBNZRKGQQHHQNUVNZGZFPLBQBYKQCGXLRYGQDMQ
-// (0.056948798328108674, EnigmaEncryptionKey { reflector: 'B', rotors: (1, 2, 3), ring_positions: (1, 1, 1), ring_settings: (6, 17, 12), plugboard: "" })
-// THETIMEANDLABORINVOCHEDINANEXACTPERFORMANCECABXULATIONHADTWOQUITEPREDICKFBLECONSEQUENCES <---------------
-// (0.056948798328108674, EnigmaEncryptionKey { reflector: 'B', rotors: (4, 1, 3), ring_positions: (1, 1, 1), ring_settings: (16, 7, 12), plugboard: "" })
-// WJNSMRDJPBCVUDWBOJJBEWSLLSJHEZLJQFUYWEDIWJJXTTMYGYYMMJZSSJFJUVJWSFPSJJXXJXXRTSOCIVWPHBUV
-// (0.056948798328108674, EnigmaEncryptionKey { reflector: 'B', rotors: (4, 2, 3), ring_positions: (14, 3, 19), ring_settings: (15, 23, 19), plugboard: "" })
-// JLBWOFGGCLIHNLLNLIINPANGVTNHUMJUIWTXIBQZOOVIUPIDBZOIMMMDULUULNFBUNOOIICNLJKMOIUVQAOYPYIA
-// (0.056948798328108674, EnigmaEncryptionKey { reflector: 'B', rotors: (3, 1, 4), ring_positions: (13, 9, 3), ring_settings: (10, 13, 13), plugboard: "" })
-// QNTGMYNQGUGNWQMQLCZXFJJVGWNQGNNVFBNHLVLOZNXCNYONGNNXICSCSNIGAYINOMEYDBFIFQJPVAXEOIANLYMC
-// (0.056948798328108674, EnigmaEncryptionKey { reflector: 'B', rotors: (2, 1, 4), ring_positions: (10, 17, 13), ring_settings: (14, 8, 16), plugboard: "" })
-// LLSXFKJFLQTMKZCOCIVTQQSQJDJEKXGKFHRKOQTTQQOUPGQXRVVIVFQLLEQTMDEQKHTWFSTFFOQZSWDODVXQFXKS
+// (-11.825969165601718, EnigmaEncryptionKey { reflector: 'B', rotors: (1, 2, 3), ring_positions: (1, 1, 1), ring_settings: (6, 17, 12), plugboard: "" })
+// THETIMEANDLABORINVOCHEDINANEXACTPERFORMANCECABXULATIONHADTWOQUITEPREDICKFBLECONSEQUENCES
+// (-11.894460953987181, EnigmaEncryptionKey { reflector: 'B', rotors: (1, 2, 3), ring_positions: (23, 11, 26), ring_settings: (2, 1, 11), plugboard: "" })
+// THETIMEANDLABORINVOCHYDINANEXACTPERFORMANCECABXSLATIONHADTWOQUITEPREDICKFLLECONSEQUENCES
+// (-12.511133780267013, EnigmaEncryptionKey { reflector: 'B', rotors: (1, 2, 3), ring_positions: (11, 20, 7), ring_settings: (16, 10, 18), plugboard: "" })
+// THETIMEANDLABORJEGWLVEDINANEXACTPERFORMANBLGJLCULATIONHADTWOQUITEPROKMATABLECONSEQUENCES
+// (-13.44272259427939, EnigmaEncryptionKey { reflector: 'B', rotors: (1, 2, 3), ring_positions: (22, 4, 3), ring_settings: (2, 21, 14), plugboard: "" })
+// CDQDELQZRUKSAXJUHQLLVEDINANEXACTPERFORMANCECALCULATIONHADTWOQUITEPREDICTABLECONSEQUENCES
+// (-14.256240941164712, EnigmaEncryptionKey { reflector: 'B', rotors: (1, 2, 3), ring_positions: (14, 17, 11), ring_settings: (19, 7, 22), plugboard: "" })
+// THETIMEANDLZCNGJEGWLVEDINANEXACTPERFOXERKBLGJLCULATIONHADTWOQUIGBKQOKMATABLECONSEQUENCES
+// (-14.76857335320216, EnigmaEncryptionKey { reflector: 'B', rotors: (1, 2, 3), ring_positions: (13, 25, 19), ring_settings: (18, 16, 4), plugboard: "" })
+// JRDTIMEANDLABORINVOCHYHVWZEJJACTPERFORMANCECABXSCRSNBXLADTWOQUITEPREDICKFLKTFYOYKQUENCES
+// (-15.344821978384964, EnigmaEncryptionKey { reflector: 'B', rotors: (1, 2, 3), ring_positions: (22, 24, 18), ring_settings: (1, 15, 3), plugboard: "" })
+// JRDBIMEANDLABORINVOCHYHVWZEJJVCTPERFORMANCECABXSCRSNBXLRDTWOQUITEPREDICKFLKTFYOYKIUENCES
+// (-15.618564703768623, EnigmaEncryptionKey { reflector: 'B', rotors: (1, 4, 3), ring_positions: (4, 12, 26), ring_settings: (4, 11, 21), plugboard: "" })
+// YNDCUSWESESOQJOZNNSEFJACTJNNSATYTVVJFGETUIWODQIFEROLBDSGHDGWOLORMMMOSTELLHRAMEAHEROHTEPX
+// (-15.709021598556395, EnigmaEncryptionKey { reflector: 'B', rotors: (1, 2, 3), ring_positions: (16, 11, 15), ring_settings: (21, 1, 26), plugboard: "" })
+// THETIMEWIOBZCNGJEGWLVEDINANEXACTPBKSQXERKBLGJLCULATIONHADTWKDARGBKQOKMATABLECONSEQUENCXS
+// (-15.711703490508183, EnigmaEncryptionKey { reflector: 'B', rotors: (4, 1, 3), ring_positions: (19, 17, 11), ring_settings: (2, 4, 2), plugboard: "" })
+// ERCEDOEASMDKCTSSTXFDXBEINQRZUISMAXLELFHANOVTUNICBNOCSSNBAASJXUCELLDRAKTOLLVELITBATMJRRNT
