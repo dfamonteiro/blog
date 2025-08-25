@@ -32,6 +32,14 @@ pub fn decrypt(key : &EnigmaEncryptionKey, cyphertext: &str) -> String {
     .plugboard(&key.plugboard).unwrap().decrypt(cyphertext)
 }
 
+pub fn _standardize_ascii_text(text: &str) -> String {
+    text
+        .chars()
+        .filter(|c| c.is_ascii_alphabetic())
+        .map(|c| c.to_ascii_uppercase())
+        .collect()
+}
+
 pub fn index_of_coincidence(text: &str) -> f64 {
     // keep only A–Z letters and uppercase
     let filtered: String = text
