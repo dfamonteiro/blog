@@ -39,10 +39,12 @@ fn _wip_main() {
     }
 }
 
-pub fn find_best_plugboard(key: utils::EnigmaEncryptionKey, cyphertext : &str, language_model: &HashMap<String, f64>) {
+pub fn find_best_plugboard(key: utils::EnigmaEncryptionKey, cyphertext : &str, _language_model: &HashMap<String, f64>) {
     let alphabet: Vec<char> = ('A'..='Z').collect();
     
     let mut current_best = (f64::MIN, String::new());
+
+    let mut all_scores = Vec::new();
 
     for i in 0..alphabet.len() {
         for j in (i+1)..alphabet.len() {
@@ -64,15 +66,23 @@ pub fn find_best_plugboard(key: utils::EnigmaEncryptionKey, cyphertext : &str, l
 
             let mut new_key = key.clone();
             new_key.plugboard = test_plugboard;
-            let test_score = utils::english_score(&utils::decrypt(&new_key, cyphertext), language_model);
+            let test_score = utils::index_of_coincidence(&utils::decrypt(&new_key, cyphertext));
 
             if test_score > current_best.0 {
-                current_best = (test_score, new_key.plugboard);
+                current_best = (test_score, new_key.plugboard.clone());
             }
+            all_scores.push((test_score, new_key.plugboard));
         }
     }
 
-    println!("{:?}", current_best);
+    // println!("{:?}", current_best);
+
+    all_scores.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap());
+    all_scores.truncate(20);
+
+    for candidate in all_scores {
+        println!("{:?}", candidate);
+    }
 }
 
 pub fn main() {
