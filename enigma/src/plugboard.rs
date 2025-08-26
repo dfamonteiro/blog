@@ -116,3 +116,49 @@ pub fn test_permutations(key: utils::EnigmaEncryptionKey, cyphertext : &str, lan
 
     res.iter().map(|(score, _plugboard, key)| (score.clone(), key.clone())).collect::<Vec<(f64, utils::EnigmaEncryptionKey)>>()
 }
+
+pub fn find_best_plugboard(key: utils::EnigmaEncryptionKey, cyphertext : &str) {
+    let alphabet: Vec<char> = ('A'..='Z').collect();
+    
+    let mut current_best = (f64::MIN, String::new());
+
+    let mut all_scores = Vec::new();
+
+    for i in 0..alphabet.len() {
+        for j in (i+1)..alphabet.len() {
+            let i = alphabet[i];
+            let j = alphabet[j];
+            let mut plugboard: Vec<(char, char)> = Vec::new();
+
+            if plugboard.iter().any(|(a, b)| *a == i || *b == i || *a == j || *b == j) {
+                continue;
+            }
+
+            plugboard.push((i, j));
+
+            let test_plugboard = plugboard
+                .iter()
+                .map(|(a, b)| format!("{}{}", a, b))
+                .collect::<Vec<String>>()
+                .join(" ");
+
+            let mut new_key = key.clone();
+            new_key.plugboard = test_plugboard;
+            let test_score = utils::index_of_coincidence(&utils::decrypt(&new_key, cyphertext));
+
+            if test_score > current_best.0 {
+                current_best = (test_score, new_key.plugboard.clone());
+            }
+            all_scores.push((test_score, new_key.plugboard));
+        }
+    }
+
+    // println!("{:?}", current_best);
+
+    all_scores.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap());
+    all_scores.truncate(20);
+
+    for candidate in all_scores {
+        println!("{:?}", candidate);
+    }
+}
