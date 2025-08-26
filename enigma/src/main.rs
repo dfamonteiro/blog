@@ -4,11 +4,16 @@ mod rotors;
 
 
 pub fn main() {
-    let contents: &str = include_str!("../examples/privacy-plaintext.txt");
-
-    println!("File contents:\n{}", contents);
+    let contents: &str = include_str!("../examples/privacy-plaintext-formatted.txt");
+    let key = utils::EnigmaEncryptionKey {
+        reflector: 'B',
+        rotors: (2, 3, 1),
+        ring_positions: (21, 17, 3),
+        ring_settings: (10, 23, 4),
+        plugboard: String::new()
+    };
     
-    println!("{}", utils::_standardize_ascii_text(contents));
+    println!("{}", utils::decrypt(&key, contents));
     
     // plugboard::plugboard_test();
 }
