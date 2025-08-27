@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 mod utils;
 mod plugboard;
 mod rotors;
@@ -39,50 +37,52 @@ fn _wip_main() {
     }
 }
 
-pub fn find_best_plugboard(key: utils::EnigmaEncryptionKey, cyphertext : &str, _language_model: &HashMap<String, f64>) {
+pub fn find_best_plugboard(key: &utils::EnigmaEncryptionKey, cyphertext: &str, baseline_plugboard: &Vec<(char, char)>, baseline_score: f64) -> Vec<(f64, String)> {
     let alphabet: Vec<char> = ('A'..='Z').collect();
-    
-    let mut current_best = (f64::MIN, String::new());
 
-    let mut all_scores = Vec::new();
+    let mut candidates: Vec<(f64, String)> = vec![(baseline_score, convert_plugboard_to_string(baseline_plugboard))];
 
     for i in 0..alphabet.len() {
         for j in (i+1)..alphabet.len() {
             let i = alphabet[i];
             let j = alphabet[j];
-            let mut plugboard: Vec<(char, char)> = Vec::new();
+            let mut plugboard: Vec<(char, char)> = baseline_plugboard.clone();
 
             if plugboard.iter().any(|(a, b)| *a == i || *b == i || *a == j || *b == j) {
-                break;
+                continue;
+            }
+
+            match plugboard.last() {
+                None => (),
+                Some(last) => if i < last.1 {continue;}
             }
 
             plugboard.push((i, j));
 
-            let test_plugboard = plugboard
-                .iter()
-                .map(|(a, b)| format!("{}{}", a, b))
-                .collect::<Vec<String>>()
-                .join(" ");
+            let test_plugboard = convert_plugboard_to_string(&plugboard);
 
             let mut new_key = key.clone();
             new_key.plugboard = test_plugboard;
             let test_score = utils::index_of_coincidence(&utils::decrypt(&new_key, cyphertext));
 
-            if test_score > current_best.0 {
-                current_best = (test_score, new_key.plugboard.clone());
+            if test_score > baseline_score {
+                candidates.append(&mut find_best_plugboard(&new_key, cyphertext, &plugboard, test_score));
             }
-            all_scores.push((test_score, new_key.plugboard));
+            else {
+                candidates.push((test_score, new_key.plugboard));
+            }
         }
     }
 
-    // println!("{:?}", current_best);
+    candidates
+}
 
-    all_scores.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap());
-    all_scores.truncate(20);
-
-    for candidate in all_scores {
-        println!("{:?}", candidate);
-    }
+fn convert_plugboard_to_string(plugboard: &Vec<(char, char)>) -> String {
+    plugboard
+        .iter()
+        .map(|(a, b)| format!("{}{}", a, b))
+        .collect::<Vec<String>>()
+        .join(" ")
 }
 
 pub fn main() {
@@ -95,5 +95,15 @@ pub fn main() {
         plugboard: String::new()
     };
 
-    find_best_plugboard(key, cyphertext, &utils::build_statistical_language_model());
+    let mut res = find_best_plugboard(&key, cyphertext, &Vec::new(), utils::index_of_coincidence(&utils::decrypt(&key, cyphertext)));
+    
+    res.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap());
+    res.truncate(20);
+
+
+    for candidate in res {
+        let mut new_key = key.clone();
+        new_key.plugboard = candidate.1.clone();
+        println!("{:?} {:?}", candidate, utils::decrypt(&key, cyphertext));
+    }
 }
