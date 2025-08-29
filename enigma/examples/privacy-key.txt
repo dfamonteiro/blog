@@ -5,3 +5,5 @@ let key = utils::EnigmaEncryptionKey {
     ring_settings: (10, 23, 4),
     plugboard: "hq co zs kn va ue jy rl bd fi".to_uppercase()
 };
+
+// easy plugboard: "ik ye zw at jd".to_uppercase()
