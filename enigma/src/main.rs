@@ -86,7 +86,7 @@ fn convert_plugboard_to_string(plugboard: &Vec<(char, char)>) -> String {
 }
 
 pub fn main() {
-    let cyphertext: &str = include_str!("../examples/privacy-cyphertext-easy-plugboard.txt");
+    let cyphertext: &str = include_str!("../examples/privacy/privacy-cyphertext-easy-plugboard.txt");
     let key = utils::EnigmaEncryptionKey {
         reflector: 'B',
         rotors: (2, 3, 1),
