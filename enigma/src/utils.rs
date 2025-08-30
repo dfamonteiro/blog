@@ -73,13 +73,11 @@ pub fn english_score(text: &str, language_model: &HashMap<String, f64>) -> f64 {
 }
 
 pub fn build_statistical_language_model() -> HashMap<String, f64> {
-    let file = File::open("english_trigrams.txt").unwrap();
-    let reader = io::BufReader::new(file);
+    let trigrams = include_str!("../english_trigrams.txt");
 
     let mut map = HashMap::new();
 
-    for line in reader.lines() {
-        let line = line.unwrap();
+    for line in trigrams.lines() {
         let mut parts = line.split_whitespace();
 
         if let (Some(trigram), Some(count_str)) = (parts.next(), parts.next()) {
