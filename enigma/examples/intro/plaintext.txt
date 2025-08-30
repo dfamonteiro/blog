@@ -1,0 +1,36 @@
+Who Should Read This Book?
+If you develop applications that have some kind of server/backend for storing or pro‐
+cessing data, and your applications use the internet (e.g., web applications, mobile
+apps, or internet-connected sensors), then this book is for you.
+xiv | Preface
+This book is for software engineers, software architects, and technical managers who
+love to code. It is especially relevant if you need to make decisions about the architec‐
+ture of the systems you work on—for example, if you need to choose tools for solving
+a given problem and figure out how best to apply them. But even if you have no
+choice over your tools, this book will help you better understand their strengths and
+weaknesses.
+You should have some experience building web-based applications or network serv‐
+ices, and you should be familiar with relational databases and SQL. Any non-
+relational databases and other data-related tools you know are a bonus, but not
+required. A general understanding of common network protocols like TCP and
+HTTP is helpful. Your choice of programming language or framework makes no dif‐
+ference for this book.
+If any of the following are true for you, you’ll find this book valuable:
+• You want to learn how to make data systems scalable, for example, to support
+web or mobile apps with millions of users.
+• You need to make applications highly available (minimizing downtime) and
+operationally robust.
+• You are looking for ways of making systems easier to maintain in the long run,
+even as they grow and as requirements and technologies change.
+• You have a natural curiosity for the way things work and want to know what
+goes on inside major websites and online services. This book breaks down the
+internals of various databases and data processing systems, and it’s great fun to
+explore the bright thinking that went into their design.
+Sometimes, when discussing scalable data systems, people make comments along the
+lines of, “You’re not Google or Amazon. Stop worrying about scale and just use a
+relational database.” There is truth in that statement: building for scale that you don’t
+need is wasted effort and may lock you into an inflexible design. In effect, it is a form
+of premature optimization. However, it’s also important to choose the right tool for
+the job, and different technologies each have their own strengths and weaknesses. As
+we shall see, relational databases are important but not the final word on dealing with
+data.
