@@ -86,7 +86,7 @@ fn convert_plugboard_to_string(plugboard: &Vec<(char, char)>) -> String {
 }
 
 pub fn main() {
-    let cyphertext: &str = include_str!("../examples/privacy-cyphertext.txt");
+    let cyphertext: &str = include_str!("../examples/privacy-cyphertext-easy-plugboard.txt");
     let key = utils::EnigmaEncryptionKey {
         reflector: 'B',
         rotors: (2, 3, 1),
@@ -94,8 +94,13 @@ pub fn main() {
         ring_settings: (10, 23, 4),
         plugboard: String::new()
     };
-
-    let mut res = find_best_plugboard(&key, cyphertext, &Vec::new(), utils::index_of_coincidence(&utils::decrypt(&key, cyphertext)));
+    
+    let mut res = find_best_plugboard(
+        &key, 
+        cyphertext, 
+        &Vec::new(),
+        utils::index_of_coincidence(&utils::decrypt(&key, cyphertext))
+    );
     
     res.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap());
     res.truncate(20);
@@ -104,6 +109,6 @@ pub fn main() {
     for candidate in res {
         let mut new_key = key.clone();
         new_key.plugboard = candidate.1.clone();
-        println!("{:?} {:?}", candidate, utils::decrypt(&key, cyphertext));
+        println!("{:?} {:?}", candidate, utils::decrypt(&new_key, cyphertext));
     }
 }
