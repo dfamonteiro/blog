@@ -15,11 +15,11 @@ Recently, as part of a team-building activity, me and a bunch of work colleagues
 
 [^1]: I did manage to complete the [Sebastian Vettel X Challenge](https://gran-turismo.fandom.com/wiki/Sebastian_Vettel_X_Challenge_(GT5)), though! The folks that have played GT5 will know how tricky this challenge is.
 
-We were about to leave the track, when something unexpected happened: they gave us two sheets with everyone's lap times, for both the qualifying and the race! We ended up spending the lunch pouring over the the data, with everyone comparing their lap times to everyone else's. That was when I got the idea: we have the raw lap time data, we could pull out some really neat statistics from it! I have seen plenty of F1 analytics Twitter accounts posting charts about Formula 1 qualifying and race sessions, it would be fun to do something similar for a race that in which I was an active participant.
+We were about to leave the track, when something unexpected happened: they gave us two sheets with everyone's lap times, for both the qualifying and the race! We ended up spending the lunch poring over the data, with everyone comparing their lap times to everyone else's. That was when I got the idea: we have the raw lap time data, we could pull out some really neat statistics from it! I have seen plenty of F1 analytics Twitter accounts posting charts about Formula 1 qualifying and race sessions, it would be fun to do something similar for a race that in which I was an active participant.
 
 ## Parsing the lap time data
 
-The first step in this rather pointless side project is to extract the lap times from the sheets given to us by the karting track. Sadly I don't have any silver bullets for you: I just sat down and copied the values by hand. It's easy to make a mistake with data entry, but luckily for us the sheets also came with an average lap time per driver, which I was able to compute and compare for a sanity check.
+The first step in this rather silly side project is to extract the lap times from the sheets given to us by the karting track. Sadly I don't have any silver bullets for you: I just sat down and copied the values by hand. It's easy to make a mistake with data entry, but luckily for us the sheets also came with an average lap time per driver, which I was able to compute and compare for a sanity check.
 
 ```python
 QUALIFYING = {
@@ -53,7 +53,7 @@ RACE = {
 }
 ```
 
-The drivers are identified by their initials[^2] rather of their full names to give them some level of anonimity.
+The drivers are identified by their initials[^2] rather than their full names to give them some level of anonimity.
 
 [^2]: I'm `DM`, for example.
 
@@ -61,7 +61,7 @@ The drivers are identified by their initials[^2] rather of their full names to g
 
 We have our raw data, but before we can start doing interesting data manipulation and visualization, we have to convert it to a dataframe.[^3]
 
-[^3]: There is an interesting wrinkle here: we have two different sessions, so should we create two separate dataframes? I ended up using just a single dataframe with an addtional `Session` column to indicate from which session the lap came from, but in retrospective I feel that having two separate dataframes would be the more elegant approach.
+[^3]: There is an interesting wrinkle here: we have two different sessions, so should we create two separate dataframes? I ended up using just a single dataframe with an additional `Session` column to indicate from which session the lap came from, but in retrospect I feel that having two separate dataframes would be the more elegant approach.
 
 ```python
 def parse_lap_time(lap_time : str) -> float:
@@ -113,7 +113,7 @@ Calling `get_data()` yields the following:
 
 ### And pole position goes to...
 
-Let's start with that basics: what is the racing starting order?
+Let's start with the basics: what’s the starting grid?
 
 ```python
 def qualifying_standings(df: pandas.DataFrame):
@@ -141,11 +141,11 @@ def qualifying_standings(df: pandas.DataFrame):
     # Name: Lap Time, dtype: float64
 ```
 
-`FT` qualifies on pole by over a second ahead of `MF`, who in turn gapped me by 1.9 seconds... there's levels to this.
+`FT` qualified on pole by over a second ahead of `MF`, who in turn gapped me by 1.9 seconds... there's levels to this.
 
 ### Lap time evolution
 
-As we got more comfortable with the karts, we were able to set faster lap times. It would be interesting to visualize this.
+As we got more comfortable with the karts, we were able to set faster lap times. Let's visualize this.
 
 ```python
 def lap_time_progression(df: pandas.DataFrame, session: Literal["QUALIFYING", "RACE"]):
@@ -166,9 +166,9 @@ def lap_time_progression(df: pandas.DataFrame, session: Literal["QUALIFYING", "R
     <img src="/images/KartingQualiProgression.png" alt="Karting Qualification Laptime Progression Chart"/>
 </div>
 
-We can see that by lap 3/4 we were setting our PBs. Lap 1 was significantly worse than all the other laps not necessarily due of lack of confidence, but because it was an outlap (i.e. the lap was started from standstill in the pit lane).
+We can see that by lap 3/4 we were setting our PBs. Lap 1 was significantly worse than all the other laps not necessarily due to a lack of confidence, but because it was an outlap (i.e. the lap was started from standstill in the pit lane).
 
-This line chart does give us some insight: `FT` is both very quick and consistent, and `DM` (me) made a lot of mistakes in lap 3. However, the need to be able to distinguish all the lines belonging to different drivers makes this chart hard to read.
+“The line chart reveals a few things: `FT` is both very quick and consistent, and `DM` (me) made a lot of mistakes in lap 3. However, the need to be able to distinguish all the lines belonging to different drivers makes this chart hard to read.
 
 ### Lap time distribution
 
@@ -195,11 +195,11 @@ def lap_time_distribution(df: pandas.DataFrame, session: Literal["QUALIFYING", "
 
 This visualization is far clearer than the line chart, and we even preserve the lap time number information with the hue of the dots!
 
-On a side note, can we take a moment to appreciate how bad my lap 3 is? 15 seconds off the pace: without exagerating, I must have spun 3 million times.
+On a side note, can we take a moment to appreciate how bad my lap 3 is? 15 seconds off the pace - without exaggerating, I must have spun 3 million times.
 
 ## Race
 
-The race was three times longer than qualifying, which means the number of laps to analyse will increase threefold.
+The race was three times longer than qualifying, which means the number of laps to analyse increases threefold. The unique nature of a race also means that there are more opportunities for other types of visualizations.
 
 ### Lap time distribution
 
@@ -207,13 +207,13 @@ The race was three times longer than qualifying, which means the number of laps 
     <img src="/images/KartingRaceDistribution.png" alt="Karting Race Laptime Distribution Chart"/>
 </div>
 
-There is a clear distinction between the top 5 with metronomic pace and the rest of the drivers, whose pace was a bit all over the place. There's another interesting detail: most of the outlier laps were set in the beginning of the race, and by the the end most drivers were able to settle into a rythm.[^4]
+There is a clear distinction between the top 5, with metronomic pace, and the rest of the drivers, whose pace was a bit all over the place. There's another interesting detail: most of the outlier laps were set in the beginning of the race, and by the end most drivers were able to settle into a rhythm.[^4]
 
 [^4]: There are two exceptions to this general trend: `EO` was losing pace hand over fist by the end of the race for some reason, and `MT` had a technical issue that led to him not being able to finish the race.
 
 ### Race trace
 
-There is a special visualization that we can use to track the gaps between the drivers, called [race trace](https://multiviewer.app/docs/usage/race-trace). To make use of it,we first must calculate the total race time, per lap: for example, if I start a race with a 1:03, a 1:02 and a 1:05, that means that the total race time _at the end of lap 3_ would be 3:10.
+There is a special visualization that we can use to track the gaps between the drivers, called [race trace](https://multiviewer.app/docs/usage/race-trace). To make use of it, we first must calculate the total race time, per lap: for example, if I my lap times are 1:03, a 1:02 and a 1:05, my total race time _at the end of lap 3_ would be 3:10.
 
 ```python
 def calculate_cumulative_lap_times(df: pandas.DataFrame) -> pandas.DataFrame:
@@ -232,7 +232,7 @@ def calculate_cumulative_lap_times(df: pandas.DataFrame) -> pandas.DataFrame:
     return res
 ```
 
-Plotting a graph with the `Cumulative Lap Time` column would already give us lines that reflect the gaps between drivers, but all these lines would be going diagonally towards the top right of the chart. Live race trace tools usually deal with this by computing an average total race time, and subtracting this value from everyone's `Cumulative Lap Time`. Given that we don't have to do this on the fly we can manually pick a value that makes our chart look good.
+Plotting a graph with the `Cumulative Lap Time` column would already give us lines that reflect the gaps between drivers, but all these lines would be slope diagonally upward. Live race trace tools usually deal with this by computing an average total race time and subtracting that average from everyone's `Cumulative Lap Time`. We can take an easier approach and manually pick a value that makes our chart look good.
 
 ```python
 def calculate_race_trace_offsets(df: pandas.DataFrame) -> pandas.DataFrame:
@@ -276,15 +276,15 @@ def race_trace(df: pandas.DataFrame):
 This singular chart tells us the history of the race. There's so many details one can glean from it:
 
 - By the end of the first lap, the field spread was already close to 20 seconds!
-- The top 3 have similar place. It's a shame that `RM` qualified a bit too far back: by the time he cleared `DL` there was nothing he could do.
-- I have no doubt in my mind that FT could start dead last and still finish on the podium.
+- The top 3 have similar pace. It's a shame that `RM` qualified a bit too far back: by the time he cleared `DL` there was nothing he could do.
+- I have no doubt in my mind that `FT` could start dead last and still finish on the podium.
 - `EO` had an incredible start (he started P4 on the grid) and then gradually fell away. What happened on laps 13/14? I'll have to ask him when I see him.
 - `MC` had the exact opposite situation: horrendous start followed by some very decent pace.
 - You can really see the moment where `MT` started having technical issues.
 
 ### Track position
 
-It is possible to create a cleaner version of the race trace if you only care about the track position and disregard the time gaps between the drivers: instead of using the total race time to create the race trace, we will use to order our drivers in every lap and save this order in a new row.
+It is possible to create a cleaner version of the race trace if you only care about the track position and disregard the time gaps between the drivers: instead of using the total race time to create the race trace, we will use it to order our drivers in every lap and save this order in a new column.
 
 ```python
 def calculate_track_position(df: pandas.DataFrame):
