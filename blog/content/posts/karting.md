@@ -124,7 +124,7 @@ def qualifying_standings(df: pandas.DataFrame):
         .sort_values()
     )
 
-    print(res)
+    return res
     # Driver
     # FT    56.817 <-- pole position!
     # MF    57.832
@@ -273,11 +273,82 @@ def race_trace(df: pandas.DataFrame):
     <img src="/images/KartingRaceTrace.png" alt="Karting Race Trace Chart"/>
 </div>
 
-There's so many details one can glean from this chart:
+This singular chart tells us the history of the race. There's so many details one can glean from it:
 
 - By the end of the first lap, the field spread was already close to 20 seconds!
-- The top 3 have similar place. It's a shame that `RM` qualified a bit too far back: by the time he cleared traffic there was nothing he could do.
+- The top 3 have similar place. It's a shame that `RM` qualified a bit too far back: by the time he cleared `DL` there was nothing he could do.
 - I have no doubt in my mind that FT could start dead last and still finish on the podium.
-- `EO` had an incredible start (he started P4 on hte grid) and then gradually fell away. What happened on laps 13/14? I'll have to ask him when I see him.
+- `EO` had an incredible start (he started P4 on the grid) and then gradually fell away. What happened on laps 13/14? I'll have to ask him when I see him.
 - `MC` had the exact opposite situation: horrendous start followed by some very decent pace.
 - You can really see the moment where `MT` started having technical issues.
+
+### Track position
+
+It is possible to create a cleaner version of the race trace if you only care about the track position and disregard the time gaps between the drivers: instead of using the total race time to create the race trace, we will use to order our drivers in every lap and save this order in a new row.
+
+```python
+def calculate_track_position(df: pandas.DataFrame):
+    race_df = calculate_cumulative_lap_times(df)
+
+    # For every lap of every driver, calculate their track position
+    positions = {}
+
+    for lap_number in race_df["Lap Number"].unique():
+        laps = race_df[race_df["Lap Number"] == lap_number].sort_values(by="Cumulative Lap Time")
+        
+        for position, (index, _) in enumerate(laps.iterrows(), 1):
+            positions[index] = position
+
+    race_df["Position"] = pandas.Series(positions)
+
+    race_df = race_df[["Driver","Lap Number", "Position"]] # Only keep the columns we need
+    
+    # Add the starting grid as a fake lap 0 to make the data more complete
+    starting_positions = []
+    for position, driver in enumerate(qualifying_standings(df).keys(), 1):
+        starting_positions.append({
+            "Driver" : driver,
+            "Lap Number" : 0,
+            "Position" : position,
+        })
+    
+    return pandas.concat([race_df, pandas.DataFrame(starting_positions)], ignore_index=True)
+
+    #     Driver  Lap Number  Position
+    # 0       FT           1         2
+    # 1       FT           2         1
+    # 2       FT           3         1
+    # 3       FT           4         1
+    # 4       FT           5         1
+    # ..     ...         ...       ...
+    # 188     RV           0         8
+    # 189     MC           0         9
+    # 190     JS           0        10
+    # 191     TG           0        11
+    # 192     MT           0        12
+```
+
+Plotting the chart is quite straightforward:
+
+```python
+def race_track_position(df: pandas.DataFrame):
+    seaborn.lineplot(df, x="Lap Number", y="Position", hue="Driver", style="Driver", linewidth=3)
+    
+    # Force integer x ticks
+    pyplot.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
+
+    # Draw horizontal grid lines
+    pyplot.grid(axis='y', alpha=0.7)
+
+    pyplot.show()
+```
+
+<div style="text-align:center">
+    <img src="/images/KartingRaceTrackPosition.png" alt="Karting Race Trace Chart"/>
+</div>
+
+Watching the race start of an F1 race is one thing... being part of a race start yourself is an entirely different experience. One thing I can tell you for sure is that I'll never backseat during an F1 race ever again.
+
+## Final notes
+
+You can find the code for this blog post [here](https://github.com/dfamonteiro/blog/blob/main/karting/data.py).

@@ -69,7 +69,7 @@ def qualifying_standings(df: pandas.DataFrame):
         .sort_values()
     )
 
-    print(res)
+    return res
 
 def lap_time_progression(df: pandas.DataFrame, session: Literal["QUALIFYING", "RACE"]):
     res = df[df["Session"] == session]
@@ -128,6 +128,44 @@ def race_trace(df: pandas.DataFrame):
 
     pyplot.show()
 
+def calculate_track_position(df: pandas.DataFrame):
+    race_df = calculate_cumulative_lap_times(df)
+
+    # For every lap of every driver, calculate their track position
+    positions = {}
+
+    for lap_number in race_df["Lap Number"].unique():
+        laps = race_df[race_df["Lap Number"] == lap_number].sort_values(by="Cumulative Lap Time")
+        
+        for position, (index, _) in enumerate(laps.iterrows(), 1):
+            positions[index] = position
+
+    race_df["Position"] = pandas.Series(positions)
+
+    race_df = race_df[["Driver","Lap Number", "Position"]] # Only keep the columns we need
+    
+    # Add the starting grid as a fake lap 0 to make the data more complete
+    starting_positions = []
+    for position, driver in enumerate(qualifying_standings(df).keys(), 1):
+        starting_positions.append({
+            "Driver" : driver,
+            "Lap Number" : 0,
+            "Position" : position,
+        })
+    
+    return pandas.concat([race_df, pandas.DataFrame(starting_positions)], ignore_index=True)
+
+def race_track_position(df: pandas.DataFrame):
+    seaborn.lineplot(df, x="Lap Number", y="Position", hue="Driver", style="Driver", linewidth=3)
+    
+    # Force integer x ticks
+    pyplot.gca().xaxis.set_major_locator(MaxNLocator(integer=True))
+
+    # Draw horizontal grid lines
+    pyplot.grid(axis='y', alpha=0.7)
+
+    pyplot.show()
+
 if __name__ == "__main__":
     df = get_data()
     # print(get_data())
@@ -138,10 +176,11 @@ if __name__ == "__main__":
     # lap_time_distribution(df, "QUALIFYING")
 
     # Race
-    df = calculate_cumulative_lap_times(df)
-    df = calculate_race_trace_offsets(df)
-    print(df)
+    # df = calculate_cumulative_lap_times(df)
+    # df = calculate_race_trace_offsets(df)
     # lap_time_progression(df, "RACE")
     # lap_time_distribution(df, "RACE", False)
-    race_trace(df)
+    # race_trace(df)
+
+    race_track_position(calculate_track_position(df))
 
