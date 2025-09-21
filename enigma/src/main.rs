@@ -63,7 +63,7 @@ pub fn find_best_plugboard(key: &utils::EnigmaEncryptionKey, cyphertext: &str, b
 
             let mut new_key = key.clone();
             new_key.plugboard = test_plugboard;
-            let test_score = utils::index_of_coincidence(&utils::decrypt(&new_key, cyphertext));
+            let test_score = utils::english_score(&utils::decrypt(&new_key, cyphertext), &utils::build_statistical_language_model());
 
             if test_score > baseline_score {
                 candidates.append(&mut find_best_plugboard(&new_key, cyphertext, &plugboard, test_score));
@@ -86,7 +86,7 @@ fn convert_plugboard_to_string(plugboard: &Vec<(char, char)>) -> String {
 }
 
 pub fn main() {
-    let cyphertext: &str = include_str!("../examples/privacy/privacy-cyphertext-easy-plugboard.txt");
+    let cyphertext: &str = include_str!("../examples/intro/cyphertext.txt");
     let key = utils::EnigmaEncryptionKey {
         reflector: 'B',
         rotors: (2, 3, 1),
@@ -99,7 +99,7 @@ pub fn main() {
         &key, 
         cyphertext, 
         &Vec::new(),
-        utils::index_of_coincidence(&utils::decrypt(&key, cyphertext))
+        utils::english_score(&utils::decrypt(&key, cyphertext), &utils::build_statistical_language_model())
     );
     
     res.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap());
