@@ -1,5 +1,5 @@
 +++ 
-draft = true
+draft = false
 date = 2025-09-20T18:51:17+01:00
 title = "Analysing karting lap times for fun and profit"
 description = ""
@@ -351,4 +351,6 @@ Watching the race start of an F1 race is one thing... being part of a race start
 
 ## Final notes
 
-You can find the code for this blog post [here](https://github.com/dfamonteiro/blog/blob/main/karting/data.py).
+I hope you enjoyed reading this post. Personally, I'm just glad I found a straightforward topic to write about, especially after struggling to perform cryptanalysis on Enigma cyphertexts[^5]. If you are interested in the code for these data visualizations, you can find it [here](https://github.com/dfamonteiro/blog/blob/main/karting/data.py).
+
+[^5]: It's a shame I didn't manage to pull it off, I even had a great blog post title for it and everything!
