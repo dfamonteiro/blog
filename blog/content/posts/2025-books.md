@@ -78,3 +78,15 @@ series = []
   - The concepts of `Entity`, `Aggregate`, `Value Object`, `Factory` and `Repository` have become popular design patterns and concepts.
   - One of my biggest takeaways is the emphasis the author placed on creating, upholding and promoting a **_ubiquitous language_** shared between the softare engineers and the domain experts. It's a key detail that I have always taken for granted at my workplace and never thought much about.
 - Personal opinion, but I felt that I got 80% percent of the value of this book from reading the first 40% of it.
+
+## Software Architecture: The Hard Parts (Neal Ford, Mark Richards, Pramod Sadalage & Zhamak Dehgani)
+
+This might be the best technical book I've read in 2025: Not only is it filled to the brim with technical insights, but is also very engaging from a narrative standpoint. The pattern is quite forward:
+
+1. The beginning of the chapter starts with the architects of a fictional company strugling with a problem.
+2. The chapter provides you with a framework to address, mitigate and/or solving the problem.
+3. The chapter ends with the fictional architects using insights from the chapter to find a way forward.
+
+It sounds straightforward at first glance but it's so well executed that it becomes, for lack of better words, the narrative engine of the book. It also brings with it the added benefit of grounding the contents of the book in the real-world scenarios from the fictitional company.
+
+_Software Architecture: The Hard Parts_ might just become my new gold standard when judging tecnical books. The best compliment I can give it is that I can't recommend a specific part of the book: the whole book is great and you are rewarded by reading the book from start to finish with the enjoyment of following these fictional architects finding solutions for their conudrums. By the end of the book you'll be cheering them on!
