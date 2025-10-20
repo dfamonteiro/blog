@@ -20,6 +20,10 @@ series = []
 
 - Look after reading the missing read me was. Was an interesting experience and natural. A natural continuation to the missing red. It was interesting. Take. Being my mindful of types of problems and the kind of work that managers. Have to do? But as expected, I felt that the first few chapters were very. Very interesting and useful, but to other ones when when it comes to managing multiple teams or being a CTO. Where otherwise engaging in the realm of politics, and it wasn't very useful.
 
+## The Staff Engineer's Path : A Guide for Individual Contributors Navigating Growth and Change (Tanya Reilly)
+
+With this book I've felt I completed the triumvirate of the SE career progression books (the other two thirds of this trio being the two books immediately above this review). While I'm not even remotely close to the level of a staff engineer when it comes to my own career progression, I've felt I still managed to extract useful insights from Reilly's writings. I'm particularly fond of the _Three Maps_ chapter: being able to understand why you're doing what you're doing, what's the goal, and how to navigate a specific company's corporate environment are all extremely useful information for engineers of any level!
+
 ## Designing Data-Intensive Applications (Martin Kleppmann)
 
 - IMO, borderline mandatory reading for any software engineer
