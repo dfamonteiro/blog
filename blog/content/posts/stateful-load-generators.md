@@ -116,24 +116,27 @@ def load_machine_by_name(name: str) -> Machine:
     "Loads the machine by name from the MES DB."
     pass
 
-def dispatch(wafer: Wafer, machine: Machine):
-    "Dispatches the wafer to the specified machine. The wafer goes from Queued to Dispatched."
-    pass
+class Wafer:
+    # ...
 
-def track_in(wafer: Wafer):
-    "Begins processing of the wafer. The wafer goes from Dispatched to InProcess."
-    pass
+  def dispatch(self, machine: Machine):
+      "Dispatches the wafer to the specified machine. The wafer goes from Queued to Dispatched."
+      pass
 
-def track_out(wafer: Wafer):
-    "Ends processing of the wafer. The wafer goes from InProcess to Processed."
-    pass
+  def track_in(self):
+      "Begins processing of the wafer. The wafer goes from Dispatched to InProcess."
+      pass
 
-def move_next(wafer: Wafer):
-    """Moves the wafer to the next step of its manufacturing flow.
-    The wafer goes from InProcess to Processed.
-    The wafer's flowpath to reflect the fact the wafer is in the bext step of its flow,
-    """
-    pass
+  def track_out(self):
+      "Ends processing of the wafer. The wafer goes from InProcess to Processed."
+      pass
+
+  def move_next(self):
+      """Moves the wafer to the next step of its manufacturing flow.
+      The wafer goes from InProcess to Processed.
+      The wafer's flowpath is updated to reflect the fact the wafer is in the bext step of its flow.
+      """
+      pass
 ```
 
 <!-- structure:
