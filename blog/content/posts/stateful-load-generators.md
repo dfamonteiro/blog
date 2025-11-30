@@ -79,13 +79,13 @@ Let's say that we are in charge of assessing the performance of a Manufacturing 
 class Wafer:
     name: str # Unique identifier
 
-    flowpath: str # In which step this wafer is at in its "manufacturing journey"
-                  # Tends to have this format "flow\subflow\step"
+    flowpath: str # In which step this wafer is at in its manufacturing flow
+                  # Tends to have this format: "flow\subflow\step"
 
-    system_state : Enum # In a given flowpath, the "manufacturing state" of this wafer.
+    system_state: Enum # In a given flowpath, the "manufacturing state" of this wafer.
     # The enum above has the following states:
     #     - Queued: The wafer is ready to be dispatched
-    #     - Dispatched: The wafer has been dispatched to a specific resource
+    #     - Dispatched: The wafer has been dispatched to a specific machine
     #     - InProcess: This wafer is being processed by the machine
     #     - Processed: The wafer has been processed and is now ready for the next flowpath
     # The system state evolves in this manner:
@@ -97,6 +97,43 @@ class Wafer:
 class Machine:
     name: str # Unique identifier
     # ...
+```
+
+I took some inspiration from how the [Critical Manufacturing MES](https://www.criticalmanufacturing.com/) does things, but please note that I'm cutting _a lot_ of corners with this scenario to make it easier to digest.[^5]
+
+[^5]: [XKCD 2501](https://xkcd.com/2501/) comes to mind, so lets keep things simple.
+
+With that out of the way, let's take a look at the MES operations we intend to stress-test:
+
+```python
+# Please pretend that these functions make http calls to an MES instance hosted somewhere
+
+def load_wafer_by_name(name: str) -> Wafer:
+    "Loads the wafer by name from the MES DB."
+    pass
+
+def load_machine_by_name(name: str) -> Machine:
+    "Loads the machine by name from the MES DB."
+    pass
+
+def dispatch(wafer: Wafer, machine: Machine):
+    "Dispatches the wafer to the specified machine. The wafer goes from Queued to Dispatched."
+    pass
+
+def track_in(wafer: Wafer):
+    "Begins processing of the wafer. The wafer goes from Dispatched to InProcess."
+    pass
+
+def track_out(wafer: Wafer):
+    "Ends processing of the wafer. The wafer goes from InProcess to Processed."
+    pass
+
+def move_next(wafer: Wafer):
+    """Moves the wafer to the next step of its manufacturing flow.
+    The wafer goes from InProcess to Processed.
+    The wafer's flowpath to reflect the fact the wafer is in the bext step of its flow,
+    """
+    pass
 ```
 
 <!-- structure:
