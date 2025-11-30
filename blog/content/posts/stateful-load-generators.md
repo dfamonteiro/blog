@@ -64,7 +64,7 @@ var scenario = Scenario.Create("my e-commerce scenario", async context =>
 
 Besides the ability to handle bespoke logic, top-of-the-line load generators also come with plenty of quality of life features such as [E2E load testing](https://grafana.com/docs/k6/latest/using-k6-browser/), [built-in metrics](https://grafana.com/docs/k6/latest/using-k6/metrics/) and [dashboards](https://grafana.com/docs/k6/latest/results-output/web-dashboard/).
 
-However, while their documentation and feature set serves the "e-commerce website" use case well, what should you do when your "users" have a massive ammount of state associated to them, which heavily influences what their next steps are? This is this problem I've been reflecting on at [Critical Manufacturing](https://www.criticalmanufacturing.com/): structuring user behaviours that are dependent on the state in an elegant and scalable manner, within the context of load generators.
+However, while their documentation and feature set serves the "e-commerce website" use case well, what should you do when your "users" have a massive ammount of state associated to them, which heavily influences what their next steps are? This is the problem I've been reflecting on at [Critical Manufacturing](https://www.criticalmanufacturing.com/): structuring user behaviours that are dependent on their current state in an elegant and scalable manner, within the context of load generators.
 
 ## The Xiaomi phone manufacturing scenario
 
