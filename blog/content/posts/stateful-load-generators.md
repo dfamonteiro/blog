@@ -64,9 +64,33 @@ var scenario = Scenario.Create("my e-commerce scenario", async context =>
 
 Besides the ability to handle bespoke logic, top-of-the-line load generators also come with plenty of quality of life features such as [E2E load testing](https://grafana.com/docs/k6/latest/using-k6-browser/), [built-in metrics](https://grafana.com/docs/k6/latest/using-k6/metrics/) and [dashboards](https://grafana.com/docs/k6/latest/results-output/web-dashboard/).
 
-However, while their documentation and feature set serves the "e-commerce website" use case well, what should you do when your "users" have a massive ammount of state associated to them, which heavily influences what their next steps are? This is the problem I've been reflecting on at [Critical Manufacturing](https://www.criticalmanufacturing.com/): structuring user behaviours that are dependent on their current state in an elegant and scalable manner, within the context of load generators.
+However, while their documentation and feature set serves the "e-commerce website" use case well, what should you do when your "users" have a massive amount of state associated to them, which heavily influences what their next steps are? This is the problem I've been reflecting on at [Critical Manufacturing](https://www.criticalmanufacturing.com/): structuring user behaviours that are dependent on their current state in an elegant and scalable manner, within the context of load generators.
+
+Experience with a more practical problem will help us get a better feel of this challenge:
 
 ## The TSMC wafer manufacturing scenario
+
+Let's say that we are in charge of assessing the performance of a Manufacturing Execution System (MES). This MES is in charge of keeping track of both the wafers and the machines in a TSMC fab, and then determining which wafers should be sent to which machine. This MES has the following entities:
+
+```python
+# Represents a WIP wafer in a fab
+class Wafer:
+    name: str # Unique identifier
+    flowpath: str # In which step this wafer is at in its "manufacturing journey"
+    system_state : Enum # In a given flowpath, the "manufacturing state" of this wafer.
+                        # The enum has the following states:
+                        #     - Queued: The wafer is ready to be dispatched
+                        #     - Dispatched: The wafer has been dispatched to a specific resource
+                        #     - InProcess: This wafer is being processed by the machine
+                        #     - Processed: The wafer has been processed and is now ready for the next flowpath
+
+    # ...
+
+# Represents a machine that performs some manufacturing process on a wafer
+class Machine:
+    name: str # Unique identifier
+    # ...
+```
 
 <!-- structure:
 - Complex manufacturing scenario: wafer fab
