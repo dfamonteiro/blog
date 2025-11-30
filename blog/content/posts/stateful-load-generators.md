@@ -39,11 +39,29 @@ You don't have to be Airbus to take testing seriously, though. There are open-so
 
 While open-source projects such as [Linux](https://www.linux.org/) and [SQLite](https://sqlite.org/) highlight a wide variety of software testing methodologies, the reality is that most enterprise software projects typically employ only a subset of the more popular types of software testing. This leads to certain side effects: functional tests such as unit tests, integration tests and end-to-end tests are very well understood across the industry and have plenty of tooling. On the other hand, less popular types of testing (fuzzing, stress tests, etc) are less well supported and require you to go off the trodden path and invest a lot of effort to adapt them to your project's needs.[^2]
 
-[^2]: On the topic of integrating non-functional tests in a project, you might be interested in the concept of fitness functions, as popularized in the book [Building Evolutionary Architectures: Automated Governance for Technical Change](https://www.thoughtworks.com/insights/books/building-evolutionaryarchitectures-second-edition).
+[^2]: On the topic of integrating non-functional tests in a project, you might be interested in the concept of fitness functions, as popularized in the book [Building Evolutionary Architectures](https://www.thoughtworks.com/insights/books/building-evolutionaryarchitectures-second-edition).
 
-Implementing less popular types of tests might be more technically challenging, but once they are up and running you'll start wondering how you managed to live without them. Load tests, for example, will completely reframe your perspective of a project's performance characteristics, and in this blog post I intend to give you new perspectives on how load generators can be designed to suit your needs.
+Implementing less popular types of tests might be more technically challenging, but once they are up and running you'll start wondering how you managed to live without them. Load tests, for example, will completely reframe your perspective of a project's performance characteristics, and in this blog post I intend to give you new perspectives on how you can shape the design of load generators to suit your needs.
 
-## The load generator state problem
+## Load generators: a very abridged overview
+
+Generating load for websites is a solved problem. If you have a straightforward http-based backend, there are a slew of load-generating tools available for you to use[^3]. These tools do far more than just mindlessly hammering an API endpoint! They are very much capable of having scenarios with complex user flows:
+
+[^3]: [Apache JMeter](https://jmeter.apache.org/), [k6](https://k6.io/), [Locust](https://locust.io/) and [NBomber](https://nbomber.com/) come to mind.
+
+```C#
+// Example from the NBomber docs
+// https://nbomber.com/docs/nbomber/scenario#scenario-create
+
+var scenario = Scenario.Create("my e-commerce scenario", async context =>
+{
+    await Login();        
+    await OpenHomePage();     
+    await Logout();
+
+    return Response.Ok();        
+});
+```
 
 <!-- structure:
 
