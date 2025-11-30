@@ -66,11 +66,10 @@ Besides the ability to handle bespoke logic, top-of-the-line load generators als
 
 However, while their documentation and feature set serves the "e-commerce website" use case well, what should you do when your "users" have a massive ammount of state associated to them, which heavily influences what their next steps are? This is the problem I've been reflecting on at [Critical Manufacturing](https://www.criticalmanufacturing.com/): structuring user behaviours that are dependent on their current state in an elegant and scalable manner, within the context of load generators.
 
-## The Xiaomi phone manufacturing scenario
+## The TSMC wafer manufacturing scenario
 
 <!-- structure:
 - Complex manufacturing scenario: wafer fab
 - State machines as a way to encapsulate the state of a given user
   - with an example
-- What is the shape of the load being generated?
-  - Markov chain! -->
+-->
