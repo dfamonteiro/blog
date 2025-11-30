@@ -69,10 +69,8 @@ However, while their documentation and feature set serves the "e-commerce websit
 ## The Xiaomi phone manufacturing scenario
 
 <!-- structure:
-- the load generator should test the whole flow
-- State of the art of popular load generators: can they fit complex logic?
+- Complex manufacturing scenario: wafer fab
 - State machines as a way to encapsulate the state of a given user
   - with an example
-- Complex manufacturing scenario: wafer fab
 - What is the shape of the load being generated?
   - Markov chain! -->
