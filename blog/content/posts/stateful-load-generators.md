@@ -108,6 +108,7 @@ With that out of the way, let's take a look at the MES operations we intend to s
 ```python
 # Please pretend that these functions make http calls to an MES instance hosted somewhere
 
+# Auxiliary functions
 def load_wafer_by_name(name: str) -> Wafer:
     "Loads the wafer by name from the MES DB."
     pass
@@ -116,6 +117,11 @@ def load_machine_by_name(name: str) -> Machine:
     "Loads the machine by name from the MES DB."
     pass
 
+def get_valid_dispatch_candidates(wafer: Wafer) -> List[Machine]:
+    "Returns a list of machines to which the wafer can be dispatched to."
+    pass
+
+# Wafer tracking operations
 class Wafer:
     # ...
 
