@@ -11,7 +11,7 @@ externalLink = ""
 series = []
 +++
 
-One can usually tell the importance of a certain piece of software by the ammount of effort it goes into testing it. In no other place is this more true than the automotive, medical, and aerospace[^1] industries: the criticality of software in these contexts leads to their development having to be compliant to international safety standards such as [ISO 26262](https://www.iso.org/standard/68383.html) and [IEC 62304](https://www.iso.org/standard/38421.html), which include extensive testing and validation requirements.
+One can usually tell the importance of a certain piece of software by the amount of effort it goes into testing it. In no other place is this more true than the automotive, medical, and aerospace[^1] industries: the criticality of software in these contexts leads to their development having to be compliant to international safety standards such as [ISO 26262](https://www.iso.org/standard/68383.html) and [IEC 62304](https://www.iso.org/standard/38421.html), which include extensive testing and validation requirements.
 
 [^1]: It's quite hard to reboot your computer when your computer is in orbit.
 
@@ -45,7 +45,7 @@ Implementing less popular types of tests might be more technically challenging, 
 
 ## Load generators: a very abridged overview
 
-Generating load for websites is a solved problem. If you have a straightforward http-based backend, there are a slew of load-generating tools available for you to use[^3]. These tools do far more than just mindlessly hammering an API endpoint! They are very much capable of having scenarios with complex user flows:
+Generating web traffic load for websites is a solved problem: if you have a straightforward http-based backend, there are a slew of load-generating tools available for you to use[^3]. These tools do far more than just mindlessly hammering an API endpoint, however! They are very much capable of having scenarios with complex user flows:
 
 [^3]: [Apache JMeter](https://jmeter.apache.org/), [k6](https://k6.io/), [Locust](https://locust.io/) and [NBomber](https://nbomber.com/) come to mind.
 
@@ -66,27 +66,34 @@ Besides the ability to handle bespoke logic, top-of-the-line load generators als
 
 However, while their documentation and feature set serves the "e-commerce website" use case well, what should you do when your "users" have a massive amount of state associated to them, which heavily influences what their next steps are? This is the problem I've been reflecting on at [Critical Manufacturing](https://www.criticalmanufacturing.com/): structuring user behaviours that are dependent on their current state in an elegant and scalable manner, within the context of load generators.
 
-Experience with a more practical problem will help us get a better feel of this challenge:
+Experience with a practical problem will help us get a better feel of this challenge:
 
 ## The TSMC wafer manufacturing scenario
 
-Let's say that we are in charge of assessing the performance of a Manufacturing Execution System (MES). This MES is in charge of keeping track of both the wafers and the machines in a TSMC fab, and then determining which wafers should be sent to which machine. This MES has the following entities:
+Let's say that we are in charge of assessing the performance of a Manufacturing Execution System[^4] (MES). This MES is in charge of keeping track of both the wafers and the machines in a TSMC fab, and then determining which wafers should be sent to which machine. This MES has the following entities:
+
+[^4]: A _Manufacturing Execution System_ is a software system responsible for the bookkeeping of a factory's production. It is generally used in highly sophisticated industries, such as the semiconductor industry and the medical devices industry, where a high level of material tracking and control is required.
 
 ```python
 # Represents a WIP wafer in a fab
 class Wafer:
     name: str # Unique identifier
+
     flowpath: str # In which step this wafer is at in its "manufacturing journey"
+                  # Tends to have this format "flow\subflow\step"
+
     system_state : Enum # In a given flowpath, the "manufacturing state" of this wafer.
-                        # The enum has the following states:
-                        #     - Queued: The wafer is ready to be dispatched
-                        #     - Dispatched: The wafer has been dispatched to a specific resource
-                        #     - InProcess: This wafer is being processed by the machine
-                        #     - Processed: The wafer has been processed and is now ready for the next flowpath
+    # The enum above has the following states:
+    #     - Queued: The wafer is ready to be dispatched
+    #     - Dispatched: The wafer has been dispatched to a specific resource
+    #     - InProcess: This wafer is being processed by the machine
+    #     - Processed: The wafer has been processed and is now ready for the next flowpath
+    # The system state evolves in this manner:
+    #     Queued -> Dispatched -> InProcess -> Processed -> Queued (new flowpath)
 
     # ...
 
-# Represents a machine that performs some manufacturing process on a wafer
+# Represents a machine that performs a manufacturing process on a wafer
 class Machine:
     name: str # Unique identifier
     # ...
