@@ -52,7 +52,6 @@ Generating load for websites is a solved problem. If you have a straightforward 
 ```C#
 // Example from the NBomber docs
 // https://nbomber.com/docs/nbomber/scenario#scenario-create
-
 var scenario = Scenario.Create("my e-commerce scenario", async context =>
 {
     await Login();        
@@ -63,9 +62,11 @@ var scenario = Scenario.Create("my e-commerce scenario", async context =>
 });
 ```
 
-<!-- structure:
+Besides the ability to handle bespoke logic, top-of-the-line load generators also come with plenty of quality of life features such as [E2E load testing](https://grafana.com/docs/k6/latest/using-k6-browser/), [built-in metrics](https://grafana.com/docs/k6/latest/using-k6/metrics/) and [dashboards](https://grafana.com/docs/k6/latest/results-output/web-dashboard/). However, in their efforts to make themselves easy to use, I believe they have made a misstep.
 
-- let's talk about load generators
+## The "virtual user" metaphor is not fit for purpose
+
+<!-- structure:
 - the load generator should test the whole flow
 - State of the art of popular load generators: can they fit complex logic?
 - State machines as a way to encapsulate the state of a given user
