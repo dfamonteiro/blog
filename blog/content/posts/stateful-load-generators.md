@@ -205,7 +205,7 @@ def wafer_scenario():
     wafer.dispatch(machine10)
     wafer.track_in()
     wafer.track_out()
-    wafer.move_next()
+    # No move_next() is required in the last flowpath
 
     wafer.terminate()
 
@@ -250,7 +250,12 @@ def wafer_scenario():
         wafer.dispatch(machine)
         wafer.track_in()
         wafer.track_out()
-        wafer.move_next() # Move to next flowpath
+
+        if machine.name == "Machine10":
+            # No move_next() is required in the last flowpath
+            break
+        else:
+            wafer.move_next() # Move to next flowpath
 
     wafer.terminate()
 
