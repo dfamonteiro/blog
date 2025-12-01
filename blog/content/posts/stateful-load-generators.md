@@ -371,7 +371,7 @@ We've made a breakthrough here! State machines are definitely the missing piece 
 
 ### The state machine within the state machine
 
-### Structuring our load test as a state machine
+### Using state handlers to structure our load test as a state machine
 
 ## The stateful load generator pattern
 
