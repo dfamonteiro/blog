@@ -391,7 +391,7 @@ Take for example the "Step 4" state in the state machine above. That's not reall
 
 Answering the question posed at the end of the previous chapter: does it make sense to reason about this load scenario as a gargantuan state machine with 40 nodes? No: the 10 step state machine is fine, as long as you always keep in mind that each step is actually a mini state machine.
 
-The image below should make this idea of nested state machines, by highlighting the states hidden by "Step 1" and "Step 2" of the state machine in the previous chapter.
+The image below should make this idea of nested state machines clearer, by highlighting the states hidden by "Step 1" and "Step 2" of the state machine in the previous chapter.
 
 <figure>
     <img src="/images/state-machine-abstraction.excalidraw.svg" alt="The load scenario as a state machine">
