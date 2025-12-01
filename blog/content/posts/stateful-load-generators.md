@@ -342,7 +342,7 @@ def wafer_scenario():
 run_every_second(wafer_scenario)
 ```
 
-If looking at this tangled mess of if-statements doesn't convince you this is a bad idea, I don't know what will.[^7] It's obvious this approach not only doesn't scale at all, but is also very bug-prone.[^8]
+If looking at this tangled mess of if-statements doesn't convince you this is a bad idea, I don't know what will.[^7] Imagine if, instead of 3 extra requirements, we had 20! It's obvious this approach not only doesn't scale at all, but is also very bug-prone.[^8]
 
 We find ourselves in a bit of a predicament. While it's clear that the amount of state these wafers carry is warping the way we write our code, what's _not clear_ is how we can deal with it in a elegant manner. It's clear the way forward involves tackling the stateful nature of these wafers head-on. But first, let's take a step back and reflect on the issue at hand.
 
@@ -350,10 +350,25 @@ We find ourselves in a bit of a predicament. While it's clear that the amount of
 
 [^8]: The first if-statement of the loop is missing a `flowpath_index += 1` line, for example.
 
-## It's time to embrace state machines
+## State machines to the rescue
+
+All of our wafers have state in the form of `(flowpath, system_state)`, and every time we perform a MES operation, our wafers transition to a new state... are our wafers state machines? I'd argue that we should think of them as such: once you start embracing this way of thinking, things start falling into place.
+
+As a thought experiment, lets create a state machine that represents our current load scenario (including the extra requirements):
+
+<figure>
+    <img src="/images/full-wafer-state-machine.excalidraw.svg" alt="The load scenario as a state machine">
+    <figcaption>
+        <b>The load scenario as a state machine</b>
+        <br> Dashed lines represent <code>move_next()</code> state transitions
+        <br> Wafer system states are being ignored
+    </figcaption>
+</figure>
+
+This just feels _right_, doesn't it?
+
+### The state machine within the state machine
 
 <!-- structure:
-- State machines as a way to encapsulate the state of a given user
-  - with an example
 - Stateful load generator pattern
 -->
