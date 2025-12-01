@@ -267,8 +267,10 @@ Well I just had to jinx it, didn't I? Let's see what the new requirements are:
 >
 > - SimpleFlow\Step4 is actually a quality control step that only 10% of randomly selected wafers have to perform. The other 90% can skip SimpleFlow\Step4 by calling `wafer.skip_flowpath()`.
 >
-> - In SimpleFlow\Step9, during processing, a defect tends to be found in 0.7% of the wafers (`wafer.report_defect()` is used to report the defect).
->   - If a defect is reported in SimpleFlow\Step9, when the wafer is tracked out, the MES will automatically set its flowpath back to `"SimpleFlow\Step9"` and the system state back to `Queued`
+> - In SimpleFlow\Step9, during processing, a defect tends to be found in 0.7% of the wafers (`wafer.report_defect()` is called in these cases).
+>   - If a defect is reported in SimpleFlow\Step9, when the wafer is tracked out, the MES will automatically set its flowpath back to `"SimpleFlow\Step9"` and the system state back to `Queued`.
+
+Sadly, the real world is more complicated than what a simple for-loop can handle. Still, maybe we can get there by throwing some if-statements in the right places.
 
 <!-- structure:
 - State machines as a way to encapsulate the state of a given user
