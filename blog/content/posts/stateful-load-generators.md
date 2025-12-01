@@ -304,6 +304,7 @@ def wafer_scenario():
     while True:
         if flowpath_index == 3:
             wafer.skip_flowpath()
+            continue
 
         wafer.dispatch(machines[flowpath_index])
         if flowpath_index != 1:
