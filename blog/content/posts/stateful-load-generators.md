@@ -371,6 +371,32 @@ We've made a breakthrough here! State machines are definitely the missing piece 
 
 ### The state machine within the state machine
 
+How many states does our state machine have? You might be tempted to look at the state machine above and say 10, but the correct answer would be 40:
+
+```python
+("SimpleFlow\Step1", Queued)
+("SimpleFlow\Step1", Dispatched)
+("SimpleFlow\Step1", InProcess)
+("SimpleFlow\Step1", Processed)
+# ...
+("SimpleFlow\Step10", Queued)
+("SimpleFlow\Step10", Dispatched)
+("SimpleFlow\Step10", InProcess)
+("SimpleFlow\Step10", Processed)
+```
+
+When we're focusing on the `flowpath` it can be easy to forget about the `system_state`, and vice-versa. Why does this happen? The answer becomes obvious once you think about it: we're dealing with different levels of abstraction.
+
+Take for example the "Step 4" state in the state machine above. That's not really a state _per se_: it represents instead a set of four states, all of which have `"SimpleFlow\Step4"` as part of them. The same goes for the [state machine earlier in the blog post](#iteration-2-loop-based-na%C3%AFve-approach): these 4 states and their transitions exist within the wider context of a higher-level `flowpath`.
+
+Answering the question posed at the end of the previous chapter: does it make sense to reason about this load scenario as a gargantuan state machine with 40 nodes? No: the 10 step state machine is fine, as long as you always keep in mind that each step is actually a mini state machine.
+
+The image below should make this idea of nested state machines, by highlighting the states hidden by "Step 1" and "Step 2" of the state machine in the previous chapter.
+
+<figure>
+    <img src="/images/state-machine-abstraction.excalidraw.svg" alt="The load scenario as a state machine">
+</figure>
+
 ### Using state handlers to structure our load test as a state machine
 
 ## The stateful load generator pattern
