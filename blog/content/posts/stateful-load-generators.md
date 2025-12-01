@@ -145,7 +145,7 @@ class Wafer:
         pass
 ```
 
-We primarily care about the performance impact of the material tracking operations, because they happen very frequently and perform writes on the database.
+We primarily care about the performance impact of the wafer tracking operations, because they happen very frequently and perform writes on the database.
 
 ### Load generation details
 
@@ -257,11 +257,18 @@ def wafer_scenario():
 run_every_second(wafer_scenario)
 ```
 
-While the `machines` list still scales linearly with the size of the manufacturing flow, this is a marked improvement over our previous solution. In matter of fact this approach might be good enough for this scenario, as long as the load-testing requirements don't change!
+While the `machines` list still scales linearly with the size of the manufacturing flow, this is still a marked improvement over our previous solution. In matter of fact this approach might be good enough for this scenario, as long as the load-testing requirements don't change!
 
 ## A change of requirements
 
-TODO
+Well I just had to jinx it, didn't I? Let's see what the new requirements are:
+
+> - On SimpleFlow\Step2, there is a 3% chance of the machine aborting the processing on a wafer (by calling `wafer.abort()`, which undoes the `wafer.track_in()` operation), due to a lack of consumables.
+>
+> - SimpleFlow\Step4 is actually a quality control step that only 10% of randomly selected wafers have to perform. The other 90% can skip SimpleFlow\Step4 by calling `wafer.skip_flowpath()`.
+>
+> - In SimpleFlow\Step9, during processing, a defect tends to be found in 0.7% of the wafers (`wafer.report_defect()` is used to report the defect).
+>   - If a defect is reported in SimpleFlow\Step9, when the wafer is tracked out, the MES will automatically set its flowpath back to `"SimpleFlow\Step9"` and the system state back to `Queued`
 
 <!-- structure:
 - State machines as a way to encapsulate the state of a given user
