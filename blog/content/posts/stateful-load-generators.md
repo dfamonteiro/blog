@@ -145,7 +145,7 @@ class Wafer:
         pass
 ```
 
-We primarily care about the performance impact of the material tracking operations, because they happen very frequently and do writes to the database.
+We primarily care about the performance impact of the material tracking operations, because they happen very frequently and perform writes on the database.
 
 <!-- structure:
 - Complex manufacturing scenario: wafer fab
