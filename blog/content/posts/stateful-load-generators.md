@@ -405,7 +405,15 @@ So we decided that structuring our scenario as a state machine is the way to go.
 
 > Given a wafer's current state, what transition should the wafer undertake?
 
+To tackle this question, let me introduce the concept of a state handler:
 
+```python
+def state_handler(wafer: Wafer) -> Tuple[str, Enum]:
+    # do something
+    return (wafer.flowpath, wafer.system_state)
+```
+
+A state handler takes a wafer as an input, performs some action, and then returns the updated wafer state.
 
 ## The stateful load generator pattern
 
