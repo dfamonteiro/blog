@@ -109,11 +109,11 @@ With that out of the way, let's take a look at the MES operations we intend to s
 # Please pretend that these functions make http calls to an MES instance hosted somewhere
 
 # Auxiliary functions
-def load_wafer_by_name(name: str) -> Wafer:
+def load_wafer(name: str) -> Wafer:
     "Loads the wafer by name from the MES database."
     pass
 
-def load_machine_by_name(name: str) -> Machine:
+def load_machine(name: str) -> Machine:
     "Loads the machine by name from the MES database."
     pass
 
@@ -178,14 +178,14 @@ def wafer_scenario():
     wafer = create_wafer()
 
     # SimpleFlow\Step1
-    machine1 = load_machine_by_name("Machine1")
+    machine1 = load_machine("Machine1")
     wafer.dispatch(machine1)
     wafer.track_in()
     wafer.track_out()
     wafer.move_next() # Move to next flowpath
 
     # SimpleFlow\Step2
-    machine2 = load_machine_by_name("Machine2")
+    machine2 = load_machine("Machine2")
     wafer.dispatch(machine2)
     wafer.track_in()
     wafer.track_out()
@@ -194,14 +194,14 @@ def wafer_scenario():
     # ...
 
     # SimpleFlow\Step9
-    machine9 = load_machine_by_name("Machine9")
+    machine9 = load_machine("Machine9")
     wafer.dispatch(machine9)
     wafer.track_in()
     wafer.track_out()
     wafer.move_next() # Move to next flowpath
 
     # SimpleFlow\Step10
-    machine10 = load_machine_by_name("Machine10")
+    machine10 = load_machine("Machine10")
     wafer.dispatch(machine10)
     wafer.track_in()
     wafer.track_out()
@@ -232,16 +232,16 @@ We can refactor our code by taking advantage of this cyclicality:
 ```python
 def wafer_scenario():
     machines = [
-        load_machine_by_name("Machine1"),
-        load_machine_by_name("Machine2"),
-        load_machine_by_name("Machine3"),
-        load_machine_by_name("Machine4"),
-        load_machine_by_name("Machine5"),
-        load_machine_by_name("Machine6"),
-        load_machine_by_name("Machine7"),
-        load_machine_by_name("Machine8"),
-        load_machine_by_name("Machine9"),
-        load_machine_by_name("Machine10"),
+        load_machine("Machine1"),
+        load_machine("Machine2"),
+        load_machine("Machine3"),
+        load_machine("Machine4"),
+        load_machine("Machine5"),
+        load_machine("Machine6"),
+        load_machine("Machine7"),
+        load_machine("Machine8"),
+        load_machine("Machine9"),
+        load_machine("Machine10"),
     ]
 
     wafer = create_wafer()
