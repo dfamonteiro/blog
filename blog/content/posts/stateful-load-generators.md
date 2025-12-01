@@ -369,6 +369,8 @@ This just feels _right_, doesn't it?
 
 ### The state machine within the state machine
 
-<!-- structure:
-- Stateful load generator pattern
--->
+### Structuring our load test as a state machine
+
+## The stateful load generator pattern
+
+## Conclusion
