@@ -257,7 +257,7 @@ def wafer_scenario():
 run_every_second(wafer_scenario)
 ```
 
-While the `machines` list still scales linearly with the size of the manufacturing flow, this is a marked improvement over our previous solution. In matter of fact this approach might be good enough, as long as the load-testing requirements don't change!
+While the `machines` list still scales linearly with the size of the manufacturing flow, this is a marked improvement over our previous solution. In matter of fact this approach might be good enough for this scenario, as long as the load-testing requirements don't change!
 
 ## A change of requirements
 
