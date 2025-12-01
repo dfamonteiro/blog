@@ -302,7 +302,7 @@ def wafer_scenario():
 
     flowpath_index = 0
     while True:
-        if flowpath_index == 3:
+        if flowpath_index == 3 and random() < 0.9:
             wafer.skip_flowpath()
             continue
 
