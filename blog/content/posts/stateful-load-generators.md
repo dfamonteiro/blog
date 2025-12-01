@@ -399,6 +399,14 @@ The image below should make this idea of nested state machines clearer, by highl
 
 ### Using state handlers to structure our load test as a state machine
 
+So we decided that structuring our scenario as a state machine is the way to go. So, how do we go about it? Our MES is in charge of keeping track of the state of the wafers, so the part we're responsible for are the state transitions.[^9] With that in mind our goal will be to answer this simple question:
+
+[^9]: It does make sense if you think about it: the MES operations we've been calling can be thought of as state transitions for the wafer.
+
+> Given a wafer's current state, what transition should the wafer undertake?
+
+
+
 ## The stateful load generator pattern
 
 ## Conclusion
