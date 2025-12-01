@@ -273,9 +273,79 @@ Well I just had to jinx it, didn't I? Let's see what the new requirements are:
 > - SimpleFlow\Step4 is actually a quality control step that only 10% of randomly selected wafers have to perform. The other 90% can skip SimpleFlow\Step4 by calling `wafer.skip_flowpath()`.
 >
 > - In SimpleFlow\Step9, during processing, a defect tends to be found in 0.7% of the wafers (`wafer.report_defect()` is called in these cases).
->   - If a defect is reported in SimpleFlow\Step9, when the wafer is tracked out, the MES will automatically set its flowpath back to `"SimpleFlow\Step9"` and the system state back to `Queued`.
+>   - If a defect is reported in SimpleFlow\Step9, when the wafer is tracked out, the MES will automatically set its flowpath back to `"SimpleFlow\Step5"` and the system state back to `Queued`.
 
-Sadly, the real world is more complicated than what a simple for-loop can handle. Still, maybe we can meet these new requirements by throwing some if-statements in the right places.
+Sadly, the real world is more complicated than what a simple for-loop can handle. Let's see what we can do.
+
+## Iteration 3: Throw some if-statements in there
+
+Maybe we can meet these new requirements by throwing some if-statements in the right places.
+
+```python
+from random import random
+
+def wafer_scenario():
+    machines = [
+        load_machine("Machine1"),
+        load_machine("Machine2"),
+        load_machine("Machine3"),
+        load_machine("Machine4"),
+        load_machine("Machine5"),
+        load_machine("Machine6"),
+        load_machine("Machine7"),
+        load_machine("Machine8"),
+        load_machine("Machine9"),
+        load_machine("Machine10"),
+    ]
+
+    wafer = create_wafer()
+
+    flowpath_index = 0
+    while True:
+        if flowpath_index == 3:
+            wafer.skip_flowpath()
+
+        wafer.dispatch(machines[flowpath_index])
+        if flowpath_index != 1:
+            wafer.track_in()
+        else:
+            wafer.track_in()
+
+            while True:
+                is_to_abort = random() < 0.03
+                if not is_to_abort:
+                    break
+                else:
+                    wafer.abort()
+                    wafer.track_in()
+        
+        is_to_record_defect = flowpath_index == 8 and random() < 0.007
+        if is_to_record_defect:
+            wafer.report_defect()
+
+        wafer.track_out()
+
+        if is_to_record_defect:
+            flowpath_index = 4
+            continue
+
+        if flowpath_index == 9:
+            # No move_next() is required in the last flowpath
+            break
+        else:
+            wafer.move_next() # Move to next flowpath
+            flowpath_index += 1
+
+    wafer.terminate()
+
+run_every_second(wafer_scenario)
+```
+
+If looking at this tangled mess of if-statements doesn't convince you this is a bad idea, I don't know what will.[^7] It's crystal this approach not only doesn't scale at all, but is also very bug-prone.[^8]
+
+[^7]: While writing this iteration subchapter, I was reminded of a very funny quote I heard from work: _"Could you bring this up in the next arquitecture meeting, so I can immediately shoot it down?"_. That's how I feel about this subchapter: it's more about what you _shouldn't do_.
+
+[^8]: The first if-statement of the loop is missing a `flowpath_index += 1` line, for example.
 
 <!-- structure:
 - State machines as a way to encapsulate the state of a given user
