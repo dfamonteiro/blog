@@ -341,11 +341,15 @@ def wafer_scenario():
 run_every_second(wafer_scenario)
 ```
 
-If looking at this tangled mess of if-statements doesn't convince you this is a bad idea, I don't know what will.[^7] It's crystal this approach not only doesn't scale at all, but is also very bug-prone.[^8]
+If looking at this tangled mess of if-statements doesn't convince you this is a bad idea, I don't know what will.[^7] It's obvious this approach not only doesn't scale at all, but is also very bug-prone.[^8]
+
+We find ourselves in a bit of a predicament. While it's clear that the amount of state these wafers carry is warping the way we write our code, what's _not clear_ is how we can deal with it in a elegant manner. It's clear the way forward involves tackling the stateful nature of these wafers head-on. But first, let's take a step back and reflect on the issue at hand.
 
 [^7]: While writing this iteration subchapter, I was reminded of a very funny quote I heard from work: _"Could you bring this up in the next arquitecture meeting, so I can immediately shoot it down?"_. That's how I feel about this subchapter: it's more about what you _shouldn't do_.
 
 [^8]: The first if-statement of the loop is missing a `flowpath_index += 1` line, for example.
+
+## It's time to embrace state machines
 
 <!-- structure:
 - State machines as a way to encapsulate the state of a given user
