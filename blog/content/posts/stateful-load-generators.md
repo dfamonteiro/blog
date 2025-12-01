@@ -360,12 +360,14 @@ As a thought experiment, lets create a state machine that represents our current
     <img src="/images/full-wafer-state-machine.excalidraw.svg" alt="The load scenario as a state machine">
     <figcaption>
         <b>The load scenario as a state machine</b>
-        <br> Dashed lines represent <code>move_next()</code> state transitions
+        <br> Dashed arrows represent <code>move_next()</code> state transitions
         <br> Wafer system states are being ignored
     </figcaption>
 </figure>
 
-This just feels _right_, doesn't it?
+It just feels _right_, doesn't it?
+
+We've made a breakthrough here! State machines are definitely the missing piece to our puzzle: the extra requirements are now, in a rather elegant manner, simply an extra transition with a given probability. But how should we fit the wafer's `system_state` in this state machine? Should we even try to merge these two pieces of state (`flowpath` and `system_state`) together?
 
 ### The state machine within the state machine
 
