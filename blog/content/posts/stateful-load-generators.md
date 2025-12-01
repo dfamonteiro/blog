@@ -220,6 +220,13 @@ Luckily, you notice that the repetitiveness of this code can be easily addressed
 
 ## Iteration 2: Loop-based naïve approach
 
+Taking a closer look at the code from the previous chapter, its cylical nature becomes quite obvious:
+
+<figure>
+    <img src="/images/wafer-system-state-loop.excalidraw.svg" alt="The Wafer system state loop">
+    <figcaption><b>The Wafer system state loop</b></figcaption>
+</figure>
+
 <!-- structure:
 - State machines as a way to encapsulate the state of a given user
   - with an example
