@@ -110,11 +110,11 @@ With that out of the way, let's take a look at the MES operations we intend to s
 
 # Auxiliary functions
 def load_wafer_by_name(name: str) -> Wafer:
-    "Loads the wafer by name from the MES DB."
+    "Loads the wafer by name from the MES database."
     pass
 
 def load_machine_by_name(name: str) -> Machine:
-    "Loads the machine by name from the MES DB."
+    "Loads the machine by name from the MES database."
     pass
 
 def get_valid_dispatch_candidates(wafer: Wafer) -> List[Machine]:
@@ -144,6 +144,8 @@ class Wafer:
         """
         pass
 ```
+
+We primarily care about the performance impact of the material tracking operations, because they happen very frequently and do writes to the database.
 
 <!-- structure:
 - Complex manufacturing scenario: wafer fab
