@@ -227,6 +227,38 @@ Taking a closer look at the code from the previous chapter, its cylical nature b
     <figcaption><b>The Wafer system state loop</b></figcaption>
 </figure>
 
+We can refactor our code by taking advantage of this cyclicality:
+
+```python
+def wafer_scenario():
+    machines = [
+        load_machine_by_name("Machine1"),
+        load_machine_by_name("Machine2"),
+        load_machine_by_name("Machine3"),
+        load_machine_by_name("Machine4"),
+        load_machine_by_name("Machine5"),
+        load_machine_by_name("Machine6"),
+        load_machine_by_name("Machine7"),
+        load_machine_by_name("Machine8"),
+        load_machine_by_name("Machine9"),
+        load_machine_by_name("Machine10"),
+    ]
+
+    wafer = create_wafer()
+
+    for machine in machines:
+        wafer.dispatch(machine)
+        wafer.track_in()
+        wafer.track_out()
+        wafer.move_next() # Move to next flowpath
+
+    wafer.terminate()
+
+run_every_second(wafer_scenario)
+```
+
+While the `machines` list still scales linearly with the size of the manufacturing flow, this is a marked improvement over our previous solution. In matter of fact this approach might be good enough, as long as the requirements don't change!
+
 <!-- structure:
 - State machines as a way to encapsulate the state of a given user
   - with an example
