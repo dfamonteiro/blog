@@ -230,20 +230,20 @@ Taking a closer look at the code from the previous chapter, its cylical nature b
 We can refactor our code by taking advantage of this cyclicality:
 
 ```python
-def wafer_scenario():
-    machines = [
-        load_machine("Machine1"),
-        load_machine("Machine2"),
-        load_machine("Machine3"),
-        load_machine("Machine4"),
-        load_machine("Machine5"),
-        load_machine("Machine6"),
-        load_machine("Machine7"),
-        load_machine("Machine8"),
-        load_machine("Machine9"),
-        load_machine("Machine10"),
-    ]
+machines = [
+    load_machine("Machine1"),
+    load_machine("Machine2"),
+    load_machine("Machine3"),
+    load_machine("Machine4"),
+    load_machine("Machine5"),
+    load_machine("Machine6"),
+    load_machine("Machine7"),
+    load_machine("Machine8"),
+    load_machine("Machine9"),
+    load_machine("Machine10"),
+]
 
+def wafer_scenario():
     wafer = create_wafer()
 
     for machine in machines:
@@ -284,20 +284,20 @@ Maybe we can meet these new requirements by throwing some if-statements in the r
 ```python
 from random import random
 
-def wafer_scenario():
-    machines = [
-        load_machine("Machine1"),
-        load_machine("Machine2"),
-        load_machine("Machine3"),
-        load_machine("Machine4"),
-        load_machine("Machine5"),
-        load_machine("Machine6"),
-        load_machine("Machine7"),
-        load_machine("Machine8"),
-        load_machine("Machine9"),
-        load_machine("Machine10"),
-    ]
+machines = [
+    load_machine("Machine1"),
+    load_machine("Machine2"),
+    load_machine("Machine3"),
+    load_machine("Machine4"),
+    load_machine("Machine5"),
+    load_machine("Machine6"),
+    load_machine("Machine7"),
+    load_machine("Machine8"),
+    load_machine("Machine9"),
+    load_machine("Machine10"),
+]
 
+def wafer_scenario():
     wafer = create_wafer()
 
     flowpath_index = 0
