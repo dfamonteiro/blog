@@ -1,6 +1,6 @@
 +++ 
-draft = true
-date = 2025-11-02T16:50:08Z
+draft = false
+date = 2025-12-02T02:25:37Z
 title = "The case for stateful load generators"
 description = ""
 slug = ""
