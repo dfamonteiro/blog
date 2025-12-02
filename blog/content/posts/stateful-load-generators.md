@@ -442,4 +442,57 @@ By taking advantage of the wildcards, our handler table can be kept very succinc
 
 ## The stateful load generator pattern
 
+Our final goal will be to rewrite our load scenario using what we learned in the [previous chapter](#state-machines-to-the-rescue). Lets start with the handlers:
+
+```python
+from random import random
+
+def dispatch_handler(wafer: Wafer):
+    machine = get_valid_dispatch_candidates(wafer)[0] # Get the first machine in the list
+    wafer.dispatch(machine)
+    return (wafer.flowpath, wafer.system_state)
+
+def track_in_handler(wafer: Wafer):
+    wafer.track_in()
+    return (wafer.flowpath, wafer.system_state)
+
+def track_out_handler(wafer: Wafer):
+    wafer.track_out()
+    return (wafer.flowpath, wafer.system_state)
+
+def move_next_handler(wafer: Wafer):
+    wafer.move_next()
+    return (wafer.flowpath, wafer.system_state)
+
+def terminate_handler(wafer: Wafer):
+    wafer.terminate()
+    return (wafer.flowpath, wafer.system_state)
+
+### Handlers for the extra requirements
+
+def track_in_and_maybe_abort_handler(wafer: Wafer):
+    wafer.track_in()
+
+    if random() < 0.03:
+        wafer.abort()
+
+    return (wafer.flowpath, wafer.system_state)
+
+def dispatch_handler_or_maybe_skip_handler(wafer: Wafer):
+    if random() < 0.9:
+        wafer.skip_flowpath()
+    else:
+        dispatch_handler(wafer)
+
+    return (wafer.flowpath, wafer.system_state)
+    
+def track_in_and_maybe_report_defect_handler(wafer: Wafer):
+    wafer.track_in()
+
+    if random() < 0.007:
+        wafer.report_defect()
+
+    return (wafer.flowpath, wafer.system_state)
+```
+
 ## Conclusion
