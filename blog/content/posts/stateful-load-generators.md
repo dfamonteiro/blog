@@ -543,3 +543,9 @@ run_every_second(wafer_scenario)
 One interesting side-effect of having to do the upfront investment of writing the handlers and defining your handler table, is that your engine is massively simplified! Simply execute handlers on the wafer until you run out of handler matches.
 
 ## Conclusion
+
+This marks the end of our journey. While I could continue pontificating on the various ways you can creatively use and design state handlers, I'm afraid this blog post is already getting a bit too long!
+
+In my opinion, this load generator programming pattern is quite straightforward, but you have to be open to this state machine mentality. That's why I spent so much effort analysing my wafer load scenario through the lens of state machines: to make sure that you, dear reader, embrace this way of thinking.
+
+Hopefully I didn't bore you with my writing, and perhaps you have learned something new. That's always my goal!
