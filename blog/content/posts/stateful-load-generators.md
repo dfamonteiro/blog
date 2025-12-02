@@ -521,4 +521,25 @@ handler_table = [
 
 Notice the flatness of our code so far: need to apply the same handler to different flowpaths? Add another row to the handler table. Need to implement a new requirement? Write a new handler and add it to the handler table. We also get really good scalability: the source file might grow in size, but it's complexity will remain the same.
 
+Finally we need to write the engine that will execute our handlers:
+
+```python
+def wafer_scenario():
+    wafer = create_wafer()
+    wafer_state = (wafer.flowpath, wafer.system_state)
+
+    while wafer_state != None:
+        for state, handler in handler_table:
+            if states_match(state, wafer_state):
+                wafer_state = handler(wafer)
+                break
+        else:
+            # No row in the handler_table matched our state, stop execution
+            break
+                
+run_every_second(wafer_scenario)
+```
+
+One interesting side-effect of having to do the upfront investment of writing the handlers and defining your handler table, is that your engine is massively simplified! Simply execute handlers on the wafer until you run out of handler matches.
+
 ## Conclusion
