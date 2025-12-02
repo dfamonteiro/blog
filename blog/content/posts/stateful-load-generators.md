@@ -413,7 +413,32 @@ def state_handler(wafer: Wafer) -> Tuple[str, Enum]:
     return (wafer.flowpath, wafer.system_state)
 ```
 
-A state handler takes a wafer as an input, performs some action, and then returns the updated wafer state.
+A state handler takes a wafer as an input, performs some action, and then returns the updated wafer state. To determine which state handler should be applied to which wafer state, a handler table is used:
+
+```python
+handler_table = [
+    (state1, handler1),
+    (state2, handler2),
+    (state3, handler3),
+    (state4, handler4),
+]
+```
+
+The handler table supports the usage of wildcards (`*`) for the flowpath, which enables handler reuse. State matches are assessed from top to bottom, meaning that if there are multiple potential matches in the handler table, the one that appears first will always take priority. This enables the possibility of having handlers that handle specific scenarios at the top of the table, while catch-all handlers would sit at the bottom.
+
+With these details in mind, a handler table for the original load scenario would look something like this:
+
+```python
+handler_table = [
+    (("SimpleFlow\Step10", Processed),  terminate_handler),
+    (("*",                 Queued),     dispatch_handler),
+    (("*",                 Dispatched), track_in_handler),
+    (("*",                 InProcess),  track_out_handler),
+    (("*",                 Processed),  move_next_handler),
+]
+```
+
+By taking advantage of the wildcards, our handler table can be kept very succinct.
 
 ## The stateful load generator pattern
 
