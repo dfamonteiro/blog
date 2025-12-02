@@ -43,7 +43,7 @@ While open-source projects such as [Linux](https://www.linux.org/) and [SQLite](
 
 Implementing less popular types of tests might be more technically challenging, but once they are up and running you'll start wondering how you managed to live without them. Load tests, for example, will completely reframe your perspective of a project's performance characteristics, and in this blog post I intend to give you new perspectives on how you can shape the design of load generators to suit your needs.
 
-## Load generators: a very abridged overview
+## Load generators: a very brief overview
 
 Generating web traffic load for websites is a solved problem: if you have a straightforward http-based backend, there are a slew of load-generating tools available for you to use[^3]. These tools do far more than just mindlessly hammering an API endpoint, however! They are very much capable of having scenarios with complex user flows:
 
@@ -139,7 +139,7 @@ class Wafer:
 
     def move_next(self):
         """Moves the wafer to the next step of its manufacturing flow.
-        The wafer goes from InProcess to Processed.
+        The wafer goes from Processed to Queued.
         The wafer's flowpath is updated to reflect the fact the wafer is in the bext step of its flow.
         """
         pass
