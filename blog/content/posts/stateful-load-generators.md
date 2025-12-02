@@ -466,7 +466,9 @@ def move_next_handler(wafer: Wafer):
 
 def terminate_handler(wafer: Wafer):
     wafer.terminate()
-    return (wafer.flowpath, wafer.system_state)
+    # By returning None, the goal is to not match with any row in the handler table
+    # and stop the execution of handlers on this wafer
+    return None
 
 ### Handlers for the extra requirements
 
@@ -492,7 +494,31 @@ def track_in_and_maybe_report_defect_handler(wafer: Wafer):
     if random() < 0.007:
         wafer.report_defect()
 
+    # We don't have to worry about the wafer being sent to a previous step on track-out,
+    # the state machine and the handler table will simply deal with it.
     return (wafer.flowpath, wafer.system_state)
 ```
+
+Now let's build our handler table:
+
+```python
+handler_table = [
+    # Specific handlers for the extra requirements
+    (("SimpleFlow\Step2", Dispatched),  track_in_and_maybe_abort_handler),
+    (("SimpleFlow\Step4", Queued),      dispatch_handler_or_maybe_skip_handler),
+    (("SimpleFlow\Step9", Dispatched),  track_in_and_maybe_report_defect_handler),
+
+    # Terminate handler
+    (("SimpleFlow\Step10", Processed),  terminate_handler),
+
+    # Catch-all handlers
+    (("*",                 Queued),     dispatch_handler),
+    (("*",                 Dispatched), track_in_handler),
+    (("*",                 InProcess),  track_out_handler),
+    (("*",                 Processed),  move_next_handler),
+]
+```
+
+Notice the flatness of our code so far: need to apply the same handler to different flowpaths? Add another row to the handler table. Need to implement a new requirement? Write a new handler and add it to the handler table. We also get really good scalability: the source file might grow in size, but it's complexity will remain the same.
 
 ## Conclusion
