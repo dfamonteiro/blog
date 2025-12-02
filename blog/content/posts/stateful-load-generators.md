@@ -548,4 +548,6 @@ This marks the end of our journey. While I could continue pontificating on the v
 
 In my opinion, this load generator programming pattern is quite straightforward, but you have to be open to this state machine mentality. That's why I spent so much effort analysing my wafer load scenario through the lens of state machines: to make sure that you, dear reader, embrace this way of thinking.
 
+If you end up implementing this pattern, please do let me know how it goes - while my use-case focuses on manufacturing scenarios, I wonder how different the load generator's state machine would look like if we were dealing with an e-commerce website, for example. I'll leave that as an exercise for the reader.
+
 Hopefully I didn't bore you with my writing, and perhaps you have learned something new. That's always my goal!
