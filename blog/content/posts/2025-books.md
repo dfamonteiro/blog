@@ -75,6 +75,26 @@ Another aspect that I really enjoyed was Weir's take on making first contact wit
 
 Ultimately, it's an excellent page turner: I managed to go through the whole book in two days.
 
+## Rocketry
+
+### Reentry: SpaceX, Elon Musk, and the Reusable Rockets that Launched a Second Space Age (Eric Berger)
+
+Reading this book immediately after _Project Hail Mary_ was a bit of a surreal experience: one day I was finishing reading a book which was very much science fiction, and the following day I started reading about the exploits of the SpaceX, which in some cases could _might as well_ be science fiction.
+
+I started following SpaceX after watching a video of a Falcon 9 landing on a barge and becoming completely fascinated with the [guidance algorithms](https://www.researchgate.net/publication/258676350_G-FOLD_A_Real-Time_Implementable_Fuel_Optimal_Large_Divert_Guidance_Algorithm_for_Planetary_Pinpoint_Landing) that made this possible. I also recall watching the first Falcon Heavy launch live, the first Starlink launches (which inspired my [master's dissertation](https://repositorio-aberto.up.pt/bitstream/10216/155205/3/649984.pdf)), the inflight abort test, and a whole bunch of Starship tests. What this ends up meaning is that I don't start with a clean slate, when it came to reading this book. Nevertheless, it didn't end up mattering very much because the book is chock full of inside stories and details which provide a ton of context to the SpaceX launches that I witnessed in this past decade.
+
+My only gripe with this book is that the Starlink project/division doesn't get a lot of coverage, but I get that Berger had to make some tough decisions on what makes the cut and what doesn't. Still, I hope that one day in the future there is a Starlink book that details the trials and tribulations of mass-producing satelites and building a megaconstellation.
+
+Somewhat suprisingly, the author's reflections on the future of SpaceX in the book's epilogue was the part of the book that left the biggest impression in me.
+
+### Ignition! An Informal History of Liquid Rocket Propellants (John D. Clark)
+
+This book is a bit of a cult classic in the space & rocket community, and in my opinion, this reputation is completely deserved: John D. Clark makes a wonderful job of not only detailing the advancements of rocket propellant technology, but doing so in an incredibly charismatic manner, almost as if he is telling a tale to you personally after a couple of drinks.
+
+The number of different chemicals that have been tried as rocket propellants is something that is hard to believe when you are reading through the chapters: they really tried everything you can think of, and probably some substances you _really_ shouldn't be thinking of.
+
+As a final note, this book does a really good job of filling in the blanks between the V2 program, and the american Redstone program. In hindsight it makes complete sense, but the primary stakeholders of liquid rocket propellant development was not necessarily NASA or orbital rockets, but actually the US military branches which needed storable (and ideally hypergolic) propellants for all sorts of missiles they were procuring.
+
 ### Designing Data-Intensive Applications (Martin Kleppmann)
 
 - IMO, borderline mandatory reading for any software engineer
@@ -93,17 +113,6 @@ Ultimately, it's an excellent page turner: I managed to go through the whole boo
   - Part II, in which we go through a selection of architecture styles in detail, is just fantastic. I read this section of the book in one sitting and enjoyed seeing some architecture patterns present at work being explained in excellent detail.
   - Part III focused more on the more human and day-to-day aspects of being a software engineer (being a leader, negotiating, etc.). Some of the do's and dont's are a bit obvious, but I can't fault the authors for wanting to cover all the bases.
 - All in all, it's a book that I would recommend to anyone as their first literary foray into software architecture.
-
-### Ignition! An Informal History of Liquid Rocket Propellants (John D. Clark)
-
-- This book is a bit of a cult classic in the space & rocket community, and in my opinion, this reputation is completely deserved: John D. Clark makes a wonderful job of not only detailing the advancements of rocket propellant technology, but doing so in an incredibly charismatic manner, almost as if he is telling a tale to you personally after a couple of drinks. The number of different chemicals that have been tried as rocket propellants is something that is hard to believe when you are reading through the chapters: they really tried everything you can think of, and probably some substances you _really_ shouldn't be thinking of.
-- As a final note, this book does a really good job of filling in the blanks between the V2 program, and the american Redstone program. In hindsight it makes complete sense, but the primary stakeholders of liquid rocket propellant development was not necessarily NASA or orbital rockets, but actually the US military branches which needed storable (and ideally hypergolic) propellants for all sorts of missiles they were procuring.
-
-### Reentry: SpaceX, Elon Musk, and the Reusable Rockets that Launched a Second Space Age (Eric Berger)
-
-- Reading this book immediately after _Project Hail Mary_ was a bit of a surreal experience: one day I was finishing reading a book which was very much science fiction, and the following day I started reading about the exploits of the SpaceX, which in some cases could might as well be science fiction. I started following SpaceX after watching a video of a Falcon 9 landing on a barge and becoming completely fascinated with the [guidance algorithms](https://www.researchgate.net/publication/258676350_G-FOLD_A_Real-Time_Implementable_Fuel_Optimal_Large_Divert_Guidance_Algorithm_for_Planetary_Pinpoint_Landing) that made this possible. I also recall watching the first Falcon Heavy launch live, the first Starlink launches (which inspired my [master's dissertation](https://repositorio-aberto.up.pt/bitstream/10216/155205/3/649984.pdf)), the inflight abort test, and a whole bunch of Starship tests. What this ends up meaning is that I don't start with a clean slate, when it came to reading this book. Nevertheless, it didn't end up mattering very much because the book is chock full of inside stories and details which provide a ton of context to the SpaceX launches that I witnessed in this past decade.
-- My only gripe with this book is that the Starlink project/division doesn't get a lot of coverage, but I get that Berger had to make some tough decisions on what makes the cut and what doesn't. Still, I hope that one day in the future there is a Starlink book that details the trials and tribulations of mass-producing satelites and building a megaconstellation.
-- Somewhat suprisingly, the author's reflections on the future of SpaceX in the book's epilogue was the part of the book that left the biggest impression in me.
 
 ### Domain-Driven Design: Tackling Complexity in the Heart of Software (Eric Evans)
 
