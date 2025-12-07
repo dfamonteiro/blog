@@ -27,7 +27,7 @@ Nevertheless, I'd recommend this book to anyone starting to work as a software e
 
 ### The Manager's Path (Camille Fournier)
 
-After reading the [The Missing README](#the-missing-readme-chris-riccomini--dmitriy-ryaboy) it was only natural that I would pick up this book.
+After reading the [_The Missing README_](#the-missing-readme-chris-riccomini--dmitriy-ryaboy) it was only natural that I would pick up this book next.
 
 It was interesting to gather some perspective on how things work on the management side of things. In general this book helped me be more mindful of the types of problems and the kind of work that managers have to do.
 
@@ -79,7 +79,7 @@ Ultimately, it's an excellent page turner: I managed to go through the whole boo
 
 ### Reentry: SpaceX, Elon Musk, and the Reusable Rockets that Launched a Second Space Age (Eric Berger)
 
-Reading this book immediately after _Project Hail Mary_ was a bit of a surreal experience: one day I was finishing reading a book which was very much science fiction, and the following day I started reading about the exploits of the SpaceX, which in some cases could _might as well_ be science fiction.
+Reading this book immediately after [_Project Hail Mary_](#project-hail-mary-andy-weir) was a bit of a surreal experience: one day I was finishing reading a book which was very much science fiction, and the following day I started reading about the exploits of the SpaceX, which in some cases could _might as well_ be science fiction.
 
 I started following SpaceX after watching a video of a Falcon 9 landing on a barge and becoming completely fascinated with the [guidance algorithms](https://www.researchgate.net/publication/258676350_G-FOLD_A_Real-Time_Implementable_Fuel_Optimal_Large_Divert_Guidance_Algorithm_for_Planetary_Pinpoint_Landing) that made this possible. I also recall watching the first Falcon Heavy launch live, the first Starlink launches (which inspired my [master's dissertation](https://repositorio-aberto.up.pt/bitstream/10216/155205/3/649984.pdf)), the inflight abort test, and a whole bunch of Starship tests. What this ends up meaning is that I don't start with a clean slate, when it came to reading this book. Nevertheless, it didn't end up mattering very much because the book is chock full of inside stories and details which provide a ton of context to the SpaceX launches that I witnessed in this past decade.
 
