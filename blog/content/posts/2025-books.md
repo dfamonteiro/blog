@@ -1,6 +1,6 @@
 +++ 
 draft = true
-date = 2025-06-19T16:24:07+01:00
+date = 2025-12-07T18:49:59Z
 title = "Reviewing a year's worth of book-reading"
 description = ""
 slug = ""
@@ -11,18 +11,37 @@ externalLink = ""
 series = []
 +++
 
+As we're nearing the end of the calendar year, I wanted to reflect on the books I've read in these past 12 months. And thankfully, I had the foresight of taking notes throughout the year! Yay, past me!
 
-## The Missing README (Chris Riccomini & Dmitriy Ryaboy)
+This won't be a normal blog post in my usual writing style, but I'll keep it simple: the books are organized by theme... that's it.
 
-- It was recommended this book by a work colleague and I have to say that for junior engineers, it's a must read. Unfortunately in my case, I was already a year and a couple of months into my current job, so it wasn't very relevant for me. Nevertheless, I'd recommend this book to anyone starting to work as a software engineer in a professional setting.
+Let's get started!
 
-## The Manager's Path (Camille Fournier)
+## Software engineering career books
 
-- Look after reading the missing read me was. Was an interesting experience and natural. A natural continuation to the missing red. It was interesting. Take. Being my mindful of types of problems and the kind of work that managers. Have to do? But as expected, I felt that the first few chapters were very. Very interesting and useful, but to other ones when when it comes to managing multiple teams or being a CTO. Where otherwise engaging in the realm of politics, and it wasn't very useful.
+### The Missing README (Chris Riccomini & Dmitriy Ryaboy)
 
-## The Staff Engineer's Path : A Guide for Individual Contributors Navigating Growth and Change (Tanya Reilly)
+I was recommended this book by a work colleague, and I have to say that for junior engineers, it's a must read, but I must say that it somewhat loses its value once you have over a year of experience in this profession.
 
-With this book I've felt I completed the triumvirate of the SE career progression books (the other two thirds of this trio being the two books immediately above this review). While I'm not even remotely close to the level of a staff engineer when it comes to my own career progression, I've felt I still managed to extract useful insights from Reilly's writings. I'm particularly fond of the _Three Maps_ chapter: being able to understand why you're doing what you're doing, what's the goal, and how to navigate a specific company's corporate environment are all extremely useful information for engineers of any level!
+Nevertheless, I'd recommend this book to anyone starting to work as a software engineer in a professional setting.
+
+### The Manager's Path (Camille Fournier)
+
+After reading the [The Missing README](#the-missing-readme-chris-riccomini--dmitriy-ryaboy) it was only natural that I would pick up this book.
+
+It was interesting to gather some perspective on how things work on the management side of things. In general this book helped me be more mindful of the types of problems and the kind of work that managers have to do.
+
+But as I somewhat expected before picking up this book, while the first few chapters were very interesting and full of useful details, the final chapters where we go up the management ladder (i.e. managing multiple teams or being a CTO) were a bit more difficult to grasp.[^1]
+
+[^1]: This is more of a reflection of myself and my relative lack of experience in corporate enviroments, rather than a flaw in the book.
+
+### The Staff Engineer's Path : A Guide for Individual Contributors Navigating Growth and Change (Tanya Reilly)
+
+With this book I've felt I completed the triumvirate of the SE career progression books (the other two thirds of this trio being the two books immediately above this review).
+
+While I'm not even remotely close to the level of a staff engineer when it comes to my own career progression, I've felt I still managed to extract useful insights from Reilly's writings
+
+I'm particularly fond of the _Three Maps_ chapter: being able to understand why you're doing what you're doing, what's the goal, and how to navigate a specific company's corporate environment are all extremely useful information for engineers of any level!
 
 ## Designing Data-Intensive Applications (Martin Kleppmann)
 
