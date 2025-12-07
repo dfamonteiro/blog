@@ -43,6 +43,20 @@ While I'm not even remotely close to the level of a staff engineer when it comes
 
 I'm particularly fond of the _Three Maps_ chapter: being able to understand why you're doing what you're doing, what's the goal, and how to navigate a specific company's corporate environment are all extremely useful information for engineers of any level!
 
+## Semiconductor design & manufacturing
+
+### Semiconductor Manufacturing Technology (Michael Quirk & Julian Serda)
+
+I'm well aware that this is a university-level textbook. Nevertheless, I would recommend it for anyone with both a technical mindset and an interest in semiconductor manufacturing because it is very readable and doesn't require much background knowledge, if any.
+
+You can learn a lot about semiconductor manufacturing from the internet, but with this book you will get the full picture of the entire manufacturing process.
+
+### Fabless: The Transformation of the Semiconductor Industry (Daniel Nenni & Paul McLellan)
+
+This was a book that highlighted some of the smaller players in the semiconductor industry. And it also really highlighted the importance of IP in the semiconductor industry, and showcased why it's a very viable business model.
+
+I feel like foundries (and NVIDIA) get all the the attention in the semiconductor industry. But this book does a good job of lighting some of the lesser-know players, such as the EDA design tool companies.
+
 ### Designing Data-Intensive Applications (Martin Kleppmann)
 
 - IMO, borderline mandatory reading for any software engineer
@@ -59,14 +73,6 @@ I'm particularly fond of the _Three Maps_ chapter: being able to understand why 
 - We wasn't able to finish reading this book because I was starting getting depressed with reading the seeing the main character through life throw away air life. However, I would like to explain on some topics that. I found very interesting the book, more specifically the word building. I found extremely interesting to start at the author put into the technical considerations of having an habitat on the moon and all the safety and security protocols that they have, specially around the airlocks And preventing a sudden depressurization events.
 
 - Another interesting aspect of this book is how the harsh conditions of the habitats. Went to a formation of a mini society. Inside it. With several strata.
-
-### Semiconductor Manufacturing Technology (Michael Quirk & Julian Serda)
-
-- I think that for anyone with a passing interest in semiconductor manufacturing technologyAnd technical mindset. I would recommend that they should read this book. I'm well aware that this is a text, a university level textbook. But I found it very very readable. And gives you a somewhat complete knowledge of the semiconductor manufacturing process Wish wish you would, you wouldn't be able to get. Just from reading books and. And listening to Youtube videos.
-
-### Fabless: The Transformation of the Semiconductor Industry (Daniel Nenni & Paul McLellan)
-
-- This was a book that highlighted some of the smaller players in the semiconductor industry. And it also really highlighted the importance of IP in the semiconductor industry, and showcased why it's a very viable business model. I feel like foundries (and NVIDIA) get all the the attention in the semiconductor industry. But this book does a good job of lighting some of the lesser-know players, such as the EDA design tool companies.
 
 ### Fundamentals of Software Architecture: An Engineering Approach (Mark Richards & Neal Ford)
 
