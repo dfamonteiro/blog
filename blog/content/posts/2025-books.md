@@ -53,9 +53,9 @@ You can learn a lot about semiconductor manufacturing from the internet, but wit
 
 ### Fabless: The Transformation of the Semiconductor Industry (Daniel Nenni & Paul McLellan)
 
-This was a book that highlighted some of the smaller players in the semiconductor industry. And it also really highlighted the importance of IP in the semiconductor industry, and showcased why it's a very viable business model.
+This was a book that highlighted some of the smaller players in the semiconductor industry. It also really highlighted the importance of IP in the semiconductor industry, and showcased why it's a very viable business model.
 
-I feel like foundries (and NVIDIA) get all the the attention in the semiconductor industry. But this book does a good job of lighting some of the lesser-know players, such as the EDA design tool companies.
+The foundries (TSMC, Intel, Samsung, etc) and NVIDIA get all the the attention in the semiconductor industry nowadays. This book grounds you, showing you how deep this industry truly goes by telling the story of some of the lesser-known players, such as the EDA design tool companies, for example.
 
 ### Designing Data-Intensive Applications (Martin Kleppmann)
 
