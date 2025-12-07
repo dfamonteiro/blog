@@ -57,6 +57,24 @@ This was a book that highlighted some of the smaller players in the semiconducto
 
 The foundries (TSMC, Intel, Samsung, etc) and NVIDIA get all the the attention in the semiconductor industry nowadays. This book grounds you, showing you how deep this industry truly goes by telling the story of some of the lesser-known players, such as the EDA design tool companies, for example.
 
+## Science Fiction
+
+### Artemis (Andy Weir)
+
+I wasn't able to finish reading this book because I was starting getting depressed watching the life throw away air life. Nevertheless, there are some aspects of the book that I found fascinating.
+
+When you read a book by Andy Weir, you just know that the world-building will be top notch from a science and engineering point of view, but this book surprised me by how societally deep it is: the harsh conditions of living in the moon turns the habitats into a petri dish of human interactions, and the exploration of this mini-society by the author is a deeply interesting thought experiment.
+
+### Project Hail Mary (Andy Weir)
+
+_Project Hail Mary_ is just an incredible book. I thought my days of reading fiction were over, but I guess this book is _the_ exception to the rule.
+
+Its scientific foundations are top notch, and I found the "fake" science that drives the plot to be very cohesively and elegantly designed: I'd like to highlight everything related to astrophage as the book's strong point, starting from the scientific discoveries all the way to the practicalities of using and handling large quantities of this fictitious life form.
+
+Another aspect that I really enjoyed was Weir's take on making first contact with another sentient species with a roughly equivalent level of science and technology to ours: I wasn't expecting this at all when I first started reading the book and it was a nice surprise.
+
+Ultimately, it's an excellent page turner: I managed to go through the whole book in two days.
+
 ### Designing Data-Intensive Applications (Martin Kleppmann)
 
 - IMO, borderline mandatory reading for any software engineer
@@ -67,12 +85,6 @@ The foundries (TSMC, Intel, Samsung, etc) and NVIDIA get all the the attention i
 - Funny: all the talk about consensus... and then the problem is outsourced to zookeper
 
 - All the time spent talking about traditional DBs... and then the book aggressively pivots towards using durable message queues with idempotent message processing, which is fine and a great idea but I don't think that enough time was spent the practicalities of building an architecture around the idea of having events as the "source of truth" and the traditional database almost as a state machine.
-
-### Artemis (Andy Weir)
-
-- We wasn't able to finish reading this book because I was starting getting depressed with reading the seeing the main character through life throw away air life. However, I would like to explain on some topics that. I found very interesting the book, more specifically the word building. I found extremely interesting to start at the author put into the technical considerations of having an habitat on the moon and all the safety and security protocols that they have, specially around the airlocks And preventing a sudden depressurization events.
-
-- Another interesting aspect of this book is how the harsh conditions of the habitats. Went to a formation of a mini society. Inside it. With several strata.
 
 ### Fundamentals of Software Architecture: An Engineering Approach (Mark Richards & Neal Ford)
 
@@ -86,12 +98,6 @@ The foundries (TSMC, Intel, Samsung, etc) and NVIDIA get all the the attention i
 
 - This book is a bit of a cult classic in the space & rocket community, and in my opinion, this reputation is completely deserved: John D. Clark makes a wonderful job of not only detailing the advancements of rocket propellant technology, but doing so in an incredibly charismatic manner, almost as if he is telling a tale to you personally after a couple of drinks. The number of different chemicals that have been tried as rocket propellants is something that is hard to believe when you are reading through the chapters: they really tried everything you can think of, and probably some substances you _really_ shouldn't be thinking of.
 - As a final note, this book does a really good job of filling in the blanks between the V2 program, and the american Redstone program. In hindsight it makes complete sense, but the primary stakeholders of liquid rocket propellant development was not necessarily NASA or orbital rockets, but actually the US military branches which needed storable (and ideally hypergolic) propellants for all sorts of missiles they were procuring.
-
-### Project Hail Mary (Andy Weir)
-
-- _Project Hail Mary_ is just an incredible book. I thought my days of reading fiction were over, but I guess this book is _the_ exception to the rule. Its scientific foundations are top notch, and I found the "fake" science to be very cohesively and elegantly designed: I'd like to highlight everything related to astrophage as the book's strong point, starting from the scientific discoveries (which are critical for the book's plot) all the way to the practicalities of using and handling large quantities of this fictitious life form.
-- Another aspect that I really enjoyed was Weir's take on making first contact with another sentient species with a roughly equivalent level of science and technology to ours: I wasn't expecting this at all when I first started reading the book and it was a nice surprise.
-- Ultimately, it's a very good page turner: I managed to read the whole book in two days.
 
 ### Reentry: SpaceX, Elon Musk, and the Reusable Rockets that Launched a Second Space Age (Eric Berger)
 
