@@ -17,7 +17,7 @@ This won't be a normal blog post in my usual writing style, but I'll keep it sim
 
 Let's get started!
 
-## Software engineering career books
+## Software engineering as a career path
 
 ### The Missing README (Chris Riccomini & Dmitriy Ryaboy)
 
