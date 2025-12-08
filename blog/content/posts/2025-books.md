@@ -1,6 +1,6 @@
 +++ 
-draft = true
-date = 2025-12-07T18:49:59Z
+draft = false
+date = 2025-12-08T17:26:11Z
 title = "Reviewing a year's worth of book-reading"
 description = ""
 slug = ""
