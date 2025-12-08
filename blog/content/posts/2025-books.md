@@ -95,33 +95,38 @@ The number of different chemicals that have been tried as rocket propellants is 
 
 As a final note, this book does a really good job of filling in the blanks between the V2 program, and the american Redstone program. In hindsight it makes complete sense, but the primary stakeholders of liquid rocket propellant development was not necessarily NASA or orbital rockets, but actually the US military branches which needed storable (and ideally hypergolic) propellants for all sorts of missiles they were procuring.
 
+## Pure software engineering
+
 ### Designing Data-Intensive Applications (Martin Kleppmann)
 
-- IMO, borderline mandatory reading for any software engineer
-  - uni spends a lot of time teaching SQL and database normalization (which is completely fine), but when you start working professionally as a software engineer, you acquire a whole other set of practical working knowledge out when working with databases and the great thing about this book is that it gives you a knowledge and understading of databases and data systems that you take 5 to 10 years to acquire organically in a normal working environment.
+This book should be mandatory reading for any software engineer. While university does teach you SQL and database normalization, when you start working professionally as a software engineer, you acquire a whole other set of very specific practical database knowledge, related to _only_ the technologies your workplace uses. This book does a good job of filling in the blanks of your knowledge and gives you a knowledge and understanding of data systems that would take 5-10 years to acquire organically in a normal working environment.
 
-- My favorite chapter was. And the chapter about the transaction installations. It was very useful. To back my work knowledge with the very extensive explanations that were present in this book.
+My favorite chapter was the chapter about transactions. From all the chapters in the book, I felt this one was the most immediately useful for me.
 
-- Funny: all the talk about consensus... and then the problem is outsourced to zookeper
-
-- All the time spent talking about traditional DBs... and then the book aggressively pivots towards using durable message queues with idempotent message processing, which is fine and a great idea but I don't think that enough time was spent the practicalities of building an architecture around the idea of having events as the "source of truth" and the traditional database almost as a state machine.
+I found it funny that after so many pages spent talking about traditional DBs, the book aggressively pivots towards using durable message queues with idempotent message processing, which is fine and an interesting idea! I just don't think that enough time was spent on the practicalities of building an architecture around the idea of having events as the "source of truth"... but maybe that topic deserves a dedicated book.
 
 ### Fundamentals of Software Architecture: An Engineering Approach (Mark Richards & Neal Ford)
 
-- I really enjoyed this book and I felt that it was a very good launching pad for the field of software architecture. I have some opinions on the pacing of the book, though:
-  - In Part I of the book, there are four consecutive chapters about architecture characteristics. Whilst it is a very important topic to discuss, the way it was laid out on the book felt a bit too granular: maybe instead of 4 small chapters, 3 or 2 bigger chapters would suffice.
-  - Part II, in which we go through a selection of architecture styles in detail, is just fantastic. I read this section of the book in one sitting and enjoyed seeing some architecture patterns present at work being explained in excellent detail.
-  - Part III focused more on the more human and day-to-day aspects of being a software engineer (being a leader, negotiating, etc.). Some of the do's and dont's are a bit obvious, but I can't fault the authors for wanting to cover all the bases.
-- All in all, it's a book that I would recommend to anyone as their first literary foray into software architecture.
+I really enjoyed this book and I felt that it was a very good launching pad for the field of software architecture. I have some opinions on the pacing of the book, though:
+
+- In Part I of the book, there are four consecutive chapters about architecture characteristics. Whilst it is a very important topic to discuss, the way it was laid out on the book felt a bit too granular: maybe instead of 4 small chapters, 3 or 2 bigger chapters would suffice.
+- Part II, in which we go through a selection of architecture styles in detail, is just fantastic. I read this section of the book in one sitting and enjoyed seeing some architecture patterns present at work being explained in excellent detail.
+- Part III focused more on the more human and day-to-day aspects of being a software engineer (being a leader, negotiating, etc.). Some of the do's and dont's are a bit obvious, but I can't fault the authors for wanting to cover all the bases.
+
+All in all, it's a book that I would recommend to anyone as their first literary foray into software architecture.
 
 ### Domain-Driven Design: Tackling Complexity in the Heart of Software (Eric Evans)
 
-- This book along with [Designing Data-Intensive Applications](#designing-data-intensive-applications-martin-kleppmann) belong in my personal list of foundational software engineering books.
-- Before reading this book, I had somewhat of a theory that different software engineers (and programmers in general) had diferent levels of _taste_, with _taste_ being a sixth sense for how things should go together in a software project. After reading DDD I recognize that, instead of _taste_, the term that perhaps should be used is _design acumen_.
-- Even two decades after the publishing of this book, many of its fundamental concepts are still relevant to this day:
-  - The concepts of `Entity`, `Aggregate`, `Value Object`, `Factory` and `Repository` have become popular design patterns and concepts.
-  - One of my biggest takeaways is the emphasis the author placed on creating, upholding and promoting a **_ubiquitous language_** shared between the softare engineers and the domain experts. It's a key detail that I have always taken for granted at my workplace and never thought much about.
-- Personal opinion, but I felt that I got 80% percent of the value of this book from reading the first 40% of it.
+This book along with [_Designing Data-Intensive Applications_](#designing-data-intensive-applications-martin-kleppmann) belong in my personal list of foundational software engineering books.
+
+Before reading this book, I had somewhat of a theory that different software engineers (and programmers in general) had diferent levels of _taste_, with _taste_ being a sixth sense for how things should go together in a software project. After reading DDD I recognize that, instead of _taste_, the term that perhaps should be used is _design acumen_.
+
+Even two decades after the publishing of this book, many of its fundamental concepts are still relevant to this day:
+
+- The concepts of `Entity`, `Aggregate`, `Value Object`, `Factory` and `Repository` have become popular design patterns and concepts.
+- One of my biggest takeaways is the emphasis the author placed on creating, upholding and promoting a **_ubiquitous language_** shared between the softare engineers and the domain experts. It's a key detail that I have always taken for granted at my workplace and never thought much about.
+
+Personally speaking, I felt that I got 80% percent of the value of this book from reading the first 40% of it.
 
 ### Software Architecture: The Hard Parts (Neal Ford, Mark Richards, Pramod Sadalage & Zhamak Dehgani)
 
@@ -131,6 +136,6 @@ This might be the best technical book I've read in 2025: Not only is it filled t
 2. The chapter provides you with a framework to address, mitigate and/or solving the problem.
 3. The chapter ends with the fictional architects using insights from the chapter to find a way forward.
 
-It sounds straightforward at first glance but it's so well executed that it becomes, for lack of better words, the narrative engine of the book. It also brings with it the added benefit of grounding the contents of the book in the real-world scenarios from the fictitional company.
+It sounds straightforward at first glance but it's so well executed that it becomes the narrative engine of the book. It also brings with it the added benefit of grounding the contents of the book in the real-world scenarios from the fictitional company.
 
 _Software Architecture: The Hard Parts_ might just become my new gold standard when judging tecnical books. The best compliment I can give it is that I can't recommend a specific part of the book: the whole book is great and you are rewarded by reading the book from start to finish with the enjoyment of following these fictional architects finding solutions for their conudrums. By the end of the book you'll be cheering them on!
