@@ -39,7 +39,7 @@ But as I somewhat expected before picking up this book, while the first few chap
 
 With this book I've felt I completed the triumvirate of the SE career progression books (the other two thirds of this trio being the two books immediately above this review).
 
-While I'm not even remotely close to the level of a staff engineer when it comes to my own career progression, I've felt I still managed to extract useful insights from Reilly's writings
+While I'm not even remotely close to the level of a staff engineer when it comes to my own career progression, I've felt I still managed to extract useful insights from Reilly's writings.
 
 I'm particularly fond of the _Three Maps_ chapter: being able to understand why you're doing what you're doing, what's the goal, and how to navigate a specific company's corporate environment are all extremely useful information for engineers of any level!
 
@@ -63,7 +63,7 @@ The foundries (TSMC, Intel, Samsung, etc) and NVIDIA get all the the attention i
 
 I wasn't able to finish reading this book because I was starting getting depressed watching the life throw away air life. Nevertheless, there are some aspects of the book that I found fascinating.
 
-When you read a book by Andy Weir, you just know that the world-building will be top notch from a science and engineering point of view, but this book surprised me by how societally deep it is: the harsh conditions of living in the moon turns the habitats into a petri dish of human interactions, and the exploration of this mini-society by the author is a deeply interesting thought experiment.
+When you read a book by Andy Weir, you just know that the world-building will be top notch from a science and engineering point of view, but this book surprised me by how societally deep it is: the harsh conditions of living in the Moon turns the habitats into a petri dish of human interactions, and the exploration of this mini-society by the author is a deeply interesting thought experiment.
 
 ### Project Hail Mary (Andy Weir)
 
@@ -93,7 +93,7 @@ This book is a bit of a cult classic in the space & rocket community, and in my 
 
 The number of different chemicals that have been tried as rocket propellants is something that is hard to believe when you are reading through the chapters: they really tried everything you can think of, and probably some substances you _really_ shouldn't be thinking of.
 
-As a final note, this book does a really good job of filling in the blanks between the V2 program, and the american Redstone program. In hindsight it makes complete sense, but the primary stakeholders of liquid rocket propellant development was not necessarily NASA or orbital rockets, but actually the US military branches which needed storable (and ideally hypergolic) propellants for all sorts of missiles they were procuring.
+As a final note, this book does a really good job of filling in the blanks between the V2 program, and the american Redstone program. In hindsight it makes complete sense, but the primary stakeholders of liquid rocket propellant development was not necessarily NASA or orbital rockets, but actually the US military branches which needed storable (and ideally [hypergolic](https://en.wikipedia.org/wiki/Hypergolic_propellant)) propellants for all sorts of missiles they were procuring.
 
 ## Pure software engineering
 
@@ -103,7 +103,7 @@ This book should be mandatory reading for any software engineer. While universit
 
 My favorite chapter was the chapter about transactions. From all the chapters in the book, I felt this one was the most immediately useful for me.
 
-I found it funny that after so many pages spent talking about traditional DBs, the book aggressively pivots towards using durable message queues with idempotent message processing, which is fine and an interesting idea! I just don't think that enough time was spent on the practicalities of building an architecture around the idea of having events as the "source of truth"... but maybe that topic deserves a dedicated book.
+I found it funny that after so many pages spent talking about traditional DBs, the book aggressively pivots towards using durable message queues with idempotent message processing, which is fine and an interesting idea! I just don't think that enough time was spent on the practicalities of building an architecture around the idea of [having events as the "source of truth"](https://microservices.io/patterns/data/event-sourcing.html)... but maybe that topic deserves a wholly dedicated book.
 
 ### Fundamentals of Software Architecture: An Engineering Approach (Mark Richards & Neal Ford)
 
