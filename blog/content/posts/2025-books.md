@@ -1,11 +1,11 @@
 +++ 
 draft = false
 date = 2025-12-08T17:26:11Z
-title = "Reviewing a year's worth of book-reading"
+title = "Reviewing a year's worth of book reading"
 description = ""
 slug = ""
 authors = ["Daniel Monteiro"]
-tags = ["Books", "programming"]
+tags = ["Books", "Programming"]
 categories = []
 externalLink = ""
 series = []
