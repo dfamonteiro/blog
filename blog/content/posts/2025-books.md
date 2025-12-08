@@ -21,7 +21,7 @@ Let's get started!
 
 ### The Missing README (Chris Riccomini & Dmitriy Ryaboy)
 
-I was recommended this book by a work colleague, and I have to say that for junior engineers, it's a must read, but I must say that it somewhat loses its value once you have over a year of experience in this profession.
+I was recommended this book by a work colleague, and I have to say that for junior engineers it's a must read, but I must say that it somewhat loses its value once you have over a year of experience in this profession.
 
 Nevertheless, I'd recommend this book to anyone starting to work as a software engineer in a professional setting.
 
@@ -39,7 +39,7 @@ But as I somewhat expected before picking up this book, while the first few chap
 
 With this book I've felt I completed the triumvirate of the SE career progression books (the other two thirds of this trio being the two books immediately above this review).
 
-While I'm not even remotely close to the level of a staff engineer when it comes to my own career progression, I've felt I still managed to extract useful insights from Reilly's writings.
+While I'm not even remotely close to the level of a staff engineer, I've felt I still managed to extract useful insights from Reilly's writings.
 
 I'm particularly fond of the _Three Maps_ chapter: being able to understand why you're doing what you're doing, what's the goal, and how to navigate a specific company's corporate environment are all extremely useful information for engineers of any level!
 
@@ -49,21 +49,21 @@ I'm particularly fond of the _Three Maps_ chapter: being able to understand why 
 
 I'm well aware that this is a university-level textbook. Nevertheless, I would recommend it for anyone with both a technical mindset and an interest in semiconductor manufacturing because it is very readable and doesn't require much background knowledge, if any.
 
-You can learn a lot about semiconductor manufacturing from the internet, but with this book you will get the full picture of the entire manufacturing process.
+You can learn a lot about semiconductor manufacturing from the internet, but with this book you will get a more complete picture of the entire manufacturing process.
 
 ### Fabless: The Transformation of the Semiconductor Industry (Daniel Nenni & Paul McLellan)
 
-This was a book that highlighted some of the smaller players in the semiconductor industry. It also really highlighted the importance of IP in the semiconductor industry, and showcased why it's a very viable business model.
+This was a book that highlighted some of the smaller players in the semiconductor industry. It also really highlighted the importance of intellectual property (IP) in the semiconductor industry, and made me understand how the business case for companies such as ARM makes sense.
 
-The foundries (TSMC, Intel, Samsung, etc) and NVIDIA get all the the attention in the semiconductor industry nowadays. This book grounds you, showing you how deep this industry truly goes by telling the story of some of the lesser-known players, such as the EDA design tool companies, for example.
+The foundries (TSMC, Intel, Samsung, etc) and NVIDIA get all the the attention in the semiconductor industry nowadays. This book grounds you, showing you how deep this industry truly goes by telling the story of some of the lesser-known players, such as the EDA design tool companies for example.
 
 ## Science Fiction
 
 ### Artemis (Andy Weir)
 
-I wasn't able to finish reading this book because I was starting getting depressed watching the life throw away air life. Nevertheless, there are some aspects of the book that I found fascinating.
+I wasn't able to finish reading this book because I was getting depressed watching the protagonist throw away her life. Nevertheless, there are some aspects of the book that I found fascinating.
 
-When you read a book by Andy Weir, you just know that the world-building will be top notch from a science and engineering point of view, but this book surprised me by how societally deep it is: the harsh conditions of living in the Moon turns the habitats into a petri dish of human interactions, and the exploration of this mini-society by the author is a deeply interesting thought experiment.
+When you read a book by Andy Weir, you just know that the world-building will be top notch from a science and engineering point of view, but this book surprised me by how societally deep it is: the harsh conditions of living in the Moon turns the habitats into a petri dish of human interactions, and the exploration of this micro-society by the author is a deeply interesting thought experiment.
 
 ### Project Hail Mary (Andy Weir)
 
@@ -71,7 +71,7 @@ _Project Hail Mary_ is just an incredible book. I thought my days of reading fic
 
 Its scientific foundations are top notch, and I found the "fake" science that drives the plot to be very cohesively and elegantly designed: I'd like to highlight everything related to astrophage as the book's strong point, starting from the scientific discoveries all the way to the practicalities of using and handling large quantities of this fictitious life form.
 
-Another aspect that I really enjoyed was Weir's take on making first contact with another sentient species with a roughly equivalent level of science and technology to ours: I wasn't expecting this at all when I first started reading the book and it was a nice surprise.
+Another aspect that I really enjoyed was Weir's take on making first contact with another sentient species with a roughly equivalent level of science and technology to ours. I wasn't expecting this at all when I first started reading the book and it was a nice surprise.
 
 Ultimately, it's an excellent page turner: I managed to go through the whole book in two days.
 
@@ -89,11 +89,11 @@ Somewhat suprisingly, the author's reflections on the future of SpaceX in the bo
 
 ### Ignition! An Informal History of Liquid Rocket Propellants (John D. Clark)
 
-This book is a bit of a cult classic in the space & rocket community, and in my opinion, this reputation is completely deserved: John D. Clark makes a wonderful job of not only detailing the advancements of rocket propellant technology, but doing so in an incredibly charismatic manner, almost as if he is telling a tale to you personally after a couple of drinks.
+This book is a bit of a cult classic in the space & rocket community, and in my opinion, this reputation is completely deserved: John D. Clark makes a wonderful job of not only detailing the advancements of rocket propellant technology, but doing so in an incredibly charismatic manner, almost as if he is telling you a tale after a couple of drinks.
 
-The number of different chemicals that have been tried as rocket propellants is something that is hard to believe when you are reading through the chapters: they really tried everything you can think of, and probably some substances you _really_ shouldn't be thinking of.
+The number of different chemicals that have been tried as rocket propellants is something that is hard to believe when you are reading through the chapters: they really tried everything you can think of, and probably some substances you **_really_** shouldn't be thinking of.
 
-As a final note, this book does a really good job of filling in the blanks between the V2 program, and the american Redstone program. In hindsight it makes complete sense, but the primary stakeholders of liquid rocket propellant development was not necessarily NASA or orbital rockets, but actually the US military branches which needed storable (and ideally [hypergolic](https://en.wikipedia.org/wiki/Hypergolic_propellant)) propellants for all sorts of missiles they were procuring.
+As a final note, this book does a really good job of filling in the blanks between the V2 program, and the american Redstone program. In hindsight it makes complete sense, but the primary stakeholders of liquid rocket propellant development was not necessarily NASA nor orbital rockets, but actually the US military branches which needed storable (and ideally [hypergolic](https://en.wikipedia.org/wiki/Hypergolic_propellant)) propellants for all sorts of missiles they were procuring.
 
 ## Pure software engineering
 
@@ -103,7 +103,7 @@ This book should be mandatory reading for any software engineer. While universit
 
 My favorite chapter was the chapter about transactions. From all the chapters in the book, I felt this one was the most immediately useful for me.
 
-I found it funny that after so many pages spent talking about traditional DBs, the book aggressively pivots towards using durable message queues with idempotent message processing, which is fine and an interesting idea! I just don't think that enough time was spent on the practicalities of building an architecture around the idea of [having events as the "source of truth"](https://microservices.io/patterns/data/event-sourcing.html)... but maybe that topic deserves a wholly dedicated book.
+I found it funny that after so many pages spent talking about traditional DBs, the book aggressively pivots towards using durable message queues with idempotent message processing, which is a fine and interesting idea! I just don't think that enough time was spent on the practicalities of building an architecture around the idea of [having events as the "source of truth"](https://microservices.io/patterns/data/event-sourcing.html)... but maybe that topic deserves a wholly dedicated book.
 
 ### Fundamentals of Software Architecture: An Engineering Approach (Mark Richards & Neal Ford)
 
@@ -119,7 +119,7 @@ All in all, it's a book that I would recommend to anyone as their first literary
 
 This book along with [_Designing Data-Intensive Applications_](#designing-data-intensive-applications-martin-kleppmann) belong in my personal list of foundational software engineering books.
 
-Before reading this book, I had somewhat of a theory that different software engineers (and programmers in general) had diferent levels of _taste_, with _taste_ being a sixth sense for how things should go together in a software project. After reading DDD I recognize that, instead of _taste_, the term that perhaps should be used is _design acumen_.
+Before reading this book, I had somewhat of a theory that different software engineers (and programmers in general) had diferent levels of _taste_, with _taste_ being a sixth sense for how things should go together in a software project. After reading _DDD_ I recognize that, instead of _taste_, the term that perhaps should be used is _design acumen_.
 
 Even two decades after the publishing of this book, many of its fundamental concepts are still relevant to this day:
 
@@ -138,4 +138,4 @@ This might be the best technical book I've read in 2025: Not only is it filled t
 
 It sounds straightforward at first glance but it's so well executed that it becomes the narrative engine of the book. It also brings with it the added benefit of grounding the contents of the book in the real-world scenarios from the fictitional company.
 
-_Software Architecture: The Hard Parts_ might just become my new gold standard when judging tecnical books. The best compliment I can give it is that I can't recommend a specific part of the book: the whole book is great and you are rewarded by reading the book from start to finish with the enjoyment of following these fictional architects finding solutions for their conudrums. By the end of the book you'll be cheering them on!
+_Software Architecture: The Hard Parts_ might just become my new gold standard when judging tecnical books. The best compliment I can give it is that I can't recommend a specific part of the book: the whole book is great and you are rewarded by reading the book from start to finish with the enjoyment of following these fictional architects while they find solutions for their conundrums. By the end of the book you'll be cheering them on!
