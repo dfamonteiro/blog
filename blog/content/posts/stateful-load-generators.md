@@ -443,7 +443,7 @@ def wafer_scenario():
 run_every_second(wafer_scenario)
 ```
 
-The state machine works! And I don't just mean in a functional sense: the code has been completely flattened and simplified compared to [Iteration 3](#iteration-3-throw-some-if-statements-in-there). The management of the wafer's state has also been completely delegated to the MES, as it should always have been since the beginning: whatever the MES determines the `flowpath` and `system_state` of the wafer to be, that will be taken as our definitive wafer state.
+The state machine works! And I don't just mean in a functional sense: the code has been completely flattened and simplified compared to [Iteration 3](#iteration-3-throw-some-if-statements-in-there). The management of the wafer's state has also been completely delegated to the MES, as it should always have been since the beginning: whatever the MES determines the `flowpath` and `system_state` of the wafer to be is our definitive wafer state.
 
 There is an interesting detail in this state machine: the first four transitions match the **_whole_** state, while the final four transitions are catch-all transitions that only look at **_part_** of the state. We should look into this with more depth.
 
