@@ -354,7 +354,7 @@ We find ourselves in a bit of a predicament. While it's clear that the amount of
 
 All of our wafers have state in the form of `(flowpath, system_state)`, and every time we perform a MES operation, our wafers transition to a new state... are our wafers state machines? I'd argue that we should think of them as such: once you start embracing this way of thinking, things start falling into place.
 
-As a thought experiment, lets create a state machine that represents our current load scenario (including the extra requirements):
+As a thought experiment, lets draft a state machine that represents our current load scenario (including the extra requirements):
 
 <figure>
     <img src="/images/full-wafer-state-machine.excalidraw.svg" alt="The load scenario as a state machine">
@@ -367,11 +367,89 @@ As a thought experiment, lets create a state machine that represents our current
 
 It just feels _right_, doesn't it?
 
-We've made a breakthrough here! State machines are definitely the missing piece to our puzzle: the extra requirements are now, in a rather elegant manner, simply an extra transition with a given probability. But how should we fit the wafer's `system_state` in this state machine? Should we even try to merge these two pieces of state (`flowpath` and `system_state`) together?
+We've made a breakthrough here! State machines are definitely the missing piece to our puzzle: the extra requirements are now, in a rather elegant manner, simply an extra transition with a given probability.
 
-### The state machine within the state machine
+Can this insight be translated to elegant code? Let's find out.
 
-How many states does our state machine have? You might be tempted to look at the state machine above and say 10, but the correct answer would be 40:
+## Iteration 4: Treating the wafers as state machines
+
+It's time to go all-in on this state machine ideia:
+
+```python
+from random import random
+
+def wafer_scenario():
+    wafer = create_wafer()
+    state = (wafer.flowpath, wafer.system_state) # Starting state
+
+    # Start the state machine
+    while True:
+        # 1st requirement
+        if state == ("SimpleFlow\Step2", InProcess) and random() < 0.03:
+            wafer.abort()
+            state = (wafer.flowpath, wafer.system_state)
+            continue
+
+        # 2nd requirement
+        if state == ("SimpleFlow\Step4", Dispatched) and random() > 0.10:
+            wafer.skip_flowpath()
+            state = (wafer.flowpath, wafer.system_state)
+            continue
+
+        # 3rd requirement
+        if state == ("SimpleFlow\Step9", Dispatched):
+            wafer.track_in()
+            if random() < 0.007:
+                wafer.report_defect()
+            # We don't have to worry about the wafer being sent to a previous
+            # step on track-out, the state machine will simply deal with it.
+            state = (wafer.flowpath, wafer.system_state)
+            continue
+        
+        # End of flow
+        if state == ("SimpleFlow\Step9", Processed):
+            break # Stop the state machine
+
+        ###############################
+        # Catch-all state transitions #
+        ###############################
+        system_state = state[1]
+        if system_state == Queued:
+            # By using get_valid_dispatch_candidates(), we can automatically resolve
+            # the machine that can perform the required operation on the wafer,
+            # at the cost of an extra MES call.
+            machine = get_valid_dispatch_candidates(wafer)[0]
+            wafer.dispatch()
+            state = (wafer.flowpath, wafer.system_state)
+            continue
+
+        if system_state == Dispatched:
+            wafer.track_in()
+            state = (wafer.flowpath, wafer.system_state)
+            continue
+
+        if system_state == InProcess:
+            wafer.track_out()
+            state = (wafer.flowpath, wafer.system_state)
+            continue
+
+        if system_state == Processed:
+            wafer.move_next()
+            state = (wafer.flowpath, wafer.system_state)
+            continue
+
+    wafer.terminate()
+
+run_every_second(wafer_scenario)
+```
+
+The state machine works! And I don't just mean in a functional sense: the code has been completely flattened and simplified compared to [Iteration 3](#iteration-3-throw-some-if-statements-in-there). The management of the wafer's state has also been completely delegated to the MES, as it should always have been since the beginning: whatever the MES determines the `flowpath` and `system_state` of the wafer to be, that will be taken as our definitive wafer state.
+
+There is an interesting detail in this state machine: the first four transitions match the **_whole_** state, while the final four transitions are catch-all transitions that only look at **_part_** of the state. We should look into this with more depth.
+
+## The state machine within the state machine
+
+How many states does our state machine have? You might be tempted to look at the state machine diagram above and say 10, or look at the state machine implementation from the previous chapter and say 8, but the correct answer is 40:
 
 ```python
 ("SimpleFlow\Step1", Queued)
@@ -387,11 +465,13 @@ How many states does our state machine have? You might be tempted to look at the
 
 When we're focusing on the `flowpath` it can be easy to forget about the `system_state`, and vice-versa. Why does this happen? The answer becomes obvious once you think about it: we're dealing with different levels of abstraction.
 
-Take for example the "Step 4" state in the state machine above. That's not really a state _per se_: it represents instead a set of four states, all of which have `"SimpleFlow\Step4"` as part of them. The same goes for the [state machine earlier in the blog post](#iteration-2-loop-based-na%C3%AFve-approach): these 4 states and their transitions exist within the wider context of a higher-level `flowpath`.
+Take for example the "Step 4" state in the state machine diagram [above](#state-machines-to-the-rescue). That's not really a state _per se_: it represents instead a set of four states, all of which have `"SimpleFlow\Step4"` as part of them. The same goes for the [state machine earlier in the blog post](#iteration-2-loop-based-na%C3%AFve-approach): these 4 states and their transitions exist within the wider context of a higher-level `flowpath`.
 
-Answering the question posed at the end of the previous chapter: does it make sense to reason about this load scenario as a gargantuan state machine with 40 nodes? No: the 10 step state machine is fine, as long as you always keep in mind that each step is actually a mini state machine.
+So, does it make sense to reason about this load scenario as a gargantuan state machine with 40 nodes? No: the 10-step state machine is fine, as long as you always keep in mind that each step is actually a mini state machine.
 
-The image below should make this idea of nested state machines clearer, by highlighting the states hidden by "Step 1" and "Step 2" of the state machine in the previous chapter.
+The image below should make this idea of nested state machines clearer, by highlighting the states hidden by "Step 1" and "Step 2" of the state machine in the previous chapter.[^10]
+
+[^10]: This concept of nested state machines is not new: they are called **_Hierarchical State Machines_** and are popularly used in the game development industry.
 
 <figure>
     <img src="/images/state-machine-abstraction.excalidraw.svg" alt="The load scenario as a state machine">
@@ -399,7 +479,7 @@ The image below should make this idea of nested state machines clearer, by highl
 
 ### Using state handlers to structure our load test as a state machine
 
-So we decided that structuring our scenario as a state machine is the way to go. So, how do we go about it? Our MES is in charge of keeping track of the state of the wafers, so the part we're responsible for are the state transitions.[^9] With that in mind our goal will be to answer this simple question:
+It's clear as day that structuring our scenario as a state machine is the way to go. But how do we push this idea even further? Our MES is in charge of keeping track of the state of the wafers, so the part we're responsible for are the state transitions.[^9] With that in mind our goal will be to find an elegant approach to answer this simple question:
 
 [^9]: It does make sense if you think about it: the MES operations we've been calling in out load tests can be thought of as state transitions for the wafer.
 
@@ -424,9 +504,11 @@ handler_table = [
 ]
 ```
 
-The handler table supports the usage of wildcards (`*`) for the flowpath, which enables handler reuse. State matches are assessed from top to bottom, meaning that if there are multiple potential matches in the handler table, the one that appears first will always take priority. This enables the possibility of having handlers that handle specific scenarios at the top of the table, while catch-all handlers would sit at the bottom.
+To handle the special case of catch-all handlers seen in [iteration 4](#iteration-4-treating-the-wafers-as-state-machines), the handler table will support the usage of unix-style wildcards (`*`) for the flowpath. State matches are assessed from top to bottom, meaning that if there are multiple potential matches in the handler table, the one that appears first will always take priority.
 
-With these details in mind, a handler table for the original load scenario would look something like this:
+Structuring the behaviour of the handler table in this manner enables the possibility of having handlers that handle specific scenarios at the top of the table, while catch-all handlers sit at the bottom. In a sense, we're formalizing the approach we used to build our state machine in [iteration 4](#iteration-4-treating-the-wafers-as-state-machines).
+
+With these details in mind, a handler table for the original load scenario (without extra requirements) would look something like this:
 
 ```python
 handler_table = [
@@ -442,7 +524,7 @@ By taking advantage of the wildcards, our handler table can be kept very succinc
 
 ## The stateful load generator pattern
 
-Our final goal will be to rewrite our load scenario using what we learned in the [previous chapter](#state-machines-to-the-rescue). Lets start with the handlers:
+Our final goal will be to rewrite our load scenario using the concepts we learned in the [previous subchapter](#using-state-handlers-to-structure-our-load-test-as-a-state-machine). Lets start with the handlers:
 
 ```python
 from random import random
@@ -494,8 +576,6 @@ def track_in_and_maybe_report_defect_handler(wafer: Wafer):
     if random() < 0.007:
         wafer.report_defect()
 
-    # We don't have to worry about the wafer being sent to a previous step on track-out,
-    # the state machine and the handler table will simply deal with it.
     return (wafer.flowpath, wafer.system_state)
 ```
 
@@ -519,7 +599,7 @@ handler_table = [
 ]
 ```
 
-Notice the flatness of our code so far: need to apply the same handler to different flowpaths? Add another row to the handler table. Need to implement a new requirement? Write a new handler and add it to the handler table. We also get really good scalability: the source file might grow in size, but it's complexity will remain the same.
+Notice the flatness of our code so far: need to apply the same handler to different flowpaths? Add another row to the handler table. Need to implement a new requirement? Write a new handler and add it to the handler table. We also get really good scalability: the source file might grow in size, but it's complexity will remain the same. The handlers can even be moved to a separate file to keep things better organized.
 
 Finally we need to write the engine that will execute our handlers:
 
@@ -540,7 +620,7 @@ def wafer_scenario():
 run_every_second(wafer_scenario)
 ```
 
-One interesting side-effect of having to do the upfront investment of writing the handlers and defining your handler table, is that your engine is massively simplified! Simply execute handlers on the wafer until you run out of handler matches.
+An interesting side-effect of having to do the upfront investment of writing the handlers and defining your handler table, is that at least your load generator engine is massively simplified! Simply execute handlers on the wafer until you run out of handler matches.
 
 ## Conclusion
 
