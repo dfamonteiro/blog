@@ -153,3 +153,12 @@ If you don't know anything about Kubernetes, you should read this book. If you _
 Before delving into this book I already had some working knowledge of operating a kubernetes cluster, but none related to creating new K8s resources from scratch. That has now changed after reading Poulton's work: he does a great job of methodically and thoroughly explaining all the fundamental concepts of this technology, while keeping a good pace throughout the book. I now feel I have a solid grasp on the fundamentals of Kubernetes.
 
 I'd like to take a moment to compliment how the practical sections of the book are written: while the idea is to reproduce the console commands in your computer, the book makes such an effort of including the expected command line outcomes that these sections become perfectly readable, especially if you're not feeling like sitting in front of the computer to replicate these commands.
+
+### OpenShift for Developers: A Guide for Impatient Beginners (Joshua Wood & Brian Tannous)
+
+This book mainly focuses on the OpenShift features that are exclusive to this platform (and therefore not part of Kubernetes), so I would only recommend this book to you if:
+
+- **A:** You are a user of this platform.
+- **B:** You have intentions to make heavy use of the OpenShift-exclusive functionalities.
+
+If you intend to treat OpenShift as a "Kubernetes with a web frontend", I would recomend a [standard Kubernetes book](#the-kubernetes-book-2023-edition-nigel-poulton--pushkar-joglekar) instead.
