@@ -139,3 +139,17 @@ This might be the best technical book I've read in 2025: Not only is it filled t
 It sounds straightforward at first glance but it's so well executed that it becomes the narrative engine of the book. It also brings with it the added benefit of grounding the contents of the book in the real-world scenarios from the fictitional company.
 
 _Software Architecture: The Hard Parts_ might just become my new gold standard when judging tecnical books. The best compliment I can give it is that I can't recommend a specific part of the book: the whole book is great and you are rewarded by reading the book from start to finish with the enjoyment of following these fictional architects while they find solutions for their conundrums. By the end of the book you'll be cheering them on!
+
+## P.S. 2025-12-22
+
+This was meant to be the end of the blog post, but it turns out I managed to sneak a few more books in before the end of the year! I learned a valuable lesson though: before you publish a "Year in Review" post, be **_absolutely sure_** that your year is truly done.
+
+Without further ado, here are the books I managed to read **after** the original publishing date of this blog post.
+
+### The Kubernetes Book: 2023 Edition (Nigel Poulton & Pushkar Joglekar)
+
+If you don't know anything about Kubernetes, you should read this book. If you _kinda_ know Kubernetes, you should read this book anyway.
+
+Before delving into this book I already had some working knowledge of operating a kubernetes cluster, but none related to creating new K8s resources from scratch. That has now changed after reading Poulton's work: he does a great job of methodically and thoroughly explaining all the fundamental concepts of this technology, while keeping a good pace throughout the book. I now feel I have a solid grasp on the fundamentals of Kubernetes.
+
+I'd like to take a moment to compliment how the practical sections of the book are written: while the idea is to reproduce the console commands in your computer, the book makes such an effort of including the expected command line outcomes that these sections become perfectly readable, especially if you're not feeling like sitting in front of the computer to replicate these commands.
