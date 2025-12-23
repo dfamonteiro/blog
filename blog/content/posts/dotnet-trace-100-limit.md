@@ -48,12 +48,33 @@ The two spikes have the exact same height... that can't be a coincidence. Let's 
 
 ### The .NET EventPipe's 100 stack frame limit
 
-- technical reasons
-- can we recover? notice how no data is lost!
+It turns out that I'm not the only person with this issue. After some digging up, I found this [github issue](https://github.com/dotnet/diagnostics/issues/4490) detailing the exact same problem with `dotnet-trace`, and after some back and forth they managed to figure out what was the problem:
 
-## The Chromium trace format: a primer
+> Hi @JaneySprings, thank you for providing that sample. The timeframes where it seemed like base events were being omitted had deeper call stacks to the neighbors where the base events were not omitted. From offline discussion with @noahfalk, he had a suspicion that **the max stack depth of 100 led to base events being trimmed in favor of newer events**.
+>
+> After bumping that stack depth to 1000, from the speedscopes I've obtained, it looks like the max stack depth of 100 is the cause for base events being omitted.
+>
+> <span>- </span> <span><a href="https://github.com/mdh1418">@mdh1418</a></span>, <span><a href="https://github.com/dotnet/diagnostics/issues/4490#issuecomment-1939428734">12-Feb-2024</a></span>
+
+So it looks like the EventPipe component has a hardcoded limit of 100 stack frames, and if this limit is exceeded the base stack frames are truncated, which causes the misalignments we saw in our trace viewer. A quick look at the [EventPipe's source code](https://github.com/dotnet/runtime/blob/379d100b3cc18394064a276d7610e88a2aa09b6f/src/native/eventpipe/ep-types-forward.h#L70) confirms the existence of this limit:
+
+```h
+#define EP_ACTIVITY_ID_SIZE EP_GUID_SIZE
+#define EP_MAX_STACK_DEPTH 100 // <---------- BINGO!!
+
+/* EventPipe Enums. */
+typedef enum {
+    EP_BUFFER_STATE_WRITABLE = 0,
+    EP_BUFFER_STATE_READ_ONLY = 1
+} EventPipeBufferState;
+// Author's note: this code snippet has been edited for improved readability
+```
+
+So, where does this leaves us? We can't fix this issue by changing the `EP_MAX_STACK_DEPTH` as that would require rebuilding and running a custom version of the .NET runtime.
 
 ## Performing surgery on the trace file
+
+### The Chromium trace format: a primer
 
 - detecting spikes
 - adding the missing stack frames
