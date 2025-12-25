@@ -140,7 +140,7 @@ It sounds straightforward at first glance but it's so well executed that it beco
 
 _Software Architecture: The Hard Parts_ might just become my new gold standard when judging tecnical books. The best compliment I can give it is that I can't recommend a specific part of the book: the whole book is great and you are rewarded by reading the book from start to finish with the enjoyment of following these fictional architects while they find solutions for their conundrums. By the end of the book you'll be cheering them on!
 
-## P.S. 2025-12-22
+## P.S. 2025-12-26
 
 This was meant to be the end of the blog post, but it turns out I managed to sneak a few more books in before the end of the year! I learned a valuable lesson though: before you publish a "Year in Review" post, be **_absolutely sure_** that your year is truly done.
 
@@ -162,3 +162,43 @@ This book mainly focuses on the OpenShift features that are exclusive to this pl
 - **B:** You have intentions to make heavy use of the OpenShift-exclusive functionalities.
 
 If you intend to treat OpenShift as a "Kubernetes with a web frontend", I would recomend a [standard Kubernetes book](#the-kubernetes-book-2023-edition-nigel-poulton--pushkar-joglekar) instead.
+
+### Patterns of Enterprise Application Architecture (Martin Fowler _et al._)
+
+Where do I begin? On one hand I want to place this book on the same tier that [Domain-Driven Design](#domain-driven-design-tackling-complexity-in-the-heart-of-software-eric-evans) and [Designing Data-Intensive Applications](#designing-data-intensive-applications-martin-kleppmann) reside. On the other hand, sometimes you can really tell this book was written in 2003. Take this excerpt for example:
+
+> **The Allure of Distributed Objects**
+>
+> There is a recurring presentation that I used to see two or three times a year during design reviews. Proudly
+the system architect of a new OO system lays out his plan for a new distributed object system - let's pretend it's
+a some kind of ordering system. He shows me a design that looks rather like Figure 7.1. With separate remote
+objects for customers, orders, products, and deliveries. Each one is a separate component that can be placed
+on a separate processing node.
+>
+> I ask, "Why do you do this?"
+>
+> "Performance, of course," the architect replies, looking at me a little oddly. "We can run each component on a
+separate box. If one component gets too busy we add extra boxes for it so we can load-balance our
+application." The look is now curious as if he wonders if I really know anything about real distributed object
+stuff at all.
+>
+> Meanwhile I'm faced with an interesting dilemma. Do I just say out and out that this design sucks like an
+inverted hurricane and get shown the door immediately?
+
+So this fictional architect's idea is to design small services that map to the domain's entities and can scale independently? [Surely that's never gonna catch on](https://en.wikipedia.org/wiki/Microservices)! To be fair to the author there are plenty of good reasons to **_not_** use microservices[^2], I just wanted to highlight that there are some aspects of this book that are dated.
+
+The chapter on web presentation patterns is another such example: aside from the model-view-controller pattern, the rest of the chapter can be disregarded, as 2 decades of innovation on web development frameworks have superseeded most of this chapter's insights.
+
+[^2]: Even in the [microservices wikipedia page](https://en.wikipedia.org/wiki/Microservices#Criticism_and_concerns), the list of cons is far larger that the list of pros.
+
+While some parts of the book haven't aged well, others have aged like wine: there is a lot of insights on mapping database data to objects that were valid in 2004, and will continue to be valid in 2054[^3]. On a personal note, I found Martin Fowler's insights on the dangers of lazy loading to be harrowingly accurate:
+
+[^3]: SQL will never die.
+
+> Another danger with Lazy Load is that it can easily cause more database accesses than you need. A good example of this ripple loading is if you fill a collection with Lazy Loads and then look at them one at a time.
+>
+> This will cause you to go to the database once for each object instead of reading them all in at once. I've seen ripple loading cripple the performance of an application. One way to avoid it is never to have a collection of Lazy Loads but, rather make the collection itself a Lazy Load and, when you load it, load all the contents.
+
+_"I've seen ripple loading cripple the performance of an application."_ Trust me Martin, so have I! We're constantly battling this performance issue at my day job.
+
+So, is this book worth reading? Yes, but don't be afraid of glossing over the parts of the book that don't interest you. I personally skipped over the code examples because I was far more interested in the ideas and motivations behind the book's patterns, for example.
