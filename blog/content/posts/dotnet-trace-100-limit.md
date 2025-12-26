@@ -70,7 +70,7 @@ typedef enum {
 // Author's note: this code snippet has been edited for improved readability
 ```
 
-So, where does this leaves us? We can't fix this issue by changing the `EP_MAX_STACK_DEPTH` as that would require rebuilding and running a custom version of the .NET runtime. But even if we could do it, why would we want to? We can fix this in post: as long as we can detect the spikes and add the missing base stack frames, we can make these discontinuities disappear. All it takes is a little surgery on the trace file.
+So, where does this leaves us? We can't fix this issue by changing the `EP_MAX_STACK_DEPTH` as that would require rebuilding and running a custom version of the .NET runtime. But even if we could do it, why would we want to? By manipulating the trace data, we can essentially fix this in post: as long as we can detect the spikes and add the missing base stack frames, we can make these discontinuities disappear. All it takes is a little surgery on the trace file.
 
 ## Performing surgery on the trace file
 
