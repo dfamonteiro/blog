@@ -142,9 +142,9 @@ _Software Architecture: The Hard Parts_ might just become my new gold standard w
 
 ## P.S. 2025-12-26
 
-This was meant to be the end of the blog post, but it turns out I managed to sneak a few more books in before the end of the year! I learned a valuable lesson though: before you publish a "Year in Review" post, be **_absolutely sure_** that your year is truly done.
+This was meant to be the end of the blog post, but as it turns out, I managed to sneak a few more books in before the end of the year! I learned a valuable lesson though: be **_absolutely sure_** that your year is truly done before you publish a "Year in Review" post.
 
-Without further ado, here are the books I managed to read **after** the original publishing date of this blog post.
+Without further ado, here are the books I managed to read after the original publishing date of this blog post.
 
 ### The Kubernetes Book: 2023 Edition (Nigel Poulton & Pushkar Joglekar)
 
@@ -152,7 +152,7 @@ If you don't know anything about Kubernetes, you should read this book. If you _
 
 Before delving into this book I already had some working knowledge of operating a kubernetes cluster, but none related to creating new K8s resources from scratch. That has now changed after reading Poulton's work: he does a great job of methodically and thoroughly explaining all the fundamental concepts of this technology, while keeping a good pace throughout the book. I now feel I have a solid grasp on the fundamentals of Kubernetes.
 
-I'd like to take a moment to compliment how the practical sections of the book are written: while the idea is to reproduce the console commands in your computer, the book makes such an effort of including the expected command line outcomes that these sections become perfectly readable, especially if you're not feeling like sitting in front of the computer to replicate these commands.
+I'd like to take a moment to compliment the way the practical sections of the book are written: while the idea is to reproduce the console commands in your computer, the book makes such an effort of including the expected command line outcomes that these sections become perfectly readable even without a computer in front of you.
 
 ### OpenShift for Developers: A Guide for Impatient Beginners (Joshua Wood & Brian Tannous)
 
@@ -165,7 +165,7 @@ If you intend to treat OpenShift as a "Kubernetes with a web frontend", I would 
 
 ### Patterns of Enterprise Application Architecture (Martin Fowler _et al._)
 
-Where do I begin? On one hand I want to place this book on the same tier that [Domain-Driven Design](#domain-driven-design-tackling-complexity-in-the-heart-of-software-eric-evans) and [Designing Data-Intensive Applications](#designing-data-intensive-applications-martin-kleppmann) reside. On the other hand, sometimes you can really tell this book was written in 2003. Take this excerpt for example:
+Where do I begin? On one hand I want to place this book on the same tier that [Domain-Driven Design](#domain-driven-design-tackling-complexity-in-the-heart-of-software-eric-evans) and [Designing Data-Intensive Applications](#designing-data-intensive-applications-martin-kleppmann) reside. On the other hand, sometimes you can really tell this book was written in 2002. Take this excerpt for example:
 
 > **The Allure of Distributed Objects**
 >
@@ -185,13 +185,14 @@ stuff at all.
 > Meanwhile I'm faced with an interesting dilemma. Do I just say out and out that this design sucks like an
 inverted hurricane and get shown the door immediately?
 
-So this fictional architect's idea is to design small services that map to the domain's entities and can scale independently? [Surely that's never gonna catch on](https://en.wikipedia.org/wiki/Microservices)! To be fair to the author there are plenty of good reasons to **_not_** use microservices[^2], I just wanted to highlight that there are some aspects of this book that are dated.
+So this fictional architect's idea is to design small services that map to the domain's entities and can scale independently?
+<a href="https://en.wikipedia.org/wiki/Microservices">Surely that's never gonna catch on</a>. To be fair to the author there are plenty of good reasons to **_not_** use microservices[^2], I just wanted to highlight that there are some aspects of this book that are dated.
 
-The chapter on web presentation patterns is another such example: aside from the model-view-controller pattern, the rest of the chapter can be disregarded, as 2 decades of innovation on web development frameworks have superseeded most of this chapter's insights.
+The chapter on web presentation patterns also didn't age well: aside from the model-view-controller pattern, the rest of the chapter can be disregarded, as 2 decades of innovation on web development frameworks have superseeded most of this chapter's insights.
 
 [^2]: Even in the [microservices wikipedia page](https://en.wikipedia.org/wiki/Microservices#Criticism_and_concerns), the list of cons is far larger that the list of pros.
 
-While some parts of the book haven't aged well, others have aged like wine: there is a lot of insights on mapping database data to objects that were valid in 2004, and will continue to be valid in 2054[^3]. On a personal note, I found Martin Fowler's insights on the dangers of lazy loading to be harrowingly accurate:
+While some parts of the book aged like milk, others have aged like wine: this book is a treasure trove of insights regarding mapping database data to objects. These insights were valid in 2004, and will continue to be relevant until the end of time[^3]. On a personal note, I found Martin Fowler's insights on the dangers of lazy loading to hit a little close to home:
 
 [^3]: SQL will never die.
 
@@ -201,4 +202,4 @@ While some parts of the book haven't aged well, others have aged like wine: ther
 
 _"I've seen ripple loading cripple the performance of an application."_ Trust me Martin, so have I! We're constantly battling this performance issue at my day job.
 
-So, is this book worth reading? Yes, but don't be afraid of glossing over the parts of the book that don't interest you. I personally skipped over the code examples because I was far more interested in the ideas and motivations behind the book's patterns, for example.
+So, is this book worth reading? Absolutely! Just don't be afraid of glossing over the parts of the book that don't interest you. I personally skipped over the code examples because I was far more interested in the core concepts and motivations behind the book's patterns, for example.
