@@ -192,7 +192,7 @@ The chapter on web presentation patterns also didn't age well: aside from the mo
 
 [^2]: Even in the [microservices wikipedia page](https://en.wikipedia.org/wiki/Microservices#Criticism_and_concerns), the list of cons is far larger than the list of pros.
 
-While some parts of the book aged like milk, others have aged like wine: this book is a treasure trove of insights regarding mapping database records to objects. These insights were valid in 2004, and will continue to be relevant until the end of time[^3]. On a personal note, I found Martin Fowler's insights on the dangers of lazy loading to hit a little close to home:
+While some parts of the book aged like milk, others have aged like fine wine: this book is a treasure trove of insights regarding mapping database records to objects. These insights were valid in 2004, and will continue to be relevant until the end of time[^3]. On a personal note, I found Martin Fowler's insights on the dangers of lazy loading to hit a little close to home:
 
 [^3]: SQL will never die.
 
