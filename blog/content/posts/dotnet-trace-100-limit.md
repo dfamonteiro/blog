@@ -196,7 +196,7 @@ In order for the stack frames of the spike to show up correctly, the stack frame
 # Excerpt from the trace file's "traceEvents" property. Some fields were ommitted for brevity
 ```
 
-Getting the list of missing stack frames becomes a formality, now that we know how easy it is to get this information:
+Now that we know how easy it is to get this information, getting the list of missing stack frames becomes a formality:
 
 ```python
 def get_missing_stack_frames(index : int, trace_events : List[Dict[str, Any]]) -> List[str]:
@@ -219,5 +219,91 @@ def get_missing_stack_frames(index : int, trace_events : List[Dict[str, Any]]) -
 ```
 
 ### Insert the missing stack frames in the spikes
+
+In order to inject the missing stack frames in our spikes we need to "wrap" the events of the spike with trace events of our own making. I know this is hard to visualize, so I came up with this little diagram to help you get a better feel of what the end goal is:
+
+```txt
+Before:             After:
+(fn0 and fn1
+are missing)        B fn0,
+                    B fn1,
+B fn2,              B fn2, 
+B fn3,  -------->   B fn3,           
+E fn3,              E fn3, 
+E fn2,              E fn2, 
+                    E fn1,
+                    E fn0,
+```
+
+So, we need to add the missing `B` (Begin) trace events _before_ the first spike trace event, and the missing `E` (End) trace events _after_ the final spike trace event.
+
+```python
+def add_missing_stack_frames_to_spike(spike_pointer : int, trace_events : List[Dict[str, Any]]) -> int:
+    """Adds the missing stack frames to the spike pointed by spike_pointer.
+
+    Returns:
+        int: The number of added trace events
+    """
+    end_index = find_matching_trace_event(spike_pointer, trace_events)
+
+    begin_ts = trace_events[spike_pointer]["ts"]
+    end_ts   = trace_events[end_index]["ts"]
+
+    pid = trace_events[spike_pointer]["pid"]
+    tid = trace_events[spike_pointer]["tid"]
+
+    stack_frames = get_missing_stack_frames(spike_pointer, trace_events)
+
+    # Add the Begin trace events
+    for name in reversed(stack_frames):
+        trace_events.insert(spike_pointer, {
+            "name" : name,
+            "ph" : "B",
+            "ts" : begin_ts,
+            "pid" : pid,
+            "tid" : tid,
+        })
+    end_index += len(stack_frames) # Update the end index to reflect the newly added events
+
+    # Add the End trace events
+    for name in reversed(stack_frames):
+        trace_events.insert(end_index + 1, {
+            "name" : name,
+            "ph" : "E",
+            "ts" : end_ts,
+            "pid" : pid,
+            "tid" : tid,
+        })
+        end_index += 1 # Update the end index
+    
+    return len(stack_frames) * 2
+```
+
+The trace events being created are missing the `cat` and `sd` properties. There is a good reason for this, which will become clear down the line.
+
+In order to easily find the matching `E` event for any given `B` trace event, I wrote this auxiliary function:
+
+```python
+def find_matching_trace_event(index : int, trace_events : List[Dict[str, Any]]) -> int:
+    """Finds the matching trace event.
+
+    Returns:
+        int: A pointer to the matching trace event
+    """
+    depth = 0
+
+    while True:
+        index += 1
+
+        if trace_events[index]["ph"] == "B":
+            depth += 1
+        else:
+            depth -= 1
+        
+        if depth == 0:
+            return index + 1
+```
+
+### And don't forget about keeping the indices up to date!
 
 ## Stitching together the functions spans
