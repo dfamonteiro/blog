@@ -157,6 +157,67 @@ Index: 69034, Thread: 450, Timestamp: 14.67s, Name: System.Threading.ExecutionCo
 
 The second and third lines might be familiar to you: they're the [two spikes](#the-asterisk) that led us down this rabbit hole!
 
-## adding the missing stack frames
+## Adding the missing stack frames
 
-## stitching the functions spans
+This is the tricky bit. Now that we have located our spikes, we need to do the following:
+
+- Determine which stack frames are missing in the spike
+- Insert the missing trace events in our `traceEvents` list (easier said that done)
+- Do this without screwing up our list of indices that point to the spikes
+
+### Determine the missing stack frames
+
+Much like the problem of [programatically finding spikes](#detecting-spikes), this is a tricky issue that can be addressed with simple code by taking advantage of some key technical details.
+
+In order for the stack frames of the spike to show up correctly, the stack frames of the correct trace have to be closed immediately before the stack frames of the spike open. This leads to the rather convenient _ that the missing stack frames appear as `E` trace events right next to the beginning of the spike! With a closer inspection of the events of the trace file, this becomes obvious:
+
+```python
+# Notice how the name of this stack frame matches the the name 
+# of the stack frame that is the base of the spike.
+#
+# This means that the two stack frames in the middle
+# are the missing stack frames.
+{
+    "name": "System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1[System.Threading.Tasks.VoidTaskResult,Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol+\u003cProcessRequests\u003ed__238`1[System.__Canon]].MoveNext(class System.Threading.Thread)",
+    "ph": "E",
+},
+{   # Missing stack frame 7823421.551037414
+    "name": "System.Threading.ThreadPoolWorkQueue.Dispatch()",
+    "ph": "E",
+},
+{   # Missing stack frame
+    "name": "System.Threading.PortableThreadPool+WorkerThread.WorkerThreadStart()",
+    "ph": "E",
+},
+{   # Beginning of the spike
+    "name": "System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1[System.Threading.Tasks.VoidTaskResult,Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol+\u003cProcessRequests\u003ed__238`1[System.__Canon]].MoveNext(class System.Threading.Thread)",
+    "ph": "B",
+},
+# Excerpt from the trace file's "traceEvents" property. Some fields were ommitted for brevity
+```
+
+Getting the list of missing stack frames becomes a formality, now that we know how easy it is to get this information:
+
+```python
+def get_missing_stack_frames(index : int, trace_events : List[Dict[str, Any]]) -> List[str]:
+    """Returns the missing stack frames for a given spike
+
+    Returns:
+        List[str]: A list of the missing stack frame names
+    """
+    spike_base_name = trace_events[index]["name"]
+    res = []
+
+    while True:
+        index -= 1
+        current_name = trace_events[index]["name"]
+
+        if current_name == spike_base_name:
+            return res
+        else:
+            res.append(current_name)
+```
+
+### Insert the missing stack frames in the spikes
+
+## Stitching together the functions spans
