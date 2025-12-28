@@ -32,7 +32,7 @@ I've done the the steps in the paragraph above several times, and in almost ever
 
 These two discontinuities indicated by the arrows cause what was meant to be a singular span to be broken into 3 separate spans. What are these spikes[^2] doing here? When we zoom in on one of these discontinuities, things get even weirder:
 
-[^2]: The terms "spike" and "discontinuity" are used interchangeably in this blog post to desccribe the same fenomena.
+[^2]: The terms "spike" and "discontinuity" are used interchangeably in this blog post to describe the same fenomena.
 
 <figure>
     <img src="/images/dotnet-trace-100-limit/fragmentation-zoom.png" alt="A screenshot of one of the zoomed-in spikes.">
