@@ -338,7 +338,7 @@ The spikes are no longer offset to their neighbor spans! All that remains to be 
 
 Merging spans together is a matter of deleting (`E`, `B`) trace event pairings that sit together in the `traceEvents` list and share the same name, pid, tid, and timestamp.[^3]
 
-[^3]: If you are trying to replicate this script, please be careful so that you don't accidentally merge spans that weren't meant to be merged. You can use the list of spike pointers to generate a table of spike timestamps, around which it should be fine to merge trace events. Please check [this blog's repository](https://github.com/dfamonteiro/blog/tree/main/dotnet-trace) for a more bullet-proof version of `merge_spans()`.
+[^3]: If you are trying to replicate this script, please be careful so that you don't accidentally merge spans that weren't meant to be merged. You can use the list of spike pointers to generate a table of spike timestamps, around which it should be fine to merge trace events. Please check [this blog's repository](https://github.com/dfamonteiro/blog/tree/main/dotnet-trace) for a more bullet-proof version of `merge_spans()` that takes the location of the spikes into consideration.
 
 ```python
 def merge_spans(trace_events : List[Dict[str, Any]]):
