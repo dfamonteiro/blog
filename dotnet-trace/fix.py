@@ -113,7 +113,7 @@ def merge_spans(spike_pointers : List[int], trace_events : List[Dict[str, Any]])
     # The timestamps are organized per thread ID
     spike_timestamps : Dict[int, List[float]] = {}
 
-    # Populate the timestamps collection
+    # Populate spike_timestamps
     for pointer in spike_pointers:
         tid = trace_events[pointer]["tid"]
         matching_event = find_matching_trace_event(pointer, trace_events)
@@ -126,7 +126,7 @@ def merge_spans(spike_pointers : List[int], trace_events : List[Dict[str, Any]])
     
     index = 1
     while index < len(trace_events):
-        current = trace_events[index]
+        current  = trace_events[index]
         previous = trace_events[index - 1]
 
         event_types_are_correct = (previous["ph"], current["ph"]) == ("E", "B")
@@ -141,8 +141,17 @@ def merge_spans(spike_pointers : List[int], trace_events : List[Dict[str, Any]])
             if abs(ts - current["ts"]) < 500:
                 event_is_close_to_a_spike = True
                 break
+        
+        all_conditions_are_met = all((
+            event_types_are_correct, 
+            same_name, 
+            same_tid, 
+            same_pid, 
+            timestamps_match, 
+            event_is_close_to_a_spike,
+        ))
 
-        if all((event_types_are_correct, same_name, same_tid, same_pid, timestamps_match, event_is_close_to_a_spike)):
+        if all_conditions_are_met:
             trace_events.pop(index - 1)
             trace_events.pop(index - 1)
             index -= 1
