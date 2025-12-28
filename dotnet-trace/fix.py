@@ -106,19 +106,24 @@ def add_missing_stack_frames_to_spike(spike_pointer : int, trace_events : List[D
     
     return len(stack_frames) * 2
 
+def fix_spikes(trace_file: Dict[str, Any]):
+    "Fix the spikes/discontinuities in the trace file"
+
+    # These pointers are guaranteed to be ordered from lowest to highest
+    spike_pointers = find_discontinuities(trace_file["traceEvents"])
+
+    for i in range(len(spike_pointers)):
+        offset = add_missing_stack_frames_to_spike(spike_pointers[i], trace_file["traceEvents"])
+
+        # Update the necessary spike pointers
+        for j in range(i + 1, len(spike_pointers)):
+            spike_pointers[j] += offset
+
 if __name__ == "__main__":
     with open(Path(__file__).parent / "a.chromium.json") as f: 
         trace_file : dict = json.load(f)
-    
-    # for i in find_discontinuities(trace_file["traceEvents"]):
-    #     event = trace_file["traceEvents"][i]
-    #     print(f"Index: {i}, Thread: {event["tid"]}, Timestamp: {round(event["ts"] / 1_000_000, 2)}s, Name: {event["name"]}")
-    
-    # for i in find_discontinuities(trace_file["traceEvents"]):
-    #     print(get_missing_stack_frames(i, trace_file["traceEvents"]))
 
-    add_missing_stack_frames_to_spike(10456, trace_file["traceEvents"])
-
+    fix_spikes(trace_file)
     
     with open(Path(__file__).parent / "fixed.chromium.json", "w") as f: 
         json.dump(trace_file, f)

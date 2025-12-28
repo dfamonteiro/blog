@@ -306,4 +306,32 @@ def find_matching_trace_event(index : int, trace_events : List[Dict[str, Any]]) 
 
 ### And don't forget about keeping the indices up to date!
 
+Oops, almost forgot! Calling `add_missing_stack_frames_to_spike()` leads to new trace events being added to the `traceEvents` list, which means any indices you were holding on to that point to this list need to be corrected to account for this growth.
+
+In essence, when you call `add_missing_stack_frames_to_spike()` you must update the spike pointers immediately:
+
+```python
+def fix_spikes(trace_file: Dict[str, Any]):
+    "Fix the spikes/discontinuities in the trace file"
+
+    # These pointers are guaranteed to be ordered from lowest to highest
+    spike_pointers = find_discontinuities(trace_file["traceEvents"])
+
+    for i in range(len(spike_pointers)):
+        offset = add_missing_stack_frames_to_spike(spike_pointers[i], trace_file["traceEvents"])
+
+        # Update the necessary spike pointers
+        for j in range(i + 1, len(spike_pointers)):
+            spike_pointers[j] += offset
+```
+
+After all this work, where does this leaves us? Let's see:
+
+<figure>
+    <img src="/images/dotnet-trace-100-limit/partial-fix.png" alt="The two spikes are highlighted by the arrows.">
+    <figcaption>The two spikes are highlighted by the arrows.</figcaption>
+</figure>
+
+The spikes are no longer offset to their neighbor spans! All that remains to be done is turn these 5 spans into a single unified span.
+
 ## Stitching together the functions spans
