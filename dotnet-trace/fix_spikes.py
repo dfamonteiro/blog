@@ -1,4 +1,5 @@
 import json
+import argparse
 from pathlib import Path
 from typing import List, Dict, Any
 
@@ -177,10 +178,17 @@ def fix_spikes(trace_file: Dict[str, Any]):
     merge_spans(spike_pointers, trace_file["traceEvents"])
 
 if __name__ == "__main__":
-    with open(Path(__file__).parent / "a.chromium.json") as f: 
+    parser = argparse.ArgumentParser(
+        prog='fix_spikes',
+        description='Fixes spikes in dotnet-trace trace files that occur when the number of stack frames goes over 100'
+    )
+    parser.add_argument('filename')
+    filename = Path(parser.parse_args().filename).absolute()
+
+    with open(filename) as f: 
         trace_file : dict = json.load(f)
 
     fix_spikes(trace_file)
     
-    with open(Path(__file__).parent / "fixed.chromium.json", "w") as f: 
+    with open(filename.parent / f"fixed_{filename.name}", "w") as f: 
         json.dump(trace_file, f)
