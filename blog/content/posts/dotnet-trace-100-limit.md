@@ -381,6 +381,6 @@ _Et voilà!_ As if by magic, our spikes disappear and we now have perfectly flus
 
 To be honest, the hardest part of fixing this artifact wasn't the trace file manipulation[^4], it was figuring out what the hell was going on in the first place! My first theory was that there was some async shenanigans that were causing the spikes, it was only when I decided to count the number of stack frames in a spike that the root problem was revealed.
 
-After that revelation, it was only a matter of undoing the damage caused by the .NET EventPipe's limit of 100 stack frames. If you're also struggling with this limitation of the `dotnet-trace` tool, feel free to use this [python script](https://github.com/dfamonteiro/blog/blob/main/dotnet-trace/fix_spikes.py) that I wrote alongside this blog post.
+After that revelation, it was only a matter of undoing the damage caused by the .NET EventPipe's limit of 100 stack frames. If you're also struggling with this limitation of the `dotnet-trace` tool, feel free to use this [python script](https://github.com/dfamonteiro/blog/blob/main/dotnet-trace/fix_spikes.py) that I wrote alongside this blog post. I can't promise that the script will work on every trace file, but after reading this blog post you know enough about its inner workings to fix it yourself!
 
 [^4]: I had already created trace files from scratch during working hours, maybe I'll write more about that in the future.
