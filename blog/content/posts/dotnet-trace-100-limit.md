@@ -375,4 +375,4 @@ It's time to take a final look at our traces:
     <figcaption>No spikes to be seen!</figcaption>
 </figure>
 
-_Et voilà!_ As if by magic, our spikes disappear and we now have perfectly flush function spans. But you and me both know there's no magic here: just a lot of very careful manipulation of trace events backed by our understanding of the Chromium trace format.
+_Et voilà!_ As if by magic, our spikes disappear and we now have perfectly flush function spans. But you and me both know there's no magic here: just a lot of very careful manipulation of trace events backed by our understanding of how these trace events are laid out in the trace file.
