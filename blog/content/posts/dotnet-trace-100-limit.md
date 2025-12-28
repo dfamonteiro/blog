@@ -338,6 +338,8 @@ The spikes are no longer offset to their neighbor spans! All that remains to be 
 
 Merging spans together is a matter of deleting (`E`, `B`) trace event pairings that sit together in the `traceEvents` list and share the same name, pid, tid, and timestamp.[^3]
 
+Please note that this means that the trace events created in the previous chapter will be removed by the code below! That's why I didn't bother with replicating _every single field_ when crafting these artificial trace events: their presence in the trace file file would always be merely temporary.
+
 [^3]: If you are trying to replicate this script, please be careful so that you don't accidentally merge spans that weren't meant to be merged. You can use the list of spike pointers to generate a table of spike timestamps, around which it should be fine to merge trace events. Please check [this blog's repository](https://github.com/dfamonteiro/blog/tree/main/dotnet-trace) for a more bullet-proof version of `merge_spans()` that takes the location of the spikes into consideration.
 
 ```python
@@ -365,3 +367,12 @@ def fix_spikes(trace_file: Dict[str, Any]):
     ...
     merge_spans(trace_file["traceEvents"])
 ```
+
+It's time to take a final look at our traces:
+
+<figure>
+    <img src="/images/dotnet-trace-100-limit/fix.png" alt="No spikes to be seen!">
+    <figcaption>No spikes to be seen!</figcaption>
+</figure>
+
+_Et voilà!_ As if by magic, our spikes disappear and we now have perfectly flush function spans. But you and me both know there's no magic here: just a lot of very careful manipulation of trace events backed by our understanding of the Chromium trace format.
