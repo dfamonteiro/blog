@@ -376,3 +376,11 @@ It's time to take a final look at our traces:
 </figure>
 
 _Et voilà!_ As if by magic, our spikes disappear and we now have perfectly flush function spans. But you and me both know there's no magic here: just a lot of very careful manipulation of trace events backed by our understanding of how these trace events are laid out in the trace file.
+
+## Final notes
+
+To be honest, the hardest part of fixing this artifact wasn't the trace file manipulation[^4], it was figuring out what the hell was going on in the first place! My first theory was that there was some async shenanigans that were causing the spikes, it was only when I decided to count the number of stack frames in a spike that the root problem was revealed.
+
+After that revelation, it was only a matter of undoing the damage caused by the .NET EventPipe's limit of 100 stack frames. If you're also struggling with this limitation of the `dotnet-trace` tool, feel free to use this [python script](https://github.com/dfamonteiro/blog/blob/main/dotnet-trace/fix_spikes.py) that I wrote alongside this blog post.
+
+[^4]: I had already created trace files from scratch during working hours, maybe I'll write more about that in the future.
