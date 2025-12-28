@@ -1,11 +1,11 @@
 +++ 
-draft = true
-date = 2025-12-22T22:51:27Z
+draft = false
+date = 2025-12-28T16:27:35Z
 title = "Working around dotnet-trace's 100 stack frame limit"
 description = ""
 slug = ""
 authors = ["Daniel Monteiro"]
-tags = ["Programming"]
+tags = ["Programming", "Tracing"]
 categories = []
 externalLink = ""
 series = []
