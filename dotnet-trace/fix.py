@@ -107,7 +107,10 @@ def add_missing_stack_frames_to_spike(spike_pointer : int, trace_events : List[D
     return len(stack_frames) * 2
 
 def merge_spans(spike_pointers : List[int], trace_events : List[Dict[str, Any]]):
-    "Merge contiguous spans that share the same name"
+    """Merge contiguous spans that share the same name, tid, pid, and timestamp.
+    It takes into consideration the location of trace file's known spikes to
+    avoid accidentally merging spans that were not meant to be merged.
+    """
     
     # Collection of timestamps around which you should be safe merging spans
     # The timestamps are organized per thread ID
