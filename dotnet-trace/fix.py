@@ -106,6 +106,49 @@ def add_missing_stack_frames_to_spike(spike_pointer : int, trace_events : List[D
     
     return len(stack_frames) * 2
 
+def merge_spans(spike_pointers : List[int], trace_events : List[Dict[str, Any]]):
+    "Merge contiguous spans that share the same name"
+    
+    # Collection of timestamps around which you should be safe merging spans
+    # The timestamps are organized per thread ID
+    spike_timestamps : Dict[int, List[float]] = {}
+
+    # Populate the timestamps collection
+    for pointer in spike_pointers:
+        tid = trace_events[pointer]["tid"]
+        matching_event = find_matching_trace_event(pointer, trace_events)
+
+        if tid not in spike_timestamps:
+            spike_timestamps[tid] = []
+        
+        spike_timestamps[tid].append(trace_events[pointer]["ts"])
+        spike_timestamps[tid].append(trace_events[matching_event]["ts"])
+    
+    index = 1
+    while index < len(trace_events):
+        current = trace_events[index]
+        previous = trace_events[index - 1]
+
+        event_types_are_correct = (previous["ph"], current["ph"]) == ("E", "B")
+        same_name = current["name"] == previous["name"]
+        same_tid  = current["tid"]  == previous["tid"]
+        same_pid  = current["pid"]  == previous["pid"]
+        timestamps_match = current["ts"] - previous["ts"] < 50 # Within 50 us
+
+        # Final validation: check that the event is within 0.5ms of a spike
+        event_is_close_to_a_spike = False
+        for ts in spike_timestamps.get(current["tid"], []):
+            if abs(ts - current["ts"]) < 500:
+                event_is_close_to_a_spike = True
+                break
+
+        if all((event_types_are_correct, same_name, same_tid, same_pid, timestamps_match, event_is_close_to_a_spike)):
+            trace_events.pop(index - 1)
+            trace_events.pop(index - 1)
+            index -= 1
+        else:
+            index += 1
+
 def fix_spikes(trace_file: Dict[str, Any]):
     "Fix the spikes/discontinuities in the trace file"
 
@@ -118,6 +161,8 @@ def fix_spikes(trace_file: Dict[str, Any]):
         # Update the necessary spike pointers
         for j in range(i + 1, len(spike_pointers)):
             spike_pointers[j] += offset
+    
+    merge_spans(spike_pointers, trace_file["traceEvents"])
 
 if __name__ == "__main__":
     with open(Path(__file__).parent / "a.chromium.json") as f: 
