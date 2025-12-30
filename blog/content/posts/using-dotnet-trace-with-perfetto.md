@@ -15,7 +15,7 @@ Modern programming languages are more than just ways of expressing computer inst
 
 Gone are the days where language designers only needed to concern themselves with language features. Modern programming languages are nowadays expected to support their users across all phases of the sofware development lifecycle[^1]: from writing code (IDE support, formatters, linters, package managers) to then later deploying and monitoring the deployed code in production (out of the box support for metrics, profiling, tracing, logging, etc).
 
-[^1]: I'm using the term "sofware development lifecycle" very loosely here. I don't mean Agile or Waterfall or anything like that. I mean writing and deploying code from the perspective of a single developer.
+[^1]: I'm using the term "sofware development lifecycle" very loosely here. I don't mean Agile or Waterfall or anything like that. I mean writing, deploying and diagnosing code from the perspective of a single developer.
 
 As the software industry transitioned towards more cloud-centric environments, programming languages have had to focus on treating virtualized Linux environments as first-class citizens or risk getting left behind. C# was no exception and for this language to maintain its popularity, Microsoft had to perform a [complete overhaul](https://devblogs.microsoft.com/dotnet/announcing-net-core-1-0/) of the .NET runtime to make it cloud-ready.
 
