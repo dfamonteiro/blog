@@ -26,3 +26,30 @@ In an effort to popularize the usage of performance diagnostics tools during dev
 [^2]: Perfetto is a trace viewer developed by Google.
 
 In this blog post I will show how you can use a combination of `dotnet-trace` & [Perfetto](https://perfetto.dev/) to collect traces from a running application and then perform post-processing on those traces, so that the focus is always on the parts of the call stack that matter to you.
+
+## Collecting traces with dotnet-trace
+
+### Installing dotnet-trace
+
+If you don't have this tool already installed there are two ways of installing it:
+
+1. `dotnet tool install --global dotnet-trace`
+2. [Download the executable from the official page](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-trace)
+
+Please note that the `dotnet-trace` tool needs to be on the same execution environment as the target .NET application.[^3]
+
+[^3]: I know there are ways to collect traces from outside of the docker container, but let's not complicate things.
+
+If you're running your .NET application in a locked-down docker container, it might not be possible to run `dotnet tool install`, so your only option will be to do option 2: download the linux executable and move it to the container's filesystem by either:
+
+- Running something like `docker cp dotnet-trace custom_host:/opt/app/dotnet-trace`[^4], or...
+- Placing the executable in a folder that your .NET container can reach[^5]
+
+[^4]: The name of my container is `custom_host` - replace it with your container's name whenever you see it.
+[^5]: I personally know that `custom_host` will copy everything under `LocalEnvironment\BusinessTier`, so I just throw my `dotnet-trace` executable in there and it works like a charm!
+
+### Running dotnet-trace
+
+## Analysing traces with Perfetto
+
+## Next steps
