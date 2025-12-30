@@ -17,9 +17,13 @@ Gone are the days where language designers only needed to concern themselves wit
 
 [^1]: I'm using the term "sofware development lifecycle" very loosely here. I don't mean Agile or Waterfall or anything like that. I mean writing, deploying and diagnosing code from the perspective of a single developer.
 
+### The origin of dotnet-trace
+
 As the software industry transitioned towards more cloud-centric environments, programming languages have had to focus on treating virtualized Linux environments as first-class citizens or risk getting left behind. C# was no exception and for this language to maintain its popularity, Microsoft had to perform a [complete overhaul](https://devblogs.microsoft.com/dotnet/announcing-net-core-1-0/) of the .NET runtime to make it cloud-ready.
 
 As part of this initiative to make .NET platform-agnostic, a supporting cast of CLI diagnostic tools was developed from scratch with the goal of uniformizing the developer experience of diagnosing C# applications across operating systems. One of these tools is `dotnet-trace`: a tool that can be hooked into a running .NET application to collect tracing data which can then be analysed with trace viewers.
+
+### Harnessing the power of dotnet-trace & Perfetto
 
 In an effort to popularize the usage of performance diagnostics tools during development at my workplace, I've been [working out the kinks](../dotnet-trace-100-limit) of using `dotnet-trace` to analyse the performance of our multithreaded [ASP.NET Core](https://dotnet.microsoft.com/en-us/apps/aspnet) application. I have also been testing various trace viewers to analyse `dotnet-trace` files and in my opinion there is no discussion be had: `dotnet-trace` and [Perfetto](https://perfetto.dev/)[^2] are a match made in heaven, especially when you have to analyse complex trace files with multiple threads.
 
