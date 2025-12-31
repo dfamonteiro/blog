@@ -107,4 +107,20 @@ The trace file that will be analysed in this blog post was captured from [Critic
 
 [^4]: A _Manufacturing Execution System_ is a software system responsible for the bookkeeping of a factory's production. It is generally used in highly sophisticated industries, such as the semiconductor industry and the medical devices industry, where a high level of material tracking and control is required.
 
+### [Navigating the Perfetto UI](https://perfetto.dev/docs/visualization/perfetto-ui)
+
+These are the basic controls needed to navigate this trace viewer:
+
+- Use the scroll wheel to scroll up and down the traces
+- Use the WASD keys to zoom in and out (WS) and move right or left
+
+If you click on a trace slice, a tab called "Current Selection" will show up in the bottom of the screen with all the information related to this slice.
+
+<figure>
+    <img src="/images/dotnet-trace-perfetto/current-selection.png" alt="The &quot;Current Selection&quot; tab with all the details of the selected slice">
+    <figcaption>The "Current Selection" tab with all the details of the selected slice</figcaption>
+</figure>
+
+This is just the tip of the iceberg: for more information on all things Perfetto, head over to their [documentation page](https://perfetto.dev/docs/).
+
 ## Next steps
