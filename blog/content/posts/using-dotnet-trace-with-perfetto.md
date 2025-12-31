@@ -103,7 +103,7 @@ Now that we captured our tracing data, head over to the [Perfetto trace viewer w
     <figcaption>The Perfetto trace viewer</figcaption>
 </figure>
 
-The trace file that will be analysed in this blog post was captured from [Critical Manufacturing](https://www.criticalmanufacturing.com/)'s host, which serves as the backend of the MES[^4] system sold by the company. This will naturally mean that the analysis done here will be tailored towards this application, but the techniques I will show here can be applied to any trace file.
+The trace file that will be analysed in this blog post was captured from [Critical Manufacturing](https://www.criticalmanufacturing.com/)'s host, which serves as the backend of the MES[^4] system sold by the company. This will naturally mean that the analysis done here will be tailored towards this application, but the techniques I will show here can be applied to any trace file you analyse with Perfetto.
 
 [^4]: A _Manufacturing Execution System_ is a software system responsible for the bookkeeping of a factory's production. It is generally used in highly sophisticated industries, such as the semiconductor industry and the medical devices industry, where a high level of material tracking and control is required.
 
