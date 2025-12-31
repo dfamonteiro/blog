@@ -25,7 +25,7 @@ As part of this initiative to make .NET platform-agnostic, a supporting cast of 
 
 ### Harnessing the power of dotnet-trace & Perfetto
 
-In an effort to popularize the usage of performance diagnostics tools during development at my workplace, I've been [working out the kinks](../dotnet-trace-100-limit) of using `dotnet-trace` to analyse the performance of our multithreaded [ASP.NET Core](https://dotnet.microsoft.com/en-us/apps/aspnet) application. I have also been testing various trace viewers to analyse `dotnet-trace` files and in my opinion there is no discussion be had: `dotnet-trace` and [Perfetto](https://perfetto.dev/)[^2] are a match made in heaven, especially when you have to analyse complex trace files with multiple threads.
+In an effort to popularize the usage of performance diagnostics tools during development at my workplace, I've been [working out the kinks](../dotnet-trace-100-limit) of using `dotnet-trace` to analyse the performance of our multithreaded [ASP.NET Core](https://dotnet.microsoft.com/en-us/apps/aspnet) application. I have also been testing various trace viewers to analyse `dotnet-trace` files with, and in my opinion there is no discussion be had: `dotnet-trace` and [Perfetto](https://perfetto.dev/)[^2] are a match made in heaven, especially when you have to analyse complex trace files with multiple threads.
 
 [^2]: Perfetto is a trace viewer developed by Google.
 
@@ -53,6 +53,58 @@ If you're running your .NET application in a locked-down docker container, it mi
 [^5]: I personally know that `custom_host` will copy everything under `LocalEnvironment\BusinessTier`, so I just throw my `dotnet-trace` executable in there and it works like a charm!
 
 ### Running dotnet-trace
+
+Now that `dotnet-trace` is installed, we can run it against our application. The first step towards that goal is figuring out in which process our application is running:
+
+1. Log in to your container first if necessary
+
+    ```txt
+    docker exec -it custom_host /bin/bash
+    ```
+
+2. Run `dotnet-trace ps` to get a list of docker processes
+
+    ```txt
+    bash-4.4# ./dotnet-trace ps
+     1  CmfEntrypoint  /usr/share/CmfEntrypoint/CmfEntrypoint  r=host --target-directory=/opt/app --allow-custom-certificates --distro=ubi8
+    19  dotnet         /usr/lib64/dotnet/dotnet                dotnet Cmf.Foundation.Services.HostService.dll -p 8080
+    ```
+
+Our application is running on pid 19. Let's collect some data by running `dotnet-trace collect`! The target process is determined by `-p`, and `--format Chromium` determines the intended format: a `.chromium.json` file that can be read by the Perfetto trace viewer.
+
+```txt
+bash-4.4# ./dotnet-trace collect -p 19 --format Chromium
+No profile or providers specified, defaulting to trace profile 'cpu-sampling'
+
+Provider Name                           Keywords            Level               Enabled By
+Microsoft-DotNETCore-SampleProfiler     0x0000F00000000000  Informational(4)    --profile
+Microsoft-Windows-DotNETRuntime         0x00000014C14FCCBD  Informational(4)    --profile
+
+Process        : /usr/lib64/dotnet/dotnet
+Output File    : /opt/app/dotnet_20251230_003728.nettrace
+[00:00:00:06]   Recording trace 1.0175   (MB)
+Press <Enter> or <Ctrl+C> to exit...
+```
+
+Now that `dotnet-trace` is collecting data, make sure that the application is doing something interesting: click some buttons, call some APIs, run some integration tests, do whatever you seem fit.
+
+When you're done, press Enter or Ctrl+C to stop the collection process and create a trace file. You'll get some output similar to this:
+
+```txt
+Stopping the trace. This may take several minutes depending on the application being traced.
+
+Trace completed.
+Processing trace data file '/opt/app/dotnet_20251230_003728.nettrace' to create a new Chromium file '/opt/app/dotnet_20251230_003728.chromium.json'.
+Conversion complete
+```
+
+### Retrieving the trace file
+
+If our .NET application is running in a container, we might still need to rescue the trace file from the container's filesystem:
+
+```txt
+docker cp custom_host:/opt/app/dotnet_20251230_003728.chromium.json dotnet_20251230_003728.chromium.json
+```
 
 ## Analysing traces with Perfetto
 
