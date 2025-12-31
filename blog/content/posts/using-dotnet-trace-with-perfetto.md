@@ -150,6 +150,42 @@ Actually, I'd like to make an exception: Thread 302 is checking every 5 seconds 
     </figcaption>
 </figure>
 
+##### The service call threads
+
+Now that we've left the boring threads behind us, the only threads remaining are the threads that execute host services, which are **_by far_** the threads we care about the most! In the same way that all roads lead to Rome, every single MES service call goes through the host. It is therefore imperative that the host doesn't become a bottleneck for the MES by making sure these services are fast and access the database efficiently.
+
+Lets now take a look at how these service threads look like in the Perfetto Trace viewer:
+
+<figure style="padding-bottom: 2em;">
+    <img src="/images/dotnet-trace-perfetto/394.png" alt="Thread 394">
+    <figcaption>Thread 394</figcaption>
+</figure>
+
+<figure style="padding-bottom: 2em;">
+    <img src="/images/dotnet-trace-perfetto/409.png" alt="Thread 409">
+    <figcaption>Thread 409</figcaption>
+</figure>
+
+<figure style="padding-bottom: 2em;">
+    <img src="/images/dotnet-trace-perfetto/411.png" alt="Thread 411">
+    <figcaption>Thread 411</figcaption>
+</figure>
+
+<figure style="padding-bottom: 2em;">
+    <img src="/images/dotnet-trace-perfetto/427.png" alt="Thread 427">
+    <figcaption>Thread 427</figcaption>
+</figure>
+
+<figure style="padding-bottom: 2em;">
+    <img src="/images/dotnet-trace-perfetto/449.png" alt="Thread 449">
+    <figcaption>Thread 449</figcaption>
+</figure>
+
+<figure>
+    <img src="/images/dotnet-trace-perfetto/450.png" alt="Thread 450">
+    <figcaption>Thread 450</figcaption>
+</figure>
+
 ### Analysing a single host service call
 
 ### Perfetto's superpower: SQL
