@@ -28,17 +28,17 @@ If you don't have this tool already installed there are two ways of installing i
 1. `dotnet tool install --global dotnet-trace`
 2. [Download the executable from the official page](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-trace)
 
-Please note that the `dotnet-trace` tool needs to be on the same execution environment as the target .NET application.[^3]
+Please note that the `dotnet-trace` tool needs to be on the same execution environment as the target .NET application.[^1]
 
-[^3]: I know there are ways to collect traces from outside of the docker container, but let's not complicate things.
+[^1]: I know there are ways to collect traces from outside of the docker container, but let's not complicate things.
 
 If you're running your .NET application in a locked-down docker container, it might not be possible to run `dotnet tool install`, so your only option will be to do option 2: download the linux executable and move it to the container's filesystem by either:
 
-- Running something like `docker cp dotnet-trace custom_host:/opt/app/dotnet-trace`[^4], or...
-- Placing the executable in a folder that your .NET container can reach[^5]
+- Running something like `docker cp dotnet-trace custom_host:/opt/app/dotnet-trace`[^2], or...
+- Placing the executable in a folder that your .NET container can reach[^3]
 
-[^4]: The name of my container is `custom_host` - replace it with your container's name whenever you see it.
-[^5]: I personally know that `custom_host` will copy everything under `LocalEnvironment\BusinessTier`, so I just throw my `dotnet-trace` executable in there and it works like a charm!
+[^2]: The name of my container is `custom_host` - replace it with your container's name whenever you see it.
+[^3]: I personally know that `custom_host` will copy everything under `LocalEnvironment\BusinessTier`, so I just throw my `dotnet-trace` executable in there and it works like a charm!
 
 ### Running dotnet-trace
 
@@ -58,7 +58,7 @@ Now that `dotnet-trace` is installed, we can run it against our application. The
     19  dotnet         /usr/lib64/dotnet/dotnet                dotnet Cmf.Foundation.Services.HostService.dll -p 8080
     ```
 
-Our application is running on pid 19. Let's collect some data by running `dotnet-trace collect`! The target process is determined by `-p`, and `--format Chromium` determines the intended format: a `.chromium.json` file that can be read by the Perfetto trace viewer.
+Our application is running on pid 19. Let's collect some data by running `dotnet-trace collect`! The target process is determined by the `-p` flag, and `--format Chromium` determines the intended format: a `.chromium.json` file that can be read by the Perfetto trace viewer.
 
 ```txt
 bash-4.4# ./dotnet-trace collect -p 19 --format Chromium
