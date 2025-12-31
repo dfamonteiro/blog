@@ -25,9 +25,7 @@ As part of this initiative to make .NET platform-agnostic, a supporting cast of 
 
 ### Harnessing the power of dotnet-trace & Perfetto
 
-In an effort to popularize the usage of performance diagnostics tools during development at my workplace, I've been [working out the kinks](../dotnet-trace-100-limit) of using `dotnet-trace` to analyse the performance of our multithreaded [ASP.NET Core](https://dotnet.microsoft.com/en-us/apps/aspnet) application. I have also been testing various trace viewers to analyse `dotnet-trace` files with, and in my opinion there is no discussion be had: `dotnet-trace` and [Perfetto](https://perfetto.dev/)[^2] are a match made in heaven, especially when you have to analyse complex trace files with multiple threads.
-
-[^2]: Perfetto is a trace viewer developed by Google.
+In an effort to popularize the usage of performance diagnostics tools during development at my workplace, I've been [working out the kinks](../dotnet-trace-100-limit) of using `dotnet-trace` to analyse the performance of our multithreaded [ASP.NET Core](https://dotnet.microsoft.com/en-us/apps/aspnet) application. I have also been testing various trace viewers to analyse `dotnet-trace` files with, and in my opinion there is no discussion be had: `dotnet-trace` and the [Perfetto trace viewer](https://perfetto.dev/) are a match made in heaven, especially when you have to analyse complex trace files with multiple threads.
 
 In this blog post I will show how you can use a combination of `dotnet-trace` & [Perfetto](https://perfetto.dev/) to collect traces from a running application and then perform post-processing on those traces, so that the focus is always on the parts of the call stack that matter to you.
 
