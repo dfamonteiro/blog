@@ -114,7 +114,7 @@ These are the basic controls needed to navigate this trace viewer:
 - Use the scroll wheel to scroll up and down the traces
 - Use the WASD keys to zoom in and out (WS) and move right or left
 
-If you click on a trace slice, a tab called "Current Selection" will show up in the bottom of the screen with all the information related to this slice. You can press F to focus on the selected slice.
+If you click on a trace slice, a tab called "Current Selection" will show up in the bottom of the screen with all the information related to this slice. If you can't find your selected slice, you can press F to center the trace viewer on it.
 
 <figure>
     <img src="/images/dotnet-trace-perfetto/current-selection.png" alt="The &quot;Current Selection&quot; tab with all the details of the selected slice">
