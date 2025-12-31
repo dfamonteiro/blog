@@ -150,7 +150,7 @@ Actually, I'd like to make an exception: Thread 302 is checking every 5 seconds 
     </figcaption>
 </figure>
 
-##### The service call threads
+#### The service call threads
 
 Now that we've left the boring threads behind us, the only threads remaining are the threads that execute host services, which are **_by far_** the threads we care about the most! In the same way that all roads lead to Rome, every single MES service call goes through the host. It is therefore imperative that the host doesn't become a bottleneck for the MES by making sure these services are fast and access the database efficiently.
 
