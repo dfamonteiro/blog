@@ -114,7 +114,7 @@ These are the basic controls needed to navigate this trace viewer:
 - Use the scroll wheel to scroll up and down the traces
 - Use the WASD keys to zoom in and out (WS) and move right or left
 
-If you click on a trace slice, a tab called "Current Selection" will show up in the bottom of the screen with all the information related to this slice.
+If you click on a trace slice, a tab called "Current Selection" will show up in the bottom of the screen with all the information related to this slice. You can press F to focus on the selected slice.
 
 <figure>
     <img src="/images/dotnet-trace-perfetto/current-selection.png" alt="The &quot;Current Selection&quot; tab with all the details of the selected slice">
@@ -122,5 +122,36 @@ If you click on a trace slice, a tab called "Current Selection" will show up in 
 </figure>
 
 This is just the tip of the iceberg though: for more information on all things Perfetto, head over to their [documentation page](https://perfetto.dev/docs/).
+
+### Taking a bird's eye view of the trace file
+
+Before diving head-first into a service call, let's stay zoomed out and take stock of what this file contains.
+
+Starting from the top, the first I notice are about 10 threads that are sitting around doing nothing of interest.
+
+<figure>
+    <img src="/images/dotnet-trace-perfetto/nothing-interesting.png" alt="Nothing interesting is going on here">
+    <figcaption>Nothing interesting is going on here</figcaption>
+</figure>
+
+#### Thread 302
+
+Actually, I'd like to make an exception: Thread 302 is checking every 5 seconds if there are any [integration entries](https://devblog.criticalmanufacturing.com/blog/20250429_integration_entries/) waiting to be executed.
+
+<figure style="padding-bottom: 2em;">
+    <img src="/images/dotnet-trace-perfetto/int-entries.png" alt="The thread wakes up every 5 seconds to check for new integration entries">
+    <figcaption>The arrows point towards the moments where this thread wakes up and checks for any new integration entries.</figcaption>
+</figure>
+
+<figure>
+    <img src="/images/dotnet-trace-perfetto/int-entries-zoomed-in.png" alt="One of the spikes zoomed in">
+    <figcaption>
+        Zooming in on one of these moments confirms that indeed, this is part of the host machinery that makes integration entries work!
+    </figcaption>
+</figure>
+
+### Analysing a single host service call
+
+### Perfetto's superpower: SQL
 
 ## Next steps
