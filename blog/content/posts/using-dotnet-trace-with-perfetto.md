@@ -121,6 +121,6 @@ If you click on a trace slice, a tab called "Current Selection" will show up in 
     <figcaption>The "Current Selection" tab with all the details of the selected slice</figcaption>
 </figure>
 
-This is just the tip of the iceberg: for more information on all things Perfetto, head over to their [documentation page](https://perfetto.dev/docs/).
+This is just the tip of the iceberg though: for more information on all things Perfetto, head over to their [documentation page](https://perfetto.dev/docs/).
 
 ## Next steps
