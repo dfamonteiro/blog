@@ -186,6 +186,17 @@ Lets now take a look at how these service threads look like in the Perfetto Trac
     <figcaption>Thread 450</figcaption>
 </figure>
 
+These threads spend most of their time waiting for an service call, and once they receive an API request, they execute the requested service (represented by the call stack "towers" in the images above) and return an answer. The thicker these service calls are in the trace viewer, the longer they took to run.
+
+There is a detail in these pictures that I want to point out: in some threads, the `System.​Threading.​PortableThreadPool+​WorkerThread.​WorkerThreadStart()` base function runs continuously from the start to the end of the thread, but in the threads `409`, `449` and `450` you will notice that this function is interrupted in the spots indicated by the arrows. There is a reason for this: `dotnet-trace` can only capture a maximum of 100 stack frames, meaning that if your call stack is more than 100 stack frames long, the oldest frames get cut to meet this limit. Thankfully this can be [fixed](https://github.com/dfamonteiro/blog/blob/main/dotnet-trace/fix_spikes.py), but trust me, [figuring out a workaround for this limitation wasn't easy](../dotnet-trace-100-limit).
+
+Using this script is quite straightforward:
+
+```txt
+PS C:\Users\Daniel\Desktop\github\blog\dotnet-trace> python .\fix_spikes.py .\dotnet_20251230_003728.chromium.json
+C:\Users\Daniel\Desktop\github\blog\dotnet-trace\fixed_dotnet_20251230_003728.chromium.json
+```
+
 ### Analysing a single host service call
 
 ### Perfetto's superpower: SQL

@@ -189,6 +189,10 @@ if __name__ == "__main__":
         trace_file : dict = json.load(f)
 
     fix_spikes(trace_file)
+
+    output_path = filename.parent / f"fixed_{filename.name}"
     
-    with open(filename.parent / f"fixed_{filename.name}", "w") as f: 
+    with open(output_path, "w") as f: 
         json.dump(trace_file, f)
+    
+    print(output_path)
