@@ -140,7 +140,7 @@ Actually, I'd like to make an exception: Thread 302 is checking every 5 seconds 
 
 <figure style="padding-bottom: 2em;">
     <img src="/images/dotnet-trace-perfetto/int-entries.png" alt="The thread wakes up every 5 seconds to check for new integration entries">
-    <figcaption>The arrows point towards the moments where this thread wakes up and checks for any new integration entries.</figcaption>
+    <figcaption>The arrows point to the moments where this thread wakes up and checks for any new integration entries.</figcaption>
 </figure>
 
 <figure>
