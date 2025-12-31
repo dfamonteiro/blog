@@ -194,7 +194,7 @@ Using this script is quite straightforward:
 
 ```txt
 PS C:\Users\Daniel\Desktop\github\blog\dotnet-trace> python .\fix_spikes.py .\dotnet_20251230_003728.chromium.json
-C:\Users\Daniel\Desktop\github\blog\dotnet-trace\fixed_dotnet_20251230_003728.chromium.json
+fixed_dotnet_20251230_003728.chromium.json
 ```
 
 ### Analysing a single host service call

@@ -195,4 +195,4 @@ if __name__ == "__main__":
     with open(output_path, "w") as f: 
         json.dump(trace_file, f)
     
-    print(output_path)
+    print(output_path.relative_to(Path.cwd()))
