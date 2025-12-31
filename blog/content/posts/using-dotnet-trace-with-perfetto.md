@@ -199,8 +199,63 @@ PS C:\Users\Daniel\Desktop\github\blog\dotnet-trace> python .\fix_spikes.py .\do
 fixed_dotnet_20251230_003728.chromium.json
 ```
 
-### Analysing a single host service call
+### The anatomy of a host service call
 
-### Perfetto's superpower: SQL
+We took the 30000-foot view in the previous section, now it's time to put one of these service calls under the microscope. These services' call stacks are absolutely massive (~100 stack frames), so we're going to start at the base of the thread and work our way down:
+
+#### Part 1: ASP.NET middleware
+
+<figure>
+    <img src="/images/dotnet-trace-perfetto/pan1.png" alt="Picture with a column of stack frames">
+</figure>
+
+We start off with a bang and a metric ton of ASP.NET middleware. Just from this picture we can tell that service calls have to deal with the following:
+
+- Rate Limiting
+- CORS
+- Authentication
+- Authorization
+- Logging
+- etc.
+
+#### Part 2: More middleware & handling of the HTTP request
+
+<figure>
+    <img src="/images/dotnet-trace-perfetto/pan2.png" alt="Picture with a column of stack frames">
+</figure>
+
+Going further down we get even more middleware, but perhaps more interestingly we have the first big time sink of the service call: parsing the incoming REST JSON request (43ms).
+
+On the right side of the trace (towards the top-right of the picture) we can also see the HTTP answer being created and sent back to the caller of this service. To the surprise of absolutely no one, serializing the answer back to JSON was an order of magnitude quicker, clocking in at 4ms.
+
+#### Part 3: DB transaction
+
+<figure>
+    <img src="/images/dotnet-trace-perfetto/pan3.png" alt="Picture with a column of stack frames">
+</figure>
+
+It's transaction time. The arrows indicate the time spent opening and closing this database transaction:
+
+1. Cmf.Foundation.Common.HistoryObjectCollection.CreateTransaction(int64, String) - 4.25ms
+2. Cmf.Foundation.Common.HistoryObjectCollection.CloseTransaction() - 4.1ms
+3. System.Transactions.TransactionScope.Dispose() - 23ms
+
+#### Part 4: Business logic
+
+<figure>
+    <img src="/images/dotnet-trace-perfetto/pan4.png" alt="Picture with a column of stack frames">
+</figure>
+
+We finally know what service is being called! FullUpdateObject() is being called to update a Product, we can tell because the call stack goes like this:
+
+- Cmf.Services.GenericServiceManagement.GenericServiceController.FullUpdateObject()
+  - Cmf.Foundation.[...].GenericServiceOrchestration.FullUpdateObject()
+    - ...
+    - Cmf.Navigo.BusinessObjects.**Product.Save()**
+      - Database calls, etc
+
+Every host service call is structured in this manner: The service layer calls the orchestration layer, which in turn calls other services and/or operations on the required entities.
+
+### Perfetto's superpower: SQL (Making sense of all these service calls)
 
 ## Next steps
