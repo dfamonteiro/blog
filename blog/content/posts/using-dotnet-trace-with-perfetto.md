@@ -279,7 +279,7 @@ Everything in your trace file is queryable through PerfettoSQL, but today we wil
 select * from slices
 ```
 
-This query will naturally feature every single function slice in the trace file. Crafting a query that will only return the service spans we're looking takes a bit of nuance, but is perfectly doable:
+This query will naturally feature every single function slice in the trace file. Crafting a query that will only return the service spans we're interested in takes a bit more nuance, but is perfectly doable:
 
 ```sql
 select * 
@@ -291,5 +291,27 @@ where name glob 'Cmf*.Services.*Controller.*';
     <img src="/images/dotnet-trace-perfetto/services-query-screenshot.png" alt="Screenshot of a Perfetto SQL query">
     <figcaption>There are 121 service calls in this trace file</figcaption>
 </figure>
+
+#### Visualizing your queries with [debug tracks](https://perfetto.dev/docs/analysis/debug-tracks)
+
+While a lot can be gleaned just from querying your trace file, we can go one step further and visualize our query results directly on the timeline where all the the other traces sit by creating a **debug track**.
+
+Please follow the instructions below to create a debug track from a query:
+
+<figure>
+    <img src="/images/dotnet-trace-perfetto/show-debug-track.png" alt="Screenshot of a Perfetto SQL query">
+    <figcaption>Switch to the <b>“Timeline”</b> view, then select the <b>“Standalone Query”</b> tab at the bottom of the screen, and finally click on <b>“Show Debug Track”</b> button</figcaption>
+</figure>
+
+Clicking "Add Track" will lead to the debug track being created and added to the top of your workspace, as can be seen here:
+
+<figure>
+    <img src="/images/dotnet-trace-perfetto/debug-track.png" alt="Screenshot of a Perfetto SQL query">
+    <figcaption>Notice the debug track named "Host Services"</figcaption>
+</figure>
+
+And there we go! What was previously information spread across multiple threads of execution, is now easily accessible through this debug track. And the cherry on top of the cake is that the slices on the debug track act as links to their "real" conterparts: for example, by selecting the purple span in the "Host Services" debug track (see image above) you can reach its counterpart on Thread 450.
+
+#### Going wild with debug tracks
 
 ## Next steps
