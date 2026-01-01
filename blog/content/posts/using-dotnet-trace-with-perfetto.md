@@ -260,4 +260,34 @@ Every host service call is structured in this manner: The service layer calls th
 
 So, to take stock of the situation: every time we want to analyse the performance of a service, we have to skip 60 stack frames of middleware just to get to the business logic. Oh, and these service traces are spread across 10 different threads, so good luck finding the service you are interested in... well isn't that great.
 
+Luckily for us we have an ace in our sleeve: how good is your SQL?
+
+#### Introducing [PerfettoSQL](https://perfetto.dev/docs/analysis/perfetto-sql-getting-started)
+
+Perfetto is already pretty good if you only use it as a basic trace viewer. What makes it exceptional for dealing with massive amounts of trace data though, is the ability to use SQL queries to analyse your traces, and we're going to make full use of this capability to make our life easier.
+
+To access Perfetto's SQL editor, please select "Query (SQL)" on the left tab of your screen:
+
+<figure>
+    <img src="/images/dotnet-trace-perfetto/query-sql.png" alt="Perfetto's SQL editor">
+    <figcaption>Perfetto's SQL editor</figcaption>
+</figure>
+
+Everything in your trace file is queryable through PerfettoSQL, but today we will only focus on the `slices` table. In the screenshot above we executed the following query:
+
+```sql
+select * from slices
+```
+
+This query will naturally feature every single function slice in the trace file. Crafting a query that will only return the service spans we're looking takes a bit of nuance, but is perfectly doable:
+
+```sql
+select * 
+from slices 
+where
+  name glob 'Cmf*.Services.*' and
+  (name glob '*Management*' or name glob '*SMT*');
+```
+
+
 ## Next steps
