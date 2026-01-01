@@ -125,9 +125,9 @@ This is just the tip of the iceberg though: for more information on all things P
 
 ### Taking a bird's eye view of the trace file
 
-Before diving head-first into a service call, let's stay zoomed out and take stock of what this file contains.
+Before diving head-first into a service call, let's stay zoomed out and take stock of what's in this trace file.
 
-Starting from the top, the first I notice are about 10 threads that are sitting around doing nothing of interest.
+Starting from the top, the first thing I notice are about 10 threads that are sitting around doing nothing of interest.
 
 <figure>
     <img src="/images/dotnet-trace-perfetto/nothing-interesting.png" alt="Nothing interesting is going on here">
@@ -190,7 +190,7 @@ These threads spend most of their time waiting for an service call, and once the
 
 ##### dotnet-trace's limit of 100 stack frames
 
-There is a detail in these pictures that I want to point out: in some threads, the `System.​Threading.​PortableThreadPool+​WorkerThread.​WorkerThreadStart()` base function goes continuously from the start to the end of the thread, but in the threads `409`, `449` and `450` you will notice that this function is interrupted in the spots indicated by the arrows. There is a reason for this: `dotnet-trace` can only capture a maximum of 100 stack frames, meaning that if your call stack is more than 100 stack frames long, the oldest frames get cut to meet this limit. Thankfully this can be [fixed](https://github.com/dfamonteiro/blog/blob/main/dotnet-trace/fix_spikes.py), but trust me, [figuring out a workaround for this limitation wasn't easy](../dotnet-trace-100-limit).
+There is a detail in these pictures that I want to point out: in some threads, the `System.​Threading.​PortableThreadPool+​WorkerThread.​WorkerThreadStart()` base function goes continuously from the start to the end of the thread, but in the threads `409`, `449` and `450` you will notice that this function is interrupted in the spots indicated by the arrows. There is a reason for this: `dotnet-trace` can only capture a maximum of 100 stack frames, meaning that if your call stack is more than 100 stack frames long, the oldest frames get cut to meet this limit. Thankfully this can be [fixed](https://github.com/dfamonteiro/blog/blob/main/dotnet-trace/fix_spikes.py) but trust me, [figuring out a workaround for this limitation wasn't easy](../dotnet-trace-100-limit).
 
 Using the script is quite straightforward:
 
@@ -201,7 +201,7 @@ fixed_dotnet_20251230_003728.chromium.json
 
 ### The anatomy of a host service call
 
-We took the 30000-foot view in the previous section, now it's time to put one of these service calls under the microscope. These services' call stacks are absolutely massive (~100 stack frames), so we're going to start at the base of the thread and work our way down:
+We took the 30000-foot view in the previous section, now it's time to put one of these service calls under the microscope. These services' call stacks are absolutely massive (~100 stack frames), so we're going to start at the base of the trace and work our way down:
 
 #### Part 1: ASP.NET middleware
 
@@ -209,7 +209,7 @@ We took the 30000-foot view in the previous section, now it's time to put one of
     <img src="/images/dotnet-trace-perfetto/pan1.png" alt="Picture with a column of stack frames">
 </figure>
 
-We start off with a bang and a metric ton of ASP.NET middleware. Just from this picture we can tell that service calls have to deal with the following:
+We start off with a bang and a metric ton of ASP.NET middleware. Just from this picture we can tell that our host is configured to have the following feautures:
 
 - Rate Limiting
 - CORS
@@ -226,7 +226,7 @@ We start off with a bang and a metric ton of ASP.NET middleware. Just from this 
 
 Going further down we get even more middleware, but perhaps more interestingly we have the first big time sink of the service call: parsing the incoming REST JSON request (43ms).
 
-On the right side of the trace (towards the top-right of the picture) we can also see the HTTP answer being created and sent back to the caller of this service. To the surprise of absolutely no one, serializing the answer back to JSON was an order of magnitude quicker, clocking in at 4ms.
+On the right side of the trace (towards the top-right of the picture) we can also see the HTTP answer being created and sent back to the caller of this service. To the surprise of absolutely no one, serializing the answer back to JSON is an order of magnitude quicker, clocking in at 4ms.
 
 #### Part 3: DB transaction
 
@@ -246,7 +246,7 @@ It's transaction time. The arrows indicate the time spent opening and closing th
     <img src="/images/dotnet-trace-perfetto/pan4.png" alt="Picture with a column of stack frames">
 </figure>
 
-We finally know what service is being called! FullUpdateObject() is being called to update a Product, we can tell because the call stack goes like this:
+We finally know what service is being called! FullUpdateObject() is being called to update a Product, we can tell this by looking at the call stack:
 
 - Cmf.Services.GenericServiceManagement.GenericServiceController.FullUpdateObject()
   - Cmf.Foundation.[...].GenericServiceOrchestration.FullUpdateObject()
