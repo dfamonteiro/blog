@@ -256,6 +256,8 @@ We finally know what service is being called! FullUpdateObject() is being called
 
 Every host service call is structured in this manner: The service layer calls the orchestration layer, which in turn calls other services and/or operations on the required entities.
 
-### Perfetto's superpower: SQL (Making sense of all these service calls)
+### Making sense of all these service call traces
+
+So, to take stock of the situation: every time we want to analyse the performance of a service, we have to skip 60 stack frames of middleware just to get to the business logic. Oh, and these service traces are spread across 10 different threads, so good luck finding the service you are interested in... well isn't that great.
 
 ## Next steps
