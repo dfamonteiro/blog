@@ -284,10 +284,12 @@ This query will naturally feature every single function slice in the trace file.
 ```sql
 select * 
 from slices 
-where
-  name glob 'Cmf*.Services.*' and
-  (name glob '*Management*' or name glob '*SMT*');
+where name glob 'Cmf*.Services.*Controller.*';
 ```
 
+<figure>
+    <img src="/images/dotnet-trace-perfetto/services-query-screenshot.png" alt="Screenshot of a Perfetto SQL query">
+    <figcaption>There are 121 service calls in this trace file</figcaption>
+</figure>
 
 ## Next steps
