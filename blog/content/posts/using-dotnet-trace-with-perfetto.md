@@ -362,7 +362,7 @@ Conceptually speaking, the recipe for this "perfect trace" is easy to explain:
 
 Turning concepts into reality with SQL can be tricky sometimes, but today we are in luck: this can be done with a simple `join` statement and Perfetto's [`slice_is_ancestor()`](https://perfetto.dev/docs/analysis/stdlib-docs#tags) utility function[^5].
 
-[^5]: Please note that while writing this blog post I found an [issue](https://github.com/google/perfetto/issues/4207) with `slice_is_ancestor()` which you might also encounter when using this function. My [PR with the bugfix](https://github.com/google/perfetto/pull/4208) has already been merged, but it will take a while for the fix to reach the `stable` version of Perfetto.
+[^5]: Please note that while writing this blog post I found an [issue](https://github.com/google/perfetto/issues/4207) with `slice_is_ancestor()` which you also might encounter when using this function. My [PR with the bugfix](https://github.com/google/perfetto/pull/4208) has already been merged, but it will take a while for the fix to reach the `stable` version of Perfetto.
 
 ```sql
 select *
@@ -395,10 +395,14 @@ These inefficent DB accesses can be easily spotted in the debug track by looking
 <figure>
     <img src="/images/dotnet-trace-perfetto/rep2.png" alt="Example of a inneficent database access pattern">
     <figcaption>
-        <code>NameGenerator.GenerateName</code> calls <code>INameGeneratorCollection.InternalLoad</code> and <code>NameGenerator.InternalGenerateName</code> for every name that is generated. At first glance, it looks to me that the number of database accesses scales linearly with the number of names to be generated, which is very much something we want to avoid at all costs.
+        <code>NameGenerator.GenerateName</code> calls <code>INameGeneratorCollection.InternalLoad</code> and <code>NameGenerator.InternalGenerateName</code> for every name that is generated. At first glance, it looks to me that the number of database accesses scales linearly with the number of names to be generated, which is very much something to be avoided at all costs.
     </figcaption>
 </figure>
 
 Once you're done analysing your trace file, you should have a list of performance issues to tackle. My job here is done, but yours has just begun: good luck with addressing the performance issues of your code, I'm rooting for you!
 
 ## Onwards and upwards
+
+I hope this blog post gave you enough motivation to start collecting traces on your .NET application. It's one thing to have an understanding what your code is going to do; it's another to get empirical evidence of what is actually going on at the .NET runtime level - that's the level of insight that `dotnet-trace` gives you.
+
+I'd like to conlude this guide by giving some pointers to ????.
