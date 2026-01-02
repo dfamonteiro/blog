@@ -342,7 +342,7 @@ While this kind of works, it's a crude approach to a problem that requires more 
 
 For me, the answer is obvious:
 
-> **I want a debug track where the service slices are the base, and all of the business logic inside of these services are included**.
+> **I want a debug track where the service slices sit at the base of the debug track, and all of the business logic of these services is included**.
 
 #### Striving for perfection
 
@@ -362,7 +362,7 @@ Conceptually speaking, the recipe for this "perfect trace" is easy to explain:
 
 Turning concepts into reality with SQL can be tricky sometimes, but today we are in luck: this can be done with a simple `join` statement and Perfetto's [`slice_is_ancestor()`](https://perfetto.dev/docs/analysis/stdlib-docs#tags) utility function[^5].
 
-[^5]: Please note that while writing this blog post I found an [issue](https://github.com/google/perfetto/issues/4207) with `slice_is_ancestor()` which you might also encounter. My [PR with the bugfix](https://github.com/google/perfetto/pull/4208) has already been merged, but it will take a while for the fix to reach the `stable` version of Perfetto.
+[^5]: Please note that while writing this blog post I found an [issue](https://github.com/google/perfetto/issues/4207) with `slice_is_ancestor()` which you might also encounter when using this function. My [PR with the bugfix](https://github.com/google/perfetto/pull/4208) has already been merged, but it will take a while for the fix to reach the `stable` version of Perfetto.
 
 ```sql
 select *
@@ -374,6 +374,11 @@ from
 where slice_is_ancestor(service_id, id) or service_id = id;
 ```
 
-<!-- Sure, but for now, this is perfect enough for me. -->
+<figure>
+    <img src="/images/dotnet-trace-perfetto/perfect.png" alt="Screenshot of a zoomed-in debug track">
+    <figcaption>The resulting debug track created from the query above. Notice how the services are the base, and how all the business logic falls under them.</figcaption>
+</figure>
+
+We can be proud of what was accomplished here: we've gone from having our services spread across multiple threads and buried under a ton of middleware, to now having those same services and their business logic located on a single debug track, ready to be analysed with ease.
 
 ## Next steps
