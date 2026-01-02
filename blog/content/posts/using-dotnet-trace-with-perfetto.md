@@ -299,19 +299,53 @@ While a lot can be gleaned just from querying your trace file, we can go one ste
 Please follow the instructions below to create a debug track from a query:
 
 <figure>
-    <img src="/images/dotnet-trace-perfetto/show-debug-track.png" alt="Screenshot of a Perfetto SQL query">
+    <img src="/images/dotnet-trace-perfetto/show-debug-track.png" alt="Instructions for how to create a debug track">
     <figcaption>Switch to the <b>“Timeline”</b> view, then select the <b>“Standalone Query”</b> tab at the bottom of the screen, and finally click on <b>“Show Debug Track”</b> button</figcaption>
 </figure>
 
 Clicking "Add Track" will lead to the debug track being created and added to the top of your workspace, as can be seen here:
 
 <figure>
-    <img src="/images/dotnet-trace-perfetto/debug-track.png" alt="Screenshot of a Perfetto SQL query">
+    <img src="/images/dotnet-trace-perfetto/debug-track.png" alt="Screenshot of debug track">
     <figcaption>Notice the debug track named "Host Services"</figcaption>
 </figure>
 
 And there we go! What was previously information spread across multiple threads of execution, is now easily accessible through this debug track. And the cherry on top of the cake is that the slices on the debug track act as links to their "real" conterparts: for example, by selecting the purple span in the "Host Services" debug track (see image above) you can reach its counterpart on Thread 450.
 
-#### Going wild with debug tracks
+### Pushing debug tracks to the limit
+
+As you will have realized, debug tracks are an incredibly powerful visualization tool: it gives you the power to shape traces to your will. Take for example this query:
+
+```sql
+select * from slices where name glob 'Cmf.*';
+```
+
+It looks simplistic at first glance, but watch what happens when we create a debug track out of it:
+
+<figure>
+    <img src="/images/dotnet-trace-perfetto/cmf-asterisk.png" alt="Screenshot of debug track">
+    <figcaption>Debug track created from the query above</figcaption>
+</figure>
+
+Just like that, we get all the business logic in a _single track_! Yes, this visualization is admittedly a bit rough around the edges, but it is amazing how much you get out of such a simple query.
+
+And it goes without saying that the more effort you put into your SQL query, the better your debug track will look. This little tweak, for example, will cut most of the middleware slices:
+
+```sql
+select * from slices where name glob 'Cmf.*' and depth > 50;
+```
+
+<figure>
+    <img src="/images/dotnet-trace-perfetto/cmf-asterisk-above-50.png" alt="Screenshot of debug track">
+    <figcaption>Debug track created from the query above</figcaption>
+</figure>
+
+While this kind of works, it's a crude approach to a problem that requires more finesse. We must ask ourselves first: what would a perfect debug track look like?
+
+For me, the answer is obvious:
+
+> **I want a debug track where the service slices are the base, and all of the child "Cmf" slices are included**.
+
+#### Striving for perfection
 
 ## Next steps
