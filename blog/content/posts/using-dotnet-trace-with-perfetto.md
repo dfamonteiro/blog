@@ -360,7 +360,9 @@ Conceptually speaking, the recipe for this "perfect trace" is easy to explain:
     select * from slices where name glob 'Cmf*.Services.*Controller.*';
     ```
 
-Turning concepts into reality with SQL can be tricky sometimes, but today we are in luck: this can be done with a simple `join`.
+Turning concepts into reality with SQL can be tricky sometimes, but today we are in luck: this can be done with a simple `join` statement and Perfetto's [`slice_is_ancestor()`](https://perfetto.dev/docs/analysis/stdlib-docs#tags) utility function[^5].
+
+[^5]: Please note that while writing this blog post I found an [issue](https://github.com/google/perfetto/issues/4207) with `slice_is_ancestor()` which you might also encounter. My [PR with the bugfix](https://github.com/google/perfetto/pull/4208) has already been merged, but it will take a while for the fix to reach the `stable` version of Perfetto.
 
 ```sql
 select *
