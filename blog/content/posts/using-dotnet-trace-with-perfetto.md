@@ -399,6 +399,6 @@ These inefficent DB accesses can be easily spotted in the debug track by looking
     </figcaption>
 </figure>
 
-Once you're done analysing your trace file, you should have a list of performance issues to tackle.
+Once you're done analysing your trace file, you should have a list of performance issues to tackle. My job here is done, but yours has just begun: good luck with addressing the performance issues of your code, I'm rooting for you!
 
-## Next steps
+## Onwards and upwards
