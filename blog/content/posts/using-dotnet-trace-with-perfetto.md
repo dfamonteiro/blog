@@ -282,9 +282,7 @@ select * from slices
 This query will naturally feature every single function slice in the trace file. Crafting a query that will only return the service spans we're interested in takes a bit more nuance, but is perfectly doable:
 
 ```sql
-select * 
-from slices 
-where name glob 'Cmf*.Services.*Controller.*';
+select * from slices where name glob 'Cmf*.Services.*Controller.*';
 ```
 
 <figure>
@@ -344,8 +342,36 @@ While this kind of works, it's a crude approach to a problem that requires more 
 
 For me, the answer is obvious:
 
-> **I want a debug track where the service slices are the base, and all of the child "Cmf" slices are included**.
+> **I want a debug track where the service slices are the base, and all of the business logic inside of these services are included**.
 
 #### Striving for perfection
+
+Conceptually speaking, the recipe for this "perfect trace" is easy to explain:
+
+1. Take the slices from this query
+
+    ```sql
+    select * from slices where name glob 'Cmf.*';
+    ```
+
+2. And only keep the slices that are descendants of one of the slices from this query
+
+    ```sql
+    select * from slices where name glob 'Cmf*.Services.*Controller.*';
+    ```
+
+Turning concepts into reality with SQL can be tricky sometimes, but today we are in luck: this can be done with a simple `join`.
+
+```sql
+select *
+from
+    (select id as service_id, track_id as service_track_id from slices where name glob 'Cmf*.Services.*Controller.*')
+    join
+    (select * from slices where name glob 'Cmf.*')
+    on track_id=service_track_id -- Query optimization
+where slice_is_ancestor(service_id, id) or service_id = id;
+```
+
+<!-- Sure, but for now, this is perfect enough for me. -->
 
 ## Next steps
