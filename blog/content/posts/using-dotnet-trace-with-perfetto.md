@@ -381,4 +381,24 @@ where slice_is_ancestor(service_id, id) or service_id = id;
 
 We can be proud of what was accomplished here: we've gone from having our services spread across multiple threads and buried under a ton of middleware, to now having those same services and their business logic located on a single debug track, ready to be analysed with ease.
 
+### Hunting for performance issues
+
+Now that the hard work of creating a good debug track is done, we can finally achieve the original goal of this blog post: finding performance issues in our .NET application. As my host application is heavily I/O bound by the database, the performance issues I'm hunting are related to inefficient database access patterns - think multiple small loads instead of one big batch load.
+
+These inefficent DB accesses can be easily spotted in the debug track by looking for visual repetitions. Here are a couple of examples:
+
+<figure style="padding-bottom: 2em;">
+    <img src="/images/dotnet-trace-perfetto/rep1.png" alt="Example of a inneficent database access pattern">
+    <figcaption><code>ConfigurationController.FullUpdateConfig</code> validates and saves the input configs one by one on some sort of for-loop.</figcaption>
+</figure>
+
+<figure>
+    <img src="/images/dotnet-trace-perfetto/rep2.png" alt="Example of a inneficent database access pattern">
+    <figcaption>
+        <code>NameGenerator.GenerateName</code> calls <code>INameGeneratorCollection.InternalLoad</code> and <code>NameGenerator.InternalGenerateName</code> for every name that is generated. At first glance, it looks to me that the number of database accesses scales linearly with the number of names to be generated, which is very much something we want to avoid at all costs.
+    </figcaption>
+</figure>
+
+Once you're done analysing your trace file, you should have a list of performance issues to tackle.
+
 ## Next steps
