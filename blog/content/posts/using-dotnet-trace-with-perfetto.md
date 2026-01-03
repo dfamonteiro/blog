@@ -1,6 +1,6 @@
 +++ 
-draft = true
-date = 2025-12-30T11:20:18Z
+draft = false
+date = 2026-01-03T02:09:05Z
 title = "Diagnosing performance issues in .NET applications with dotnet-trace and Perfetto"
 description = ""
 slug = ""
