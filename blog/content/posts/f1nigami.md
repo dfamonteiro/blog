@@ -44,4 +44,65 @@ I have been thinking about this on and off for a couple of months, and I believe
 - Decent combinatorial explosion: in a sprint weekend, there are 4 point-scoring events (2 drivers * 2 races). This leads to potentially rare point scores that can only be achieved by finishing in very specific positions in both the sprint and the race
 - Potential for weirdness
 
-### What to track and what not to track
+### What teams to include?
+
+It's obvious that the teams currently in the grid should have their scorigamis tracked. What is less obvious is how far back through a team's history we should go. Take Mercedes, for example: this team can trace its roots back to [Tyrrell](https://en.wikipedia.org/wiki/Tyrrell_Racing#) which started competing in F1 under its own name in 1970[^3], which would predate William's presence in Formula 1 by ~5 years. That would mean that Mercedes would score scorigamis before Williams!
+
+[^3]: From the data I have this is accurate, but the history records might disagree.
+
+You might consider this to be absolutely nonsensical, and decide that a team's "scorigami history" should only begin from its last ownership change: well, now you have wiped away Team Enstone's (Alpine) and Team Silverstone's (Aston Martin) legacy in Formula 1.
+
+This is a thorny subject with no right answers. I've decided to be generous and include as much of the teams' genealogy as possible:
+
+```python
+OLD_TEAM_NAMES = {
+    # Teams with stable branding
+    "McLaren" :  [(0, "McLaren")],
+    "Ferrari" :  [(0, "Ferrari")],
+    "Williams" : [(0, "Williams")],
+    "Haas F1 Team" : [(2016, "Haas F1 Team")],
+
+    "Red Bull" : [
+        (1997, "Stewart", 1999),
+        (2000, "Jaguar", 2004),
+        (2005, "Red Bull")
+    ],
+    "Mercedes" : [
+        (1968, "Tyrrell", 1998),
+        (1999, "BAR", 2005),
+        (2006, "Honda", 2008),
+        (2009, "Brawn", 2009),
+        (2010, "Mercedes")
+    ],
+    "Aston Martin" : [
+        (1991, "Jordan", 2005),
+        (2006, "MF1", 2006),
+        (2006, "Spyker MF1", 2006),
+        (2007, "Spyker", 2007),
+        (2008, "Force India", 2018),
+        (2019, "Racing Point", 2020),
+        (2021, "Aston Martin")
+    ],
+    "RB F1 Team" : [
+        (1985, "Minardi", 2005),
+        (2006, "Toro Rosso", 2019),
+        (2020, "AlphaTauri", 2023),
+        (2024, "RB F1 Team")
+    ],
+    "Sauber" : [
+        (1993, "Sauber", 2005),
+        (2006, "BMW Sauber", 2009),
+        (2010, "Sauber", 2018),
+        (2019, "Alfa Romeo", 2023),
+        (2024, "Sauber"),
+    ],
+    "Alpine F1 Team" : [
+        (1981, "Toleman", 1985),
+        (1986, "Benetton", 2001),
+        (2002, "Renault", 2011),
+        (2012, "Lotus F1", 2015),
+        (2016, "Renault", 2020),
+        (2021, "Alpine F1 Team")
+    ]
+}
+```
