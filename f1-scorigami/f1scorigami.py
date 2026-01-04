@@ -186,7 +186,28 @@ def save_dataframe_as_html_file(df : pd.DataFrame, name):
 
     # HTML direct link
     with open(charts_path / f"{name}.html", "w") as f:
-        f.write(df.to_markdown(index = False))
+        html_content = f"""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <title>{name}</title>
+                <style>
+                    body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 20px; background-color: #f8f9fa; }}
+                    .dataframe {{ border-collapse: collapse; width: 100%; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }}
+                    .dataframe th {{ background-color: #007bff; color: white; padding: 12px 15px; text-align: left; font-weight: 600; }}
+                    .dataframe td {{ padding: 10px 15px; border-bottom: 1px solid #eee; color: #333; }}
+                    .dataframe tr:hover {{ background-color: #f1f1f1; }}
+                    .dataframe tr:last-child td {{ border-bottom: none; }}
+                </style>
+            </head>
+            <body>
+                <h2>{name.replace('_', ' ').title()}</h2>
+                {df.to_html(classes="dataframe", border=0, index=False)}
+            </body>
+            </html>
+        """
+        f.write(html_content)
 
     # CSV direct link
     with open(charts_path / f"{name}.csv", "w") as f:
