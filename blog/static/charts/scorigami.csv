@@ -17,7 +17,6 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1953-07-18,British Grand Prix,Ferrari,14.5,Ferrari,1
 1954-07-17,British Grand Prix,Ferrari,16.28,Ferrari,1
 1954-10-24,Spanish Grand Prix,Ferrari,8.0,Ferrari,1
-1955-01-16,Argentine Grand Prix,Ferrari,9.99,Ferrari,1
 1955-05-22,Monaco Grand Prix,Ferrari,11.0,Ferrari,1
 1955-06-05,Belgian Grand Prix,Ferrari,7.0,Ferrari,1
 1958-08-03,German Grand Prix,Ferrari,3.0,Ferrari,1
@@ -299,7 +298,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2022-07-03,British Grand Prix,Red Bull,24.0,Red Bull,1
 2022-07-10,Austrian Grand Prix,Haas F1 Team,14.0,Haas F1 Team,1
 2022-09-04,Dutch Grand Prix,Red Bull,36.0,Red Bull,1
-2022-11-13,São Paulo Grand Prix,Mercedes,58.0,Mercedes,1
+2022-11-13,SÃ£o Paulo Grand Prix,Mercedes,58.0,Mercedes,1
 2023-04-02,Australian Grand Prix,Aston Martin,27.0,Aston Martin,1
 2023-04-30,Azerbaijan Grand Prix,Ferrari,36.0,Ferrari,1
 2023-04-30,Azerbaijan Grand Prix,Red Bull,57.0,Red Bull,1
@@ -320,7 +319,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2024-09-01,Italian Grand Prix,McLaren,34.0,McLaren,1
 2024-10-20,United States Grand Prix,Ferrari,55.0,Ferrari,1
 2024-10-27,Mexico City Grand Prix,Ferrari,41.0,Ferrari,1
-2024-11-03,São Paulo Grand Prix,Alpine F1 Team,35.0,Alpine F1 Team,1
+2024-11-03,SÃ£o Paulo Grand Prix,Alpine F1 Team,35.0,Alpine F1 Team,1
 2024-12-01,Qatar Grand Prix,McLaren,32.0,McLaren,1
 2025-03-23,Chinese Grand Prix,McLaren,51.0,McLaren,1
 2025-05-04,Miami Grand Prix,McLaren,58.0,McLaren,1

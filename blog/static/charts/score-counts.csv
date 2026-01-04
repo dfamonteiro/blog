@@ -35,14 +35,14 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1954-08-22,Swiss Grand Prix,Ferrari,6.0,Ferrari,3
 1954-09-05,Italian Grand Prix,Ferrari,13.0,Ferrari,5
 1954-10-24,Spanish Grand Prix,Ferrari,8.0,Ferrari,1
-1955-01-16,Argentine Grand Prix,Ferrari,9.99,Ferrari,1
+1955-01-16,Argentine Grand Prix,Ferrari,10.0,Ferrari,3
 1955-05-22,Monaco Grand Prix,Ferrari,11.0,Ferrari,1
 1955-06-05,Belgian Grand Prix,Ferrari,7.0,Ferrari,1
 1955-06-19,Dutch Grand Prix,Ferrari,2.0,Ferrari,2
 1955-07-16,British Grand Prix,Ferrari,0.0,Ferrari,3
 1955-09-11,Italian Grand Prix,Ferrari,4.0,Ferrari,3
 1956-01-22,Argentine Grand Prix,Ferrari,11.0,Ferrari,2
-1956-05-13,Monaco Grand Prix,Ferrari,10.0,Ferrari,3
+1956-05-13,Monaco Grand Prix,Ferrari,10.0,Ferrari,4
 1956-06-03,Belgian Grand Prix,Ferrari,14.0,Ferrari,3
 1956-07-01,French Grand Prix,Ferrari,18.0,Ferrari,3
 1956-07-14,British Grand Prix,Ferrari,14.0,Ferrari,4
@@ -55,7 +55,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1957-08-04,German Grand Prix,Ferrari,13.0,Ferrari,7
 1957-08-18,Pescara Grand Prix,Ferrari,0.0,Ferrari,4
 1957-09-08,Italian Grand Prix,Ferrari,4.0,Ferrari,4
-1958-01-19,Argentine Grand Prix,Ferrari,10.0,Ferrari,4
+1958-01-19,Argentine Grand Prix,Ferrari,10.0,Ferrari,5
 1958-05-18,Monaco Grand Prix,Ferrari,11.0,Ferrari,3
 1958-05-26,Dutch Grand Prix,Ferrari,2.0,Ferrari,5
 1958-06-15,Belgian Grand Prix,Ferrari,7.0,Ferrari,2
@@ -64,7 +64,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1958-08-03,German Grand Prix,Ferrari,3.0,Ferrari,1
 1958-08-24,Portuguese Grand Prix,Ferrari,9.0,Ferrari,5
 1958-09-07,Italian Grand Prix,Ferrari,11.0,Ferrari,4
-1958-10-19,Moroccan Grand Prix,Ferrari,10.0,Ferrari,5
+1958-10-19,Moroccan Grand Prix,Ferrari,10.0,Ferrari,6
 1959-05-10,Monaco Grand Prix,Ferrari,9.0,Ferrari,6
 1959-05-31,Dutch Grand Prix,Ferrari,2.0,Ferrari,6
 1959-07-05,French Grand Prix,Ferrari,17.0,Ferrari,2
@@ -85,10 +85,10 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1961-06-18,Belgian Grand Prix,Ferrari,22.0,Ferrari,2
 1961-07-02,French Grand Prix,Ferrari,9.0,Ferrari,7
 1961-07-15,British Grand Prix,Ferrari,19.0,Ferrari,6
-1961-08-06,German Grand Prix,Ferrari,10.0,Ferrari,6
+1961-08-06,German Grand Prix,Ferrari,10.0,Ferrari,7
 1961-09-10,Italian Grand Prix,Ferrari,9.0,Ferrari,8
 1962-05-20,Dutch Grand Prix,Ferrari,7.0,Ferrari,3
-1962-06-03,Monaco Grand Prix,Ferrari,10.0,Ferrari,7
+1962-06-03,Monaco Grand Prix,Ferrari,10.0,Ferrari,8
 1962-06-17,Belgian Grand Prix,Ferrari,7.0,Ferrari,4
 1962-07-21,British Grand Prix,Ferrari,0.0,Ferrari,6
 1962-08-05,German Grand Prix,Ferrari,1.0,Ferrari,2
@@ -145,7 +145,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1968-06-09,Belgian Grand Prix,Ferrari,4.0,Ferrari,13
 1968-06-23,Dutch Grand Prix,Ferrari,4.0,Ferrari,14
 1968-07-07,French Grand Prix,Ferrari,9.0,Ferrari,12
-1968-07-20,British Grand Prix,Ferrari,10.0,Ferrari,8
+1968-07-20,British Grand Prix,Ferrari,10.0,Ferrari,9
 1968-08-04,German Grand Prix,Ferrari,3.0,Ferrari,8
 1968-08-04,German Grand Prix,McLaren,0.0,McLaren,1
 1968-09-08,Italian Grand Prix,Ferrari,4.0,Ferrari,15
@@ -218,7 +218,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1972-03-04,South African Grand Prix,Ferrari,3.0,Ferrari,12
 1972-03-04,South African Grand Prix,McLaren,13.0,McLaren,1
 1972-03-04,South African Grand Prix,Tyrrell,0.0,Mercedes,6
-1972-05-01,Spanish Grand Prix,Ferrari,10.0,Ferrari,9
+1972-05-01,Spanish Grand Prix,Ferrari,10.0,Ferrari,10
 1972-05-01,Spanish Grand Prix,McLaren,2.0,McLaren,2
 1972-05-01,Spanish Grand Prix,Tyrrell,0.0,Mercedes,7
 1972-05-14,Monaco Grand Prix,Ferrari,6.0,Ferrari,15
@@ -291,7 +291,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1973-10-07,United States Grand Prix,Ferrari,0.0,Ferrari,53
 1973-10-07,United States Grand Prix,McLaren,5.0,McLaren,1
 1973-10-07,United States Grand Prix,Tyrrell,0.0,Mercedes,11
-1974-01-13,Argentine Grand Prix,Ferrari,10.0,Ferrari,10
+1974-01-13,Argentine Grand Prix,Ferrari,10.0,Ferrari,11
 1974-01-13,Argentine Grand Prix,McLaren,12.0,McLaren,1
 1974-01-13,Argentine Grand Prix,Tyrrell,1.0,Mercedes,1
 1974-01-27,Brazilian Grand Prix,Ferrari,6.0,Ferrari,16
@@ -315,7 +315,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1974-06-23,Dutch Grand Prix,Ferrari,15.0,Ferrari,12
 1974-06-23,Dutch Grand Prix,McLaren,7.0,McLaren,3
 1974-06-23,Dutch Grand Prix,Tyrrell,3.0,Mercedes,3
-1974-07-07,French Grand Prix,Ferrari,10.0,Ferrari,11
+1974-07-07,French Grand Prix,Ferrari,10.0,Ferrari,12
 1974-07-07,French Grand Prix,McLaren,1.0,McLaren,2
 1974-07-07,French Grand Prix,Tyrrell,3.0,Mercedes,4
 1974-07-20,British Grand Prix,Ferrari,5.0,Ferrari,6
@@ -363,7 +363,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1975-06-08,Swedish Grand Prix,McLaren,0.0,McLaren,16
 1975-06-08,Swedish Grand Prix,Tyrrell,0.0,Mercedes,16
 1975-06-08,Swedish Grand Prix,Williams,0.0,Williams,6
-1975-06-22,Dutch Grand Prix,Ferrari,10.0,Ferrari,12
+1975-06-22,Dutch Grand Prix,Ferrari,10.0,Ferrari,13
 1975-06-22,Dutch Grand Prix,McLaren,0.0,McLaren,17
 1975-06-22,Dutch Grand Prix,Tyrrell,0.0,Mercedes,17
 1975-06-22,Dutch Grand Prix,Williams,0.0,Williams,7
@@ -454,7 +454,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1977-05-08,Spanish Grand Prix,Ferrari,6.0,Ferrari,21
 1977-05-08,Spanish Grand Prix,McLaren,3.0,McLaren,7
 1977-05-08,Spanish Grand Prix,Tyrrell,0.0,Mercedes,25
-1977-05-22,Monaco Grand Prix,Ferrari,10.0,Ferrari,13
+1977-05-22,Monaco Grand Prix,Ferrari,10.0,Ferrari,14
 1977-05-22,Monaco Grand Prix,McLaren,3.0,McLaren,8
 1977-05-22,Monaco Grand Prix,Tyrrell,0.0,Mercedes,26
 1977-06-05,Belgian Grand Prix,Ferrari,6.0,Ferrari,22
@@ -475,7 +475,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1977-08-14,Austrian Grand Prix,Ferrari,9.0,Ferrari,25
 1977-08-14,Austrian Grand Prix,McLaren,1.0,McLaren,6
 1977-08-14,Austrian Grand Prix,Tyrrell,2.0,Mercedes,8
-1977-08-28,Dutch Grand Prix,Ferrari,10.0,Ferrari,14
+1977-08-28,Dutch Grand Prix,Ferrari,10.0,Ferrari,15
 1977-08-28,Dutch Grand Prix,McLaren,0.0,McLaren,25
 1977-08-28,Dutch Grand Prix,Tyrrell,0.0,Mercedes,30
 1977-09-11,Italian Grand Prix,Ferrari,6.0,Ferrari,24
@@ -770,7 +770,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1982-07-03,Dutch Grand Prix,Toleman,0.0,Alpine F1 Team,6
 1982-07-03,Dutch Grand Prix,Tyrrell,0.0,Mercedes,68
 1982-07-03,Dutch Grand Prix,Williams,6.0,Williams,8
-1982-07-18,British Grand Prix,Ferrari,10.0,Ferrari,15
+1982-07-18,British Grand Prix,Ferrari,10.0,Ferrari,16
 1982-07-18,British Grand Prix,McLaren,9.0,McLaren,13
 1982-07-18,British Grand Prix,Toleman,0.0,Alpine F1 Team,7
 1982-07-18,British Grand Prix,Tyrrell,0.0,Mercedes,69
@@ -795,7 +795,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1982-08-29,Swiss Grand Prix,Toleman,0.0,Alpine F1 Team,11
 1982-08-29,Swiss Grand Prix,Tyrrell,0.0,Mercedes,71
 1982-08-29,Swiss Grand Prix,Williams,9.0,Williams,8
-1982-09-12,Italian Grand Prix,Ferrari,10.0,Ferrari,16
+1982-09-12,Italian Grand Prix,Ferrari,10.0,Ferrari,17
 1982-09-12,Italian Grand Prix,McLaren,3.0,McLaren,16
 1982-09-12,Italian Grand Prix,Toleman,0.0,Alpine F1 Team,12
 1982-09-12,Italian Grand Prix,Tyrrell,2.0,Mercedes,18
@@ -982,7 +982,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1985-06-16,Canadian Grand Prix,Toleman,0.0,Alpine F1 Team,36
 1985-06-16,Canadian Grand Prix,Tyrrell,0.0,Mercedes,100
 1985-06-16,Canadian Grand Prix,Williams,4.0,Williams,8
-1985-06-23,Detroit Grand Prix,Ferrari,10.0,Ferrari,17
+1985-06-23,Detroit Grand Prix,Ferrari,10.0,Ferrari,18
 1985-06-23,Detroit Grand Prix,McLaren,0.0,McLaren,70
 1985-06-23,Detroit Grand Prix,Minardi,0.0,RB F1 Team,5
 1985-06-23,Detroit Grand Prix,Toleman,0.0,Alpine F1 Team,37
@@ -1114,7 +1114,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1986-08-10,Hungarian Grand Prix,Tyrrell,1.0,Mercedes,14
 1986-08-10,Hungarian Grand Prix,Williams,13.0,Williams,7
 1986-08-17,Austrian Grand Prix,Benetton,0.0,Alpine F1 Team,56
-1986-08-17,Austrian Grand Prix,Ferrari,10.0,Ferrari,18
+1986-08-17,Austrian Grand Prix,Ferrari,10.0,Ferrari,19
 1986-08-17,Austrian Grand Prix,McLaren,9.0,McLaren,27
 1986-08-17,Austrian Grand Prix,Minardi,0.0,RB F1 Team,26
 1986-08-17,Austrian Grand Prix,Tyrrell,0.0,Mercedes,118
@@ -1252,7 +1252,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1988-05-01,San Marino Grand Prix,Tyrrell,0.0,Mercedes,135
 1988-05-01,San Marino Grand Prix,Williams,0.0,Williams,65
 1988-05-15,Monaco Grand Prix,Benetton,0.0,Alpine F1 Team,66
-1988-05-15,Monaco Grand Prix,Ferrari,10.0,Ferrari,19
+1988-05-15,Monaco Grand Prix,Ferrari,10.0,Ferrari,20
 1988-05-15,Monaco Grand Prix,McLaren,9.0,McLaren,30
 1988-05-15,Monaco Grand Prix,Minardi,0.0,RB F1 Team,49
 1988-05-15,Monaco Grand Prix,Tyrrell,2.0,Mercedes,22
@@ -1519,7 +1519,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1990-10-21,Japanese Grand Prix,Tyrrell,1.0,Mercedes,21
 1990-10-21,Japanese Grand Prix,Williams,5.0,Williams,5
 1990-11-04,Australian Grand Prix,Benetton,9.0,Alpine F1 Team,3
-1990-11-04,Australian Grand Prix,Ferrari,10.0,Ferrari,20
+1990-11-04,Australian Grand Prix,Ferrari,10.0,Ferrari,21
 1990-11-04,Australian Grand Prix,McLaren,3.0,McLaren,23
 1990-11-04,Australian Grand Prix,Minardi,0.0,RB F1 Team,88
 1990-11-04,Australian Grand Prix,Tyrrell,0.0,Mercedes,165
@@ -1940,7 +1940,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1994-07-10,British Grand Prix,Tyrrell,1.0,Mercedes,24
 1994-07-10,British Grand Prix,Williams,12.0,Williams,5
 1994-07-31,German Grand Prix,Benetton,0.0,Alpine F1 Team,88
-1994-07-31,German Grand Prix,Ferrari,10.0,Ferrari,21
+1994-07-31,German Grand Prix,Ferrari,10.0,Ferrari,22
 1994-07-31,German Grand Prix,Jordan,0.0,Aston Martin,45
 1994-07-31,German Grand Prix,McLaren,0.0,McLaren,96
 1994-07-31,German Grand Prix,Minardi,0.0,RB F1 Team,134
@@ -2020,7 +2020,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1995-04-09,Argentine Grand Prix,Tyrrell,0.0,Mercedes,218
 1995-04-09,Argentine Grand Prix,Williams,10.0,Williams,30
 1995-04-30,San Marino Grand Prix,Benetton,0.0,Alpine F1 Team,91
-1995-04-30,San Marino Grand Prix,Ferrari,10.0,Ferrari,22
+1995-04-30,San Marino Grand Prix,Ferrari,10.0,Ferrari,23
 1995-04-30,San Marino Grand Prix,Jordan,0.0,Aston Martin,50
 1995-04-30,San Marino Grand Prix,McLaren,2.0,McLaren,20
 1995-04-30,San Marino Grand Prix,Minardi,0.0,RB F1 Team,144
@@ -2044,7 +2044,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1995-05-28,Monaco Grand Prix,Tyrrell,0.0,Mercedes,221
 1995-05-28,Monaco Grand Prix,Williams,6.0,Williams,28
 1995-06-11,Canadian Grand Prix,Benetton,2.0,Alpine F1 Team,18
-1995-06-11,Canadian Grand Prix,Ferrari,10.0,Ferrari,23
+1995-06-11,Canadian Grand Prix,Ferrari,10.0,Ferrari,24
 1995-06-11,Canadian Grand Prix,Jordan,10.0,Aston Martin,1
 1995-06-11,Canadian Grand Prix,McLaren,0.0,McLaren,100
 1995-06-11,Canadian Grand Prix,Minardi,0.0,RB F1 Team,147
@@ -2188,7 +2188,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1996-05-19,Monaco Grand Prix,Tyrrell,2.0,Mercedes,35
 1996-05-19,Monaco Grand Prix,Williams,0.0,Williams,91
 1996-06-02,Spanish Grand Prix,Benetton,6.0,Alpine F1 Team,14
-1996-06-02,Spanish Grand Prix,Ferrari,10.0,Ferrari,24
+1996-06-02,Spanish Grand Prix,Ferrari,10.0,Ferrari,25
 1996-06-02,Spanish Grand Prix,Jordan,0.0,Aston Martin,62
 1996-06-02,Spanish Grand Prix,McLaren,2.0,McLaren,25
 1996-06-02,Spanish Grand Prix,Minardi,0.0,RB F1 Team,164
@@ -2236,7 +2236,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1996-08-11,Hungarian Grand Prix,Tyrrell,0.0,Mercedes,239
 1996-08-11,Hungarian Grand Prix,Williams,16.0,Williams,16
 1996-08-25,Belgian Grand Prix,Benetton,4.0,Alpine F1 Team,29
-1996-08-25,Belgian Grand Prix,Ferrari,10.0,Ferrari,25
+1996-08-25,Belgian Grand Prix,Ferrari,10.0,Ferrari,26
 1996-08-25,Belgian Grand Prix,Jordan,0.0,Aston Martin,64
 1996-08-25,Belgian Grand Prix,McLaren,4.0,McLaren,44
 1996-08-25,Belgian Grand Prix,Minardi,0.0,RB F1 Team,170
@@ -2244,7 +2244,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1996-08-25,Belgian Grand Prix,Tyrrell,0.0,Mercedes,240
 1996-08-25,Belgian Grand Prix,Williams,8.0,Williams,6
 1996-09-08,Italian Grand Prix,Benetton,6.0,Alpine F1 Team,17
-1996-09-08,Italian Grand Prix,Ferrari,10.0,Ferrari,26
+1996-09-08,Italian Grand Prix,Ferrari,10.0,Ferrari,27
 1996-09-08,Italian Grand Prix,Jordan,5.0,Aston Martin,2
 1996-09-08,Italian Grand Prix,McLaren,4.0,McLaren,45
 1996-09-08,Italian Grand Prix,Minardi,0.0,RB F1 Team,171
@@ -2295,7 +2295,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1997-04-13,Argentine Grand Prix,Tyrrell,0.0,Mercedes,246
 1997-04-13,Argentine Grand Prix,Williams,10.0,Williams,39
 1997-04-27,San Marino Grand Prix,Benetton,2.0,Alpine F1 Team,19
-1997-04-27,San Marino Grand Prix,Ferrari,10.0,Ferrari,27
+1997-04-27,San Marino Grand Prix,Ferrari,10.0,Ferrari,28
 1997-04-27,San Marino Grand Prix,Jordan,3.0,Aston Martin,14
 1997-04-27,San Marino Grand Prix,McLaren,1.0,McLaren,25
 1997-04-27,San Marino Grand Prix,Minardi,0.0,RB F1 Team,177
@@ -2322,7 +2322,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1997-05-25,Spanish Grand Prix,Tyrrell,0.0,Mercedes,248
 1997-05-25,Spanish Grand Prix,Williams,10.0,Williams,41
 1997-06-15,Canadian Grand Prix,Benetton,6.0,Alpine F1 Team,18
-1997-06-15,Canadian Grand Prix,Ferrari,10.0,Ferrari,28
+1997-06-15,Canadian Grand Prix,Ferrari,10.0,Ferrari,29
 1997-06-15,Canadian Grand Prix,Jordan,4.0,Aston Martin,5
 1997-06-15,Canadian Grand Prix,McLaren,0.0,McLaren,111
 1997-06-15,Canadian Grand Prix,Minardi,0.0,RB F1 Team,180
@@ -2367,7 +2367,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1997-08-10,Hungarian Grand Prix,Tyrrell,0.0,Mercedes,253
 1997-08-10,Hungarian Grand Prix,Williams,10.0,Williams,43
 1997-08-24,Belgian Grand Prix,Benetton,1.0,Alpine F1 Team,12
-1997-08-24,Belgian Grand Prix,Ferrari,10.0,Ferrari,29
+1997-08-24,Belgian Grand Prix,Ferrari,10.0,Ferrari,30
 1997-08-24,Belgian Grand Prix,Jordan,6.0,Aston Martin,1
 1997-08-24,Belgian Grand Prix,McLaren,0.0,McLaren,114
 1997-08-24,Belgian Grand Prix,Minardi,0.0,RB F1 Team,185
@@ -2448,7 +2448,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1998-04-12,Argentine Grand Prix,Tyrrell,0.0,Mercedes,262
 1998-04-12,Argentine Grand Prix,Williams,0.0,Williams,96
 1998-04-26,San Marino Grand Prix,Benetton,0.0,Alpine F1 Team,99
-1998-04-26,San Marino Grand Prix,Ferrari,10.0,Ferrari,30
+1998-04-26,San Marino Grand Prix,Ferrari,10.0,Ferrari,31
 1998-04-26,San Marino Grand Prix,Jordan,0.0,Aston Martin,75
 1998-04-26,San Marino Grand Prix,McLaren,10.0,McLaren,24
 1998-04-26,San Marino Grand Prix,Minardi,0.0,RB F1 Team,194
@@ -2520,7 +2520,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1998-08-02,German Grand Prix,Tyrrell,0.0,Mercedes,270
 1998-08-02,German Grand Prix,Williams,4.0,Williams,18
 1998-08-16,Hungarian Grand Prix,Benetton,0.0,Alpine F1 Team,102
-1998-08-16,Hungarian Grand Prix,Ferrari,10.0,Ferrari,31
+1998-08-16,Hungarian Grand Prix,Ferrari,10.0,Ferrari,32
 1998-08-16,Hungarian Grand Prix,Jordan,3.0,Aston Martin,16
 1998-08-16,Hungarian Grand Prix,McLaren,7.0,McLaren,11
 1998-08-16,Hungarian Grand Prix,Minardi,0.0,RB F1 Team,202
@@ -2566,7 +2566,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1998-11-01,Japanese Grand Prix,Williams,3.0,Williams,24
 1999-03-07,Australian Grand Prix,BAR,0.0,Mercedes,276
 1999-03-07,Australian Grand Prix,Benetton,3.0,Alpine F1 Team,27
-1999-03-07,Australian Grand Prix,Ferrari,10.0,Ferrari,32
+1999-03-07,Australian Grand Prix,Ferrari,10.0,Ferrari,33
 1999-03-07,Australian Grand Prix,Jordan,6.0,Aston Martin,2
 1999-03-07,Australian Grand Prix,McLaren,0.0,McLaren,118
 1999-03-07,Australian Grand Prix,Minardi,0.0,RB F1 Team,207
@@ -2584,7 +2584,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1999-04-11,Brazilian Grand Prix,Williams,3.0,Williams,25
 1999-05-02,San Marino Grand Prix,BAR,0.0,Mercedes,278
 1999-05-02,San Marino Grand Prix,Benetton,2.0,Alpine F1 Team,23
-1999-05-02,San Marino Grand Prix,Ferrari,10.0,Ferrari,33
+1999-05-02,San Marino Grand Prix,Ferrari,10.0,Ferrari,34
 1999-05-02,San Marino Grand Prix,Jordan,3.0,Aston Martin,18
 1999-05-02,San Marino Grand Prix,McLaren,6.0,McLaren,32
 1999-05-02,San Marino Grand Prix,Minardi,0.0,RB F1 Team,209
@@ -2638,7 +2638,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1999-07-11,British Grand Prix,Williams,4.0,Williams,20
 1999-07-25,Austrian Grand Prix,BAR,0.0,Mercedes,284
 1999-07-25,Austrian Grand Prix,Benetton,2.0,Alpine F1 Team,24
-1999-07-25,Austrian Grand Prix,Ferrari,10.0,Ferrari,34
+1999-07-25,Austrian Grand Prix,Ferrari,10.0,Ferrari,35
 1999-07-25,Austrian Grand Prix,Jordan,3.0,Aston Martin,20
 1999-07-25,Austrian Grand Prix,McLaren,10.0,McLaren,29
 1999-07-25,Austrian Grand Prix,Minardi,0.0,RB F1 Team,215
@@ -2701,7 +2701,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 1999-10-17,Malaysian Grand Prix,Williams,0.0,Williams,104
 1999-10-31,Japanese Grand Prix,BAR,0.0,Mercedes,291
 1999-10-31,Japanese Grand Prix,Benetton,0.0,Alpine F1 Team,116
-1999-10-31,Japanese Grand Prix,Ferrari,10.0,Ferrari,35
+1999-10-31,Japanese Grand Prix,Ferrari,10.0,Ferrari,36
 1999-10-31,Japanese Grand Prix,Jordan,3.0,Aston Martin,21
 1999-10-31,Japanese Grand Prix,McLaren,10.0,McLaren,30
 1999-10-31,Japanese Grand Prix,Minardi,0.0,RB F1 Team,221
@@ -2719,7 +2719,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2000-03-12,Australian Grand Prix,Williams,4.0,Williams,21
 2000-03-26,Brazilian Grand Prix,BAR,0.0,Mercedes,292
 2000-03-26,Brazilian Grand Prix,Benetton,6.0,Alpine F1 Team,22
-2000-03-26,Brazilian Grand Prix,Ferrari,10.0,Ferrari,36
+2000-03-26,Brazilian Grand Prix,Ferrari,10.0,Ferrari,37
 2000-03-26,Brazilian Grand Prix,Jaguar,0.0,Red Bull,40
 2000-03-26,Brazilian Grand Prix,Jordan,7.0,Aston Martin,1
 2000-03-26,Brazilian Grand Prix,McLaren,0.0,McLaren,120
@@ -2800,7 +2800,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2000-07-16,Austrian Grand Prix,Williams,2.0,Williams,23
 2000-07-30,German Grand Prix,BAR,0.0,Mercedes,298
 2000-07-30,German Grand Prix,Benetton,0.0,Alpine F1 Team,122
-2000-07-30,German Grand Prix,Ferrari,10.0,Ferrari,37
+2000-07-30,German Grand Prix,Ferrari,10.0,Ferrari,38
 2000-07-30,German Grand Prix,Jaguar,0.0,Red Bull,48
 2000-07-30,German Grand Prix,Jordan,0.0,Aston Martin,89
 2000-07-30,German Grand Prix,McLaren,10.0,McLaren,33
@@ -2827,7 +2827,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2000-08-27,Belgian Grand Prix,Williams,6.0,Williams,37
 2000-09-10,Italian Grand Prix,BAR,1.0,Mercedes,27
 2000-09-10,Italian Grand Prix,Benetton,2.0,Alpine F1 Team,27
-2000-09-10,Italian Grand Prix,Ferrari,10.0,Ferrari,38
+2000-09-10,Italian Grand Prix,Ferrari,10.0,Ferrari,39
 2000-09-10,Italian Grand Prix,Jaguar,0.0,Red Bull,51
 2000-09-10,Italian Grand Prix,Jordan,0.0,Aston Martin,90
 2000-09-10,Italian Grand Prix,McLaren,6.0,McLaren,34
@@ -2899,7 +2899,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2001-04-15,San Marino Grand Prix,Williams,10.0,Williams,44
 2001-04-29,Spanish Grand Prix,BAR,4.0,Mercedes,20
 2001-04-29,Spanish Grand Prix,Benetton,0.0,Alpine F1 Team,131
-2001-04-29,Spanish Grand Prix,Ferrari,10.0,Ferrari,39
+2001-04-29,Spanish Grand Prix,Ferrari,10.0,Ferrari,40
 2001-04-29,Spanish Grand Prix,Jaguar,0.0,Red Bull,58
 2001-04-29,Spanish Grand Prix,Jordan,3.0,Aston Martin,24
 2001-04-29,Spanish Grand Prix,McLaren,2.0,McLaren,32
@@ -2908,7 +2908,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2001-04-29,Spanish Grand Prix,Williams,6.0,Williams,38
 2001-05-13,Austrian Grand Prix,BAR,2.0,Mercedes,39
 2001-05-13,Austrian Grand Prix,Benetton,0.0,Alpine F1 Team,132
-2001-05-13,Austrian Grand Prix,Ferrari,10.0,Ferrari,40
+2001-05-13,Austrian Grand Prix,Ferrari,10.0,Ferrari,41
 2001-05-13,Austrian Grand Prix,Jaguar,0.0,Red Bull,59
 2001-05-13,Austrian Grand Prix,Jordan,0.0,Aston Martin,93
 2001-05-13,Austrian Grand Prix,McLaren,10.0,McLaren,36
@@ -2953,7 +2953,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2001-07-01,French Grand Prix,Williams,6.0,Williams,39
 2001-07-15,British Grand Prix,BAR,0.0,Mercedes,307
 2001-07-15,British Grand Prix,Benetton,0.0,Alpine F1 Team,137
-2001-07-15,British Grand Prix,Ferrari,10.0,Ferrari,41
+2001-07-15,British Grand Prix,Ferrari,10.0,Ferrari,42
 2001-07-15,British Grand Prix,Jaguar,0.0,Red Bull,62
 2001-07-15,British Grand Prix,Jordan,0.0,Aston Martin,97
 2001-07-15,British Grand Prix,McLaren,10.0,McLaren,37
@@ -3015,7 +3015,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2001-10-14,Japanese Grand Prix,Sauber,0.0,Sauber,94
 2001-10-14,Japanese Grand Prix,Williams,7.0,Williams,4
 2002-03-03,Australian Grand Prix,BAR,0.0,Mercedes,312
-2002-03-03,Australian Grand Prix,Ferrari,10.0,Ferrari,42
+2002-03-03,Australian Grand Prix,Ferrari,10.0,Ferrari,43
 2002-03-03,Australian Grand Prix,Jaguar,3.0,Red Bull,4
 2002-03-03,Australian Grand Prix,Jordan,0.0,Aston Martin,102
 2002-03-03,Australian Grand Prix,McLaren,4.0,McLaren,51
@@ -3033,7 +3033,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2002-03-17,Malaysian Grand Prix,Sauber,3.0,Sauber,11
 2002-03-17,Malaysian Grand Prix,Williams,16.0,Williams,18
 2002-03-31,Brazilian Grand Prix,BAR,0.0,Mercedes,314
-2002-03-31,Brazilian Grand Prix,Ferrari,10.0,Ferrari,43
+2002-03-31,Brazilian Grand Prix,Ferrari,10.0,Ferrari,44
 2002-03-31,Brazilian Grand Prix,Jaguar,0.0,Red Bull,68
 2002-03-31,Brazilian Grand Prix,Jordan,0.0,Aston Martin,104
 2002-03-31,Brazilian Grand Prix,McLaren,4.0,McLaren,52
@@ -3051,7 +3051,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2002-04-14,San Marino Grand Prix,Sauber,0.0,Sauber,97
 2002-04-14,San Marino Grand Prix,Williams,7.0,Williams,5
 2002-04-28,Spanish Grand Prix,BAR,0.0,Mercedes,316
-2002-04-28,Spanish Grand Prix,Ferrari,10.0,Ferrari,44
+2002-04-28,Spanish Grand Prix,Ferrari,10.0,Ferrari,45
 2002-04-28,Spanish Grand Prix,Jaguar,0.0,Red Bull,70
 2002-04-28,Spanish Grand Prix,Jordan,0.0,Aston Martin,106
 2002-04-28,Spanish Grand Prix,McLaren,4.0,McLaren,53
@@ -3105,7 +3105,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2002-07-07,British Grand Prix,Sauber,1.0,Sauber,27
 2002-07-07,British Grand Prix,Williams,4.0,Williams,24
 2002-07-21,French Grand Prix,BAR,0.0,Mercedes,321
-2002-07-21,French Grand Prix,Ferrari,10.0,Ferrari,45
+2002-07-21,French Grand Prix,Ferrari,10.0,Ferrari,46
 2002-07-21,French Grand Prix,Jaguar,0.0,Red Bull,76
 2002-07-21,French Grand Prix,Jordan,0.0,Aston Martin,109
 2002-07-21,French Grand Prix,McLaren,10.0,McLaren,39
@@ -3240,7 +3240,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2003-06-15,Canadian Grand Prix,Sauber,0.0,Sauber,111
 2003-06-15,Canadian Grand Prix,Williams,14.0,Williams,9
 2003-06-29,European Grand Prix,BAR,2.0,Mercedes,41
-2003-06-29,European Grand Prix,Ferrari,10.0,Ferrari,46
+2003-06-29,European Grand Prix,Ferrari,10.0,Ferrari,47
 2003-06-29,European Grand Prix,Jaguar,3.0,Red Bull,5
 2003-06-29,European Grand Prix,Jordan,0.0,Aston Martin,120
 2003-06-29,European Grand Prix,McLaren,0.0,McLaren,127
@@ -3294,7 +3294,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2003-09-14,Italian Grand Prix,Sauber,0.0,Sauber,116
 2003-09-14,Italian Grand Prix,Williams,12.0,Williams,6
 2003-09-28,United States Grand Prix,BAR,0.0,Mercedes,332
-2003-09-28,United States Grand Prix,Ferrari,10.0,Ferrari,47
+2003-09-28,United States Grand Prix,Ferrari,10.0,Ferrari,48
 2003-09-28,United States Grand Prix,Jaguar,1.0,Red Bull,4
 2003-09-28,United States Grand Prix,Jordan,2.0,Aston Martin,16
 2003-09-28,United States Grand Prix,McLaren,8.0,McLaren,5
@@ -3411,7 +3411,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2004-07-11,British Grand Prix,Sauber,3.0,Sauber,14
 2004-07-11,British Grand Prix,Williams,4.0,Williams,26
 2004-07-25,German Grand Prix,BAR,9.0,Mercedes,13
-2004-07-25,German Grand Prix,Ferrari,10.0,Ferrari,48
+2004-07-25,German Grand Prix,Ferrari,10.0,Ferrari,49
 2004-07-25,German Grand Prix,Jaguar,3.0,Red Bull,8
 2004-07-25,German Grand Prix,Jordan,0.0,Aston Martin,136
 2004-07-25,German Grand Prix,McLaren,5.0,McLaren,13
@@ -3447,7 +3447,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2004-09-12,Italian Grand Prix,Sauber,1.0,Sauber,33
 2004-09-12,Italian Grand Prix,Williams,6.0,Williams,44
 2004-09-26,Chinese Grand Prix,BAR,11.0,Mercedes,4
-2004-09-26,Chinese Grand Prix,Ferrari,10.0,Ferrari,49
+2004-09-26,Chinese Grand Prix,Ferrari,10.0,Ferrari,50
 2004-09-26,Chinese Grand Prix,Jaguar,0.0,Red Bull,99
 2004-09-26,Chinese Grand Prix,Jordan,0.0,Aston Martin,140
 2004-09-26,Chinese Grand Prix,McLaren,6.0,McLaren,37
@@ -3456,7 +3456,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2004-09-26,Chinese Grand Prix,Sauber,3.0,Sauber,15
 2004-09-26,Chinese Grand Prix,Williams,4.0,Williams,27
 2004-10-10,Japanese Grand Prix,BAR,11.0,Mercedes,5
-2004-10-10,Japanese Grand Prix,Ferrari,10.0,Ferrari,50
+2004-10-10,Japanese Grand Prix,Ferrari,10.0,Ferrari,51
 2004-10-10,Japanese Grand Prix,Jaguar,0.0,Red Bull,100
 2004-10-10,Japanese Grand Prix,Jordan,0.0,Aston Martin,141
 2004-10-10,Japanese Grand Prix,McLaren,3.0,McLaren,44
@@ -3526,7 +3526,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2005-05-22,Monaco Grand Prix,Sauber,0.0,Sauber,127
 2005-05-22,Monaco Grand Prix,Williams,14.0,Williams,11
 2005-05-29,European Grand Prix,BAR,0.0,Mercedes,338
-2005-05-29,European Grand Prix,Ferrari,10.0,Ferrari,51
+2005-05-29,European Grand Prix,Ferrari,10.0,Ferrari,52
 2005-05-29,European Grand Prix,Jordan,0.0,Aston Martin,149
 2005-05-29,European Grand Prix,McLaren,2.0,McLaren,35
 2005-05-29,European Grand Prix,Minardi,0.0,RB F1 Team,311
@@ -3769,7 +3769,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2006-08-27,Turkish Grand Prix,Toro Rosso,0.0,RB F1 Team,335
 2006-08-27,Turkish Grand Prix,Williams,0.0,Williams,139
 2006-09-10,Italian Grand Prix,BMW Sauber,7.0,Sauber,2
-2006-09-10,Italian Grand Prix,Ferrari,10.0,Ferrari,52
+2006-09-10,Italian Grand Prix,Ferrari,10.0,Ferrari,53
 2006-09-10,Italian Grand Prix,Honda,7.0,Mercedes,5
 2006-09-10,Italian Grand Prix,McLaren,8.0,McLaren,13
 2006-09-10,Italian Grand Prix,Red Bull,0.0,Red Bull,117
@@ -3778,7 +3778,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2006-09-10,Italian Grand Prix,Toro Rosso,0.0,RB F1 Team,336
 2006-09-10,Italian Grand Prix,Williams,0.0,Williams,140
 2006-10-01,Chinese Grand Prix,BMW Sauber,2.0,Sauber,18
-2006-10-01,Chinese Grand Prix,Ferrari,10.0,Ferrari,53
+2006-10-01,Chinese Grand Prix,Ferrari,10.0,Ferrari,54
 2006-10-01,Chinese Grand Prix,Honda,8.0,Mercedes,5
 2006-10-01,Chinese Grand Prix,McLaren,4.0,McLaren,60
 2006-10-01,Chinese Grand Prix,Red Bull,0.0,Red Bull,118
@@ -3814,7 +3814,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2007-03-18,Australian Grand Prix,Toro Rosso,0.0,RB F1 Team,340
 2007-03-18,Australian Grand Prix,Williams,2.0,Williams,32
 2007-04-08,Malaysian Grand Prix,BMW Sauber,5.0,Sauber,7
-2007-04-08,Malaysian Grand Prix,Ferrari,10.0,Ferrari,54
+2007-04-08,Malaysian Grand Prix,Ferrari,10.0,Ferrari,55
 2007-04-08,Malaysian Grand Prix,Honda,0.0,Mercedes,345
 2007-04-08,Malaysian Grand Prix,McLaren,18.0,McLaren,2
 2007-04-08,Malaysian Grand Prix,Red Bull,0.0,Red Bull,122
@@ -3832,7 +3832,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2007-04-15,Bahrain Grand Prix,Toro Rosso,0.0,RB F1 Team,342
 2007-04-15,Bahrain Grand Prix,Williams,0.0,Williams,144
 2007-05-13,Spanish Grand Prix,BMW Sauber,5.0,Sauber,8
-2007-05-13,Spanish Grand Prix,Ferrari,10.0,Ferrari,55
+2007-05-13,Spanish Grand Prix,Ferrari,10.0,Ferrari,56
 2007-05-13,Spanish Grand Prix,Honda,0.0,Mercedes,347
 2007-05-13,Spanish Grand Prix,McLaren,14.0,McLaren,12
 2007-05-13,Spanish Grand Prix,Red Bull,4.0,Red Bull,8
@@ -3967,7 +3967,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2008-03-16,Australian Grand Prix,Toro Rosso,2.0,RB F1 Team,6
 2008-03-16,Australian Grand Prix,Williams,9.0,Williams,26
 2008-03-23,Malaysian Grand Prix,BMW Sauber,11.0,Sauber,1
-2008-03-23,Malaysian Grand Prix,Ferrari,10.0,Ferrari,56
+2008-03-23,Malaysian Grand Prix,Ferrari,10.0,Ferrari,57
 2008-03-23,Malaysian Grand Prix,Force India,0.0,Aston Martin,195
 2008-03-23,Malaysian Grand Prix,Honda,0.0,Mercedes,359
 2008-03-23,Malaysian Grand Prix,McLaren,10.0,McLaren,54
@@ -4057,7 +4057,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2008-08-03,Hungarian Grand Prix,Toro Rosso,0.0,RB F1 Team,362
 2008-08-03,Hungarian Grand Prix,Williams,0.0,Williams,154
 2008-08-24,European Grand Prix,BMW Sauber,6.0,Sauber,3
-2008-08-24,European Grand Prix,Ferrari,10.0,Ferrari,57
+2008-08-24,European Grand Prix,Ferrari,10.0,Ferrari,58
 2008-08-24,European Grand Prix,Force India,0.0,Aston Martin,205
 2008-08-24,European Grand Prix,Honda,0.0,Mercedes,365
 2008-08-24,European Grand Prix,McLaren,13.0,McLaren,14
@@ -4066,7 +4066,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2008-08-24,European Grand Prix,Toro Rosso,3.0,RB F1 Team,5
 2008-08-24,European Grand Prix,Williams,1.0,Williams,19
 2008-09-07,Belgian Grand Prix,BMW Sauber,11.0,Sauber,3
-2008-09-07,Belgian Grand Prix,Ferrari,10.0,Ferrari,58
+2008-09-07,Belgian Grand Prix,Ferrari,10.0,Ferrari,59
 2008-09-07,Belgian Grand Prix,Force India,0.0,Aston Martin,206
 2008-09-07,Belgian Grand Prix,Honda,0.0,Mercedes,366
 2008-09-07,Belgian Grand Prix,McLaren,6.0,McLaren,43
@@ -4220,7 +4220,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2009-08-23,European Grand Prix,Williams,4.0,Williams,32
 2009-08-30,Belgian Grand Prix,BMW Sauber,9.0,Sauber,5
 2009-08-30,Belgian Grand Prix,Brawn,2.0,Mercedes,47
-2009-08-30,Belgian Grand Prix,Ferrari,10.0,Ferrari,59
+2009-08-30,Belgian Grand Prix,Ferrari,10.0,Ferrari,60
 2009-08-30,Belgian Grand Prix,Force India,8.0,Aston Martin,1
 2009-08-30,Belgian Grand Prix,McLaren,3.0,McLaren,45
 2009-08-30,Belgian Grand Prix,Red Bull,6.0,Red Bull,5
@@ -4326,7 +4326,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2010-05-16,Monaco Grand Prix,Sauber,0.0,Sauber,155
 2010-05-16,Monaco Grand Prix,Toro Rosso,1.0,RB F1 Team,17
 2010-05-16,Monaco Grand Prix,Williams,0.0,Williams,167
-2010-05-30,Turkish Grand Prix,Ferrari,10.0,Ferrari,60
+2010-05-30,Turkish Grand Prix,Ferrari,10.0,Ferrari,61
 2010-05-30,Turkish Grand Prix,Force India,2.0,Aston Martin,19
 2010-05-30,Turkish Grand Prix,McLaren,43.0,McLaren,2
 2010-05-30,Turkish Grand Prix,Mercedes,22.0,Mercedes,1
@@ -4479,7 +4479,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2011-05-08,Turkish Grand Prix,Sauber,1.0,Sauber,49
 2011-05-08,Turkish Grand Prix,Toro Rosso,2.0,RB F1 Team,11
 2011-05-08,Turkish Grand Prix,Williams,0.0,Williams,176
-2011-05-22,Spanish Grand Prix,Ferrari,10.0,Ferrari,61
+2011-05-22,Spanish Grand Prix,Ferrari,10.0,Ferrari,62
 2011-05-22,Spanish Grand Prix,Force India,0.0,Aston Martin,236
 2011-05-22,Spanish Grand Prix,McLaren,33.0,McLaren,4
 2011-05-22,Spanish Grand Prix,Mercedes,14.0,Mercedes,5
@@ -4614,7 +4614,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2011-11-27,Brazilian Grand Prix,Sauber,2.0,Sauber,25
 2011-11-27,Brazilian Grand Prix,Toro Rosso,0.0,RB F1 Team,396
 2011-11-27,Brazilian Grand Prix,Williams,0.0,Williams,188
-2012-03-18,Australian Grand Prix,Ferrari,10.0,Ferrari,62
+2012-03-18,Australian Grand Prix,Ferrari,10.0,Ferrari,63
 2012-03-18,Australian Grand Prix,Force India,1.0,Aston Martin,27
 2012-03-18,Australian Grand Prix,Lotus F1,6.0,Alpine F1 Team,31
 2012-03-18,Australian Grand Prix,McLaren,40.0,McLaren,2
@@ -4713,7 +4713,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2012-07-29,Hungarian Grand Prix,Sauber,0.0,Sauber,170
 2012-07-29,Hungarian Grand Prix,Toro Rosso,0.0,RB F1 Team,405
 2012-07-29,Hungarian Grand Prix,Williams,6.0,Williams,47
-2012-09-02,Belgian Grand Prix,Ferrari,10.0,Ferrari,63
+2012-09-02,Belgian Grand Prix,Ferrari,10.0,Ferrari,64
 2012-09-02,Belgian Grand Prix,Force India,13.0,Aston Martin,1
 2012-09-02,Belgian Grand Prix,Lotus F1,15.0,Alpine F1 Team,11
 2012-09-02,Belgian Grand Prix,McLaren,25.0,McLaren,5
@@ -4803,7 +4803,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2013-03-17,Australian Grand Prix,Sauber,0.0,Sauber,175
 2013-03-17,Australian Grand Prix,Toro Rosso,0.0,RB F1 Team,409
 2013-03-17,Australian Grand Prix,Williams,0.0,Williams,197
-2013-03-24,Malaysian Grand Prix,Ferrari,10.0,Ferrari,64
+2013-03-24,Malaysian Grand Prix,Ferrari,10.0,Ferrari,65
 2013-03-24,Malaysian Grand Prix,Force India,0.0,Aston Martin,244
 2013-03-24,Malaysian Grand Prix,Lotus F1,14.0,Alpine F1 Team,9
 2013-03-24,Malaysian Grand Prix,McLaren,2.0,McLaren,37
@@ -4911,7 +4911,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2013-09-22,Singapore Grand Prix,Sauber,2.0,Sauber,28
 2013-09-22,Singapore Grand Prix,Toro Rosso,0.0,RB F1 Team,413
 2013-09-22,Singapore Grand Prix,Williams,0.0,Williams,208
-2013-10-06,Korean Grand Prix,Ferrari,10.0,Ferrari,65
+2013-10-06,Korean Grand Prix,Ferrari,10.0,Ferrari,66
 2013-10-06,Korean Grand Prix,Force India,0.0,Aston Martin,248
 2013-10-06,Korean Grand Prix,Lotus F1,33.0,Alpine F1 Team,5
 2013-10-06,Korean Grand Prix,McLaren,5.0,McLaren,21
@@ -4947,7 +4947,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2013-11-03,Abu Dhabi Grand Prix,Sauber,0.0,Sauber,183
 2013-11-03,Abu Dhabi Grand Prix,Toro Rosso,0.0,RB F1 Team,416
 2013-11-03,Abu Dhabi Grand Prix,Williams,0.0,Williams,212
-2013-11-17,United States Grand Prix,Ferrari,10.0,Ferrari,66
+2013-11-17,United States Grand Prix,Ferrari,10.0,Ferrari,67
 2013-11-17,United States Grand Prix,Force India,0.0,Aston Martin,250
 2013-11-17,United States Grand Prix,Lotus F1,18.0,Alpine F1 Team,7
 2013-11-17,United States Grand Prix,McLaren,7.0,McLaren,15
@@ -5046,7 +5046,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2014-07-06,British Grand Prix,Sauber,0.0,Sauber,192
 2014-07-06,British Grand Prix,Toro Rosso,3.0,RB F1 Team,8
 2014-07-06,British Grand Prix,Williams,18.0,Williams,3
-2014-07-20,German Grand Prix,Ferrari,10.0,Ferrari,67
+2014-07-20,German Grand Prix,Ferrari,10.0,Ferrari,68
 2014-07-20,German Grand Prix,Force India,7.0,Aston Martin,3
 2014-07-20,German Grand Prix,Lotus F1,0.0,Alpine F1 Team,190
 2014-07-20,German Grand Prix,McLaren,6.0,McLaren,51
@@ -5100,7 +5100,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2014-10-05,Japanese Grand Prix,Sauber,0.0,Sauber,198
 2014-10-05,Japanese Grand Prix,Toro Rosso,2.0,RB F1 Team,16
 2014-10-05,Japanese Grand Prix,Williams,14.0,Williams,14
-2014-10-12,Russian Grand Prix,Ferrari,10.0,Ferrari,68
+2014-10-12,Russian Grand Prix,Ferrari,10.0,Ferrari,69
 2014-10-12,Russian Grand Prix,Force India,1.0,Aston Martin,30
 2014-10-12,Russian Grand Prix,Lotus F1,0.0,Alpine F1 Team,196
 2014-10-12,Russian Grand Prix,McLaren,22.0,McLaren,7
@@ -5427,7 +5427,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2016-07-31,German Grand Prix,Sauber,0.0,Sauber,224
 2016-07-31,German Grand Prix,Toro Rosso,0.0,RB F1 Team,435
 2016-07-31,German Grand Prix,Williams,2.0,Williams,45
-2016-08-28,Belgian Grand Prix,Ferrari,10.0,Ferrari,69
+2016-08-28,Belgian Grand Prix,Ferrari,10.0,Ferrari,70
 2016-08-28,Belgian Grand Prix,Force India,22.0,Aston Martin,1
 2016-08-28,Belgian Grand Prix,Haas F1 Team,0.0,Haas F1 Team,9
 2016-08-28,Belgian Grand Prix,McLaren,6.0,McLaren,53
@@ -5497,7 +5497,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2016-10-30,Mexican Grand Prix,Sauber,0.0,Sauber,231
 2016-10-30,Mexican Grand Prix,Toro Rosso,0.0,RB F1 Team,440
 2016-10-30,Mexican Grand Prix,Williams,6.0,Williams,53
-2016-11-13,Brazilian Grand Prix,Ferrari,10.0,Ferrari,70
+2016-11-13,Brazilian Grand Prix,Ferrari,10.0,Ferrari,71
 2016-11-13,Brazilian Grand Prix,Force India,18.0,Aston Martin,1
 2016-11-13,Brazilian Grand Prix,Haas F1 Team,0.0,Haas F1 Team,15
 2016-11-13,Brazilian Grand Prix,McLaren,1.0,McLaren,39
@@ -5667,7 +5667,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2017-10-01,Malaysian Grand Prix,Sauber,0.0,Sauber,245
 2017-10-01,Malaysian Grand Prix,Toro Rosso,0.0,RB F1 Team,447
 2017-10-01,Malaysian Grand Prix,Williams,6.0,Williams,54
-2017-10-08,Japanese Grand Prix,Ferrari,10.0,Ferrari,71
+2017-10-08,Japanese Grand Prix,Ferrari,10.0,Ferrari,72
 2017-10-08,Japanese Grand Prix,Force India,14.0,Aston Martin,4
 2017-10-08,Japanese Grand Prix,Haas F1 Team,6.0,Haas F1 Team,4
 2017-10-08,Japanese Grand Prix,McLaren,0.0,McLaren,181
@@ -6259,7 +6259,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2020-10-25,Portuguese Grand Prix,Williams,0.0,Williams,273
 2020-11-01,Emilia Romagna Grand Prix,Alfa Romeo,3.0,Sauber,24
 2020-11-01,Emilia Romagna Grand Prix,AlphaTauri,12.0,RB F1 Team,4
-2020-11-01,Emilia Romagna Grand Prix,Ferrari,10.0,Ferrari,72
+2020-11-01,Emilia Romagna Grand Prix,Ferrari,10.0,Ferrari,73
 2020-11-01,Emilia Romagna Grand Prix,Haas F1 Team,0.0,Haas F1 Team,60
 2020-11-01,Emilia Romagna Grand Prix,McLaren,10.0,McLaren,73
 2020-11-01,Emilia Romagna Grand Prix,Mercedes,44.0,Mercedes,7
@@ -6487,21 +6487,21 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2021-11-07,Mexico City Grand Prix,Mercedes,18.0,Mercedes,14
 2021-11-07,Mexico City Grand Prix,Red Bull,40.0,Red Bull,13
 2021-11-07,Mexico City Grand Prix,Williams,0.0,Williams,292
-2021-11-14,São Paulo Grand Prix,Alfa Romeo,0.0,Sauber,294
-2021-11-14,São Paulo Grand Prix,AlphaTauri,6.0,RB F1 Team,20
-2021-11-14,São Paulo Grand Prix,Alpine F1 Team,6.0,Alpine F1 Team,44
-2021-11-14,São Paulo Grand Prix,Aston Martin,0.0,Aston Martin,282
-2021-11-14,São Paulo Grand Prix,Ferrari,19.0,Ferrari,12
-2021-11-14,São Paulo Grand Prix,Haas F1 Team,0.0,Haas F1 Team,83
-2021-11-14,São Paulo Grand Prix,McLaren,1.0,McLaren,45
-2021-11-14,São Paulo Grand Prix,Mercedes,43.0,Mercedes,48
-2021-11-14,São Paulo Grand Prix,Red Bull,33.0,Red Bull,11
-2021-11-14,São Paulo Grand Prix,Williams,0.0,Williams,293
+2021-11-14,SÃ£o Paulo Grand Prix,Alfa Romeo,0.0,Sauber,294
+2021-11-14,SÃ£o Paulo Grand Prix,AlphaTauri,6.0,RB F1 Team,20
+2021-11-14,SÃ£o Paulo Grand Prix,Alpine F1 Team,6.0,Alpine F1 Team,44
+2021-11-14,SÃ£o Paulo Grand Prix,Aston Martin,0.0,Aston Martin,282
+2021-11-14,SÃ£o Paulo Grand Prix,Ferrari,19.0,Ferrari,12
+2021-11-14,SÃ£o Paulo Grand Prix,Haas F1 Team,0.0,Haas F1 Team,83
+2021-11-14,SÃ£o Paulo Grand Prix,McLaren,1.0,McLaren,45
+2021-11-14,SÃ£o Paulo Grand Prix,Mercedes,43.0,Mercedes,48
+2021-11-14,SÃ£o Paulo Grand Prix,Red Bull,33.0,Red Bull,11
+2021-11-14,SÃ£o Paulo Grand Prix,Williams,0.0,Williams,293
 2021-11-21,Qatar Grand Prix,Alfa Romeo,0.0,Sauber,295
 2021-11-21,Qatar Grand Prix,AlphaTauri,0.0,RB F1 Team,475
 2021-11-21,Qatar Grand Prix,Alpine F1 Team,25.0,Alpine F1 Team,3
 2021-11-21,Qatar Grand Prix,Aston Martin,9.0,Aston Martin,5
-2021-11-21,Qatar Grand Prix,Ferrari,10.0,Ferrari,73
+2021-11-21,Qatar Grand Prix,Ferrari,10.0,Ferrari,74
 2021-11-21,Qatar Grand Prix,Haas F1 Team,0.0,Haas F1 Team,84
 2021-11-21,Qatar Grand Prix,McLaren,2.0,McLaren,46
 2021-11-21,Qatar Grand Prix,Mercedes,25.0,Mercedes,17
@@ -6511,7 +6511,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2021-12-05,Saudi Arabian Grand Prix,AlphaTauri,8.0,RB F1 Team,16
 2021-12-05,Saudi Arabian Grand Prix,Alpine F1 Team,12.0,Alpine F1 Team,9
 2021-12-05,Saudi Arabian Grand Prix,Aston Martin,0.0,Aston Martin,283
-2021-12-05,Saudi Arabian Grand Prix,Ferrari,10.0,Ferrari,74
+2021-12-05,Saudi Arabian Grand Prix,Ferrari,10.0,Ferrari,75
 2021-12-05,Saudi Arabian Grand Prix,Haas F1 Team,0.0,Haas F1 Team,85
 2021-12-05,Saudi Arabian Grand Prix,McLaren,11.0,McLaren,9
 2021-12-05,Saudi Arabian Grand Prix,Mercedes,41.0,Mercedes,7
@@ -6727,16 +6727,16 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2022-10-30,Mexico City Grand Prix,Mercedes,31.0,Mercedes,4
 2022-10-30,Mexico City Grand Prix,Red Bull,40.0,Red Bull,15
 2022-10-30,Mexico City Grand Prix,Williams,0.0,Williams,311
-2022-11-13,São Paulo Grand Prix,Alfa Romeo,2.0,Sauber,42
-2022-11-13,São Paulo Grand Prix,AlphaTauri,0.0,RB F1 Team,486
-2022-11-13,São Paulo Grand Prix,Alpine F1 Team,14.0,Alpine F1 Team,13
-2022-11-13,São Paulo Grand Prix,Aston Martin,1.0,Aston Martin,45
-2022-11-13,São Paulo Grand Prix,Ferrari,37.0,Ferrari,6
-2022-11-13,São Paulo Grand Prix,Haas F1 Team,1.0,Haas F1 Team,7
-2022-11-13,São Paulo Grand Prix,McLaren,2.0,McLaren,47
-2022-11-13,São Paulo Grand Prix,Mercedes,58.0,Mercedes,1
-2022-11-13,São Paulo Grand Prix,Red Bull,23.0,Red Bull,8
-2022-11-13,São Paulo Grand Prix,Williams,0.0,Williams,312
+2022-11-13,SÃ£o Paulo Grand Prix,Alfa Romeo,2.0,Sauber,42
+2022-11-13,SÃ£o Paulo Grand Prix,AlphaTauri,0.0,RB F1 Team,486
+2022-11-13,SÃ£o Paulo Grand Prix,Alpine F1 Team,14.0,Alpine F1 Team,13
+2022-11-13,SÃ£o Paulo Grand Prix,Aston Martin,1.0,Aston Martin,45
+2022-11-13,SÃ£o Paulo Grand Prix,Ferrari,37.0,Ferrari,6
+2022-11-13,SÃ£o Paulo Grand Prix,Haas F1 Team,1.0,Haas F1 Team,7
+2022-11-13,SÃ£o Paulo Grand Prix,McLaren,2.0,McLaren,47
+2022-11-13,SÃ£o Paulo Grand Prix,Mercedes,58.0,Mercedes,1
+2022-11-13,SÃ£o Paulo Grand Prix,Red Bull,23.0,Red Bull,8
+2022-11-13,SÃ£o Paulo Grand Prix,Williams,0.0,Williams,312
 2022-11-20,Abu Dhabi Grand Prix,Alfa Romeo,0.0,Sauber,308
 2022-11-20,Abu Dhabi Grand Prix,AlphaTauri,0.0,RB F1 Team,487
 2022-11-20,Abu Dhabi Grand Prix,Alpine F1 Team,6.0,Alpine F1 Team,50
@@ -6811,7 +6811,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2023-06-04,Spanish Grand Prix,AlphaTauri,0.0,RB F1 Team,492
 2023-06-04,Spanish Grand Prix,Alpine F1 Team,5.0,Alpine F1 Team,25
 2023-06-04,Spanish Grand Prix,Aston Martin,14.0,Aston Martin,10
-2023-06-04,Spanish Grand Prix,Ferrari,10.0,Ferrari,75
+2023-06-04,Spanish Grand Prix,Ferrari,10.0,Ferrari,76
 2023-06-04,Spanish Grand Prix,Haas F1 Team,0.0,Haas F1 Team,105
 2023-06-04,Spanish Grand Prix,McLaren,0.0,McLaren,208
 2023-06-04,Spanish Grand Prix,Mercedes,33.0,Mercedes,10
@@ -6851,7 +6851,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2023-07-23,Hungarian Grand Prix,AlphaTauri,0.0,RB F1 Team,496
 2023-07-23,Hungarian Grand Prix,Alpine F1 Team,0.0,Alpine F1 Team,254
 2023-07-23,Hungarian Grand Prix,Aston Martin,3.0,Aston Martin,34
-2023-07-23,Hungarian Grand Prix,Ferrari,10.0,Ferrari,76
+2023-07-23,Hungarian Grand Prix,Ferrari,10.0,Ferrari,77
 2023-07-23,Hungarian Grand Prix,Haas F1 Team,0.0,Haas F1 Team,108
 2023-07-23,Hungarian Grand Prix,McLaren,28.0,McLaren,2
 2023-07-23,Hungarian Grand Prix,Mercedes,20.0,Mercedes,4
@@ -6871,7 +6871,7 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2023-08-27,Dutch Grand Prix,AlphaTauri,0.0,RB F1 Team,497
 2023-08-27,Dutch Grand Prix,Alpine F1 Team,16.0,Alpine F1 Team,9
 2023-08-27,Dutch Grand Prix,Aston Martin,19.0,Aston Martin,1
-2023-08-27,Dutch Grand Prix,Ferrari,10.0,Ferrari,77
+2023-08-27,Dutch Grand Prix,Ferrari,10.0,Ferrari,78
 2023-08-27,Dutch Grand Prix,Haas F1 Team,0.0,Haas F1 Team,110
 2023-08-27,Dutch Grand Prix,McLaren,8.0,McLaren,36
 2023-08-27,Dutch Grand Prix,Mercedes,8.0,Mercedes,11
@@ -6937,16 +6937,16 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2023-10-29,Mexico City Grand Prix,Mercedes,27.0,Mercedes,10
 2023-10-29,Mexico City Grand Prix,Red Bull,25.0,Red Bull,21
 2023-10-29,Mexico City Grand Prix,Williams,2.0,Williams,56
-2023-11-05,São Paulo Grand Prix,Alfa Romeo,0.0,Sauber,322
-2023-11-05,São Paulo Grand Prix,AlphaTauri,5.0,RB F1 Team,6
-2023-11-05,São Paulo Grand Prix,Alpine F1 Team,7.0,Alpine F1 Team,18
-2023-11-05,São Paulo Grand Prix,Aston Martin,25.0,Aston Martin,2
-2023-11-05,São Paulo Grand Prix,Ferrari,13.0,Ferrari,33
-2023-11-05,São Paulo Grand Prix,Haas F1 Team,0.0,Haas F1 Team,116
-2023-11-05,São Paulo Grand Prix,McLaren,26.0,McLaren,3
-2023-11-05,São Paulo Grand Prix,Mercedes,11.0,Mercedes,12
-2023-11-05,São Paulo Grand Prix,Red Bull,51.0,Red Bull,2
-2023-11-05,São Paulo Grand Prix,Williams,0.0,Williams,325
+2023-11-05,SÃ£o Paulo Grand Prix,Alfa Romeo,0.0,Sauber,322
+2023-11-05,SÃ£o Paulo Grand Prix,AlphaTauri,5.0,RB F1 Team,6
+2023-11-05,SÃ£o Paulo Grand Prix,Alpine F1 Team,7.0,Alpine F1 Team,18
+2023-11-05,SÃ£o Paulo Grand Prix,Aston Martin,25.0,Aston Martin,2
+2023-11-05,SÃ£o Paulo Grand Prix,Ferrari,13.0,Ferrari,33
+2023-11-05,SÃ£o Paulo Grand Prix,Haas F1 Team,0.0,Haas F1 Team,116
+2023-11-05,SÃ£o Paulo Grand Prix,McLaren,26.0,McLaren,3
+2023-11-05,SÃ£o Paulo Grand Prix,Mercedes,11.0,Mercedes,12
+2023-11-05,SÃ£o Paulo Grand Prix,Red Bull,51.0,Red Bull,2
+2023-11-05,SÃ£o Paulo Grand Prix,Williams,0.0,Williams,325
 2023-11-19,Las Vegas Grand Prix,Alfa Romeo,0.0,Sauber,323
 2023-11-19,Las Vegas Grand Prix,AlphaTauri,0.0,RB F1 Team,501
 2023-11-19,Las Vegas Grand Prix,Alpine F1 Team,12.0,Alpine F1 Team,11
@@ -7167,16 +7167,16 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2024-10-27,Mexico City Grand Prix,Red Bull,8.0,Red Bull,7
 2024-10-27,Mexico City Grand Prix,Sauber,0.0,Sauber,344
 2024-10-27,Mexico City Grand Prix,Williams,0.0,Williams,342
-2024-11-03,São Paulo Grand Prix,Alpine F1 Team,35.0,Alpine F1 Team,1
-2024-11-03,São Paulo Grand Prix,Aston Martin,0.0,Aston Martin,300
-2024-11-03,São Paulo Grand Prix,Ferrari,20.0,Ferrari,9
-2024-11-03,São Paulo Grand Prix,Haas F1 Team,0.0,Haas F1 Team,128
-2024-11-03,São Paulo Grand Prix,McLaren,27.0,McLaren,4
-2024-11-03,São Paulo Grand Prix,Mercedes,16.0,Mercedes,9
-2024-11-03,São Paulo Grand Prix,RB F1 Team,8.0,RB F1 Team,17
-2024-11-03,São Paulo Grand Prix,Red Bull,32.0,Red Bull,3
-2024-11-03,São Paulo Grand Prix,Sauber,0.0,Sauber,345
-2024-11-03,São Paulo Grand Prix,Williams,0.0,Williams,343
+2024-11-03,SÃ£o Paulo Grand Prix,Alpine F1 Team,35.0,Alpine F1 Team,1
+2024-11-03,SÃ£o Paulo Grand Prix,Aston Martin,0.0,Aston Martin,300
+2024-11-03,SÃ£o Paulo Grand Prix,Ferrari,20.0,Ferrari,9
+2024-11-03,SÃ£o Paulo Grand Prix,Haas F1 Team,0.0,Haas F1 Team,128
+2024-11-03,SÃ£o Paulo Grand Prix,McLaren,27.0,McLaren,4
+2024-11-03,SÃ£o Paulo Grand Prix,Mercedes,16.0,Mercedes,9
+2024-11-03,SÃ£o Paulo Grand Prix,RB F1 Team,8.0,RB F1 Team,17
+2024-11-03,SÃ£o Paulo Grand Prix,Red Bull,32.0,Red Bull,3
+2024-11-03,SÃ£o Paulo Grand Prix,Sauber,0.0,Sauber,345
+2024-11-03,SÃ£o Paulo Grand Prix,Williams,0.0,Williams,343
 2024-11-23,Las Vegas Grand Prix,Alpine F1 Team,0.0,Alpine F1 Team,269
 2024-11-23,Las Vegas Grand Prix,Aston Martin,0.0,Aston Martin,301
 2024-11-23,Las Vegas Grand Prix,Ferrari,27.0,Ferrari,19
@@ -7407,16 +7407,16 @@ date,grand_prix_name,team_name,points,current_team_name,scorigami
 2025-10-26,Mexico City Grand Prix,Red Bull,15.0,Red Bull,15
 2025-10-26,Mexico City Grand Prix,Sauber,1.0,Sauber,77
 2025-10-26,Mexico City Grand Prix,Williams,0.0,Williams,351
-2025-11-09,São Paulo Grand Prix,Alpine F1 Team,2.0,Alpine F1 Team,55
-2025-11-09,São Paulo Grand Prix,Aston Martin,3.0,Aston Martin,36
-2025-11-09,São Paulo Grand Prix,Ferrari,6.0,Ferrari,88
-2025-11-09,São Paulo Grand Prix,Haas F1 Team,8.0,Haas F1 Team,9
-2025-11-09,São Paulo Grand Prix,McLaren,43.0,McLaren,9
-2025-11-09,São Paulo Grand Prix,Mercedes,43.0,Mercedes,50
-2025-11-09,São Paulo Grand Prix,RB F1 Team,10.0,RB F1 Team,6
-2025-11-09,São Paulo Grand Prix,Red Bull,20.0,Red Bull,9
-2025-11-09,São Paulo Grand Prix,Sauber,2.0,Sauber,46
-2025-11-09,São Paulo Grand Prix,Williams,0.0,Williams,352
+2025-11-09,SÃ£o Paulo Grand Prix,Alpine F1 Team,2.0,Alpine F1 Team,55
+2025-11-09,SÃ£o Paulo Grand Prix,Aston Martin,3.0,Aston Martin,36
+2025-11-09,SÃ£o Paulo Grand Prix,Ferrari,6.0,Ferrari,88
+2025-11-09,SÃ£o Paulo Grand Prix,Haas F1 Team,8.0,Haas F1 Team,9
+2025-11-09,SÃ£o Paulo Grand Prix,McLaren,43.0,McLaren,9
+2025-11-09,SÃ£o Paulo Grand Prix,Mercedes,43.0,Mercedes,50
+2025-11-09,SÃ£o Paulo Grand Prix,RB F1 Team,10.0,RB F1 Team,6
+2025-11-09,SÃ£o Paulo Grand Prix,Red Bull,20.0,Red Bull,9
+2025-11-09,SÃ£o Paulo Grand Prix,Sauber,2.0,Sauber,46
+2025-11-09,SÃ£o Paulo Grand Prix,Williams,0.0,Williams,352
 2025-11-22,Las Vegas Grand Prix,Alpine F1 Team,0.0,Alpine F1 Team,285
 2025-11-22,Las Vegas Grand Prix,Aston Martin,0.0,Aston Martin,311
 2025-11-22,Las Vegas Grand Prix,Ferrari,16.0,Ferrari,44

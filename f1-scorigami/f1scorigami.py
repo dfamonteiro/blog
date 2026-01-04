@@ -182,11 +182,11 @@ def save_dataframe(df : pd.DataFrame, name):
     charts_path = Path(__file__).parent.parent / "Blog" / "static" / "charts"
 
     # To be embedded
-    with open(charts_path / f"{name}-embed.html", "w") as f:
+    with open(charts_path / f"{name}-embed.html", "w", encoding="utf-8") as f:
         f.write(df.to_html(classes="dataframe", border=0, index = False))
 
     # HTML direct link
-    with open(charts_path / f"{name}.html", "w") as f:
+    with open(charts_path / f"{name}.html", "w", encoding="utf-8") as f:
         html_content = f"""
             <!DOCTYPE html>
             <html>
@@ -211,7 +211,7 @@ def save_dataframe(df : pd.DataFrame, name):
         f.write(html_content)
 
     # CSV direct link
-    with open(charts_path / f"{name}.csv", "w") as f:
+    with open(charts_path / f"{name}.csv", "w", encoding="utf-8") as f:
         f.write(df.to_csv(index = False))
 
 if __name__ == "__main__":
@@ -219,8 +219,11 @@ if __name__ == "__main__":
     points_per_team_per_round['current_team_name'] = points_per_team_per_round.apply(calculate_corrected_name, axis=1)
 
     score_counts = points_per_team_per_round[points_per_team_per_round["current_team_name"].notna()] # Remove all the teams that have not made it to present day
+    score_counts["points"] = score_counts["points"].replace(9.99, 10.0) # Here to fix a rounding error
     score_counts["scorigami"] = calculate_scorigami(score_counts)
 
     scorigami_df = score_counts[score_counts["scorigami"] == 1]
     save_dataframe(score_counts, "score-counts")
     save_dataframe(scorigami_df, "scorigami")
+
+    print(scorigami_df[scorigami_df["team_name"] == "Alpine F1 Team"])
