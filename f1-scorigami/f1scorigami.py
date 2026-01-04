@@ -251,6 +251,14 @@ def scorigamis_per_year(scorigami_df : pd.DataFrame):
 
     scorigami_df['year'] = scorigami_df['date'].dt.year # type: ignore
     df = scorigami_df.groupby("year").count().reset_index()[["year", "scorigami"]]
+
+    # 2. Create a full range of years
+    all_years = pd.DataFrame({'year': range(df['year'].min(), df['year'].max() + 1)})
+    # 3. Merge the actual data with the full range
+    df = pd.merge(all_years, df, on='year', how='left')
+    # 4. Replace the resulting NaNs with 0
+    df['scorigami'] = df['scorigami'].fillna(0).astype(int)
+
     df = df.rename(columns={'scorigami': 'scorigami count'})
     # 1. Create the Line Chart
     # Use render_mode='svg' for sharper lines or leave default

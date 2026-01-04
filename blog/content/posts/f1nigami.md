@@ -138,3 +138,4 @@ Ferrari does what they always do in these stats, and statpad like crazy in the f
 {{< raw "static/charts/scorigami-linechart.html" >}}
 
 The development of the nuclear bomb during WW2 has lead to some of the most energetic events ever witnessed by humanity. The introduction of the 25-18-15-12-10-8-6-4-2-1 points distribution in 2010.
+ 
