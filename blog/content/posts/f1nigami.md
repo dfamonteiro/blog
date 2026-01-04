@@ -125,3 +125,4 @@ Filtering the last column of the table so that `scorigami` equals 1 will return 
 
 Having our data on a table is nice and all, but the real fun in tracking these scorigamis lies in creating interesting data visualizations for them!
 
+{{< raw "static/charts/scorigami-timeline.html" >}}

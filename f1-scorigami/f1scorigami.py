@@ -168,7 +168,6 @@ def save_as_plotly_html(df, name):
     fig.write_html(Path(__file__).parent.parent / "Blog" / "static" / "charts" / name)
 
 def scorigami_timeline(scorigami_df):
-    # Using your specific columns
     fig = px.scatter(
         scorigami_df,
         x="date",
@@ -176,7 +175,8 @@ def scorigami_timeline(scorigami_df):
         color="points",
         hover_data=["grand_prix_name", "team_name", "points"],
         title="Scorigami Timeline",
-        template="plotly_dark"
+        template="plotly_dark",
+        color_continuous_scale=["#00ffff", "#ff00ff"]
     )
 
     # 2. Customize Dark Mode UI
@@ -195,10 +195,14 @@ def scorigami_timeline(scorigami_df):
         yaxis=dict(gridcolor="#333333")
     )
 
-    # This adds a 'range slider' at the bottom to navigate the decades
-    fig.update_xaxes(rangeslider_visible=True)
+    # 3. Save as HTML Snippet
+    charts_path = Path(__file__).parent.parent / "Blog" / "static" / "charts"
+    charts_path.mkdir(parents=True, exist_ok=True)
+    
+    output_file = charts_path / f"scorigami-timeline.html"
+    
     fig.write_html(
-        "test.html", 
+        output_file, 
         full_html=False, 
         include_plotlyjs='cdn'
     )
