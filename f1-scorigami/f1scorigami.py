@@ -360,6 +360,14 @@ def scorigami_heatmap(score_counts : pd.DataFrame):
     fig.write_html(CHARTS_PATH / "scorigami-heatmap.html", full_html=False, include_plotlyjs='cdn')
 
 
+def global_scorigami(scorigami_df : pd.DataFrame):
+    # This keeps the first occurrence of every unique 'points' value
+    # and removes all subsequent ones.
+    df = scorigami_df.drop_duplicates(subset=["points"], keep="first").copy()
+    save_dataframe(df, "global-scorigami")
+
+    print(df.groupby("current_team_name").count())
+
 if __name__ == "__main__":
     points_per_team_per_round = SESSION_ENTRIES_WITH_POINTS_AVAILABLE.groupby(["date", "grand_prix_name", "team_name"])["points"].sum().reset_index()
     points_per_team_per_round['current_team_name'] = points_per_team_per_round.apply(calculate_corrected_name, axis=1)
@@ -377,3 +385,5 @@ if __name__ == "__main__":
     scorigamis_per_year(scorigami_df)
 
     scorigami_heatmap(score_counts)
+
+    global_scorigami(scorigami_df)

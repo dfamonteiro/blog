@@ -1,7 +1,7 @@
 +++ 
 draft = true
 date = 2026-01-04T10:32:30Z
-title = "F1nigami - The case for scorigamis in Formula 1"
+title = "Formula Onigami - The case for scorigamis in Formula 1"
 description = ""
 slug = ""
 authors = ["Daniel Monteiro"]
@@ -22,7 +22,7 @@ Nowadays it's a massive deal[^1] when a scorigami happens in an american footbal
 
 [^1]: Ok I might be slightly exagerating, but don't let facts get in the way of a good story!
 
-## The hunt for a good scorigami statistic for Formula 1
+## The hunt for a good Scorigami statistic for Formula 1
 
 Formula 1 is very different from NFL, and that means that we need to put more thought into what a F1 scorigami should look like.
 
@@ -34,7 +34,7 @@ Other factors to keep in mind: these scorigamis should be easy to calculate and 
 
 Taking all of this into consideration, I have an idea:
 
-## My scorigami proposal: points scored over a Grand Prix weekend
+## My Scorigami proposal: Points scored over a Grand Prix weekend
 
 I have been thinking about this on and off for a couple of months, and I believe this is the right foundation for us to build our scorigami castle on:
 
@@ -107,7 +107,7 @@ OLD_TEAM_NAMES = {
 }
 ```
 
-## Calculating scorigamis for 70 years of Formula 1
+## Calculating Scorigamis for 70 years of Formula 1
 
 Now that the finer details are figured out, we need to figure out how we're going to process 70 years of Grand Prix racing. I won't go through the technical quandaries today, but I'll give you the gist of it: I downloaded a data dump from the [Jolpica API](https://github.com/jolpica/jolpica-f1) and then developed a [python script](https://github.com/dfamonteiro/blog/blob/main/f1-scorigami/f1scorigami.py) that takes the information from this data dump, and creates a table that keeps track of the points scored by each each team for every Grand Prix, and the number of times that score has occurred for that team.
 
@@ -121,7 +121,7 @@ Filtering the last column of the table so that `scorigami` equals 1 will return 
 
 {{< scroll-table "static/charts/scorigami-embed.html" >}}
 
-## Visualizing our scorigamis
+## Visualizing our Scorigamis
 
 Having our data on tables is nice and all, but the real fun in tracking these scorigamis lies in creating interesting data visualizations for them!
 
@@ -135,7 +135,7 @@ Ferrari does what they always do in these stats, and statpad like crazy in the f
 - 2.5 points at the [1984 Monaco GP](https://en.wikipedia.org/wiki/1984_Monaco_Grand_Prix) (???)
 - 16 points at the [1998 French GP](https://en.wikipedia.org/wiki/1998_French_Grand_Prix)... somehow it took that long for the scarlett team to score that specific amount of points
 
-### Number of scorigamis per year
+### Number of Scorigamis per year
 
 {{< raw "static/charts/scorigami-linechart.html" >}}
 
@@ -147,6 +147,35 @@ Ok, we're more or less guaranteed to have at least a couple of scorigamis per ye
 
 ### Formula 1 scores heatmap
 
-In the previous charts we took a look at the scorigamis that _already happened_. With this heatmap of all the point scores of the current teams, I wanted to take a look at what are the potential scorigami opportunities for all the teams in the future.
+In the previous charts we took a look at the scorigamis that _already happened_. With this heatmap of all the point scores of the current teams, I wanted to take a look at what are the potential scorigami opportunities for all the teams in the future. The pitch-black cells with 0 point occurrences are scorigami opportunities:
 
 {{< raw "static/charts/scorigami-heatmap.html" >}}
+
+## Interesting Scorigami oddities
+
+For this final section of the blog post, I'm going answer some questions I have wondering about while writing this blog post.
+
+### Global Scorigamis
+
+What if we didn't track scorigamis per team? Once _any_ team achieved a certain score, what's it: that value is removed from the board. How would our scorigami table look? ([html](/charts/global-scorigami.html), [csv](/charts/global-scorigami.csv))
+
+{{< scroll-table "static/charts/global-scorigami-embed.html" >}}
+
+As always, Ferrari benefits from being there before anyone else:
+
+```txt
+Team       Global Scorigami Count
+Ferrari                        33
+McLaren                         8
+Mercedes                        7
+Red Bull                       14
+Williams                        1
+```
+
+### Fractional Scorigamis
+
+### High Scorigamis
+
+## Final notes
+
+Driver Scorigamis?
