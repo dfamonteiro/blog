@@ -28,7 +28,7 @@ SESSION_ENTRIES_WITH_POINTS_AVAILABLE = duckdb.sql("""
     JOIN 'formula_one_driver.csv'       AS driver      ON team_driver.driver_id        = driver.id
     JOIN 'formula_one_team.csv'         AS team        ON team_driver.team_id          = team.id
 
-    WHERE NOT isnan(points) AND date >= '1979-01-01'
+    WHERE NOT isnan(points)
 
     ORDER BY date
 """).df()
@@ -158,24 +158,21 @@ if __name__ == "__main__":
     points_per_team_per_round = SESSION_ENTRIES_WITH_POINTS_AVAILABLE.groupby(["date", "grand_prix_name", "race_number", "team_name"])["points"].sum().reset_index()
     points_per_team_per_round['corrected_team_name'] = points_per_team_per_round.apply(calculate_corrected_name, axis=1)
 
-    scorigami_df = points_per_team_per_round[points_per_team_per_round["corrected_team_name"].notna()] # Remove all the teams that have not made it to present day
-    scorigami_df["scorigami"] = calculate_scorigami(scorigami_df)
+    score_counts = points_per_team_per_round[points_per_team_per_round["corrected_team_name"].notna()] # Remove all the teams that have not made it to present day
+    score_counts["scorigami"] = calculate_scorigami(score_counts)
 
-    scorigami_df.to_html("full-table.html")
-    scorigami_df[scorigami_df["scorigami"] == 1].to_html("scorigami-table.html")
-
-    # scorigami_df = scorigami_df[scorigami_df["scorigami"] == 1]
-    # print(scorigami_df)
+    scorigami_df = score_counts[score_counts["scorigami"] == 1]
+    print(scorigami_df)
 
 
-    # # Using your specific columns
-    # # fig = px.scatter(scorigami_df, x="date", y="corrected_team_name", 
-    # #                 color="points",
-    # #                 hover_data=["grand_prix_name", "points"],
-    # #                 title="F1 Team Timeline (Zoomable)")
-    # # This adds a 'range slider' at the bottom to navigate the decades
-    # # fig.update_xaxes(rangeslider_visible=True)
-    # # fig.show()
+    # Using your specific columns
+    fig = px.scatter(scorigami_df, x="date", y="corrected_team_name", 
+                    color="points",
+                    hover_data=["grand_prix_name", "points"],
+                    title="F1 Team Timeline (Zoomable)")
+    # This adds a 'range slider' at the bottom to navigate the decades
+    fig.update_xaxes(rangeslider_visible=True)
+    fig.show()
     
 
     # fig = go.Figure(data=[go.Table(
