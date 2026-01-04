@@ -134,3 +134,7 @@ Ferrari does what they always do in these stats, and statpad like crazy in the f
 - 0.5 points at the [1975 Austrian GP](https://en.wikipedia.org/wiki/1975_Austrian_Grand_Prix#) (???)
 - 2.5 points at the [1984 Monaco GP](https://en.wikipedia.org/wiki/1984_Monaco_Grand_Prix) (???)
 - 16 points at the [1998 French GP](https://en.wikipedia.org/wiki/1998_French_Grand_Prix)... somehow it took that long for the scarlett team to score that amount of points
+
+{{< raw "static/charts/scorigami-linechart.html" >}}
+
+The development of the nuclear bomb during WW2 has lead to some of the most energetic events ever witnessed by humanity. The introduction of the 25-18-15-12-10-8-6-4-2-1 points distribution in 2010.

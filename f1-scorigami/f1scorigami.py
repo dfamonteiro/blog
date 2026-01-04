@@ -9,6 +9,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 import pyperclip
 
+CHARTS_PATH = Path(__file__).parent.parent / "Blog" / "static" / "charts"
+
 SESSION_ENTRIES_WITH_POINTS_AVAILABLE = duckdb.sql("""
     SELECT
         round.date,
@@ -197,10 +199,9 @@ def scorigami_timeline(scorigami_df):
     )
 
     # 3. Save as HTML Snippet
-    charts_path = Path(__file__).parent.parent / "Blog" / "static" / "charts"
-    charts_path.mkdir(parents=True, exist_ok=True)
+    CHARTS_PATH.mkdir(parents=True, exist_ok=True)
     
-    output_file = charts_path / f"scorigami-timeline.html"
+    output_file = CHARTS_PATH / f"scorigami-timeline.html"
     
     fig.write_html(
         output_file, 
@@ -210,14 +211,13 @@ def scorigami_timeline(scorigami_df):
 
 def save_dataframe(df : pd.DataFrame, name):
     "Saves the dataframe in 3 different forms: html to be embedded, html to be viewed, and CSV"
-    charts_path = Path(__file__).parent.parent / "Blog" / "static" / "charts"
 
     # To be embedded
-    with open(charts_path / f"{name}-embed.html", "w", encoding="utf-8") as f:
+    with open(CHARTS_PATH / f"{name}-embed.html", "w", encoding="utf-8") as f:
         f.write(df.to_html(classes="dataframe", border=0, index = False))
 
     # HTML direct link
-    with open(charts_path / f"{name}.html", "w", encoding="utf-8") as f:
+    with open(CHARTS_PATH / f"{name}.html", "w", encoding="utf-8") as f:
         html_content = f"""
             <!DOCTYPE html>
             <html>
@@ -242,8 +242,60 @@ def save_dataframe(df : pd.DataFrame, name):
         f.write(html_content)
 
     # CSV direct link
-    with open(charts_path / f"{name}.csv", "w", encoding="utf-8") as f:
+    with open(CHARTS_PATH / f"{name}.csv", "w", encoding="utf-8") as f:
         f.write(df.to_csv(index = False))
+
+
+def scorigamis_per_year(scorigami_df : pd.DataFrame):
+    scorigami_df = scorigami_df.copy()
+
+    scorigami_df['year'] = scorigami_df['date'].dt.year # type: ignore
+    df = scorigami_df.groupby("year").count().reset_index()[["year", "scorigami"]]
+    df = df.rename(columns={'scorigami': 'scorigami count'})
+    # 1. Create the Line Chart
+    # Use render_mode='svg' for sharper lines or leave default
+    fig = px.line(
+        df, 
+        x="year", 
+        y="scorigami count",
+        title="Total Scorigamis per Year",
+        template="plotly_dark",
+        markers=True,         # Adds points to the line
+        line_shape="spline",  # This creates the "flow" (curved lines instead of jagged)
+        render_mode="svg"
+    )
+
+    # 2. Styling and Padding Reduction
+    fig.update_layout(
+        paper_bgcolor="#212121",
+        plot_bgcolor="#212121",
+        font_color="#e0e0e0",
+        # Tighten margins: l=left, r=right, t=top, b=bottom
+        margin=dict(l=10, r=10, t=50, b=10),
+        
+        xaxis=dict(
+            title="Year",
+            gridcolor="#333333",
+            showline=True,
+            linecolor="#444444",
+            dtick=5  # Shows a label every 5 years to keep it clean
+        ),
+        yaxis=dict(
+            title="Count",
+            gridcolor="#333333",
+            showline=True,
+            linecolor="#444444"
+        )
+    )
+
+    # 3. Customize the line color and width
+    fig.update_traces(
+        line=dict(width=3, color="#00ffff"), # Cyan "glow" line
+        marker=dict(size=6, color="#ff00ff")  # Magenta markers
+    )
+
+    # 4. Save (using your existing logic)
+    fig.write_html(CHARTS_PATH / "scorigami-linechart.html", full_html=False, include_plotlyjs='cdn')
 
 if __name__ == "__main__":
     points_per_team_per_round = SESSION_ENTRIES_WITH_POINTS_AVAILABLE.groupby(["date", "grand_prix_name", "team_name"])["points"].sum().reset_index()
@@ -258,3 +310,5 @@ if __name__ == "__main__":
     save_dataframe(scorigami_df, "scorigami")
 
     scorigami_timeline(scorigami_df)
+
+    scorigamis_per_year(scorigami_df)
