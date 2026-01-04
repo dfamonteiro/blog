@@ -153,7 +153,7 @@ In the previous charts we took a look at the scorigamis that _already happened_.
 
 ## Interesting Scorigami oddities
 
-For this final section of the blog post, I'm going answer some questions I have wondering about while writing this blog post.
+For this final section of the blog post, I'm going answer some questions have been nagging me while I was writing this blog post.
 
 ### Global Scorigamis
 
