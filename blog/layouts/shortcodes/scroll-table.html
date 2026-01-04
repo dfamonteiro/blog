@@ -9,55 +9,52 @@
             margin: 20px 0;
         }
 
-        /* 1. RESET PANDAS DEFAULTS */
-        .scroll-container table, 
-        .scroll-container tr, 
-        .scroll-container td, 
-        .scroll-container th {
-            background-color: transparent !important; /* Kill pandas white/black rows */
-            border: none !important;
-            color: inherit;
-        }
-
         .scroll-container table {
             width: 100%;
             border-collapse: collapse;
+            background-color: transparent !important;
         }
 
         .scroll-container th, 
         .scroll-container td {
             padding: 12px;
             text-align: left;
+            border: none !important;
         }
 
-        /* 2. LIGHT MODE COLORS */
-        /* Base row is white, even row is light grey */
-        .scroll-container tr { background-color: #ffffff !important; }
+        /* --- LIGHT MODE (Default) --- */
+        .scroll-container tr { background-color: #ffffff !important; color: #111 !important; }
         .scroll-container tr:nth-child(even) { background-color: #f2f2f2 !important; }
 
         .scroll-container thead th {
             position: sticky;
             top: 0;
-            background-color: #e0e0e0 !important; /* Slightly darker header */
+            background-color: #e0e0e0 !important;
             z-index: 10;
             border-bottom: 2px solid #ccc !important;
+            color: #000 !important;
         }
 
-        /* 3. DARK MODE COLORS (Hugo Coder) */
+        /* --- DARK MODE (Media Query + Coder Class) --- */
         @media (prefers-color-scheme: dark) {
-            .scroll-container { border-color: #333; }
-
-            /* Base row is Coder dark, even row is a shade lighter */
-            .scroll-container tr { background-color: #1e1e1e !important; }
-            .scroll-container tr:nth-child(even) { background-color: #2d2d2d !important; }
-
-            .scroll-container thead th {
+            body:not(.colorscheme-light) .scroll-container { border-color: #333; }
+            body:not(.colorscheme-light) .scroll-container tr { background-color: #1e1e1e !important; color: #dadada !important; }
+            body:not(.colorscheme-light) .scroll-container tr:nth-child(even) { background-color: #2d2d2d !important; }
+            body:not(.colorscheme-light) .scroll-container thead th {
                 background-color: #3d3d3d !important;
                 border-bottom-color: #555 !important;
                 color: #ffffff !important;
             }
-            
-            .scroll-container td { color: #dcdcdc !important; }
+        }
+
+        /* Explicit Dark Mode override for Coder toggle */
+        body.colorscheme-dark .scroll-container { border-color: #333; }
+        body.colorscheme-dark .scroll-container tr { background-color: #1e1e1e !important; color: #dadada !important; }
+        body.colorscheme-dark .scroll-container tr:nth-child(even) { background-color: #2d2d2d !important; }
+        body.colorscheme-dark .scroll-container thead th {
+            background-color: #3d3d3d !important;
+            border-bottom-color: #555 !important;
+            color: #ffffff !important;
         }
     </style>
 
