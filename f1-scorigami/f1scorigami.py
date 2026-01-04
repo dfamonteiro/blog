@@ -177,9 +177,20 @@ def scorigami_timeline(scorigami_df):
     fig.update_xaxes(rangeslider_visible=True)
     fig.show()
 
-def save_dataframe_as_html_file(df, name):
-    with open(Path(__file__).parent.parent / "Blog" / "static" / "charts" / f"{name}.html", "w") as f:
+def save_dataframe_as_html_file(df : pd.DataFrame, name):
+    charts_path = Path(__file__).parent.parent / "Blog" / "static" / "charts"
+
+    # To be embedded
+    with open(charts_path / f"{name}-embed.html", "w") as f:
         f.write(df.to_html(classes="dataframe", border=0, index = False))
+
+    # HTML direct link
+    with open(charts_path / f"{name}.html", "w") as f:
+        f.write(df.to_markdown(index = False))
+
+    # CSV direct link
+    with open(charts_path / f"{name}.csv", "w") as f:
+        f.write(df.to_csv(index = False))
 
 if __name__ == "__main__":
     points_per_team_per_round = SESSION_ENTRIES_WITH_POINTS_AVAILABLE.groupby(["date", "grand_prix_name", "team_name"])["points"].sum().reset_index()
