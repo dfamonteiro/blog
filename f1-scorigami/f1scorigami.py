@@ -209,12 +209,15 @@ def scorigami_timeline(scorigami_df):
         include_plotlyjs='cdn'
     )
 
-def save_dataframe(df : pd.DataFrame, name):
+def save_dataframe(df : pd.DataFrame, name, only_embed_html = False):
     "Saves the dataframe in 3 different forms: html to be embedded, html to be viewed, and CSV"
 
     # To be embedded
     with open(CHARTS_PATH / f"{name}-embed.html", "w", encoding="utf-8") as f:
         f.write(df.to_html(classes="dataframe", border=0, index = False))
+
+    if only_embed_html:
+        return
 
     # HTML direct link
     with open(CHARTS_PATH / f"{name}.html", "w", encoding="utf-8") as f:
@@ -366,11 +369,19 @@ def global_scorigami(scorigami_df : pd.DataFrame):
     df = scorigami_df.drop_duplicates(subset=["points"], keep="first").copy()
     save_dataframe(df, "global-scorigami")
 
-    print(df.groupby("current_team_name").count())
+    # print(df.groupby("current_team_name").count())
 
 def fractional_scorigami(scorigami_df : pd.DataFrame):
     df = scorigami_df[scorigami_df["points"] % 1 != 0]
     save_dataframe(df, "fractional-scorigami")
+
+def highscorigami(scorigami_df : pd.DataFrame):
+    # Find the index label of the maximum point for each team
+    idx = scorigami_df.groupby("current_team_name")["points"].idxmax()
+    
+    # Use .loc to grab those specific rows
+    df = scorigami_df.loc[idx].copy().sort_values("points")
+    save_dataframe(df, "highscorigami", True)
 
 if __name__ == "__main__":
     points_per_team_per_round = SESSION_ENTRIES_WITH_POINTS_AVAILABLE.groupby(["date", "grand_prix_name", "team_name"])["points"].sum().reset_index()
@@ -393,3 +404,5 @@ if __name__ == "__main__":
     global_scorigami(scorigami_df)
 
     fractional_scorigami(scorigami_df)
+
+    highscorigami(scorigami_df)

@@ -180,6 +180,18 @@ You just know something out of the ordinary has happened when you get scorigamis
 
 ### Highscorigamis
 
+For every team, was what the highest points haul they achieved?
+
+{{< scroll-table "static/charts/highscorigami-embed.html" >}}
+
+There's some nice moments from these races: the Gasly win in Monza, Esteban Ocon's win in Hungary, Sergio Perez's win and George's heartbreak in Sakhir, followed by George's redemption in Brasil.
+
+You might be wondering how on earth Williams manage to score 66 points in a weekend: well, to spice things up, they decided to double the points of the final race of the 2014 season, and Williams happened to be good there.
+
 ## Final notes
 
-Driver Scorigamis?
+Sometimes I write in this blog because I want to share something interesting, other times I want to show how something can be done, but today I just wanted to get this idea of F1 scorigamis out of my head.
+
+I would also like to leave the disclaimer that while I did my best to make sure the scorigamis are correct, I can't really provide any guarantees that the data I presented here is 100% accurate. If anything, it's very likely I overlooked some detail!
+
+I hope you found this pontification of F1 scorigamis interesting. In a perfect world, this blog post would be accompanied by a [Secret Base](https://www.youtube.com/channel/UCDRmGMSgrtZkOsh_NQl4_xw)-style video that would follow the history of of F1 through these scorigamis, but that would require an astronomical amount of talent that I simply do not possess. I guess I'll leave it as an exercise to the reader!
