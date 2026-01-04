@@ -34,4 +34,14 @@ Other factors to keep in mind: these scorigamis should be easy to calculate and 
 
 Taking all of this into consideration, I have an idea:
 
-## My proposal: points scored per team over a Grand Prix weekend
+## My scorigami proposal: points scored over a Grand Prix weekend
+
+I have been thinking about this on and off for a couple of months, and I believe this is the right foundation for us to build our scorigami castle on:
+
+- You can track scorigamis **_per team_**, which I will do in this blog post
+- The scorigamis can happen in every Grand Prix weekend
+- Easy to calculate: just add the points scored by the team's drivers across the weekend
+- Decent combinatorial explosion: in a sprint weekend, there are 4 point-scoring events (2 drivers * 2 races). This leads to potentially rare point scores that can only be achieved by finishing in very specific positions in both the sprint and the race
+- Potential for weirdness
+
+### What to track and what not to track
