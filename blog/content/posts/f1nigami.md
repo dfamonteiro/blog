@@ -107,13 +107,17 @@ OLD_TEAM_NAMES = {
 }
 ```
 
-## Calculating how many times a given score has occurred for a team
+## Calculating scorigamis for 70 years of Formula 1
 
-Now that the finer details are figured out, we need to figure out how we're going to process 70 years of Formula 1. I won't go through the technical quandaries today, but I'll give you the gist of it: I downloaded a data dump from the [Jolpica API](https://github.com/jolpica/jolpica-f1) and then developed a [python script](https://github.com/dfamonteiro/blog/blob/main/f1-scorigami/f1scorigami.py) that takes the information from this data dump, and creates a table that keeps track of the points scored by each each team for every Grand Prix, and the number of times that score has occurred for that team.
+Now that the finer details are figured out, we need to figure out how we're going to process 70 years of Grand Prix racing. I won't go through the technical quandaries today, but I'll give you the gist of it: I downloaded a data dump from the [Jolpica API](https://github.com/jolpica/jolpica-f1) and then developed a [python script](https://github.com/dfamonteiro/blog/blob/main/f1-scorigami/f1scorigami.py) that takes the information from this data dump, and creates a table that keeps track of the points scored by each each team for every Grand Prix, and the number of times that score has occurred for that team.
 
 Here is the table with the Grand Prix score of every team that currently exists on the grid, and the number of times that score has ocurred previously ([html](/charts/score-counts.html), [csv](/charts/score-counts.csv)):
 
-<!-- TODO: dedicated csv & html links -->
+{{< scroll-table "static/charts/score-counts-embed.html" >}}
 
-{{< scroll-table "static/charts/score-counts.html" >}}
+The column `team_name` is the name of the team _at the time_, while `current_team_name` returns the current team name. `Scorigami` represents the number of times the team has achieved that score at that point in the team's history.
+
+Filtering the last column of the table so that `scorigami` equals 1 will return every time a team scored a hauls of points never before seen in that team's history - a scorigami! ([html](/charts/scorigami.html), [csv](/charts/scorigami.csv))
+
+{{< scroll-table "static/charts/scorigami-embed.html" >}}
  

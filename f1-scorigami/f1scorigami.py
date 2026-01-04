@@ -128,7 +128,7 @@ def print_contemporary_teams_per_year_since_1979(points_per_contemporary_team_pe
 
     for _, row in points_per_contemporary_team_per_round.iterrows():
         year = row["date"].year
-        name = row["corrected_team_name"]
+        name = row["current_team_name"]
         
         if year not in teams_per_year:
             teams_per_year[year] = set()
@@ -144,7 +144,7 @@ def calculate_scorigami(df : pd.DataFrame) -> List[int]:
     score_count : Dict[str, Dict[float, int]] = {}
 
     for _, row in df.iterrows():
-        team, points = row["corrected_team_name"], row["points"]
+        team, points = row["current_team_name"], row["points"]
 
         if team not in score_count:
             score_count[team] = {}
@@ -169,7 +169,7 @@ def save_as_plotly_html(df, name):
 
 def scorigami_timeline(scorigami_df):
     # Using your specific columns
-    fig = px.scatter(scorigami_df, x="date", y="corrected_team_name", 
+    fig = px.scatter(scorigami_df, x="date", y="current_team_name", 
                     color="points",
                     hover_data=["grand_prix_name", "points"],
                     title="F1 Team Timeline (Zoomable)")
@@ -177,7 +177,8 @@ def scorigami_timeline(scorigami_df):
     fig.update_xaxes(rangeslider_visible=True)
     fig.show()
 
-def save_dataframe_as_html_file(df : pd.DataFrame, name):
+def save_dataframe(df : pd.DataFrame, name):
+    "Saves the dataframe in 3 different forms: html to be embedded, html to be viewed, and CSV"
     charts_path = Path(__file__).parent.parent / "Blog" / "static" / "charts"
 
     # To be embedded
@@ -215,10 +216,11 @@ def save_dataframe_as_html_file(df : pd.DataFrame, name):
 
 if __name__ == "__main__":
     points_per_team_per_round = SESSION_ENTRIES_WITH_POINTS_AVAILABLE.groupby(["date", "grand_prix_name", "team_name"])["points"].sum().reset_index()
-    points_per_team_per_round['corrected_team_name'] = points_per_team_per_round.apply(calculate_corrected_name, axis=1)
+    points_per_team_per_round['current_team_name'] = points_per_team_per_round.apply(calculate_corrected_name, axis=1)
 
-    score_counts = points_per_team_per_round[points_per_team_per_round["corrected_team_name"].notna()] # Remove all the teams that have not made it to present day
+    score_counts = points_per_team_per_round[points_per_team_per_round["current_team_name"].notna()] # Remove all the teams that have not made it to present day
     score_counts["scorigami"] = calculate_scorigami(score_counts)
 
     scorigami_df = score_counts[score_counts["scorigami"] == 1]
-    save_dataframe_as_html_file(score_counts, "score-counts")
+    save_dataframe(score_counts, "score-counts")
+    save_dataframe(scorigami_df, "scorigami")
