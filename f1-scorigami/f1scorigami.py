@@ -169,13 +169,39 @@ def save_as_plotly_html(df, name):
 
 def scorigami_timeline(scorigami_df):
     # Using your specific columns
-    fig = px.scatter(scorigami_df, x="date", y="current_team_name", 
-                    color="points",
-                    hover_data=["grand_prix_name", "points"],
-                    title="F1 Team Timeline (Zoomable)")
+    fig = px.scatter(
+        scorigami_df,
+        x="date",
+        y="current_team_name", 
+        color="points",
+        hover_data=["grand_prix_name", "team_name", "points"],
+        title="Scorigami Timeline",
+        template="plotly_dark"
+    )
+
+    # 2. Customize Dark Mode UI
+    fig.update_layout(
+        paper_bgcolor="#212121",  # Background outside the chart
+        plot_bgcolor="#212121",   # Background inside the chart
+        font_color="#e0e0e0",     # Light text color
+        title_font_size=20,
+        xaxis=dict(
+            gridcolor="#333333",  # Subtle dark grid lines
+            rangeslider=dict(
+                visible=True,
+                bgcolor="#1e1e1e" # Darker background for the slider
+            )
+        ),
+        yaxis=dict(gridcolor="#333333")
+    )
+
     # This adds a 'range slider' at the bottom to navigate the decades
     fig.update_xaxes(rangeslider_visible=True)
-    fig.show()
+    fig.write_html(
+        "test.html", 
+        full_html=False, 
+        include_plotlyjs='cdn'
+    )
 
 def save_dataframe(df : pd.DataFrame, name):
     "Saves the dataframe in 3 different forms: html to be embedded, html to be viewed, and CSV"
@@ -226,4 +252,4 @@ if __name__ == "__main__":
     save_dataframe(score_counts, "score-counts")
     save_dataframe(scorigami_df, "scorigami")
 
-    print(scorigami_df[scorigami_df["team_name"] == "Alpine F1 Team"])
+    scorigami_timeline(scorigami_df)
