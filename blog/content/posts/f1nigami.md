@@ -125,7 +125,7 @@ Filtering the last column of the table so that `scorigami` equals 1 will return 
 
 Having our data on tables is nice and all, but the real fun in tracking these scorigamis lies in creating interesting data visualizations for them!
 
-Lets start by putting our scorigamis in a nice timeline, sorted by team:
+### Scorigami timeline
 
 {{< raw "static/charts/scorigami-timeline.html" >}}
 
@@ -133,9 +133,9 @@ Ferrari does what they always do in these stats, and statpad like crazy in the f
 
 - 0.5 points at the [1975 Austrian GP](https://en.wikipedia.org/wiki/1975_Austrian_Grand_Prix#) (???)
 - 2.5 points at the [1984 Monaco GP](https://en.wikipedia.org/wiki/1984_Monaco_Grand_Prix) (???)
-- 16 points at the [1998 French GP](https://en.wikipedia.org/wiki/1998_French_Grand_Prix)... somehow it took that long for the scarlett team to score that amount of points
+- 16 points at the [1998 French GP](https://en.wikipedia.org/wiki/1998_French_Grand_Prix)... somehow it took that long for the scarlett team to score that specific amount of points
 
-We can also get some perspective on the number of scorigamis that occur per year:
+### Number of scorigamis per year
 
 {{< raw "static/charts/scorigami-linechart.html" >}}
 
@@ -144,3 +144,9 @@ Ok, we're more or less guaranteed to have at least a couple of scorigamis per ye
 - 1971 (10 scorigamis): McLaren and Tyrrell (later to become Mercedes) enter the grid
 - 1991 (10 scorigamis): Not really sure what happened here, I guess it's a random vintage scorigami year
 - 2010 (27 scorigamis): The introduction of the 25-18-15-12-10-8-6-4-2-1 points distribution led to this explosion in scorigamis, which came primarily from the Big 4 (FER, MER, RBR, MCL) because those were the only ones with cars good enough to reach those high points-paying position
+
+### Formula 1 scores heatmap
+
+In the previous charts we took a look at the scorigamis that _already happened_. With this heatmap of all the point scores of the current teams, I wanted to take a look at what are the potential scorigami opportunities for all the teams in the future.
+
+{{< raw "static/charts/scorigami-heatmap.html" >}}

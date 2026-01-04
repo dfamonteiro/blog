@@ -305,6 +305,61 @@ def scorigamis_per_year(scorigami_df : pd.DataFrame):
     # 4. Save (using your existing logic)
     fig.write_html(CHARTS_PATH / "scorigami-linechart.html", full_html=False, include_plotlyjs='cdn')
 
+def scorigami_heatmap(score_counts : pd.DataFrame):
+    df = score_counts.groupby(["points", "current_team_name"])["scorigami"].max().reset_index()
+    df = df.rename(columns={'scorigami': 'score count'})
+
+    df['points'] = df['points'].astype(str)
+
+    # 1. Swap x and y
+    fig = px.density_heatmap(
+        df, 
+        x="current_team_name",  # Now on X
+        y="points",             # Now on Y
+        z="score count", 
+        title="F1 Scorigami Heatmap",
+        labels={
+            'current_team_name': 'Team', 
+            'points': 'Points Scored', 
+            'score count': 'Frequency'
+        },
+        template="plotly_dark",
+        color_continuous_scale=[
+            [0, "#000000"],       # Zero values = Pitch Black
+            [0.0001, "#212121"],  # Just above zero = Your dark background color
+            [0.5, "#00ffff"],     # Middle values = Cyan
+            [1, "#ff00ff"]        # Max values = Magenta
+        ],
+        text_auto=True
+    )
+
+    dynamic_height = 2000
+
+    # 2. Refine Layout and Reduce Padding
+    fig.update_layout(
+        height=dynamic_height,
+        paper_bgcolor="#212121",
+        plot_bgcolor="#212121",
+        font_color="#e0e0e0",
+        margin=dict(l=10, r=10, t=50, b=10),
+        
+        xaxis=dict(
+            title="",
+            gridcolor="#333333",
+            tickangle=-45  # Slant team names to prevent overlapping
+        ),
+        yaxis=dict(
+            title="Points", 
+            gridcolor="#333333",
+            autorange="reversed", # Keeps 0 at the top (Scorigami style)
+            dtick=1               # Shows a tick every point
+        )
+    )
+
+    # 4. Save (using your existing logic)
+    fig.write_html(CHARTS_PATH / "scorigami-heatmap.html", full_html=False, include_plotlyjs='cdn')
+
+
 if __name__ == "__main__":
     points_per_team_per_round = SESSION_ENTRIES_WITH_POINTS_AVAILABLE.groupby(["date", "grand_prix_name", "team_name"])["points"].sum().reset_index()
     points_per_team_per_round['current_team_name'] = points_per_team_per_round.apply(calculate_corrected_name, axis=1)
@@ -320,3 +375,5 @@ if __name__ == "__main__":
     scorigami_timeline(scorigami_df)
 
     scorigamis_per_year(scorigami_df)
+
+    scorigami_heatmap(score_counts)
