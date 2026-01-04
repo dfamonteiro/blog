@@ -135,7 +135,12 @@ Ferrari does what they always do in these stats, and statpad like crazy in the f
 - 2.5 points at the [1984 Monaco GP](https://en.wikipedia.org/wiki/1984_Monaco_Grand_Prix) (???)
 - 16 points at the [1998 French GP](https://en.wikipedia.org/wiki/1998_French_Grand_Prix)... somehow it took that long for the scarlett team to score that amount of points
 
+We can also get some perspective on the number of scorigamis that occur per year:
+
 {{< raw "static/charts/scorigami-linechart.html" >}}
 
-The development of the nuclear bomb during WW2 has lead to some of the most energetic events ever witnessed by humanity. The introduction of the 25-18-15-12-10-8-6-4-2-1 points distribution in 2010.
- 
+Ok, we're more or less guaranteed to have at least a couple of scorigamis per year! We can also spot three spikes:
+
+- 1971 (10 scorigamis): McLaren and Tyrrell (later to become Mercedes) enter the grid
+- 1991 (10 scorigamis): Not really sure what happened here, I guess it's a random vintage scorigami year
+- 2010 (27 scorigamis): The introduction of the 25-18-15-12-10-8-6-4-2-1 points distribution led to this explosion in scorigamis, which came primarily from the Big 4 (FER, MER, RBR, MCL) because those were the only ones with cars good enough to reach those high points-paying position
