@@ -120,4 +120,8 @@ The column `team_name` is the name of the team _at the time_, while `current_tea
 Filtering the last column of the table so that `scorigami` equals 1 will return every time a team scored a hauls of points never before seen in that team's history - a scorigami! ([html](/charts/scorigami.html), [csv](/charts/scorigami.csv))
 
 {{< scroll-table "static/charts/scorigami-embed.html" >}}
- 
+
+## Visualizing our scorigamis
+
+Having our data on a table is nice and all, but the real fun in tracking these scorigamis lies in creating interesting data visualizations for them!
+
