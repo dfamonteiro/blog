@@ -154,6 +154,18 @@ def calculate_scorigami(df : pd.DataFrame) -> List[int]:
 
     return res
 
+def save_as_plotly_html(df, name):
+    fig = go.Figure(data=[go.Table(
+        header=dict(values=list(df.columns),
+                    fill_color='paleturquoise',
+                    align='left'),
+        cells=dict(values=[df[col] for col in df.columns],
+                fill_color='lavender',
+                align='left'))
+    ])
+    # Save as an HTML fragment
+    fig.write_html(Path(__file__).parent.parent / "Blog" / "static" / "charts" / name)
+
 if __name__ == "__main__":
     points_per_team_per_round = SESSION_ENTRIES_WITH_POINTS_AVAILABLE.groupby(["date", "grand_prix_name", "race_number", "team_name"])["points"].sum().reset_index()
     points_per_team_per_round['corrected_team_name'] = points_per_team_per_round.apply(calculate_corrected_name, axis=1)
@@ -162,8 +174,6 @@ if __name__ == "__main__":
     score_counts["scorigami"] = calculate_scorigami(score_counts)
 
     scorigami_df = score_counts[score_counts["scorigami"] == 1]
-    print(scorigami_df)
-
 
     # Using your specific columns
     fig = px.scatter(scorigami_df, x="date", y="corrected_team_name", 
