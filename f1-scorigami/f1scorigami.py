@@ -181,6 +181,7 @@ def scorigami_timeline(scorigami_df):
 
     # 2. Customize Dark Mode UI
     fig.update_layout(
+        margin=dict(l=10, r=10, t=50, b=10),
         paper_bgcolor="#212121",  # Background outside the chart
         plot_bgcolor="#212121",   # Background inside the chart
         font_color="#e0e0e0",     # Light text color

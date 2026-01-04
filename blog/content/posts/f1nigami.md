@@ -123,6 +123,14 @@ Filtering the last column of the table so that `scorigami` equals 1 will return 
 
 ## Visualizing our scorigamis
 
-Having our data on a table is nice and all, but the real fun in tracking these scorigamis lies in creating interesting data visualizations for them!
+Having our data on tables is nice and all, but the real fun in tracking these scorigamis lies in creating interesting data visualizations for them!
+
+Lets start by putting our scorigamis in a nice timeline, sorted by team:
 
 {{< raw "static/charts/scorigami-timeline.html" >}}
+
+Ferrari does what they always do in these stats, and statpad like crazy in the first 20 years of the sport. They end up paying the price later by only having 3 scorigamis the next next 50 years, which are:
+
+- 0.5 points at the [1975 Austrian GP](https://en.wikipedia.org/wiki/1975_Austrian_Grand_Prix#) (???)
+- 2.5 points at the [1984 Monaco GP](https://en.wikipedia.org/wiki/1984_Monaco_Grand_Prix) (???)
+- 16 points at the [1998 French GP](https://en.wikipedia.org/wiki/1998_French_Grand_Prix)... somehow it took that long for the scarlett team to score that amount of points
