@@ -368,6 +368,10 @@ def global_scorigami(scorigami_df : pd.DataFrame):
 
     print(df.groupby("current_team_name").count())
 
+def fractional_scorigami(scorigami_df : pd.DataFrame):
+    df = scorigami_df[scorigami_df["points"] % 1 != 0]
+    save_dataframe(df, "fractional-scorigami")
+
 if __name__ == "__main__":
     points_per_team_per_round = SESSION_ENTRIES_WITH_POINTS_AVAILABLE.groupby(["date", "grand_prix_name", "team_name"])["points"].sum().reset_index()
     points_per_team_per_round['current_team_name'] = points_per_team_per_round.apply(calculate_corrected_name, axis=1)
@@ -387,3 +391,5 @@ if __name__ == "__main__":
     scorigami_heatmap(score_counts)
 
     global_scorigami(scorigami_df)
+
+    fractional_scorigami(scorigami_df)

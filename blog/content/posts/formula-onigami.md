@@ -174,7 +174,11 @@ Williams                        1
 
 ### Fractional Scorigamis
 
-### High Scorigamis
+You just know something out of the ordinary has happened when you get scorigamis with fractional parts. Let's make a list of them: ([html](/charts/fractional-scorigami.html), [csv](/charts/fractional-scorigami.csv))
+
+{{< scroll-table "static/charts/fractional-scorigami-embed.html" >}}
+
+### Highscorigamis
 
 ## Final notes
 
