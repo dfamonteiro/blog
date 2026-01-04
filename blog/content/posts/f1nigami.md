@@ -18,6 +18,20 @@ If you happen to both be a sports fan and slightly too addicted to youtube, you 
     <figcaption>Scorigami cultural impact</figcaption>
 </figure>
 
-Nowadays it's a massive deal when a scorigami happens in an american football game[^1], to the point it might even be [mentioned on the official NFL broadcast](https://www.youtube.com/watch?v=16VXdbigeqM)!
+Nowadays it's a massive deal[^1] when a scorigami happens in an american football game, to the point it might even be [mentioned on the official NFL broadcast](https://www.youtube.com/watch?v=16VXdbigeqM)! But as more of a Formula 1 fan myself I kept wondering: how cool would it be if we had scorigamis in F1?
 
 [^1]: Ok I might be slightly exagerating, but don't let facts get in the way of a good story!
+
+## The hunt for a good scorigami statistic for Formula 1
+
+Formula 1 is very different from NFL, and that means that we need to put more thought into what a F1 scorigami should look like.
+
+We have to consider how often these scorigamis happen - if they happen too often the pool of available scorigamis will be exhausted too quickly, but if they don't happen often enough people lose interest on them. The goal we should strive towards is a rate of single-digit scorigamis per year, so that the threat of a scorigami occuring in any given Grand Prix is ever-present.
+
+Other factors to keep in mind: these scorigamis should be easy to calculate and understand by the average F1 fan, and they should be able to happen in every Grand Prix[^2]. The possibility of cursed scorigamis should also exist: things that will either never happen again, or would take divine intervention to happen again.
+
+[^2]: It's [perfectly possible to create scorigamis from things such as the drivers standings](https://www.instagram.com/reel/C1CoIXCRM3J/), but consider this: is it that fun to have to wait for the end of the season to check if you have a scorigami or not?
+
+Taking all of this into consideration, I have an idea:
+
+## My proposal: points scored per team over a Grand Prix weekend
