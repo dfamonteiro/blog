@@ -317,7 +317,7 @@ def scorigami_heatmap(score_counts : pd.DataFrame):
         x="current_team_name",  # Now on X
         y="points",             # Now on Y
         z="score count", 
-        title="F1 Scorigami Heatmap",
+        title="F1 Scores Heatmap",
         labels={
             'current_team_name': 'Team', 
             'points': 'Points Scored', 
