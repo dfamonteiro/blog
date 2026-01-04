@@ -1,0 +1,40 @@
+<div class="scroll-container">
+    <style>
+        .scroll-container {
+        width: 100%;
+        max-height: 400pt; /* Adjust height as needed */
+        overflow-y: auto;
+        overflow-x: auto;
+        border: 1px solid #dbdbdb;
+        border-radius: 4px;
+        margin: 20px 0;
+        }
+
+        .scroll-container table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+        }
+
+        /* Keep header fixed at the top */
+        .scroll-container thead th {
+        position: sticky;
+        top: 0;
+        background-color: #f5f5f5; /* Light mode color */
+        z-index: 1;
+        border-bottom: 2px solid #dbdbdb;
+        }
+
+        /* Dark mode support for Hugo Coder */
+        @media (prefers-color-scheme: dark) {
+        .scroll-container { border-color: #4a4a4a; }
+        .scroll-container thead th {
+            background-color: #212121;
+            border-bottom-color: #4a4a4a;
+            color: #fafafa;
+        }
+        }
+    </style>
+
+    {{ .Get 0 | readFile | safeHTML }}
+</div>

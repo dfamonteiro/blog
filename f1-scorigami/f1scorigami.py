@@ -7,6 +7,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.express as px
 import plotly.graph_objects as go
+import pyperclip
 
 SESSION_ENTRIES_WITH_POINTS_AVAILABLE = duckdb.sql("""
     SELECT
@@ -176,11 +177,16 @@ def scorigami_timeline(scorigami_df):
     fig.update_xaxes(rangeslider_visible=True)
     fig.show()
 
+def save_dataframe_as_html_file(df, name):
+    with open(Path(__file__).parent.parent / "Blog" / "static" / "charts" / f"{name}.html", "w") as f:
+        f.write(df.to_html(classes="dataframe", border=0, index = False))
+
 if __name__ == "__main__":
-    points_per_team_per_round = SESSION_ENTRIES_WITH_POINTS_AVAILABLE.groupby(["date", "grand_prix_name", "race_number", "team_name"])["points"].sum().reset_index()
+    points_per_team_per_round = SESSION_ENTRIES_WITH_POINTS_AVAILABLE.groupby(["date", "grand_prix_name", "team_name"])["points"].sum().reset_index()
     points_per_team_per_round['corrected_team_name'] = points_per_team_per_round.apply(calculate_corrected_name, axis=1)
 
     score_counts = points_per_team_per_round[points_per_team_per_round["corrected_team_name"].notna()] # Remove all the teams that have not made it to present day
     score_counts["scorigami"] = calculate_scorigami(score_counts)
 
     scorigami_df = score_counts[score_counts["scorigami"] == 1]
+    save_dataframe_as_html_file(score_counts, "score-counts")
