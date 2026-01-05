@@ -1,13 +1,12 @@
+# You'll need a data dump from https://github.com/jolpica/jolpica-f1 for this script to work
+
 import pandas as pd
 from pathlib import Path
 import duckdb
 from typing import List, Dict
 from numpy import nan
-import seaborn as sns
-import matplotlib.pyplot as plt
 import plotly.express as px
 import plotly.graph_objects as go
-import pyperclip
 
 CHARTS_PATH = Path(__file__).parent.parent / "Blog" / "static" / "charts"
 
