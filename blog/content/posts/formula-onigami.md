@@ -1,6 +1,6 @@
 +++ 
-draft = true
-date = 2026-01-04T10:32:30Z
+draft = false
+date = 2026-01-05T01:03:05Z
 title = "Formula Onigami - The case for Scorigamis in Formula 1"
 description = ""
 slug = ""
