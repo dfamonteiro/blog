@@ -194,4 +194,4 @@ Sometimes I write on this blog because I want to share something interesting, ot
 
 I would also like to include the disclaimer that while I did my best to make sure the Scorigamis are correct, I can't really provide any guarantees that the data I presented here is 100% accurate. If anything, it's very likely I overlooked some detail!
 
-I hope you found this pontification of F1 Scorigamis interesting. In a perfect world, this blog post would be accompanied by a [Secret Base](https://www.youtube.com/channel/UCDRmGMSgrtZkOsh_NQl4_xw)-style video that would follow the history of F1 through these Scorigamis, but that would require an astronomical amount of talent that I simply do not possess. I guess I'll leave it as an exercise to the reader!
+I hope you found this pontification of F1 Scorigamis interesting. In a perfect world, this blog post would be accompanied by a [Secret Base](https://www.youtube.com/channel/UCDRmGMSgrtZkOsh_NQl4_xw)-style video that would follow the history of F1 through these Scorigamis, but alas, that would require an astronomical amount of talent that I simply do not possess. I guess I'll leave it as an exercise to the reader!
