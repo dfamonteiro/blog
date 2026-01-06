@@ -30,9 +30,9 @@ If you don't have this tool already installed there are two ways of installing i
 
 Please note that the `dotnet-trace` tool needs to be in the same execution environment as the target .NET application.[^1]
 
-[^1]: I know there are [ways](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/diagnostics-in-containers) to collect traces from outside of the docker container, but let's not complicate things.
+[^1]: The big exception here is if you're using [sidecar containers](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/diagnostics-in-containers#use-net-cli-tools-in-a-sidecar-container-or-from-the-host) to run `dotnet-trace`, in which case you probably know what you're doing and should consider jumping straight to the [Perfetto](#analysing-traces-with-perfetto) section of the blog post.
 
-If you're running your .NET application in a locked-down docker container, it might not be possible to run `dotnet tool install`, so your only option will be to download the linux executable and move it to the container's filesystem by either:
+If you're running your .NET application in a locked-down Docker container, it might not be possible to run `dotnet tool install`, so your only[^1] option will be to download the Linux executable and move it to the container's filesystem by either:
 
 - Running something like `docker cp dotnet-trace custom_host:/opt/app/dotnet-trace`[^2], or...
 - Placing the executable in a folder that your .NET container can reach[^3]
