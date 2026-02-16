@@ -9,12 +9,13 @@ using Microsoft.Diagnostics.Tracing.Etlx;
 using Microsoft.Diagnostics.Tracing.Stacks;
 using Microsoft.Diagnostics.Tracing.Stacks.Formats;
 using Microsoft.Diagnostics.Tracing.Parsers;
+using System.Text.Json;
 
 // This is the textbook definition of throwaway code. Proceed with caution
 
 string fileName = @"C:\Users\Daniel\Desktop\github\blog\dotnet-trace\NetTraceConverter\dotnet_20260121_100330";
 // PrintSqlEvents(fileName);
-AddSqlEventsToChromiumTraceFile($"{fileName}.nettrace", $"{fileName}.chromium.json");
+AddSqlEventsToChromiumTraceFile($"{fileName}.nettrace", $"{fileName}.chromium.json", $"{fileName}_with_sql.chromium.json");
 
 // Option<FileInfo> fileOption = new("--file")
 // {
@@ -30,14 +31,54 @@ AddSqlEventsToChromiumTraceFile($"{fileName}.nettrace", $"{fileName}.chromium.js
     
 // }
 
-void AddSqlEventsToChromiumTraceFile(string nettraceFile, string chromiumTraceFile)
+void AddSqlEventsToChromiumTraceFile(string nettraceFile, string chromiumTraceFile, string chromiumTraceFileWithSql)
 {
     List<SqlTrace> sqlTraces = ParseEvents(nettraceFile);
+    var traceEvents = new List<object>();
 
-    foreach (SqlTrace trace in sqlTraces)
+    foreach (var trace in sqlTraces)
     {
-        Console.WriteLine($"{trace.ObjectId} [{trace.Start:N2}ms - {trace.End:N2}ms] {(trace.SqlText != null ? "SQL" : "")}");
+        // Skip incomplete traces
+        if (!trace.Start.HasValue || !trace.End.HasValue) continue;
+
+        // Chromium expects timestamps in microseconds (us)
+        // Assuming your input is in milliseconds, we multiply by 1000
+        long startUs = (long)(trace.Start.Value * 1000);
+        long endUs = (long)(trace.End.Value * 1000);
+        
+        // Use the ObjectId as the correlation ID for the async slice
+        string asyncId = $"0x{trace.ObjectId:X}";
+
+        // 1. Create the 'Begin' Event (ph: "b")
+        traceEvents.Add(new
+        {
+            name = "SQL Query",
+            cat = "sql",
+            ph = "b",
+            id = asyncId,
+            ts = startUs,
+            pid = 1, // Process ID (arbitrary)
+            tid = 1, // Thread ID (arbitrary)
+            args = new { sql = trace.SqlText }
+        });
+
+        // 2. Create the 'End' Event (ph: "e")
+        traceEvents.Add(new
+        {
+            name = "SQL Query",
+            cat = "sql",
+            ph = "e",
+            id = asyncId,
+            ts = endUs,
+            pid = 1,
+            tid = 1
+        });
     }
+
+    // Write the JSON array to the file
+    // Chromium can wrap these in a "traceEvents" object or just use a raw array
+    string jsonString = JsonSerializer.Serialize(new { traceEvents = traceEvents });
+    File.WriteAllText(chromiumTraceFile, jsonString);
 }
 
 List<SqlTrace> ParseEvents(string nettraceFile)
