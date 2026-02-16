@@ -10,8 +10,9 @@ using Microsoft.Diagnostics.Tracing.Stacks;
 using Microsoft.Diagnostics.Tracing.Stacks.Formats;
 using Microsoft.Diagnostics.Tracing.Parsers;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 
-// This is the textbook definition of throwaway code. Proceed with caution
+// This code is textbook definition of throwaway code. Proceed with caution
 
 string fileName = @"C:\Users\Daniel\Desktop\github\blog\dotnet-trace\NetTraceConverter\dotnet_20260121_100330";
 // PrintSqlEvents(fileName);
@@ -33,52 +34,54 @@ AddSqlEventsToChromiumTraceFile($"{fileName}.nettrace", $"{fileName}.chromium.js
 
 void AddSqlEventsToChromiumTraceFile(string nettraceFile, string chromiumTraceFile, string chromiumTraceFileWithSql)
 {
-    List<SqlTrace> sqlTraces = ParseEvents(nettraceFile);
-    var traceEvents = new List<object>();
+List<SqlTrace> sqlTraces = ParseEvents(nettraceFile);
 
+    // 1. Read and parse the existing file
+    string existingJson = File.ReadAllText(chromiumTraceFile);
+    var root = JsonNode.Parse(existingJson)?.AsObject();
+    
+    if (root == null || !root.ContainsKey("traceEvents"))
+    {
+        // Fallback: If file is a raw array or malformed, handle accordingly
+        throw new InvalidDataException("The existing file is not a valid Chromium trace object.");
+    }
+
+    JsonArray eventsArray = root["traceEvents"]!.AsArray();
+
+    // 2. Convert and Append SqlTraces
     foreach (var trace in sqlTraces)
     {
-        // Skip incomplete traces
         if (!trace.Start.HasValue || !trace.End.HasValue) continue;
 
-        // Chromium expects timestamps in microseconds (us)
-        // Assuming your input is in milliseconds, we multiply by 1000
-        long startUs = (long)(trace.Start.Value * 1000);
-        long endUs = (long)(trace.End.Value * 1000);
-        
-        // Use the ObjectId as the correlation ID for the async slice
         string asyncId = $"0x{trace.ObjectId:X}";
-
-        // 1. Create the 'Begin' Event (ph: "b")
-        traceEvents.Add(new
-        {
+        
+        // Add Begin event
+        eventsArray.Add(new {
             name = "SQL Query",
             cat = "sql",
             ph = "b",
             id = asyncId,
-            ts = startUs,
-            pid = 1, // Process ID (arbitrary)
-            tid = 1, // Thread ID (arbitrary)
+            ts = (long)(trace.Start.Value * 1000),
+            pid = 1,
+            tid = 1,
             args = new { sql = trace.SqlText }
         });
 
-        // 2. Create the 'End' Event (ph: "e")
-        traceEvents.Add(new
-        {
+        // Add End event
+        eventsArray.Add(new {
             name = "SQL Query",
             cat = "sql",
             ph = "e",
             id = asyncId,
-            ts = endUs,
+            ts = (long)(trace.End.Value * 1000),
             pid = 1,
             tid = 1
         });
     }
 
-    // Write the JSON array to the file
-    // Chromium can wrap these in a "traceEvents" object or just use a raw array
-    string jsonString = JsonSerializer.Serialize(new { traceEvents = traceEvents });
-    File.WriteAllText(chromiumTraceFile, jsonString);
+    // 3. Write the merged data back
+    using var writer = new Utf8JsonWriter(File.Create(chromiumTraceFileWithSql), new JsonWriterOptions { Indented = true });
+    root.WriteTo(writer);
 }
 
 List<SqlTrace> ParseEvents(string nettraceFile)
