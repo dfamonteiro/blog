@@ -10,8 +10,11 @@ using Microsoft.Diagnostics.Tracing.Stacks;
 using Microsoft.Diagnostics.Tracing.Stacks.Formats;
 using Microsoft.Diagnostics.Tracing.Parsers;
 
-string fileName = @"C:\Users\Daniel\Desktop\github\blog\dotnet-trace\NetTraceConverter\dotnet_20260121_100330.nettrace";
-PrintSqlEvents(fileName);
+// This is the textbook definition of throwaway code. Proceed with caution
+
+string fileName = @"C:\Users\Daniel\Desktop\github\blog\dotnet-trace\NetTraceConverter\dotnet_20260121_100330";
+// PrintSqlEvents(fileName);
+AddSqlEventsToChromiumTraceFile($"{fileName}.nettrace", $"{fileName}.chromium.json");
 
 // Option<FileInfo> fileOption = new("--file")
 // {
@@ -26,6 +29,106 @@ PrintSqlEvents(fileName);
 // {
     
 // }
+
+void AddSqlEventsToChromiumTraceFile(string nettraceFile, string chromiumTraceFile)
+{
+    List<SqlTrace> sqlTraces = ParseEvents(nettraceFile);
+
+    foreach (SqlTrace trace in sqlTraces)
+    {
+        Console.WriteLine($"{trace.ObjectId} [{trace.Start:N2}ms - {trace.End:N2}ms] {(trace.SqlText != null ? "SQL" : "")}");
+    }
+}
+
+List<SqlTrace> ParseEvents(string nettraceFile)
+{
+    // Maps object IDs to traces
+    Dictionary<int, SqlTrace> sqlTraces = new();
+
+    string etlxFilePath = TraceLog.CreateFromEventPipeDataFile(nettraceFile, null, new TraceLogOptions() { ContinueOnError = false });
+    using (TraceLog eventLog = new(etlxFilePath))
+    {
+        foreach (var traceEvent in eventLog.Events.Where(e => e.ProviderName == "Microsoft.Data.SqlClient.EventSource"))
+        {
+            // Parse the event
+            string eventName = traceEvent.EventName;
+            double timestamp = traceEvent.TimeStampRelativeMSec;
+            int? objectId = null;
+            string? sqlText = null;
+
+            for (int i = 0; i < traceEvent.PayloadNames.Length; i++)
+            {
+                var name = traceEvent.PayloadNames[i];
+                var value = traceEvent.PayloadValue(i);
+
+                if (name == "sqlBatch" || name == "commandText")
+                {
+                    sqlText = value as string;
+                }
+                else if (name == "objectId")
+                {
+                    objectId = (int)value;
+                }
+            }
+
+            if (objectId == null)
+            {
+                throw new Exception("objectId is null");
+            }
+
+            if (!sqlTraces.ContainsKey((int)objectId))
+            {
+                SqlTrace trace = new SqlTrace()
+                {
+                    Start = (eventName == "BeginExecute/Start") ? timestamp : null,
+                    End   = (eventName == "EndExecute/Stop")    ? timestamp : null,
+                    ObjectId = (int)objectId,
+                    SqlText = sqlText,
+                };
+                sqlTraces[trace.ObjectId] = trace;
+            }
+            // The trace already exists
+            else if (eventName == "BeginExecute/Start")
+            {
+                SqlTrace trace = sqlTraces[(int)objectId];
+
+                // Sanity check
+                if (trace.Start != null)
+                {
+                    throw new Exception("Start is already set!");
+                }
+
+                trace.Start = timestamp;
+                trace.SqlText = sqlText;
+                sqlTraces[(int)objectId] = trace;
+            }
+            else if (eventName == "EndExecute/Stop")
+            {
+                SqlTrace trace = sqlTraces[(int)objectId];
+
+                // Sanity check
+                if (trace.End != null)
+                {
+                    throw new Exception("End is already set!");
+                }
+
+                trace.End = timestamp;
+                sqlTraces[(int)objectId] = trace;
+            }
+        }
+    }
+
+    if (File.Exists(etlxFilePath))
+    {
+        File.Delete(etlxFilePath);
+    }
+
+    return sqlTraces
+        .Values
+        .Where(trace => trace.Start != null)
+        .Where(trace => trace.End   != null)
+        .ToList();
+}
 
 void PrintSqlEvents(string fileName)
 {
@@ -62,3 +165,12 @@ void PrintSqlEvents(string fileName)
         File.Delete(etlxFilePath);
     }
 }
+
+struct SqlTrace
+{
+    public double? Start;
+    public double? End;
+
+    public int ObjectId;
+    public string? SqlText;
+};
