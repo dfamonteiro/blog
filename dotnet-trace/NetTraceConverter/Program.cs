@@ -2,18 +2,9 @@
 #:package Microsoft.Diagnostics.Tracing.TraceEvent@3.1.29
 
 using System.CommandLine;
-using System.CommandLine.Parsing;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Diagnostics.Symbols;
-using Microsoft.Diagnostics.Tracing;
-using Microsoft.Diagnostics.Tracing.Etlx;
-using Microsoft.Diagnostics.Tracing.Stacks;
-using Microsoft.Diagnostics.Tracing.Stacks.Formats;
-using Microsoft.Diagnostics.Tracing.Parsers;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Microsoft.Diagnostics.Tracing.Etlx;
 
 // This code is textbook definition of throwaway code. Proceed with caution
 
