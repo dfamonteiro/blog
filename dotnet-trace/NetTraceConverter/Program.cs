@@ -1,4 +1,7 @@
-﻿using System.CommandLine;
+﻿#:package System.CommandLine@2.0.2
+#:package Microsoft.Diagnostics.Tracing.TraceEvent@3.1.29
+
+using System.CommandLine;
 using System.CommandLine.Parsing;
 using System;
 using System.Collections.Generic;
@@ -15,7 +18,7 @@ using System.Text.Json.Nodes;
 // This code is textbook definition of throwaway code. Proceed with caution
 
 string fileName = @"C:\Users\Daniel\Desktop\github\blog\dotnet-trace\NetTraceConverter\dotnet_20260121_100330";
-// PrintSqlEvents(fileName);
+
 AddSqlEventsToChromiumTraceFile($"{fileName}.nettrace", $"{fileName}.chromium.json", $"{fileName}_with_sql.chromium.json");
 
 // Option<FileInfo> fileOption = new("--file")
@@ -62,26 +65,28 @@ void AddSqlEventsToChromiumTraceFile(string nettraceFile, string chromiumTraceFi
         string asyncId = $"0x{trace.ObjectId:X}";
         
         // Add Begin event
-        eventsArray.Add(new {
-            name = "SQL Query",
-            cat = "sql",
-            ph = "b",
-            id = asyncId,
-            ts = (long)(trace.Start.Value * 1000),
-            pid = 1,
-            tid = 1,
-            args = new { sql = trace.SqlText }
+        eventsArray.Add( (JsonNode)new JsonObject
+        {
+            ["name"] = "SQL Query",
+            ["cat"] = "sql",
+            ["ph"] = "b",
+            ["id"] = asyncId,
+            ["ts"] = (long)(trace.Start.Value * 1000),
+            ["pid"] = 1,
+            ["tid"] = 1,
+            ["args"] = new JsonObject { ["sql"] = trace.SqlText }
         });
 
         // Add End event
-        eventsArray.Add(new {
-            name = "SQL Query",
-            cat = "sql",
-            ph = "e",
-            id = asyncId,
-            ts = (long)(trace.End.Value * 1000),
-            pid = 1,
-            tid = 1
+        eventsArray.Add( (JsonNode)new JsonObject
+        {
+            ["name"] = "SQL Query",
+            ["cat"] = "sql",
+            ["ph"] = "e",
+            ["id"] = asyncId,
+            ["ts"] = (long)(trace.End.Value * 1000),
+            ["pid"] = 1,
+            ["tid"] = 1
         });
     }
 
@@ -244,7 +249,7 @@ struct SqlTrace
     /// Gets or sets the object ID associated with the SQL trace.
     /// </summary>
     public int ObjectId;
-    
+
     /// <summary>
     /// Gets or sets the SQL command text.
     /// </summary>
