@@ -17,7 +17,7 @@ So, is it possible? Yes! Is it easy and convenient? ...Not really.
 
 ## The Good
 
-If your .NET application uses something like `Microsoft​.Data​.SqlClient` to talk to the database, then you are in luck because this library is [capable of emitting tracing events related to your SQL queries](https://learn.microsoft.com/en-us/sql/connect/ado-net/enable-eventsource-tracing?view=sql-server-ver17#use-dotnet-trace-to-collect-traces)!
+If your .NET application uses something like `Microsoft​.Data​.SqlClient` to talk to the database, then you are in luck because this library is [capable of emitting tracing events related to your SQL queries](https://learn.microsoft.com/en-us/sql/connect/ado-net/enable-eventsource-tracing?view=sql-server-ver17#use-dotnet-trace-to-collect-traces).
 
 Collecting these SQL traces is simply a matter of making sure that the `Microsoft​.Data​.SqlClient​.EventSource` provider is also included when running `dotnet-trace collect`:
 
@@ -28,19 +28,26 @@ dotnet-trace collect -p 135 --providers Microsoft.Data.SqlClient.EventSource:1:5
 Analysing the resulting .nettrace file with [PerfView](https://github.com/microsoft/perfview) indeed confirms that the we've captured the SQL Queries:
 
 <figure>
-    <img src="/images/dotnet-trace-sql/perfview.png" alt="Thread 450">
+    <img src="/images/dotnet-trace-sql/perfview.png" alt="PerfView visualization of a Microsoft​.Data​.SqlClient event">
     <figcaption>PerfView visualization of a <code>Microsoft​.Data​.SqlClient</code> event</figcaption>
 </figure>
 
 ## The Bad
 
-The SQL queries aren't embedded in the trace file
+We know that our SQL queries are present in the .nettrace file. Can we convert this file into a chromium trace file, so that we can use [Perfetto](https://perfetto.dev/) to analyse it?
+
+Sadly, the answer is no: for some reason, you lose the SQL queries when converting .nettrace to .chromium.json files.
 
 ## The Ugly
 
-... But some awful-looking slices are included.
+But it gets worse! Not only do you **_not_** get the SQL queries in your trace files, but you also are greeted with these incredibly annoying "Activity BeginExecute" slices that do absolutely nothing other than ruining your traces.
 
-## The fix
+<figure>
+    <img src="/images/dotnet-trace-sql/bad.png" alt="Thread 450">
+    <figcaption>These "Activity BeginExecute" slices are the bane of my existence</figcaption>
+</figure>
+
+## The Fix
 
 You can get there with some trace file manipulation
 

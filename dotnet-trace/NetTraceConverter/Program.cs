@@ -34,7 +34,7 @@ AddSqlEventsToChromiumTraceFile($"{fileName}.nettrace", $"{fileName}.chromium.js
 
 void AddSqlEventsToChromiumTraceFile(string nettraceFile, string chromiumTraceFile, string chromiumTraceFileWithSql)
 {
-List<SqlTrace> sqlTraces = ParseEvents(nettraceFile);
+    List<SqlTrace> sqlTraces = ParseEvents(nettraceFile);
 
     // 1. Read and parse the existing file
     string existingJson = File.ReadAllText(chromiumTraceFile);
