@@ -32,6 +32,12 @@ AddSqlEventsToChromiumTraceFile($"{fileName}.nettrace", $"{fileName}.chromium.js
     
 // }
 
+/// <summary>
+/// Adds SQL events parsed from a .NET trace file to an existing Chromium trace file.
+/// </summary>
+/// <param name="nettraceFile">The path to the .NET trace file (.nettrace).</param>
+/// <param name="chromiumTraceFile">The path to the existing Chromium trace file (.json).</param>
+/// <param name="chromiumTraceFileWithSql">The path where the new Chromium trace file with SQL events will be written.</param>
 void AddSqlEventsToChromiumTraceFile(string nettraceFile, string chromiumTraceFile, string chromiumTraceFileWithSql)
 {
     List<SqlTrace> sqlTraces = ParseEvents(nettraceFile);
@@ -84,6 +90,11 @@ void AddSqlEventsToChromiumTraceFile(string nettraceFile, string chromiumTraceFi
     root.WriteTo(writer);
 }
 
+/// <summary>
+/// Parses SQL events from a .NET trace file.
+/// </summary>
+/// <param name="nettraceFile">The path to the .NET trace file (.nettrace).</param>
+/// <returns>A list of <see cref="SqlTrace"/> objects representing the SQL events.</returns>
 List<SqlTrace> ParseEvents(string nettraceFile)
 {
     // Maps object IDs to traces
@@ -174,6 +185,10 @@ List<SqlTrace> ParseEvents(string nettraceFile)
         .ToList();
 }
 
+/// <summary>
+/// Prints SQL events from a .NET trace file to the console.
+/// </summary>
+/// <param name="fileName">The path to the .NET trace file (.nettrace).</param>
 void PrintSqlEvents(string fileName)
 {
     string etlxFilePath = TraceLog.CreateFromEventPipeDataFile(fileName, null, new TraceLogOptions() { ContinueOnError = false });
@@ -210,11 +225,28 @@ void PrintSqlEvents(string fileName)
     }
 }
 
+/// <summary>
+/// Represents a SQL trace event, capturing its start and end times, object ID, and the SQL text.
+/// </summary>
 struct SqlTrace
 {
+    /// <summary>
+    /// Gets or sets the start timestamp of the SQL trace in milliseconds.
+    /// </summary>
     public double? Start;
+
+    /// <summary>
+    /// Gets or sets the end timestamp of the SQL trace in milliseconds.
+    /// </summary>
     public double? End;
 
+    /// <summary>
+    /// Gets or sets the object ID associated with the SQL trace.
+    /// </summary>
     public int ObjectId;
+    
+    /// <summary>
+    /// Gets or sets the SQL command text.
+    /// </summary>
     public string? SqlText;
 };
