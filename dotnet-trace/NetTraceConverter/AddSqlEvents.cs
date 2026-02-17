@@ -6,8 +6,6 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.Diagnostics.Tracing.Etlx;
 
-// This code is textbook definition of throwaway code. Proceed with caution
-
 Option<FileInfo> nettrace = new("--nettrace-file")
 {
     Description = "The path to the .NET trace file (.nettrace)."
