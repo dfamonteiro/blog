@@ -43,7 +43,7 @@ Sadly, the answer is no: for some reason, you lose the SQL queries when converti
 But it gets worse! Not only do you **_not_** get the SQL queries in your trace files, but you also are greeted with these incredibly annoying "Activity BeginExecute" slices that do absolutely nothing other than ruining your traces.
 
 <figure>
-    <img src="/images/dotnet-trace-sql/bad.png" alt="Thread 450">
+    <img src="/images/dotnet-trace-sql/bad.png" alt="Visualization of a broken trace">
     <figcaption>These "Activity BeginExecute" slices are the bane of my existence</figcaption>
 </figure>
 
