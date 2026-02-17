@@ -17,23 +17,41 @@ using System.Text.Json.Nodes;
 
 // This code is textbook definition of throwaway code. Proceed with caution
 
-string fileName = @"C:\Users\Daniel\Desktop\github\blog\dotnet-trace\NetTraceConverter\dotnet_20260121_100330";
+Option<FileInfo> nettrace = new("--nettrace-file")
+{
+    Description = "The path to the .NET trace file (.nettrace)."
+};
+Option<FileInfo> chromiumTraceFile = new("--chromium-trace-file")
+{
+    Description = "The path to the .chromium.json trace file to be modified."
+};
+Option<FileInfo> output = new("--output")
+{
+    Description = "The path where the new Chromium trace file with SQL events will be written."
+};
 
-AddSqlEventsToChromiumTraceFile($"{fileName}.nettrace", $"{fileName}.chromium.json", $"{fileName}_with_sql.chromium.json");
+var rootCommand = new RootCommand("A tool to add SQL events from .NET traces to Chromium trace files.");
 
-// Option<FileInfo> fileOption = new("--file")
-// {
-//     Description = "The file to read and display on the console"
-// };
+rootCommand.Options.Add(nettrace);
+rootCommand.Options.Add(chromiumTraceFile);
+rootCommand.Options.Add(output);
 
-// RootCommand rootCommand = new("Sample app for System.CommandLine");
-// rootCommand.Options.Add(fileOption);
+ParseResult parseResult = rootCommand.Parse(args);
 
-// ParseResult parseResult = rootCommand.Parse(args);
-// if (parseResult.Errors.Count == 0 && parseResult.GetValue(fileOption) is FileInfo parsedFile)
-// {
-    
-// }
+bool allOptionsAreSet = parseResult.GetValue(nettrace) is FileInfo && 
+    parseResult.GetValue(chromiumTraceFile) is FileInfo && 
+    parseResult.GetValue(output) is FileInfo;
+
+if (parseResult.Errors.Count == 0 && allOptionsAreSet)
+{
+    AddSqlEventsToChromiumTraceFile(
+        parseResult.GetValue(nettrace)!.FullName,
+        parseResult.GetValue(chromiumTraceFile)!.FullName,
+        parseResult.GetValue(output)!.FullName
+    );
+}
+return 0;
+
 
 /// <summary>
 /// Adds SQL events parsed from a .NET trace file to an existing Chromium trace file.
