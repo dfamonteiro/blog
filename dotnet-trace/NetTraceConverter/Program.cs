@@ -44,11 +44,14 @@ bool allOptionsAreSet = parseResult.GetValue(nettrace) is FileInfo &&
 
 if (parseResult.Errors.Count == 0 && allOptionsAreSet)
 {
-    AddSqlEventsToChromiumTraceFile(
-        parseResult.GetValue(nettrace)!.FullName,
-        parseResult.GetValue(chromiumTraceFile)!.FullName,
-        parseResult.GetValue(output)!.FullName
-    );
+    if (!AddSqlEventsToChromiumTraceFile(
+            parseResult.GetValue(nettrace)!.FullName,
+            parseResult.GetValue(chromiumTraceFile)!.FullName,
+            parseResult.GetValue(output)!.FullName
+        ))
+    {
+        return 1; // Indicate failure
+    }
 }
 return 0;
 
@@ -59,12 +62,39 @@ return 0;
 /// <param name="nettraceFile">The path to the .NET trace file (.nettrace).</param>
 /// <param name="chromiumTraceFile">The path to the existing Chromium trace file (.json).</param>
 /// <param name="chromiumTraceFileWithSql">The path where the new Chromium trace file with SQL events will be written.</param>
-void AddSqlEventsToChromiumTraceFile(string nettraceFile, string chromiumTraceFile, string chromiumTraceFileWithSql)
+bool AddSqlEventsToChromiumTraceFile(string nettraceFile, string chromiumTraceFile, string chromiumTraceFileWithSql)
 {
-    List<SqlTrace> sqlTraces = ParseEvents(nettraceFile);
+    if (!File.Exists(nettraceFile))
+    {
+        Console.Error.WriteLine($"Error: Nettrace file not found at '{nettraceFile}'");
+        return false;
+    }
+
+    if (!File.Exists(chromiumTraceFile))
+    {
+        Console.Error.WriteLine($"Error: Chromium trace file not found at '{chromiumTraceFile}'");
+        return false;
+    }
+
+    List<SqlTrace>? sqlTraces = ParseEvents(nettraceFile);
+    if (sqlTraces == null)
+    {
+        // Error message already printed by ParseEvents
+        return false;
+    }
 
     // 1. Read and parse the existing file
-    string existingJson = File.ReadAllText(chromiumTraceFile);
+    string existingJson;
+    try
+    {
+        existingJson = File.ReadAllText(chromiumTraceFile);
+    }
+    catch (IOException ex)
+    {
+        Console.Error.WriteLine($"Error reading chromium trace file '{chromiumTraceFile}': {ex.Message}");
+        return false;
+    }
+
     var root = JsonNode.Parse(existingJson)?.AsObject();
     
     if (root == null || !root.ContainsKey("traceEvents"))
@@ -111,15 +141,22 @@ void AddSqlEventsToChromiumTraceFile(string nettraceFile, string chromiumTraceFi
     // 3. Write the merged data back
     using var writer = new Utf8JsonWriter(File.Create(chromiumTraceFileWithSql), new JsonWriterOptions { Indented = true });
     root.WriteTo(writer);
+    return true;
 }
 
 /// <summary>
 /// Parses SQL events from a .NET trace file.
 /// </summary>
 /// <param name="nettraceFile">The path to the .NET trace file (.nettrace).</param>
-/// <returns>A list of <see cref="SqlTrace"/> objects representing the SQL events.</returns>
-List<SqlTrace> ParseEvents(string nettraceFile)
+/// <returns>A list of <see cref="SqlTrace"/> objects representing the SQL events, or null if the file is not found or an error occurs.</returns>
+List<SqlTrace>? ParseEvents(string nettraceFile)
 {
+    if (!File.Exists(nettraceFile))
+    {
+        Console.Error.WriteLine($"Error: Nettrace file not found at '{nettraceFile}'");
+        return null;
+    }
+
     // Maps object IDs to traces
     Dictionary<int, SqlTrace> sqlTraces = new();
 
