@@ -1,7 +1,7 @@
 +++ 
 draft = true
 date = 2026-02-16T02:12:26Z
-title = "Embedding SQL query information in dotnet-trace-generated trace files: the good, the bad and the ugly"
+title = "Embedding SQL queries in dotnet-trace-generated trace files: the Good, the Bad and the Ugly"
 description = ""
 slug = ""
 authors = ["Daniel Monteiro"]
@@ -74,4 +74,4 @@ When you open your newly generated trace file, you will now have your precious S
 
 So it's possible to embed SQL query data in your `dotnet-trace`-generated traces, but given the ordeal one has to go through to make this information available in [Perfetto](https://perfetto.dev/), I doubt many people will take advantage of this. Even for me, the person who wrote a script to fix this problem, this is way too much work!
 
-At least I can take solace in the fact that I demonstrated that it can be done, even if it isn't easy.
+At least I can take solace in the fact that I demonstrated that it can be done, even if it isn't easy. Who knows, maybe this blog post will give someone the motivation to make this work seamlessly out of the box. If you are that someone, I will be cheering you on!
