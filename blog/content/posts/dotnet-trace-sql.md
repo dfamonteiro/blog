@@ -74,4 +74,4 @@ When you open your newly generated trace file, you will now have your precious S
 
 So it's possible to embed SQL query data in your `dotnet-trace`-generated traces, but given the ordeal one has to go through to make this information available in [Perfetto](https://perfetto.dev/), I doubt many people will take advantage of this. Even for me, the person that wrote a script to fix this problem, this is way too much work!
 
-`dotnet-trace` as tool deserves plaudits for its immense usefulness, but there is clearly some room for improvement here.
+At least I can take solace in the fact that I demonstrated it can be done, even if it isn't easy.
