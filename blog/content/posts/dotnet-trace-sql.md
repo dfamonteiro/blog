@@ -1,6 +1,6 @@
 +++ 
-draft = true
-date = 2026-02-16T02:12:26Z
+draft = false
+date = 2026-02-18T01:57:17Z
 title = "Embedding SQL queries in dotnet-trace-generated trace files: the Good, the Bad and the Ugly"
 description = ""
 slug = ""
