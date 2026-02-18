@@ -25,7 +25,7 @@ Collecting these SQL traces is simply a matter of making sure that the `Microsof
 dotnet-trace collect -p 135 --providers Microsoft.Data.SqlClient.EventSource:1:5,Microsoft-Windows-DotNETRuntime:0x100003801D:4,Microsoft-DotNETCore-SampleProfiler:0xF00000000000:4
 ```
 
-Analysing the resulting .nettrace file with [PerfView](https://github.com/microsoft/perfview) indeed confirms that the we've captured the SQL Queries:
+Analysing the resulting `.nettrace` file with [PerfView](https://github.com/microsoft/perfview) indeed confirms that the we've captured the SQL Queries:
 
 <figure>
     <img src="/images/dotnet-trace-sql/perfview.png" alt="PerfView visualization of a Microsoft​.Data​.SqlClient event">
@@ -49,8 +49,29 @@ But it gets worse! Not only do you **_not_** get the SQL queries in your trace f
 
 ## The Fix
 
-You can get there with some trace file manipulation
+I can live with these ugly "Activity BeginExecute" slices[^1], but we have to find a way to propagate the SQL query data to our chromium traces.
+
+[^1]: You can use [Perfetto to filter these slices if necessary](../using-dotnet-trace-with-perfetto/#introducing-perfettosql).
+
+After some digging, I discovered that `dotnet-trace` delegates the nuances of converting formats to the [`Microsoft​.Diagnostics​.Tracing​.TraceEvent`](https://www.nuget.org/packages/Microsoft.Diagnostics.Tracing.TraceEvent) dependency. Using this package seems to be the recommended way of dealing with `.nettrace` files, so I decided to not reinvent the wheel and took advantage of this package to create a script that adds the missing SQL events to my trace files.
+
+I will spare you the implementation details, but if you are interested in running this on your side, you can [download the code here](https://github.com/dfamonteiro/blog/blob/main/dotnet-trace/NetTraceConverter/AddSqlEvents.cs).
+
+Usage example:
+
+```txt
+dotnet run AddSqlEvents.cs --nettrace-file .\dotnet_20260121_100330.nettrace --chromium-trace-file .\dotnet_20260121_100330.chromium.json --output test.chromium.json
+```
+
+When you open your newly generated trace file, you will now have your precious SQL queries available to be analysed!
+
+<figure>
+    <img src="/images/dotnet-trace-sql/sql.png" alt="Visualization of a broken trace">
+    <figcaption>The <code>Material​​.Save()</code> function call has a matching "SQL Query" span, which contains information regarding which SQL was executed: in this case, is was the <code>[CoreDataModel].[P_GeneratedMaterialUpdate1200]</code> procedure.</figcaption>
+</figure>
 
 ## The End
 
-It's disappointing that this SQL info isn't included out of the box, but at least we can take fate into our own hands and insert this information ourselves.
+So it's possible to embed SQL query data in your `dotnet-trace`-generated traces, but given the ordeal one has to go through to make this information available in [Perfetto](https://perfetto.dev/), I doubt many people will take advantage of this. Even for me, the person that wrote a script to fix this problem, this is way too much work!
+
+`dotnet-trace` deserves plaudits for its immense usefulness, but there is clearly some room for improvement here.
