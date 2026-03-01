@@ -4,7 +4,7 @@ theme = "hugo-coder"
 languagecode = "en"
 defaultcontentlanguage = "en"
 
-pagination.pagerSize = 20
+pagination.pagerSize = 100
 canonifyurls = true
 
 [markup.goldmark.renderer]
