@@ -38,8 +38,8 @@ Given two machines A and B running on independent threads, if the following cond
 
 The panel should be transferred to Machine B, and both `send()` and `receive()` should return `true` when the transfer is completed.
 
-The following requirements must also be met:
+The functions `send()` and `receive()` should also be:
 
-- The handover of a panel should be an [atomic](https://en.wikipedia.org/wiki/Atomicity_(database_systems)) operation.
-- `send()` and `receive()` should support timeouts.
-- `send()` and `receive()` should be thread-safe and ensure fairness.
+- [Atomic](https://en.wikipedia.org/wiki/Atomicity_(database_systems)).
+- Thread-safe.
+- Able to support timeouts.
