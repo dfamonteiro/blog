@@ -41,5 +41,5 @@ The panel should be transferred to Machine B, and both `send()` and `receive()` 
 The functions `send()` and `receive()` should also be:
 
 - [Atomic](https://en.wikipedia.org/wiki/Atomicity_(database_systems)).
-- Thread-safe.
+- [Thread-safe](https://en.wikipedia.org/wiki/Thread_safety).
 - Able to support timeouts.
