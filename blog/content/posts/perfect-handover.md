@@ -27,7 +27,19 @@ Instead of having a load generator that is focused on the panels, we should have
 
 [^2]: You can think of this as a manufacturing simulation-oriented [Actor Model](https://en.wikipedia.org/wiki/Actor_model).
 
-This is a good idea in principle... as long as we figure out the handover problem.
+This is a good idea in principle... as long as we figure out how we are going to pass materials. In other words, how should a _handover_ of a panel from resource A to resource B occur?
 
 ## The handover problem statement
 
+Given two machines A and B running on independent threads, if the following conditions are met:
+
+1. Machine A wishes to send a material by calling `send()`.
+2. Machine B wishes to receive a material by calling `receive()`.
+
+The panel should be transferred to Machine B, and both `send()` and `receive()` should return `true` when the transfer is completed.
+
+The following requirements must also be met:
+
+- The handover of a panel should be an [atomic](https://en.wikipedia.org/wiki/Atomicity_(database_systems)) operation.
+- `send()` and `receive()` should support timeouts.
+- `send()` and `receive()` should be thread-safe and ensure fairness.
