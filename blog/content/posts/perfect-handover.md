@@ -43,3 +43,9 @@ The functions `send()` and `receive()` should also be:
 - [Atomic](https://en.wikipedia.org/wiki/Atomicity_(database_systems)).
 - [Thread-safe](https://en.wikipedia.org/wiki/Thread_safety).
 - Able to support timeouts.
+
+### Some reflections
+
+What does it mean when Machine A calls `send()`? Does it mean that there's a 100% guarantee that he panel will be sent? No. It means that Machine A **_is interested_** in sending the panel, and if there's matching interest from the other side, a trace will happen... hold on, is this a stock market? Our `send()` calls are the equivalent of sell orders and our `receive()` calls represent buy orders! We don't have to deal with prices though, so it's a free-for-all: any "buy" order can match with any "sell" order.
+
+## The solution: an [order book](https://en.wikipedia.org/wiki/Order_book) protected by a mutex
