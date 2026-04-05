@@ -82,7 +82,7 @@ class Link
             if (ReceiveOrders[i].Id == guid)
             {
                 // Cancel the notification task. Doing this is important to avoid having "zombie" tasks filling our memory.
-                ReceiveOrders[i].Notification.SetCanceled();
+                ReceiveOrders[i].Notification.SetCanceled(); // No one should be awaiting this Task, so calling SetCancelled() should pose no problem.
                 ReceiveOrders.RemoveAt(i);
                 break;
             }
@@ -100,7 +100,7 @@ class Link
             if (SendOrders[i].Id == guid)
             {
                 // Cancel the notification task. Doing this is important to avoid having "zombie" tasks filling our memory.
-                SendOrders[i].Notification.SetCanceled();
+                SendOrders[i].Notification.SetCanceled(); // No one should be awaiting this Task, so calling SetCancelled() should pose no problem.
                 SendOrders.RemoveAt(i);
                 break;
             }
