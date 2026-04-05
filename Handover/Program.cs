@@ -212,9 +212,37 @@ class Machine
                     Input.InputLock.Release();
                 }
             }
-            else
+            else // The sleep task completed
             {
-                
+                await Input.InputLock.WaitAsync(); // By holding the lock we ensure that we have exclusive access to our own notificationTask.
+
+                // if somehow the notification task was triggered immediately after the sleep task and there's an available SendOrder...
+                if (notificationTask.IsCompletedSuccessfully && Input.SendOrders.Count > 0)
+                {
+                    var res = (true, Input.SendOrders[0].Panel);
+
+                    Input.SendOrders[0].Notification.SetResult(true); // Notify the sender.
+                    Input.SendOrders.RemoveAt(0); // Remove the send order.
+
+                    Input.InputLock.Release();
+                    return res;
+                }
+                else // Otherwise, cleanup our pending order (if it's still there) and return false.
+                {
+                    for (int i = 0; i < Input.ReceiveOrders.Count; i++)
+                    {
+                        if (Input.ReceiveOrders[i].Id == orderId)
+                        {
+                            // Cancel the notification task. Doing this is important to avoid having "zombie" tasks filling our memory.
+                            Input.ReceiveOrders[i].Notification.SetCanceled(); 
+                            Input.ReceiveOrders.RemoveAt(i);
+                            break;
+                        }
+                    }
+                    Input.InputLock.Release();
+                    cancellationToken.ThrowIfCancellationRequested(); // Propagate the cancellation if necessary.
+                    return (false, null);
+                }
             }
         }
     }
