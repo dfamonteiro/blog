@@ -66,11 +66,46 @@ class Link
     /// </summary>
     required public List<ReceiveOrder> ReceiveOrders = new();
 
-    
     /// <summary>
     /// Mutex that protects accesses to <see cref="SendOrders"/> and <see cref="ReceiveOrders"/> field.
     /// </summary>
     public readonly SemaphoreSlim Lock = new SemaphoreSlim(1, 1);
+
+    /// <summary>
+    /// Remove order from <see cref="ReceiveOrders"/> and cancel the associated Task, if it exists.
+    /// This function must only be called if <see cref="Lock"/> is acquired.
+    /// </summary>
+    public void RemoveReceiveOrder(Guid guid)
+    {
+        for (int i = 0; i < ReceiveOrders.Count; i++)
+        {
+            if (ReceiveOrders[i].Id == guid)
+            {
+                // Cancel the notification task. Doing this is important to avoid having "zombie" tasks filling our memory.
+                ReceiveOrders[i].Notification.SetCanceled();
+                ReceiveOrders.RemoveAt(i);
+                break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Remove order from <see cref="SendOrders"/> and cancel the associated Task, if it exists.
+    /// This function must only be called if <see cref="Lock"/> is acquired.
+    /// </summary>
+    public void RemoveSendOrder(Guid guid)
+    {
+        for (int i = 0; i < SendOrders.Count; i++)
+        {
+            if (SendOrders[i].Id == guid)
+            {
+                // Cancel the notification task. Doing this is important to avoid having "zombie" tasks filling our memory.
+                SendOrders[i].Notification.SetCanceled();
+                SendOrders.RemoveAt(i);
+                break;
+            }
+        }
+    }
 }
 
 class Machine
@@ -142,16 +177,7 @@ class Machine
             else
             {
                 // The notification task was not triggered, which means that our send order still needs to be cleaned up.
-                for (int i = 0; i < Output.SendOrders.Count; i++)
-                {
-                    if (Output.SendOrders[i].Id == orderId)
-                    {
-                        // Cancel the notification task. Doing this is important to avoid having "zombie" tasks filling our memory.
-                        Output.SendOrders[i].Notification.SetCanceled(); 
-                        Output.SendOrders.RemoveAt(i);
-                        break;
-                    }
-                }
+                Output.RemoveSendOrder(orderId);
                 Output.Lock.Release();
                 cancellationToken.ThrowIfCancellationRequested(); // Propagate the cancellation if necessary.
                 return false;
@@ -240,16 +266,7 @@ class Machine
                 }
                 else // Otherwise, cleanup our pending order (if it's still there) and return false.
                 {
-                    for (int i = 0; i < Input.ReceiveOrders.Count; i++)
-                    {
-                        if (Input.ReceiveOrders[i].Id == orderId)
-                        {
-                            // Cancel the notification task. Doing this is important to avoid having "zombie" tasks filling our memory.
-                            Input.ReceiveOrders[i].Notification.SetCanceled(); 
-                            Input.ReceiveOrders.RemoveAt(i);
-                            break;
-                        }
-                    }
+                    Input.RemoveReceiveOrder(orderId);
                     Input.Lock.Release();
                     cancellationToken.ThrowIfCancellationRequested(); // Propagate the cancellation if necessary.
                     return (false, null);
