@@ -87,13 +87,13 @@ class Machine
     /// <summary>
     /// Attempts to send the panel to the next machine.
     /// </summary>
-    /// <returns>true if the handover of the panel is successful, false otherwise.</returns>
+    /// <returns>true if the handover of the panel is successful, false if a timeout or cancellation is triggered.</returns>
     public async Task<bool> TrySend(Panel panel, TimeSpan timeout, CancellationToken cancellationToken)
     {
         Guid orderId = Guid.NewGuid();
         TaskCompletionSource<bool> notification = new();
 
-        await InputLock.WaitAsync();
+        await Output.Receiver.InputLock.WaitAsync();
         // Add a new send order to the list
         Input.SendOrders.Add(new SendOrder
         {
@@ -108,7 +108,7 @@ class Machine
             Input.ReceiveOrders[0].Notification.SetResult(true);
             Input.ReceiveOrders.RemoveAt(0);
         }
-        InputLock.Release();
+        Output.Receiver.InputLock.Release();
 
         Task<bool> notificationTask = notification.Task;
         Task sleepTask = Task.Delay(timeout, cancellationToken);
@@ -124,13 +124,13 @@ class Machine
         }
         else // The sleep task completed
         {
-            await InputLock.WaitAsync(); // By holding the lock we ensure that we have exclusive access to our own notificationTask.
+            await Output.Receiver.InputLock.WaitAsync(); // By holding the lock we ensure that we have exclusive access to our own notificationTask.
             
             if (notificationTask.IsCompletedSuccessfully) // The notification task was triggered immediately after the sleep task.
             {
                 // A receiver task triggered our notification task, removed our send order, and and returned the panel.
                 // The panel has been handed over successfully, we're done here!
-                InputLock.Release();
+                Output.Receiver.InputLock.Release();
                 return true;
             }
             else
@@ -146,13 +146,17 @@ class Machine
                         break;
                     }
                 }
-                InputLock.Release();
+                Output.Receiver.InputLock.Release();
                 cancellationToken.ThrowIfCancellationRequested(); // Propagate the cancellation if necessary.
                 return false;
             }
         }
     }
 
+    /// <summary>
+    /// Attempts to receive a panel from the previous machine.
+    /// </summary>
+    /// <returns>true & the panel if the handover is successful, false if a timeout or cancellation is triggered.</returns>
     public async Task<(bool Success, Panel? Panel)> TryReceive(TimeSpan timeout, CancellationToken cancellationToken)
     {
         return new();
