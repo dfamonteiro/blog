@@ -65,6 +65,12 @@ class Link
     /// Pending receive orders
     /// </summary>
     required public List<ReceiveOrder> ReceiveOrders = new();
+
+    
+    /// <summary>
+    /// Mutex that protects accesses to <see cref="SendOrders"/> and <see cref="ReceiveOrders"/> field.
+    /// </summary>
+    public readonly SemaphoreSlim Lock = new SemaphoreSlim(1, 1);
 }
 
 class Machine
@@ -80,20 +86,20 @@ class Machine
     public Link? Output = null;
 
     /// <summary>
-    /// Mutex that protects accesses to the <see cref="Inputs"/> field.
-    /// </summary>
-    private readonly SemaphoreSlim InputLock = new SemaphoreSlim(1, 1);
-
-    /// <summary>
     /// Attempts to send the panel to the next machine.
     /// </summary>
     /// <returns>true if the handover of the panel is successful, false if a timeout or cancellation is triggered.</returns>
     public async Task<bool> TrySend(Panel panel, TimeSpan timeout, CancellationToken cancellationToken)
     {
+        if (Output == null)
+        {
+            throw new NullReferenceException(nameof(Output));
+        }
+
         Guid orderId = Guid.NewGuid();
         TaskCompletionSource<bool> notification = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        await Output.Receiver.InputLock.WaitAsync();
+        await Output.Lock.WaitAsync();
         // Add a new send order to the list
         Output.SendOrders.Add(new SendOrder
         {
@@ -108,7 +114,7 @@ class Machine
             Output.ReceiveOrders[0].Notification.SetResult(true);
             Output.ReceiveOrders.RemoveAt(0);
         }
-        Output.Receiver.InputLock.Release();
+        Output.Lock.Release();
 
         Task<bool> notificationTask = notification.Task;
         Task sleepTask = Task.Delay(timeout, cancellationToken);
@@ -124,13 +130,13 @@ class Machine
         }
         else // The sleep task completed
         {
-            await Output.Receiver.InputLock.WaitAsync(); // By holding the lock we ensure that we have exclusive access to our own notificationTask.
+            await Output.Lock.WaitAsync(); // By holding the lock we ensure that we have exclusive access to our own notificationTask.
             
             if (notificationTask.IsCompletedSuccessfully) // The notification task was triggered immediately after the sleep task.
             {
                 // A receiver task triggered our notification task, removed our send order, and and returned the panel.
                 // The panel has been handed over successfully, we're done here!
-                Output.Receiver.InputLock.Release();
+                Output.Lock.Release();
                 return true;
             }
             else
@@ -146,7 +152,7 @@ class Machine
                         break;
                     }
                 }
-                Output.Receiver.InputLock.Release();
+                Output.Lock.Release();
                 cancellationToken.ThrowIfCancellationRequested(); // Propagate the cancellation if necessary.
                 return false;
             }
@@ -159,6 +165,11 @@ class Machine
     /// <returns>true & the panel if the handover is successful, false if a timeout or cancellation is triggered.</returns>
     public async Task<(bool Success, Panel? Panel)> TryReceive(TimeSpan timeout, CancellationToken cancellationToken)
     {
+        if (Input == null)
+        {
+            throw new NullReferenceException(nameof(Input));
+        }
+
         Guid orderId = Guid.NewGuid();
 
         TaskCompletionSource<bool> notification;
@@ -177,15 +188,15 @@ class Machine
             if (!firstTime) // Skip if first time
             {
                 // Wait until something happens to one of these two tasks
-                await Task.WhenAny(notificationTask, sleepTask);
+                await Task.WhenAny(notificationTask!, sleepTask);
             }
 
-            if (notificationTask.IsCompletedSuccessfully || firstTime)
+            if (firstTime || notificationTask!.IsCompletedSuccessfully) // If firstTime is false, notificationTask is guaranteed to be instantiated
             {
                 firstTime = false;
 
                 // A sender task triggered our notification task and removed our receive order
-                await InputLock.WaitAsync();
+                await Input.Lock.WaitAsync();
 
                 if (Input.SendOrders.Count > 0) // There's a SendOrder waiting for us
                 {
@@ -195,7 +206,7 @@ class Machine
                     Input.SendOrders[0].Notification.SetResult(true); // Notify the sender.
                     Input.SendOrders.RemoveAt(0); // Remove the send order.
 
-                    InputLock.Release();
+                    Input.Lock.Release();
                     return res;
                 }
                 else // There's no send order available for us to take, so let's create a receive order and wait for an update
@@ -209,12 +220,12 @@ class Machine
                         Id = orderId,
                         Notification = notification
                     });
-                    InputLock.Release();
+                    Input.Lock.Release();
                 }
             }
             else // The sleep task completed
             {
-                await InputLock.WaitAsync(); // By holding the lock we ensure that we have exclusive access to our own notificationTask.
+                await Input.Lock.WaitAsync(); // By holding the lock we ensure that we have exclusive access to our own notificationTask.
 
                 // if somehow the notification task was triggered immediately after the sleep task and there's an available SendOrder...
                 if (notificationTask.IsCompletedSuccessfully && Input.SendOrders.Count > 0)
@@ -224,7 +235,7 @@ class Machine
                     Input.SendOrders[0].Notification.SetResult(true); // Notify the sender.
                     Input.SendOrders.RemoveAt(0); // Remove the send order.
 
-                    InputLock.Release();
+                    Input.Lock.Release();
                     return res;
                 }
                 else // Otherwise, cleanup our pending order (if it's still there) and return false.
@@ -239,7 +250,7 @@ class Machine
                             break;
                         }
                     }
-                    InputLock.Release();
+                    Input.Lock.Release();
                     cancellationToken.ThrowIfCancellationRequested(); // Propagate the cancellation if necessary.
                     return (false, null);
                 }
