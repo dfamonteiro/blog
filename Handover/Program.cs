@@ -95,7 +95,7 @@ class Machine
 
         await Output.Receiver.InputLock.WaitAsync();
         // Add a new send order to the list
-        Input.SendOrders.Add(new SendOrder
+        Output.SendOrders.Add(new SendOrder
         {
             Id = orderId,
             Panel = panel,
@@ -103,10 +103,10 @@ class Machine
         });
 
         // If there's a receive order waiting for a new send order, wake it up and remove that send order!
-        if (Input.ReceiveOrders.Count > 0)
+        if (Output.ReceiveOrders.Count > 0)
         {
-            Input.ReceiveOrders[0].Notification.SetResult(true);
-            Input.ReceiveOrders.RemoveAt(0);
+            Output.ReceiveOrders[0].Notification.SetResult(true);
+            Output.ReceiveOrders.RemoveAt(0);
         }
         Output.Receiver.InputLock.Release();
 
@@ -136,13 +136,13 @@ class Machine
             else
             {
                 // The notification task was not triggered, which means that our send order still needs to be cleaned up.
-                for (int i = 0; i < Input.SendOrders.Count; i++)
+                for (int i = 0; i < Output.SendOrders.Count; i++)
                 {
-                    if (Input.SendOrders[i].Id == orderId)
+                    if (Output.SendOrders[i].Id == orderId)
                     {
                         // Cancel the notification task. Doing this is important to avoid having "zombie" tasks filling our memory.
-                        Input.SendOrders[i].Notification.SetCanceled(); 
-                        Input.SendOrders.RemoveAt(i);
+                        Output.SendOrders[i].Notification.SetCanceled(); 
+                        Output.SendOrders.RemoveAt(i);
                         break;
                     }
                 }
