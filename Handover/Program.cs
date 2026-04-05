@@ -59,12 +59,12 @@ class Link
     /// <summary>
     /// Pending sell orders
     /// </summary>
-    required public List<SendOrder> SendOrders = new();
+    public List<SendOrder> SendOrders = new();
 
     /// <summary>
     /// Pending receive orders
     /// </summary>
-    required public List<ReceiveOrder> ReceiveOrders = new();
+    public List<ReceiveOrder> ReceiveOrders = new();
 
     /// <summary>
     /// Mutex that protects accesses to <see cref="SendOrders"/> and <see cref="ReceiveOrders"/> field.
@@ -280,6 +280,27 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        var cts = new CancellationTokenSource();
+        Machine machineA = new();
+        Machine machineB = new();
+
+        Link link = new()
+        {
+            Sender   = machineA,
+            Receiver = machineB,
+        };
+
+        machineA.Output = link;
+        machineB.Input  = link;
+
+        List<Task> taskList = new();
+
+        for (int i = 0; i < 1000000; i++)
+        {
+            taskList.Add(machineA.TrySend(new(), Timeout.InfiniteTimeSpan, cts.Token));
+            taskList.Add(machineB.TryReceive(Timeout.InfiniteTimeSpan, cts.Token));
+        }
+
+        await Task.WhenAll(taskList);
     }
 }
