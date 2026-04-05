@@ -72,12 +72,12 @@ class Machine
     /// <summary>
     /// Input of the machine
     /// </summary>
-    public Link Input;
+    public Link? Input = null;
     
     /// <summary>
     /// Output of the machine
     /// </summary>
-    public Link Output;
+    public Link? Output = null;
 
     /// <summary>
     /// Mutex that protects accesses to the <see cref="Inputs"/> field.
@@ -91,7 +91,7 @@ class Machine
     public async Task<bool> TrySend(Panel panel, TimeSpan timeout, CancellationToken cancellationToken)
     {
         Guid orderId = Guid.NewGuid();
-        TaskCompletionSource<bool> notification = new();
+        TaskCompletionSource<bool> notification = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
         await Output.Receiver.InputLock.WaitAsync();
         // Add a new send order to the list
@@ -102,7 +102,7 @@ class Machine
             Notification = notification,
         });
 
-        // If there's a receive order waiting for a new send order, wake it up and remove that send order!
+        // If there's a receive order waiting for a new send order, wake it up and remove that receive order!
         if (Output.ReceiveOrders.Count > 0)
         {
             Output.ReceiveOrders[0].Notification.SetResult(true);
@@ -162,7 +162,7 @@ class Machine
         Guid orderId = Guid.NewGuid();
 
         TaskCompletionSource<bool> notification;
-        Task<bool> notificationTask;
+        Task<bool>? notificationTask = null;
 
         Task sleepTask = Task.Delay(timeout, cancellationToken);
 
@@ -184,8 +184,8 @@ class Machine
             {
                 firstTime = false;
 
-                // A receiver task triggered our notification task and removed our send order
-                await Input.InputLock.WaitAsync();
+                // A sender task triggered our notification task and removed our receive order
+                await InputLock.WaitAsync();
 
                 if (Input.SendOrders.Count > 0) // There's a SendOrder waiting for us
                 {
@@ -195,12 +195,12 @@ class Machine
                     Input.SendOrders[0].Notification.SetResult(true); // Notify the sender.
                     Input.SendOrders.RemoveAt(0); // Remove the send order.
 
-                    Input.InputLock.Release();
+                    InputLock.Release();
                     return res;
                 }
                 else // There's no send order available for us to take, so let's create a receive order and wait for an update
                 {
-                    notification = new(); // Instantiate a new TaskCompletionSource
+                    notification = new(TaskCreationOptions.RunContinuationsAsynchronously); // Instantiate a new TaskCompletionSource
                     notificationTask = notification.Task;
 
                     // Add a new receive order to the list
@@ -209,12 +209,12 @@ class Machine
                         Id = orderId,
                         Notification = notification
                     });
-                    Input.InputLock.Release();
+                    InputLock.Release();
                 }
             }
             else // The sleep task completed
             {
-                await Input.InputLock.WaitAsync(); // By holding the lock we ensure that we have exclusive access to our own notificationTask.
+                await InputLock.WaitAsync(); // By holding the lock we ensure that we have exclusive access to our own notificationTask.
 
                 // if somehow the notification task was triggered immediately after the sleep task and there's an available SendOrder...
                 if (notificationTask.IsCompletedSuccessfully && Input.SendOrders.Count > 0)
@@ -224,7 +224,7 @@ class Machine
                     Input.SendOrders[0].Notification.SetResult(true); // Notify the sender.
                     Input.SendOrders.RemoveAt(0); // Remove the send order.
 
-                    Input.InputLock.Release();
+                    InputLock.Release();
                     return res;
                 }
                 else // Otherwise, cleanup our pending order (if it's still there) and return false.
@@ -239,7 +239,7 @@ class Machine
                             break;
                         }
                     }
-                    Input.InputLock.Release();
+                    InputLock.Release();
                     cancellationToken.ThrowIfCancellationRequested(); // Propagate the cancellation if necessary.
                     return (false, null);
                 }
