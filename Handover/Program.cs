@@ -159,7 +159,64 @@ class Machine
     /// <returns>true & the panel if the handover is successful, false if a timeout or cancellation is triggered.</returns>
     public async Task<(bool Success, Panel? Panel)> TryReceive(TimeSpan timeout, CancellationToken cancellationToken)
     {
-        return new();
+        Guid orderId = Guid.NewGuid();
+
+        TaskCompletionSource<bool> notification;
+        Task<bool> notificationTask;
+
+        Task sleepTask = Task.Delay(timeout, cancellationToken);
+
+        // You might be wondering why the code below is wrapped in a loop.
+        // The reason is that in between the notificationTask being triggered and the InputLock being acquired,
+        // it's possible that a random TryReceive() call sneaks in and steals the SendOrder originally meant for this task.
+        // If this happens, we need to retry - hence the while(true).
+
+        bool firstTime = true; // For the first time, we want to check immediately if there are any available SendOrders
+        while (true)
+        {
+            if (!firstTime) // Skip if first time
+            {
+                // Wait until something happens to one of these two tasks
+                await Task.WhenAny(notificationTask, sleepTask);
+            }
+
+            if (notificationTask.IsCompletedSuccessfully || firstTime)
+            {
+                firstTime = false;
+
+                // A receiver task triggered our notification task and removed our send order
+                await Input.InputLock.WaitAsync();
+
+                if (Input.SendOrders.Count > 0) // There's a SendOrder waiting for us
+                {
+                    // If there's a send order already waiting there, we can immediately return that send order's panel.
+                    var res = (true, Input.SendOrders[0].Panel);
+
+                    Input.SendOrders[0].Notification.SetResult(true); // Notify the sender.
+                    Input.SendOrders.RemoveAt(0); // Remove the send order.
+
+                    Input.InputLock.Release();
+                    return res;
+                }
+                else // There's no send order available for us to take, so let's create a receive order and wait for an update
+                {
+                    notification = new(); // Instantiate a new TaskCompletionSource
+                    notificationTask = notification.Task;
+
+                    // Add a new receive order to the list
+                    Input.ReceiveOrders.Add(new ReceiveOrder
+                    {
+                        Id = orderId,
+                        Notification = notification
+                    });
+                    Input.InputLock.Release();
+                }
+            }
+            else
+            {
+                
+            }
+        }
     }
 }
 
