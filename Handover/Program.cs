@@ -12,17 +12,17 @@ struct SendOrder
     /// <summary>
     /// Unique Id for this order
     /// </summary>
-    public Guid Id;
+    required public Guid Id;
 
     /// <summary>
     /// The panel to be sent to the next machine.
     /// </summary>
-    public Panel Panel;
+    required public Panel Panel;
 
     /// <summary>
     /// Signal mechanism to wake up the Task behind this order once a match is found
     /// </summary>
-    public TaskCompletionSource<bool> Notification;
+    required public TaskCompletionSource<bool> Notification;
 }
 
 /// <summary>
@@ -33,12 +33,12 @@ struct ReceiveOrder
     /// <summary>
     /// Unique Id for this order
     /// </summary>
-    public Guid Id;
+    required public Guid Id;
 
     /// <summary>
     /// Signal mechanism to wake up the Task behind this order once a match is found
     /// </summary>
-    public TaskCompletionSource<bool> Notification;
+    required public TaskCompletionSource<bool> Notification;
 }
 
 /// <summary>
@@ -49,22 +49,22 @@ class Link
     /// <summary>
     /// The source machine
     /// </summary>
-    public Machine Sender;
+    required public Machine Sender;
 
     /// <summary>
     /// The target machine
     /// </summary>
-    public Machine Receiver;
+    required public Machine Receiver;
 
     /// <summary>
     /// Pending sell orders
     /// </summary>
-    public List<SendOrder> SendOrders = new();
+    required public List<SendOrder> SendOrders = new();
 
     /// <summary>
     /// Pending receive orders
     /// </summary>
-    public List<ReceiveOrder> ReceiveOrders = new();
+    required public List<ReceiveOrder> ReceiveOrders = new();
 }
 
 class Machine
@@ -147,7 +147,7 @@ class Machine
                     }
                 }
                 InputLock.Release();
-                await sleepTask; // If the task was cancelled, awaiting it will propagate the cancellation.
+                cancellationToken.ThrowIfCancellationRequested(); // Propagate the cancellation if necessary.
                 return false;
             }
         }
