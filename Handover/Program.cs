@@ -15,6 +15,11 @@ struct SendOrder
     required public Guid Id;
 
     /// <summary>
+    /// If set, it means that only the Receiver Task with this Id can match this order.
+    /// </summary>
+    required public Guid? ReservedReceiverId;
+
+    /// <summary>
     /// The panel to be sent to the next machine.
     /// </summary>
     required public Panel Panel;
@@ -132,30 +137,44 @@ class Machine
         }
 
         Guid orderId = Guid.NewGuid();
+        Guid? receiverId = null;
         TaskCompletionSource<bool> notification = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
         await Output.Lock.WaitAsync();
+        // If there's a receive order waiting for a new send order, wake it up and remove that receive order!
+        if (Output.ReceiveOrders.Count > 0)
+        {
+            receiverId = Output.ReceiveOrders[0].Id;
+            Output.ReceiveOrders[0].Notification.SetResult(true);
+            Output.ReceiveOrders.RemoveAt(0);
+        }
+
         // Add a new send order to the list
         Output.SendOrders.Add(new SendOrder
         {
             Id = orderId,
+            ReservedReceiverId = receiverId,
             Panel = panel,
             Notification = notification,
         });
-
-        // If there's a receive order waiting for a new send order, wake it up and remove that receive order!
-        if (Output.ReceiveOrders.Count > 0)
-        {
-            Output.ReceiveOrders[0].Notification.SetResult(true);
-            Output.ReceiveOrders.RemoveAt(0);
-        }
         Output.Lock.Release();
 
         Task<bool> notificationTask = notification.Task;
         Task sleepTask = Task.Delay(timeout, cancellationToken);
 
-        // Wait until something happens to one of these two tasks
-        await Task.WhenAny(notificationTask, sleepTask);
+        if (receiverId != null)
+        {
+            // We know that we've woken a receiver task that will be looking for our send order,
+            // therefore we can can disregard the timeout.
+            // By doing this we also avoid a potential situation where the sleepTask triggers before the notificationTask,
+            // which would lead to the unintended removal of our SendOrder... which the receiver task expects to exist.
+            await notificationTask;
+        }
+        else
+        {
+            // Wait until something happens to one of these two tasks
+            await Task.WhenAny(notificationTask, sleepTask);
+        }
 
         if (notificationTask.IsCompletedSuccessfully)
         {
