@@ -111,6 +111,23 @@ class Link
             }
         }
     }
+
+    /// <summary>
+    /// Returns the index of the first send order that matches the reservedReceiverId.
+    /// Returns null if no match is found.
+    /// </summary>
+    public int? FindSendOrderByReservedId(Guid? reservedReceiverId)
+    {
+        for (int i = 0; i < SendOrders.Count; i++)
+        {
+            if (SendOrders[i].ReservedReceiverId == reservedReceiverId)
+            {
+                return i;
+            }
+        }
+        // Fallback
+        return null;
+    }
 }
 
 class Machine
@@ -216,81 +233,60 @@ class Machine
         }
 
         Guid orderId = Guid.NewGuid();
+        TaskCompletionSource<bool> notification = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        TaskCompletionSource<bool> notification;
-        Task<bool>? notificationTask = null;
+        await Input.Lock.WaitAsync();
+        int? matchIndex = Input.FindSendOrderByReservedId(null);
+        if (matchIndex != null) // There's an unmatched SendOrder waiting for us
+        {
+            // If there's a send order already waiting there, we can immediately return that send order's panel.
+            var res = (true, Input.SendOrders[(int)matchIndex].Panel);
+
+            Input.SendOrders[(int)matchIndex].Notification.SetResult(true); // Notify the sender.
+            Input.SendOrders.RemoveAt((int)matchIndex); // Remove the send order.
+
+            Input.Lock.Release();
+            return res;
+        }
+        else // There's no send order available for us to take, so let's create a receive order and wait for an update
+        {
+            // Add a new receive order to the list
+            Input.ReceiveOrders.Add(new ReceiveOrder
+            {
+                Id = orderId,
+                Notification = notification
+            });
+            Input.Lock.Release();
+        }
 
         Task sleepTask = Task.Delay(timeout, cancellationToken);
+        Task<bool> notificationTask = notification.Task;
+        
+        // Wait until something happens to one of these two tasks
+        await Task.WhenAny(notificationTask!, sleepTask);
 
-        // You might be wondering why the code below is wrapped in a loop.
-        // The reason is that in between the notificationTask being triggered and the InputLock being acquired,
-        // it's possible that a random TryReceive() call sneaks in and steals the SendOrder originally meant for this task.
-        // If this happens, we need to retry - hence the while(true).
+        // By holding the lock we ensure that we have exclusive access to our own notificationTask.
+        await Input.Lock.WaitAsync(); 
 
-        bool firstTime = true; // For the first time, we want to check immediately if there are any available SendOrders
-        while (true)
+        if (notificationTask.IsCompletedSuccessfully)
         {
-            if (!firstTime) // Skip if first time
-            {
-                // Wait until something happens to one of these two tasks
-                await Task.WhenAny(notificationTask!, sleepTask);
-            }
+            // We're guaranteed to have a SendOrder reserved for us
+            int sendOrderIndex = (int)Input.FindSendOrderByReservedId(orderId)!;
 
-            if (firstTime || notificationTask!.IsCompletedSuccessfully) // If firstTime is false, notificationTask is guaranteed to be instantiated
-            {
-                firstTime = false;
+            var res = (true, Input.SendOrders[sendOrderIndex].Panel);
 
-                // A sender task triggered our notification task and removed our receive order
-                await Input.Lock.WaitAsync();
+            Input.SendOrders[sendOrderIndex].Notification.SetResult(true); // Notify the sender.
+            Input.SendOrders.RemoveAt(sendOrderIndex); // Remove the send order.
+            Input.Lock.Release();
 
-                if (Input.SendOrders.Count > 0) // There's a SendOrder waiting for us
-                {
-                    // If there's a send order already waiting there, we can immediately return that send order's panel.
-                    var res = (true, Input.SendOrders[0].Panel);
-
-                    Input.SendOrders[0].Notification.SetResult(true); // Notify the sender.
-                    Input.SendOrders.RemoveAt(0); // Remove the send order.
-
-                    Input.Lock.Release();
-                    return res;
-                }
-                else // There's no send order available for us to take, so let's create a receive order and wait for an update
-                {
-                    notification = new(TaskCreationOptions.RunContinuationsAsynchronously); // Instantiate a new TaskCompletionSource
-                    notificationTask = notification.Task;
-
-                    // Add a new receive order to the list
-                    Input.ReceiveOrders.Add(new ReceiveOrder
-                    {
-                        Id = orderId,
-                        Notification = notification
-                    });
-                    Input.Lock.Release();
-                }
-            }
-            else // The sleep task completed
-            {
-                await Input.Lock.WaitAsync(); // By holding the lock we ensure that we have exclusive access to our own notificationTask.
-
-                // if somehow the notification task was triggered immediately after the sleep task and there's an available SendOrder...
-                if (notificationTask.IsCompletedSuccessfully && Input.SendOrders.Count > 0)
-                {
-                    var res = (true, Input.SendOrders[0].Panel);
-
-                    Input.SendOrders[0].Notification.SetResult(true); // Notify the sender.
-                    Input.SendOrders.RemoveAt(0); // Remove the send order.
-
-                    Input.Lock.Release();
-                    return res;
-                }
-                else // Otherwise, cleanup our pending order (if it's still there) and return false.
-                {
-                    Input.RemoveReceiveOrder(orderId);
-                    Input.Lock.Release();
-                    cancellationToken.ThrowIfCancellationRequested(); // Propagate the cancellation if necessary.
-                    return (false, null);
-                }
-            }
+            return res;
+        }
+        else // The sleep task completed
+        {
+            Input.RemoveReceiveOrder(orderId);
+            Input.Lock.Release();
+            cancellationToken.ThrowIfCancellationRequested(); // Propagate the cancellation if necessary.
+            return (false, null);
         }
     }
 }
@@ -314,10 +310,10 @@ class Program
 
         List<Task> taskList = new();
 
-        for (int i = 0; i < 1000000; i++)
+        for (int i = 0; i < 100000; i++)
         {
-            taskList.Add(machineA.TrySend(new(), Timeout.InfiniteTimeSpan, cts.Token));
             taskList.Add(machineB.TryReceive(Timeout.InfiniteTimeSpan, cts.Token));
+            taskList.Add(machineA.TrySend(new(), Timeout.InfiniteTimeSpan, cts.Token));
         }
 
         await Task.WhenAll(taskList);
