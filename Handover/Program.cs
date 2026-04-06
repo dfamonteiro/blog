@@ -263,7 +263,7 @@ class Machine
         Task<bool> notificationTask = notification.Task;
         
         // Wait until something happens to one of these two tasks
-        await Task.WhenAny(notificationTask!, sleepTask);
+        await Task.WhenAny(notificationTask, sleepTask);
 
         // By holding the lock we ensure that we have exclusive access to our own notificationTask.
         await Input.Lock.WaitAsync(); 
