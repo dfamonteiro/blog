@@ -1,7 +1,7 @@
 +++ 
 draft = true
 date = 2026-04-04T00:59:14+01:00
-title = "Solving the puzzle of the perfect handover"
+title = "Crafting a Zero-Capacity Multi-Producer-Multi-Consumer queue in async C#"
 description = ""
 slug = ""
 authors = ["Daniel Monteiro"]
@@ -36,16 +36,19 @@ Given two machines A and B running on independent threads, if the following cond
 1. Machine A wishes to send a material by calling `send()`.
 2. Machine B wishes to receive a material by calling `receive()`.
 
-The panel should be transferred to Machine B, and both `send()` and `receive()` should return `true` when the transfer is completed.
+The panel should then be transferred to Machine B, and both `send()` and `receive()` should return `true` when the transfer is completed.
 
-The functions `send()` and `receive()` should also be:
-
-- [Atomic](https://en.wikipedia.org/wiki/Atomicity_(database_systems)).
-- [Thread-safe](https://en.wikipedia.org/wiki/Thread_safety).
-- Able to support timeouts.
+The functions `send()` and `receive()` should also be [Atomic](https://en.wikipedia.org/wiki/Atomicity_(database_systems)), [Thread-safe](https://en.wikipedia.org/wiki/Thread_safety) and able to support timeouts.
 
 ### Some reflections
 
-What does it mean when Machine A calls `send()`? Does it mean that there's a 100% guarantee that he panel will be sent? No. It means that Machine A **_is interested_** in sending the panel, and if there's matching interest from the other side, a trace will happen... hold on, is this a stock market? Our `send()` calls are the equivalent of sell orders and our `receive()` calls represent buy orders! We don't have to deal with prices though, so it's a free-for-all: any "buy" order can match with any "sell" order.
+Our handover challenge is fundamentally a synchronization problem involving two independent threads - we should take inspiration from the field of concurrent programming and define a wishlist of properties that our conceptual data structure will need to have:
+
+- Is a zero-capacity queue (i.e. the sender blocks until the receiver is ready to receive).
+- Supports multiple producers and multiple consumers (i.e. thread-safe).
+- Supports timeouts.
+- Is written in async C# (because, well... I need it to be written in async C#).
 
 ## The solution: an [order book](https://en.wikipedia.org/wiki/Order_book) protected by a mutex
+
+What does it mean when Machine A calls `send()`? Does it mean that there's a 100% guarantee that he panel will be sent? No. It means that Machine A **_is interested_** in sending the panel, and if there's matching interest from the other side, a trade will happen... hold on, is this a stock market? Our `send()` calls are the equivalent of sell orders and our `receive()` calls represent buy orders! We don't have to deal with prices though, so it's a free-for-all: any "buy" order can match with any "sell" order.
