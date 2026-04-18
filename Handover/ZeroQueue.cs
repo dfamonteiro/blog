@@ -13,7 +13,7 @@ struct SendOrder<T>
     required public Guid Id;
 
     /// <summary>
-    /// If set, it means that only the Receiver Task with this Id can match this order.
+    /// If set, it means that this Send Order is reserved for the Receiver Task whose Id equals ReservedReceiverId.
     /// </summary>
     required public Guid? ReservedReceiverId;
 
