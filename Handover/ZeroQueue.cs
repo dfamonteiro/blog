@@ -49,17 +49,17 @@ class ZeroQueue<T>
     /// <summary>
     /// Pending send orders
     /// </summary>
-    public List<SendOrder<T>> SendOrders = new();
+    private List<SendOrder<T>> SendOrders = new();
 
     /// <summary>
     /// Pending receive orders
     /// </summary>
-    public List<ReceiveOrder> ReceiveOrders = new();
+    private List<ReceiveOrder> ReceiveOrders = new();
     
     /// <summary>
     /// Mutex that protects accesses to the <see cref="SendOrders"/> and <see cref="ReceiveOrders"/> fields.
     /// </summary>
-    public readonly SemaphoreSlim QueueLock = new SemaphoreSlim(1, 1);
+    private readonly SemaphoreSlim QueueLock = new SemaphoreSlim(1, 1);
 
     
     /// <summary>
@@ -124,7 +124,7 @@ class ZeroQueue<T>
     /// Attempts to send the panel to the next machine.
     /// </summary>
     /// <returns>true if the handover of the panel is successful, false if a timeout or cancellation is triggered.</returns>
-    public async Task<bool> TrySend(T panel, TimeSpan timeout, CancellationToken cancellationToken)
+    public async Task<bool> TrySendAsync(T panel, TimeSpan timeout, CancellationToken cancellationToken)
     {
         Guid orderId = Guid.NewGuid();
         Guid? receiverId = null;
@@ -199,7 +199,7 @@ class ZeroQueue<T>
     /// Attempts to receive a panel from the previous machine.
     /// </summary>
     /// <returns>true & the panel if the handover is successful, false if a timeout or cancellation is triggered.</returns>
-    public async Task<(bool Success, T? Panel)> TryReceive(TimeSpan timeout, CancellationToken cancellationToken)
+    public async Task<(bool Success, T? Panel)> TryReceiveAsync(TimeSpan timeout, CancellationToken cancellationToken)
     {
         Guid orderId = Guid.NewGuid();
         TaskCompletionSource<bool> notification = new(TaskCreationOptions.RunContinuationsAsynchronously);

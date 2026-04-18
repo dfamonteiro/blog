@@ -18,6 +18,11 @@ class Link
     /// The target machine
     /// </summary>
     required public Machine Receiver;
+
+    /// <summary>
+    /// The queue through which the panels are transfered
+    /// </summary>
+    public ZeroQueue<Panel> Queue = new();
 }
 
 class Machine
@@ -32,14 +37,35 @@ class Machine
     /// </summary>
     public Link? Output = null;
 
+    /// <summary>
+    /// Sends the panel to the next machine
+    /// </summary>
+    public async Task SendAsync(Panel panel)
+    {
+        if (Output == null)
+        {
+            throw new NullReferenceException(nameof(Output));
+        }
+        await Output.Queue.TrySendAsync(panel, Timeout.InfiniteTimeSpan, CancellationToken.None);
+    }
 
+    /// <summary>
+    /// Receives a panel from the next machine
+    /// </summary>
+    public async Task<Panel> ReceiveAsync()
+    {
+        if (Input == null)
+        {
+            throw new NullReferenceException(nameof(Input));
+        }
+        return (await Input.Queue.TryReceiveAsync(Timeout.InfiniteTimeSpan, CancellationToken.None)).Panel!;
+    }
 }
 
 class Program
 {
     static async Task Main(string[] args)
     {
-        var cts = new CancellationTokenSource();
         Machine machineA = new();
         Machine machineB = new();
 
@@ -56,8 +82,8 @@ class Program
 
         for (int i = 0; i < 100000; i++)
         {
-            taskList.Add(machineB.TryReceive(Timeout.InfiniteTimeSpan, cts.Token));
-            taskList.Add(machineA.TrySend(new(), Timeout.InfiniteTimeSpan, cts.Token));
+            taskList.Add(machineB.ReceiveAsync());
+            taskList.Add(machineA.SendAsync(new()));
         }
 
         await Task.WhenAll(taskList);
