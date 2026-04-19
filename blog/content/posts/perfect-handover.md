@@ -134,7 +134,7 @@ struct ReceiveOrder
 
 These two structs are pretty self-explanatory, with perhaps the exception of the `SendOrder`'s `ReservedReceiverId` field: the reason for this field's existence is to prevent a race condition.[^3]
 
-[^3]: I will explain this race condition later in this blog post.
+[^3]: I will explain the race condition later in this blog post.
 
 ### Utility methods
 
@@ -184,7 +184,7 @@ To keep the main algorithms as lean as possible, I wrote these small utility fun
     }
 ```
 
-Please note that in the two tasks above, we're cancelling the `Notification` task completion source - we're doing this to avoid leaking tasks to memory. It's entirely possible that the GC will perform this cleanup for us, but I'm not taking any chances here.
+Please note that in the two tasks above, we're cancelling the `Notification` task completion source to prevent leaking tasks to memory. It's entirely possible that the GC will perform this cleanup for us, but I'm not taking any chances here.
 
 ```csharp
     /// <summary>
