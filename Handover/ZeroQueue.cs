@@ -149,8 +149,12 @@ class ZeroQueue<T>
         });
         QueueLock.Release();
 
+        // We're creating this combinedCts so that we can terminate the sleepTask
+        CancellationTokenSource cancelSleep = new();
+        using var combinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, cancelSleep.Token);
+
         Task<bool> notificationTask = notification.Task;
-        Task sleepTask = Task.Delay(timeout, cancellationToken);
+        Task sleepTask = Task.Delay(timeout, combinedCts.Token);
 
         if (receiverId != null)
         {
@@ -165,6 +169,10 @@ class ZeroQueue<T>
             // Wait until something happens to one of these two tasks
             await Task.WhenAny(notificationTask, sleepTask);
         }
+
+        // Cancel the sleep task, if it's not already finished
+        // We have to do this to avoid having a memory leak (this sleepTask is not garbage-collected when we exit the function).
+        cancelSleep.Cancel();
 
         if (notificationTask.IsCompletedSuccessfully)
         {
@@ -228,11 +236,19 @@ class ZeroQueue<T>
             QueueLock.Release();
         }
 
-        Task sleepTask = Task.Delay(timeout, cancellationToken);
+        // We're creating this combinedCts so that we can terminate the sleepTask
+        CancellationTokenSource cancelSleep = new();
+        using var combinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, cancelSleep.Token);
+
         Task<bool> notificationTask = notification.Task;
+        Task sleepTask = Task.Delay(timeout, combinedCts.Token);
         
         // Wait until something happens to one of these two tasks
         await Task.WhenAny(notificationTask, sleepTask);
+
+        // Cancel the sleep task, if it's not already finished
+        // We have to do this to avoid having a memory leak (this sleepTask is not garbage-collected when we exit the function).
+        cancelSleep.Cancel();
 
         // By holding the lock we ensure that we have exclusive access to our own notificationTask.
         await QueueLock.WaitAsync(); 
