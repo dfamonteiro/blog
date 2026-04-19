@@ -318,3 +318,97 @@ The logic behind this method goes as follows:
         }
     }
 ```
+
+### The **TryReceiveAsync()** method
+
+This method will naturally be the counterpart of the [`TrySendAsync()` method](#the-trysendasync-method). This is how it works:
+
+1. Acquire the `QueueLock` and do the following:
+    - If there's a `SendOrder` with `ReservedReceiverId` set to `null` available, trigger its notification mechanism, remove it from the `SendOrders` list and return the panel from the `SendOrder`. We're done here!
+    - Otherwise, create our `ReceiveOrder`.
+
+```csharp
+    /// <summary>
+    /// Attempts to receive a panel from the previous machine.
+    /// </summary>
+    /// <returns>true & the panel if the handover is successful, false if a timeout or cancellation is triggered.</returns>
+    public async Task<(bool Success, T? Panel)> TryReceiveAsync(TimeSpan timeout, CancellationToken cancellationToken)
+    {
+        Guid orderId = Guid.NewGuid();
+        TaskCompletionSource<bool> notification = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        await QueueLock.WaitAsync();
+        int? matchIndex = FindSendOrderByReservedId(null);
+        if (matchIndex != null) // There's an unmatched SendOrder waiting for us
+        {
+            // If there's a send order already waiting there, we can immediately return that send order's panel.
+            var res = (true, SendOrders[(int)matchIndex].Entity);
+
+            SendOrders[(int)matchIndex].Notification.SetResult(true); // Notify the sender.
+            SendOrders.RemoveAt((int)matchIndex); // Remove the send order.
+
+            QueueLock.Release();
+            return res;
+        }
+        else // There's no send order available for us to take, so let's create a receive order and wait for an update
+        {
+            // Add a new receive order to the list
+            ReceiveOrders.Add(new ReceiveOrder
+            {
+                Id = orderId,
+                Notification = notification
+            });
+            QueueLock.Release();
+        }
+```
+
+2. Wait until either the notification of our `ReceiveOrder` is triggered, or the timeout is triggered.
+
+```csharp
+        // We're creating this combinedCts so that we can terminate the sleepTask
+        CancellationTokenSource cancelSleep = new();
+        using var combinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, cancelSleep.Token);
+
+        Task<bool> notificationTask = notification.Task;
+        Task sleepTask = Task.Delay(timeout, combinedCts.Token);
+        
+        // Wait until something happens to one of these two tasks
+        await Task.WhenAny(notificationTask, sleepTask);
+
+        // Cancel the sleep task, if it's not already finished
+        // We have to do this to avoid having a memory leak (this sleepTask is not garbage-collected when we exit the function).
+        cancelSleep.Cancel();
+```
+
+3. Acquire the `QueueLock` and do the following:
+    - If our notification triggered, that means there's a `SendOrder` reserved for us - we need to find it, trigger its notification mechanism, remove it from the `SendOrders` list and return the panel from the `SendOrder`!
+    - Otherwise, that means that the timeout was triggered instead. Therefore, we should remove our `ReceiveOrder` and return false.
+
+```csharp
+        // By holding the lock we ensure that we have exclusive access to our own notificationTask.
+        await QueueLock.WaitAsync(); 
+
+        if (notificationTask.IsCompletedSuccessfully)
+        {
+            // We're guaranteed to have a SendOrder reserved for us
+            int sendOrderIndex = (int)FindSendOrderByReservedId(orderId)!;
+
+            var res = (true, SendOrders[sendOrderIndex].Entity);
+
+            SendOrders[sendOrderIndex].Notification.SetResult(true); // Notify the sender.
+            SendOrders.RemoveAt(sendOrderIndex); // Remove the send order.
+            QueueLock.Release();
+
+            return res;
+        }
+        else // The sleep task completed
+        {
+            RemoveReceiveOrder(orderId);
+            QueueLock.Release();
+            cancellationToken.ThrowIfCancellationRequested(); // Propagate the cancellation if necessary.
+            return (false, default);
+        }
+    }
+```
+
+## Convicing yourself that the code actually works
