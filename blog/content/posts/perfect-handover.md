@@ -51,6 +51,6 @@ Our handover challenge is fundamentally a synchronization problem involving two 
 
 ## The solution: an [order book](https://en.wikipedia.org/wiki/Order_book) protected by a mutex
 
-What does it mean when Machine A calls `send()`? Does it mean that there's a 100% guarantee that he panel will be sent? No. It means that Machine A **_is interested_** in sending the panel, and if there's matching interest from the other side, a trade will happen... hold on, is this a stock market? Our `send()` calls are the equivalent of sell orders and our `receive()` calls represent buy orders! Whenever there's an available `receive()` order and an available `send()` order, they are matched, removed from the "order book" and the panel is transfered.
+What does it mean when Machine A calls `send()`? Does it mean that there's a 100% guarantee that he panel will be sent? No. It means that Machine A **_is interested_** in sending the panel, and if there's matching interest from the other side, a trade will happen... hold on, is this a stock market? Our `send()` calls are the equivalent of sell orders and our `receive()` calls represent buy orders! Whenever there's an available `receive()` order and an available `send()` order, they are matched, removed from the "order book" and the panel is transferred.
 
 
