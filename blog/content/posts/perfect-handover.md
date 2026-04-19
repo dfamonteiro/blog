@@ -132,4 +132,4 @@ struct ReceiveOrder
 }
 ```
 
-I believe these two structs are pretty self-explanatory, with perhaps the exception of the `SendOrder`'s `ReservedReceiverId` field: this  field is necessary to prevent a race condition.
+These two structs are pretty self-explanatory, with perhaps the exception of the `SendOrder`'s `ReservedReceiverId` field: the reason for this field's existence is to prevent a race condition.
