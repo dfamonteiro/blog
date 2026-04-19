@@ -399,6 +399,20 @@ This method will naturally be the counterpart of the [`TrySendAsync()` method](#
     }
 ```
 
+## Visualizing **TrySendAsync()** and **TryReceiveAsync()**
+
+Reading the code is one thing, but what would really help us understand these methods is some visualizations of them working. I've found [sequence diagrams](https://en.wikipedia.org/wiki/Sequence_diagram) to be pretty useful for this purpose:
+
+### **TrySendAsync()** first, followed by **TryReceiveAsync()**
+
+!["Sequence diagram of TrySendAsync() first, followed by TryReceiveAsync()"](/images/perfect-handover/SendReceive.excalidraw.svg)
+
+The boxes with dashed lines indicate who holds the `QueueLock`.
+
+### **TryReceiveAsync()** first, followed by **TrySendAsync()**
+
+!["Sequence diagram of TryReceiveAsync() first, followed by TrySendAsync()"](/images/perfect-handover/ReceiveSend.excalidraw.svg)
+
 ## Convincing yourself that the code actually works
 
 Writing multithreaded code is not that hard - what's difficult is making sure that the code works under all circumstances! This requires you to think of every possible deadlock scenario, every possible race condition and ensuring that they are all accounted for.[^4]
