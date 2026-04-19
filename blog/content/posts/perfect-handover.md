@@ -243,16 +243,12 @@ The logic behind this method goes as follows:
             Notification = notification,
         });
         QueueLock.Release();
-
-        // ...
 ```
 
 2. Wait until either the notification of our `SendOrder` is triggered, or the timeout is triggered.
     - If there was a `ReceiveOrder` available and we triggered its notification **we will disregard the timeout** - the reason for this is that we know that the "receiver task" has been awoken and is expecting our `SendOrder` to be present. We can only guarantee that our `SendOrder` will be there if we ensure that a timeout **will not be triggered** _before_ the "receiver task" has fetched our `SendOrder`. We do this by ignoring the timeout altogether.
 
 ```csharp
-        // ...
-
         // We're creating this combinedCts so that we can terminate the sleepTask
         CancellationTokenSource cancelSleep = new();
         using var combinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, cancelSleep.Token);
@@ -277,8 +273,6 @@ The logic behind this method goes as follows:
         // Cancel the sleep task, if it's not already finished
         // We have to do this to avoid having a memory leak (this sleepTask is not garbage-collected when we exit the function).
         cancelSleep.Cancel();
-
-        // ...
 ```
 
 3. Check the status of our notification
@@ -288,8 +282,6 @@ The logic behind this method goes as follows:
         - If it wasn't triggered, that means that the timeout was triggered instead. Therefore, we should remove our `SendOrder` and return false.
 
 ```csharp
-        // ...
-        
         if (notificationTask.IsCompletedSuccessfully)
         {
             // A receiver task triggered our notification task, removed our send order, and and returned the panel.
