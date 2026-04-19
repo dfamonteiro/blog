@@ -400,3 +400,7 @@ This method will naturally be the counterpart of the [`TrySendAsync()` method](#
 ```
 
 ## Convicing yourself that the code actually works
+
+Writing multithreaded code is not that hard - what's difficult is making sure that the code actually works under all circumstances! This requires you to think of every possible deadlock scenario, every possible race condition and ensuring that they are all accounted for.[^4]
+
+[^4]: There are formal methods for validating concurrent algorithms, but in this blog post we will be taking a much more informal approach to making sure that our algorithm works.
