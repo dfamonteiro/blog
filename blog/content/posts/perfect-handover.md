@@ -132,4 +132,75 @@ struct ReceiveOrder
 }
 ```
 
-These two structs are pretty self-explanatory, with perhaps the exception of the `SendOrder`'s `ReservedReceiverId` field: the reason for this field's existence is to prevent a race condition.
+These two structs are pretty self-explanatory, with perhaps the exception of the `SendOrder`'s `ReservedReceiverId` field: the reason for this field's existence is to prevent a race condition.[^3]
+
+[^3]: I will explain this race condition later in this blog post.
+
+### Utility methods
+
+To keep the main algorithms as lean as possible, I wrote these small utility functions that help us manipulate `SendOrders` and `ReceiveOrders`:
+
+```csharp
+    /// <summary>
+    /// Remove order from <see cref="ReceiveOrders"/> and cancel the associated Task, if it exists.
+    /// This function must only be called if <see cref="QueueLock"/> is acquired.
+    /// </summary>
+    private void RemoveReceiveOrder(Guid guid)
+    {
+        for (int i = 0; i < ReceiveOrders.Count; i++)
+        {
+            if (ReceiveOrders[i].Id == guid)
+            {
+                // Cancel the notification task. Doing this is important to avoid having "zombie" tasks filling our memory.
+                ReceiveOrders[i].Notification.SetCanceled(); // No one should be awaiting this Task, so calling SetCancelled() should pose no problem.
+                ReceiveOrders.RemoveAt(i);
+                break;
+            }
+        }
+        // If no match found, throw exception
+        throw new Exception($"No Receive Order with id {guid} was found.");
+    }
+```
+
+```csharp
+    /// <summary>
+    /// Remove order from <see cref="SendOrders"/> and cancel the associated Task, if it exists.
+    /// This function must only be called if <see cref="QueueLock"/> is acquired.
+    /// </summary>
+    private void RemoveSendOrder(Guid guid)
+    {
+        for (int i = 0; i < SendOrders.Count; i++)
+        {
+            if (SendOrders[i].Id == guid)
+            {
+                // Cancel the notification task. Doing this is important to avoid having "zombie" tasks filling our memory.
+                SendOrders[i].Notification.SetCanceled(); // No one should be awaiting this Task, so calling SetCancelled() should pose no problem.
+                SendOrders.RemoveAt(i);
+                break;
+            }
+        }
+        // If no match found, throw exception
+        throw new Exception($"No Send Order with id {guid} was found.");
+    }
+```
+
+Please note that in the two tasks above, we're cancelling the `Notification` task completion source - we're doing this to avoid leaking tasks to memory. It's entirely possible that the GC will perform this cleanup for us, but I'm not taking any chances here.
+
+```csharp
+    /// <summary>
+    /// Returns the index of the first send order that matches the reservedReceiverId.
+    /// Returns null if no match is found.
+    /// </summary>
+    private int? FindSendOrderByReservedId(Guid? reservedReceiverId)
+    {
+        for (int i = 0; i < SendOrders.Count; i++)
+        {
+            if (SendOrders[i].ReservedReceiverId == reservedReceiverId)
+            {
+                return i;
+            }
+        }
+        // Fallback
+        return null;
+    }
+```
