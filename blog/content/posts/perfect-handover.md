@@ -407,11 +407,11 @@ Reading the code is one thing, but what would really help us understand these me
 
 !["Sequence diagram of TrySendAsync() first, followed by TryReceiveAsync()"](/images/perfect-handover/SendReceive.excalidraw.svg)
 
-The boxes with dashed lines indicate who holds the `QueueLock`.
-
 ### **TryReceiveAsync()** first, followed by **TrySendAsync()**
 
 !["Sequence diagram of TryReceiveAsync() first, followed by TrySendAsync()"](/images/perfect-handover/ReceiveSend.excalidraw.svg)
+
+The boxes with dashed lines indicate who holds the `QueueLock`. The `1.` `2.` `3.` refer to the algorithm explanations from the previous chapter.
 
 ## Convincing yourself that the code actually works
 
@@ -472,3 +472,7 @@ public async Task<(bool Success, T? Panel)> TryReceiveAsync(TimeSpan timeout, Ca
     await QueueLock.WaitAsync();
     int? matchIndex = FindSendOrderByReservedId(null); // <--- Looking for a SendOrder with a null ReservedReceiverId
 ```
+
+## Final notes
+
+You can find the code related to this blog post [here](https://github.com/dfamonteiro/blog/blob/main/Handover/ZeroQueue.cs).
