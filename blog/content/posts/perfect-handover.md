@@ -246,7 +246,7 @@ The logic behind this method goes as follows:
 ```
 
 2. Wait until either the notification of our `SendOrder` is triggered, or the timeout is triggered.
-    - If there was a `ReceiveOrder` available and we triggered its notification **we will disregard the timeout** - the reason for this is that we know that the "receiver task" has been awoken and is expecting our `SendOrder` to be present. We can only guarantee that our `SendOrder` will be there if we ensure that a timeout **will not be triggered** _before_ the "receiver task" has fetched our `SendOrder`. We do this by ignoring the timeout altogether.
+    - If there was a `ReceiveOrder` available and we triggered its notification **we will disregard the timeout** - the reason for this is that we know that the "receiver task" has been awoken and is expecting our `SendOrder` to be present. We can only guarantee that our `SendOrder` will be there if we ensure that a timeout **will not be triggered** _before_ the "receiver task" has fetched our `SendOrder`. We do this by setting the timeout to infinite.
 
 ```csharp
         // We're creating this combinedCts so that we can terminate the sleepTask
@@ -254,21 +254,17 @@ The logic behind this method goes as follows:
         using var combinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, cancelSleep.Token);
 
         Task<bool> notificationTask = notification.Task;
-        Task sleepTask = Task.Delay(timeout, combinedCts.Token);
 
-        if (receiverId != null)
-        {
-            // We know that we've woken a receiver task that will be looking for our send order,
-            // therefore we can can disregard the timeout.
-            // By doing this we also avoid a potential situation where the sleepTask triggers before the notificationTask,
-            // which would lead to the unintended removal of our SendOrder... which the receiver task expects to exist.
-            await notificationTask;
-        }
-        else
-        {
-            // Wait until something happens to one of these two tasks
-            await Task.WhenAny(notificationTask, sleepTask);
-        }
+        // If receiverId != null, we know that we've woken up a receiver task that will be looking for our send order.
+        //
+        // In this scenario, we need to avoid a potential situation where the sleepTask triggers before the notificationTask,
+        // which would lead to the unintended removal of our SendOrder... which the receiver task expects to exist.
+        //
+        // We avoid this problem by setting the timeout to infinite.
+        Task sleepTask = Task.Delay(receiverId == null ? timeout : Timeout.InfiniteTimeSpan, combinedCts.Token);
+
+        // Wait until something happens to one of these two tasks
+        await Task.WhenAny(notificationTask, sleepTask);
 
         // Cancel the sleep task, if it's not already finished
         // We have to do this to avoid having a memory leak (this sleepTask is not garbage-collected when we exit the function).
