@@ -204,3 +204,117 @@ Please note that in the two tasks above, we're cancelling the `Notification` tas
         return null;
     }
 ```
+
+### The **TrySendAsync()** method
+
+The logic behind this method goes as follows:
+
+1. Acquire the `QueueLock` and do the following:
+    - If there's a `ReceiveOrder` available, trigger its notification mechanism, take note of its `Id` and remove it from the `ReceiveOrders` list.
+    - Create our `SendOrder`.
+        - If we found a `ReceiveOrder` in the previous step, set our `ReservedReceiverId` to the `Id` of that `ReceiveOrder`.
+
+```csharp
+    /// <summary>
+    /// Attempts to send the panel to the next machine.
+    /// </summary>
+    /// <returns>true if the handover of the panel is successful, false if a timeout or cancellation is triggered.</returns>
+    public async Task<bool> TrySendAsync(T panel, TimeSpan timeout, CancellationToken cancellationToken)
+    {
+        Guid orderId = Guid.NewGuid();
+        Guid? receiverId = null;
+        TaskCompletionSource<bool> notification = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        await QueueLock.WaitAsync();
+        // If there's a receive order waiting for a new send order, wake it up and remove that receive order!
+        if (ReceiveOrders.Count > 0)
+        {
+            receiverId = ReceiveOrders[0].Id;
+            ReceiveOrders[0].Notification.SetResult(true);
+            ReceiveOrders.RemoveAt(0);
+        }
+
+        // Add a new send order to the list
+        SendOrders.Add(new SendOrder<T>
+        {
+            Id = orderId,
+            ReservedReceiverId = receiverId,
+            Entity = panel,
+            Notification = notification,
+        });
+        QueueLock.Release();
+
+        // ...
+```
+
+2. Wait until either the notification of our `SendOrder` is triggered, or the timeout is triggered.
+    - If there was a `ReceiveOrder` available and we triggered its notification **we will disregard the timeout** - the reason for this is that we know that the "receiver task" has been awoken and is expecting our `SendOrder` to be present. We can only guarantee that our `SendOrder` will be there if we ensure that a timeout **will not be triggered** _before_ the "receiver task" has fetched our `SendOrder`. We do this by ignoring the timeout altogether.
+
+```csharp
+        // ...
+
+        // We're creating this combinedCts so that we can terminate the sleepTask
+        CancellationTokenSource cancelSleep = new();
+        using var combinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, cancelSleep.Token);
+
+        Task<bool> notificationTask = notification.Task;
+        Task sleepTask = Task.Delay(timeout, combinedCts.Token);
+
+        if (receiverId != null)
+        {
+            // We know that we've woken a receiver task that will be looking for our send order,
+            // therefore we can can disregard the timeout.
+            // By doing this we also avoid a potential situation where the sleepTask triggers before the notificationTask,
+            // which would lead to the unintended removal of our SendOrder... which the receiver task expects to exist.
+            await notificationTask;
+        }
+        else
+        {
+            // Wait until something happens to one of these two tasks
+            await Task.WhenAny(notificationTask, sleepTask);
+        }
+
+        // Cancel the sleep task, if it's not already finished
+        // We have to do this to avoid having a memory leak (this sleepTask is not garbage-collected when we exit the function).
+        cancelSleep.Cancel();
+
+        // ...
+```
+
+3. Check the status of our notification
+    - If our notification triggered, return true - the panel was transferred successfully.
+    - Otherwise, acquire the `QueueLock` and do the following:
+        - Check again if our notification triggered (we perform this check twice to prevent a race condition).
+        - If it wasn't triggered, that means that the timeout was triggered instead. Therefore, we should remove our `SendOrder` and return false.
+
+```csharp
+        // ...
+        
+        if (notificationTask.IsCompletedSuccessfully)
+        {
+            // A receiver task triggered our notification task, removed our send order, and and returned the panel.
+            // The panel has been handed over successfully, we're done here!
+            return true;
+        }
+        else // The sleep task completed
+        {
+            await QueueLock.WaitAsync(); // By holding the lock we ensure that we have exclusive access to our own notificationTask.
+            
+            if (notificationTask.IsCompletedSuccessfully) // The notification task was triggered immediately after the sleep task.
+            {
+                // A receiver task triggered our notification task, removed our send order, and and returned the panel.
+                // The panel has been handed over successfully, we're done here!
+                QueueLock.Release();
+                return true;
+            }
+            else
+            {
+                // The notification task was not triggered, which means that our send order still needs to be cleaned up.
+                RemoveSendOrder(orderId);
+                QueueLock.Release();
+                cancellationToken.ThrowIfCancellationRequested(); // Propagate the cancellation if necessary.
+                return false;
+            }
+        }
+    }
+```
