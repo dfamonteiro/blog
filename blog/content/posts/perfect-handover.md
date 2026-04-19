@@ -326,7 +326,7 @@ This method will naturally be the counterpart of the [`TrySendAsync()` method](#
         TaskCompletionSource<bool> notification = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
         await QueueLock.WaitAsync();
-        int? matchIndex = FindSendOrderByReservedId(null);
+        int? matchIndex = FindSendOrderByReservedId(null); // Looking for a SendOrder with a null ReservedReceiverId
         if (matchIndex != null) // There's an unmatched SendOrder waiting for us
         {
             // If there's a send order already waiting there, we can immediately return that send order's panel.
@@ -399,8 +399,62 @@ This method will naturally be the counterpart of the [`TrySendAsync()` method](#
     }
 ```
 
-## Convicing yourself that the code actually works
+## Convincing yourself that the code actually works
 
-Writing multithreaded code is not that hard - what's difficult is making sure that the code actually works under all circumstances! This requires you to think of every possible deadlock scenario, every possible race condition and ensuring that they are all accounted for.[^4]
+Writing multithreaded code is not that hard - what's difficult is making sure that the code works under all circumstances! This requires you to think of every possible deadlock scenario, every possible race condition and ensuring that they are all accounted for.[^4]
 
 [^4]: There are formal methods for validating concurrent algorithms, but in this blog post we will be taking a much more informal approach to making sure that our algorithm works.
+
+With this in mind, let's consider some potentially problematic scenarios:
+
+### Notification & timeout race conditions
+
+In both `TrySendAsync` and `TryReceiveAsync`, we wait for one of these two tasks to complete:
+
+```csharp
+// Wait until something happens to one of these two tasks
+await Task.WhenAny(notificationTask, sleepTask);
+```
+
+What happens if they both complete _at the same time_? Or one immediately after the other? We handle this race condition by acquiring the `QueueLock`: doing this will prevent the state of `notificationTask` from changing (because you need to hold the `QueueLock` to trigger a change in `notificationTask`).
+
+Now that we know that `notificationTask` will not change, we can check its state without fear of it changing under our feet.
+
+### Race condition between two receive tasks
+
+There's another more complex scenario that also merits attention. Imagine this sequence of events with receivers **R1**, **R2**, and sender **S1**:
+
+1. **R1** calls `TryReceiveAsync()`. As there is no matching `SendOrder`, **R1** creates a `ReceiveOrder` and waits for a notification.
+2. **S1** calls `TrySendAsync()`. **R1**'s notification is triggered, and **S1** creates a `SendOrder` for **R1** to consume.
+3. **R2** calls `TryReceiveAsync()`, beats **R1** to the `QueueLock`, sees that **S1**'s `SendOrder` is available and takes it!
+4. **S1** receives a notification, meaning that its `SendOrder` has been consumed. Job done.
+5. **R1** finally acquires the lock expecting a `SendOrder` to exist, but **it finds out that `SendOrders` is completely empty**!
+
+The problem that we have here, is that even though **S1** creates a `SendOrder` with the expectation that the receiver that triggered its notification will consume it, there's nothing that prevents a random receiver task from sneaking in and stealing.
+
+The fix for this stealing issue is a dedicated `ReservedReceiverId` field in the `SendOrder` struct that _reserves_ this `SendOrder` for a very specific `ReceiveOrder`:
+
+```csharp
+struct SendOrder<T>
+{
+    // ...
+
+    /// <summary>
+    /// If set, it means that this Send Order is reserved for the Receiver Task whose Id equals ReservedReceiverId.
+    /// </summary>
+    required public Guid? ReservedReceiverId;
+
+    // ...
+```
+
+This is also why we don't simply fetch the first `SendOrder` in the `SendOrders` list in `TryReceiveAsync()`: we instead look for a `SendOrder` with a null `ReservedReceiverId`:
+
+```csharp
+public async Task<(bool Success, T? Panel)> TryReceiveAsync(TimeSpan timeout, CancellationToken cancellationToken)
+{
+    Guid orderId = Guid.NewGuid();
+    TaskCompletionSource<bool> notification = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+    await QueueLock.WaitAsync();
+    int? matchIndex = FindSendOrderByReservedId(null); // <--- Looking for a SendOrder with a null ReservedReceiverId
+```

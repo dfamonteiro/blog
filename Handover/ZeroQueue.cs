@@ -209,7 +209,7 @@ class ZeroQueue<T>
         TaskCompletionSource<bool> notification = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
         await QueueLock.WaitAsync();
-        int? matchIndex = FindSendOrderByReservedId(null);
+        int? matchIndex = FindSendOrderByReservedId(null); // Looking for a SendOrder with a null ReservedReceiverId
         if (matchIndex != null) // There's an unmatched SendOrder waiting for us
         {
             // If there's a send order already waiting there, we can immediately return that send order's panel.
