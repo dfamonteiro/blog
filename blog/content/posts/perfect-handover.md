@@ -51,6 +51,85 @@ Our handover challenge is fundamentally a synchronization problem involving two 
 
 ## The solution: an [order book](https://en.wikipedia.org/wiki/Order_book) protected by a mutex
 
-What does it mean when Machine A calls `send()`? Does it mean that there's a 100% guarantee that he panel will be sent? No. It means that Machine A **_is interested_** in sending the panel, and if there's matching interest from the other side, a trade will happen... hold on, is this a stock market? Our `send()` calls are the equivalent of sell orders and our `receive()` calls represent buy orders! Whenever there's an available `receive()` order and an available `send()` order, they are matched, removed from the "order book" and the panel is transferred.
+What does it mean when Machine A calls `send()`? Does it mean that there's a 100% guarantee that he panel will be sent? No. It means that Machine A **_is interested_** in sending the panel, and if there's matching interest from the other side, a trade will happen... hold on, is this a stock market? Our `send()` calls are the equivalent of sell orders and our `receive()` calls represent buy orders!
 
+Whenever there's an available `receive()` order and an available `send()` order, they are matched, removed from the "order book" and the panel is transferred.
 
+The remainder of this blog post will focus on implementing this data structure, which I will name `ZeroQueue`:
+
+### The core data structures
+
+Our `ZeroQueue` class will have three properties: the **Send Orders**, the **Receive Orders**, and a mutex that guards the access to the 2 previously mentioned properties:
+
+```csharp
+class ZeroQueue<T>
+{
+    /// <summary>
+    /// Pending send orders
+    /// </summary>
+    private List<SendOrder<T>> SendOrders = new();
+
+    /// <summary>
+    /// Pending receive orders
+    /// </summary>
+    private List<ReceiveOrder> ReceiveOrders = new();
+    
+    /// <summary>
+    /// Mutex that protects accesses to the SendOrders and ReceiveOrders fields.
+    /// </summary>
+    private readonly SemaphoreSlim QueueLock = new SemaphoreSlim(1, 1);
+
+    // ...
+}
+```
+
+The `SendOrder` and `ReceiveOrder` structs have the following fields:
+
+```csharp
+/// <summary>
+/// Represents a Task's intention of sending a Panel
+/// </summary>
+struct SendOrder<T>
+{
+    /// <summary>
+    /// Unique Id for this order
+    /// </summary>
+    required public Guid Id;
+
+    /// <summary>
+    /// If set, it means that this Send Order is reserved
+    /// for the Receiver Task whose Id equals ReservedReceiverId.
+    /// </summary>
+    required public Guid? ReservedReceiverId;
+
+    /// <summary>
+    /// The panel to be sent to the next machine.
+    /// </summary>
+    required public T Entity;
+
+    /// <summary>
+    /// Signal mechanism to wake up the Task behind this order once a match is found
+    /// </summary>
+    required public TaskCompletionSource<bool> Notification;
+}
+```
+
+```csharp
+/// <summary>
+/// Represents a Task's intention of receiving a Panel
+/// </summary>
+struct ReceiveOrder
+{
+    /// <summary>
+    /// Unique Id for this order
+    /// </summary>
+    required public Guid Id;
+
+    /// <summary>
+    /// Signal mechanism to wake up the Task behind this order once a match is found
+    /// </summary>
+    required public TaskCompletionSource<bool> Notification;
+}
+```
+
+I believe these two structs are pretty self-explanatory, with perhaps the exception of the `SendOrder`'s `ReservedReceiverId` field: this  field is necessary to prevent a race condition.
