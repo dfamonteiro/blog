@@ -11,11 +11,13 @@ externalLink = ""
 series = []
 +++
 
-In recent times I have been putting some thought into designing a load generator that simulates queued-based manufacturing processes - think car [assembly lines](https://en.wikipedia.org/wiki/Assembly_line) or [SMT lines](https://en.wikipedia.org/wiki/Surface-mount_technology). A key detail about these types of setups is that they're susceptible to traffic jams: if a station at the end of the line breaks, the entire line is bottlenecked until the problem is fixed.
+In recent times, I have been putting some thought into designing a load generator that simulates queued-based manufacturing processes - think car [assembly lines](https://en.wikipedia.org/wiki/Assembly_line) or [SMT lines](https://en.wikipedia.org/wiki/Surface-mount_technology). A key detail about these types of setups is that they're susceptible to traffic jams: if a station at the end of the line breaks, the entire line backs up until the problem is fixed.
 
-The intrinsically linear nature of these manufacturing setups creates dependencies between the materials in the line: panel #345436 can only enter the next machine if panel #345437 has finished processing, which in turn needs panel #345438 to clear the conveyor belt... you get the point.
+The intrinsically linear nature of these manufacturing setups creates dependencies between the materials in the line: panel #345436 can only enter the next machine if panel #345437 has finished processing, which in turn needs panel #345438 to clear the conveyor belt... you get the point.[^0]
 
-Simulating these lines with a [stateful load generator approach](../stateful-load-generators) will not work because it handles each panel independently - one would need to layer an obscene amount of synchronization code[^1] on top to make the panels behave in a way that somewhat resembles a real-world SMT line. It's just not feasible.
+[^0]: This concept is called "Back Pressure" in software engineering.
+
+Simulating these lines with a [stateful load generator approach](../stateful-load-generators) will not work because it handles each panel independently - one would need to layer an absolutely obscene amount of synchronization code[^1] on top to make the panels behave in a way that somewhat resembles a real-world SMT line. It's just not feasible.
 
 [^1]: Think mutexes, semaphores, etc.
 
@@ -23,11 +25,11 @@ We need a new approach.
 
 ## The case for a machine-centered load generator
 
-Instead of having a load generator that is focused on the panels, we should have a load generator that is focused on the machines that handle the panels. Each resource would then be handled by its own dedicated thread which would be tasked with simulating the machine's behaviours: receiving new panels, "processing" them, and sending them to the next machine.[^2] With this approach, each machine can independently enforce its own constraints by refusing to perform any given operation if its internal conditions are not met.
+Instead of having a panel-centric load generator, we should have a load generator that is focused on the machines that handle the panels. Each resource would then be handled by its own dedicated thread which would be tasked with simulating the machine's behaviour: receiving new panels, "processing" them, and sending them to the next machine.[^2] With this approach, each machine can independently enforce its own constraints by refusing to perform any given operation if its internal conditions are not met.
 
 [^2]: You can think of this as a manufacturing simulation-oriented [Actor Model](https://en.wikipedia.org/wiki/Actor_model).
 
-This is a good idea in principle... as long as we figure out how we are going to pass materials. In other words, how should a _handover_ of a panel from resource A to resource B occur?
+This is a good idea in principle... as long as we figure out how we are going to transfer materials. In other words, how should a _handover_ of a panel from resource A to resource B occur?
 
 ## The handover problem statement
 
@@ -36,9 +38,9 @@ Given two machines A and B running on independent threads, if the following cond
 1. Machine A wishes to send a material by calling `send()`.
 2. Machine B wishes to receive a material by calling `receive()`.
 
-The panel should then be transferred to Machine B, and both `send()` and `receive()` should return `true` when the transfer is completed.
+The panel should be transferred from machine A to Machine B, and both `send()` and `receive()` should return `true` when the transfer is completed.
 
-The functions `send()` and `receive()` should also be [Atomic](https://en.wikipedia.org/wiki/Atomicity_(database_systems)), [Thread-safe](https://en.wikipedia.org/wiki/Thread_safety) and able to support timeouts.
+The functions `send()` and `receive()` should also be [atomic](https://en.wikipedia.org/wiki/Atomicity_(database_systems)), [thread-safe](https://en.wikipedia.org/wiki/Thread_safety) and able to support timeouts.
 
 ### Some reflections
 
@@ -51,7 +53,7 @@ Our handover challenge is fundamentally a synchronization problem involving two 
 
 ## The solution: an [order book](https://en.wikipedia.org/wiki/Order_book) protected by a mutex
 
-What does it mean when Machine A calls `send()`? Does it mean that there's a 100% guarantee that he panel will be sent? No. It means that Machine A **_is interested_** in sending the panel, and if there's matching interest from the other side, a trade will happen... hold on, is this a stock market? Our `send()` calls are the equivalent of sell orders and our `receive()` calls represent buy orders!
+What does it mean when Machine A calls `send()`? Does it mean that there's a 100% guarantee that the panel will be sent? No. It means that Machine A **_is interested_** in sending the panel, and if there's matching interest from the other side, a trade will happen... hold on, is this a stock market? Our `send()` calls are the equivalent of sell orders and our `receive()` calls represent buy orders!
 
 Whenever there's an available `receive()` order and an available `send()` order, they are matched, removed from the "order book" and the panel is transferred.
 
@@ -132,9 +134,7 @@ struct ReceiveOrder
 }
 ```
 
-These two structs are pretty self-explanatory, with perhaps the exception of the `SendOrder`'s `ReservedReceiverId` field: the reason for this field's existence is to prevent a race condition.[^3]
-
-[^3]: I will explain the race condition later in this blog post.
+These two structs are pretty self-explanatory, with perhaps the exception of the `SendOrder`'s `ReservedReceiverId` field: the reason for that field's existence is to [prevent a race condition](#race-condition-between-two-receive-tasks).
 
 ### Utility methods
 
@@ -184,7 +184,7 @@ To keep the main algorithms as lean as possible, I wrote these small utility fun
     }
 ```
 
-Please note that in the two tasks above, we're cancelling the `Notification` task completion source to prevent leaking tasks to memory. It's entirely possible that the GC will perform this cleanup for us, but I'm not taking any chances here.
+Please note that in the two tasks above, we're cancelling the `Notification` task completion source to prevent leaking tasks to memory. It is entirely possible that the GC will perform this cleanup for us, but I'm not taking any chances here.
 
 ```csharp
     /// <summary>
@@ -210,7 +210,7 @@ Please note that in the two tasks above, we're cancelling the `Notification` tas
 The logic behind this method goes as follows:
 
 1. Acquire the `QueueLock` and do the following:
-    - If there's a `ReceiveOrder` available, trigger its notification mechanism, take note of its `Id` and remove it from the `ReceiveOrders` list.
+    - If there's a `ReceiveOrder` available, trigger its notification mechanism, capture its `Id` and remove it from the `ReceiveOrders` list.
     - Create our `SendOrder`.
         - If we found a `ReceiveOrder` in the previous step, set our `ReservedReceiverId` to the `Id` of that `ReceiveOrder`.
 
@@ -246,7 +246,7 @@ The logic behind this method goes as follows:
 ```
 
 2. Wait until either the notification of our `SendOrder` is triggered, or the timeout is triggered.
-    - If there was a `ReceiveOrder` available and we triggered its notification **we will disregard the timeout** - the reason for this is that we know that the "receiver task" has been awoken and is expecting our `SendOrder` to be present. We can only guarantee that our `SendOrder` will be there if we ensure that a timeout **will not be triggered** _before_ the "receiver task" has fetched our `SendOrder`. We do this by setting the timeout to infinite.
+    - If there was a `ReceiveOrder` available in step 1, **we will disregard the timeout** - the reason for this is that we know that the receiver has been signaled and expects our `SendOrder` to be present. We can only guarantee that our `SendOrder` will be there if we ensure that a timeout **will not be triggered** _before_ the receiver has fetched our `SendOrder`. We do this by setting the timeout to `Timeout.InfiniteTimeSpan`.
 
 ```csharp
         // We're creating this combinedCts so that we can terminate the sleepTask
@@ -271,16 +271,16 @@ The logic behind this method goes as follows:
         cancelSleep.Cancel();
 ```
 
-3. Check the status of our notification
+3. Check the status of our notification task
     - If our notification triggered, return true - the panel was transferred successfully.
     - Otherwise, acquire the `QueueLock` and do the following:
         - Check again if our notification triggered (we perform this check twice to prevent a race condition).
-        - If it wasn't triggered, that means that the timeout was triggered instead. Therefore, we should remove our `SendOrder` and return false.
+        - If it wasn't triggered, that means that the timeout task was triggered instead. Therefore, we should remove our `SendOrder` and return false.
 
 ```csharp
         if (notificationTask.IsCompletedSuccessfully)
         {
-            // A receiver task triggered our notification task, removed our send order, and and returned the panel.
+            // A receiver task triggered our notification task, removed our send order, and returned the panel.
             // The panel has been handed over successfully, we're done here!
             return true;
         }
@@ -290,7 +290,7 @@ The logic behind this method goes as follows:
             
             if (notificationTask.IsCompletedSuccessfully) // The notification task was triggered immediately after the sleep task.
             {
-                // A receiver task triggered our notification task, removed our send order, and and returned the panel.
+                // A receiver task triggered our notification task, removed our send order, and returned the panel.
                 // The panel has been handed over successfully, we're done here!
                 QueueLock.Release();
                 return true;
@@ -309,7 +309,7 @@ The logic behind this method goes as follows:
 
 ### The **TryReceiveAsync()** method
 
-This method will naturally be the counterpart of the [`TrySendAsync()` method](#the-trysendasync-method). This is how it works:
+This method will naturally be the counterpart to the [`TrySendAsync()` method](#the-trysendasync-method). This is how it works:
 
 1. Acquire the `QueueLock` and do the following:
     - If there's a `SendOrder` with `ReservedReceiverId` set to `null` available, trigger its notification mechanism, remove it from the `SendOrders` list and return the panel from the `SendOrder`. We're done here!
@@ -350,7 +350,7 @@ This method will naturally be the counterpart of the [`TrySendAsync()` method](#
         }
 ```
 
-2. Wait until either the notification of our `ReceiveOrder` is triggered, or the timeout is triggered.
+2. Wait until either the notification task of our `ReceiveOrder` is triggered, or the timeout is triggered.
 
 ```csharp
         // We're creating this combinedCts so that we can terminate the sleepTask
@@ -369,8 +369,8 @@ This method will naturally be the counterpart of the [`TrySendAsync()` method](#
 ```
 
 3. Acquire the `QueueLock` and do the following:
-    - If our notification triggered, that means there's a `SendOrder` reserved for us - we need to find it, trigger its notification mechanism, remove it from the `SendOrders` list and return the panel from the `SendOrder`!
-    - Otherwise, that means that the timeout was triggered instead. Therefore, we should remove our `ReceiveOrder` and return false.
+    - If our notification task triggered, that means there's a `SendOrder` reserved for us - we need to find it, trigger its notification mechanism, remove it from the `SendOrders` list and return the panel from the `SendOrder`!
+    - Otherwise, that means that the timeout task was triggered instead. Therefore, we should remove our `ReceiveOrder` and return false.
 
 ```csharp
         // By holding the lock we ensure that we have exclusive access to our own notificationTask.
@@ -411,13 +411,13 @@ Reading the code is one thing, but what would really help us understand these me
 
 !["Sequence diagram of TryReceiveAsync() first, followed by TrySendAsync()"](/images/perfect-handover/ReceiveSend.excalidraw.svg)
 
-The boxes with dashed lines indicate who holds the `QueueLock`. The `1.` `2.` `3.` refer to the algorithm explanations from the previous chapter.
+The boxes with dashed lines indicate who holds the `QueueLock`. The `1.` `2.` `3.` annotations refer to the algorithm explanations from the previous chapter.
 
 ## Convincing yourself that the code actually works
 
-Writing multithreaded code is not that hard - what's difficult is making sure that the code works under all circumstances! This requires you to think of every possible deadlock scenario, every possible race condition and ensuring that they are all accounted for.[^4]
+Writing multithreaded code is not that hard - what's difficult is making sure that the code works under all circumstances! This requires you to think of every possible deadlock scenario, every possible race condition and ensuring that they are all accounted for.[^3]
 
-[^4]: There are formal methods for validating concurrent algorithms, but in this blog post we will be taking a much more informal approach to making sure that our algorithm works.
+[^3]: There are formal methods for validating concurrent algorithms, but in this blog post we will be taking a much more informal approach to making sure that our algorithm works.
 
 With this in mind, let's consider some potentially problematic scenarios:
 
@@ -430,7 +430,7 @@ In both `TrySendAsync` and `TryReceiveAsync`, we wait for one of these two tasks
 await Task.WhenAny(notificationTask, sleepTask);
 ```
 
-What happens if they both complete _at the same time_? Or one immediately after the other? We handle this race condition by acquiring the `QueueLock`: doing this will prevent the state of `notificationTask` from changing (because you need to hold the `QueueLock` to trigger a change in `notificationTask`).
+What happens if they both complete **_at the same time_**? Or one immediately after the other? We handle this race condition by acquiring the `QueueLock`: doing this prevents the state of `notificationTask` from changing (because you need to hold the `QueueLock` to trigger a change in `notificationTask`).
 
 Now that we know that `notificationTask` will not change, we can check its state without fear of it changing under our feet.
 
@@ -442,11 +442,11 @@ There's another more complex scenario that also merits attention. Imagine this s
 2. **S1** calls `TrySendAsync()`. **R1**'s notification is triggered, and **S1** creates a `SendOrder` for **R1** to consume.
 3. **R2** calls `TryReceiveAsync()`, beats **R1** to the `QueueLock`, sees that **S1**'s `SendOrder` is available and takes it!
 4. **S1** receives a notification, meaning that its `SendOrder` has been consumed. Job done.
-5. **R1** finally acquires the lock expecting a `SendOrder` to exist, but **it finds out that `SendOrders` is completely empty**!
+5. **R1** finally acquires the lock expecting a `SendOrder` to exist, but **it discovers that `SendOrders` is completely empty**!
 
-The problem that we have here, is that even though **S1** creates a `SendOrder` with the expectation that the receiver that triggered its notification will consume it, there's nothing that prevents a random receiver task from sneaking in and stealing.
+The problem here is that even though **S1** creates a `SendOrder` with the expectation that the receiver that triggered its notification will consume it, there's nothing that prevents a random receiver task from "sneaking in" and stealing this `SendOrder` that was meant for someone else.
 
-The fix for this stealing issue is a dedicated `ReservedReceiverId` field in the `SendOrder` struct that _reserves_ this `SendOrder` for a very specific `ReceiveOrder`:
+The fix for this stealing issue is a dedicated `ReservedReceiverId` field in the `SendOrder` struct that _reserves_ this `SendOrder` for a specific `ReceiveOrder`:
 
 ```csharp
 struct SendOrder<T>
@@ -461,7 +461,7 @@ struct SendOrder<T>
     // ...
 ```
 
-This is also why we don't simply fetch the first `SendOrder` in the `SendOrders` list in `TryReceiveAsync()`: we instead look for a `SendOrder` with a null `ReservedReceiverId`:
+This is also why we don't simply fetch the first `SendOrder` in the `SendOrders` list in the `TryReceiveAsync()` method: we instead look for a `SendOrder` with a null `ReservedReceiverId`:
 
 ```csharp
 public async Task<(bool Success, T? Panel)> TryReceiveAsync(TimeSpan timeout, CancellationToken cancellationToken)
