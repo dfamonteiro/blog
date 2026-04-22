@@ -154,7 +154,7 @@ To keep the main algorithms as lean as possible, I wrote these small utility fun
                 // Cancel the notification task. Doing this is important to avoid having "zombie" tasks filling our memory.
                 ReceiveOrders[i].Notification.SetCanceled(); // No one should be awaiting this Task, so calling SetCancelled() should pose no problem.
                 ReceiveOrders.RemoveAt(i);
-                break;
+                return;
             }
         }
         // If no match found, throw exception
@@ -176,7 +176,7 @@ To keep the main algorithms as lean as possible, I wrote these small utility fun
                 // Cancel the notification task. Doing this is important to avoid having "zombie" tasks filling our memory.
                 SendOrders[i].Notification.SetCanceled(); // No one should be awaiting this Task, so calling SetCancelled() should pose no problem.
                 SendOrders.RemoveAt(i);
-                break;
+                return;
             }
         }
         // If no match found, throw exception

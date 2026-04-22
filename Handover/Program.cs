@@ -78,6 +78,9 @@ class Program
         machineA.Output = link;
         machineB.Input  = link;
 
+        await machineB.Input.Queue.TryReceiveAsync(TimeSpan.FromMilliseconds(100), CancellationToken.None);
+        await machineB.Input.Queue.TrySendAsync(new(), TimeSpan.FromMilliseconds(100), CancellationToken.None);
+
         List<Task> taskList = new();
 
         for (int i = 0; i < 100000; i++)
