@@ -15,7 +15,7 @@ One can usually tell the importance of a certain piece of software by the amount
 
 [^1]: It's quite hard to reboot your computer when your computer is in orbit.
 
-You don't have to be Airbus to take testing seriously, though. There are open-source projects out there whose testing infraestructure can rival that of major corporations. Take SQLite, for example: it has **590 times** more test code than library code! They have a whole webpage dedicated to their testing efforts:
+You don't have to be Airbus to take testing seriously, though. There are open-source projects out there whose testing infrastructure can rival that of major corporations. Take SQLite, for example: it has **590 times** more test code than library code! They have a whole webpage dedicated to their testing efforts:
 
 > 1.1. Executive Summary
 >
@@ -220,7 +220,7 @@ Luckily, you notice that the repetitiveness of this code can be easily addressed
 
 ## Iteration 2: Loop-based naïve approach
 
-Taking a closer look at the code from the previous chapter, its cylical nature becomes quite obvious:
+Taking a closer look at the code from the previous chapter, its cyclical nature becomes quite obvious:
 
 <figure>
     <img src="/images/wafer-system-state-loop.excalidraw.svg" alt="The Wafer system state loop">
@@ -346,7 +346,7 @@ If looking at this tangled mess of if-statements doesn't convince you this is a 
 
 We find ourselves in a bit of a predicament. While it's clear that the amount of state these wafers carry is warping the way we write our code, what's _not clear_ is how we can deal with it in a elegant manner. It's clear the way forward involves tackling the stateful nature of these wafers head-on. But first, let's take a step back and reflect on the issue at hand.
 
-[^7]: While writing this iteration subchapter, I was reminded of a very funny quote I heard from work: _"Could you bring this up in the next arquitecture meeting, so I can immediately shoot it down?"_. That's how I feel about this subchapter: it's more about what you _shouldn't do_.
+[^7]: While writing this iteration subchapter, I was reminded of a very funny quote I heard from work: _"Could you bring this up in the next architecture meeting, so I can immediately shoot it down?"_. That's how I feel about this subchapter: it's more about what you _shouldn't do_.
 
 [^8]: The first if-statement of the loop is missing a `flowpath_index += 1` line, for example.
 
@@ -373,7 +373,7 @@ Can this insight be translated to elegant code? Let's find out.
 
 ## Iteration 4: Treating the wafers as state machines
 
-It's time to go all-in on this state machine ideia:
+It's time to go all-in on this state machine idea:
 
 ```python
 from random import random
@@ -481,7 +481,7 @@ The image below should make this idea of nested state machines clearer, by highl
 
 It's clear as day that structuring our scenario as a state machine is the way to go. But how do we push this idea even further? Our MES is in charge of keeping track of the state of the wafers, so the part we're responsible for are the state transitions.[^9] With that in mind our goal will be to find an elegant approach to answer this simple question:
 
-[^9]: It does make sense if you think about it: the MES operations we've been calling in out load tests can be thought of as state transitions for the wafer.
+[^9]: It does make sense if you think about it: the MES operations we've been calling in our load tests can be thought of as state transitions for the wafer.
 
 > Given a wafer's current state, what transition should the wafer undertake?
 
@@ -599,7 +599,7 @@ handler_table = [
 ]
 ```
 
-Notice the flatness of our code so far: need to apply the same handler to different flowpaths? Add another row to the handler table. Need to implement a new requirement? Write a new handler and add it to the handler table. We also get really good scalability: the source file might grow in size, but it's complexity will remain the same. The handlers can even be moved to a separate file to keep things better organized.
+Notice the flatness of our code so far: need to apply the same handler to different flowpaths? Add another row to the handler table. Need to implement a new requirement? Write a new handler and add it to the handler table. We also get really good scalability: the source file might grow in size, but its complexity will remain the same. The handlers can even be moved to a separate file to keep things better organized.
 
 Finally we need to write the engine that will execute our handlers:
 
