@@ -1,6 +1,6 @@
 +++ 
 draft = true
-date = 2026-03-01T17:47:13Z
+date = 2026-08-12T18:23:07+01:00
 title = "Crafting beautiful trace visualizations from database records"
 description = ""
 slug = ""
