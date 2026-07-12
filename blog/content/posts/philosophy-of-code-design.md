@@ -49,8 +49,9 @@ From this [article](https://x.com/mitchellh/article/2070665127331037290):
 
 ### My take
 
-Taste is a nagging feeling on the back of your mind that something is not right with the overall structure of the software you're developing/reviewing. In the same way that physics systems trend towards low entropy, taste is a driving force within you that makes you reshape your software until it reaches its natural entropy _minima_.
+Taste is the ability to tell whether a piece of code **_feels_** right. In the same way that physics systems trend towards a state of low entropy, taste is a driving force within you that makes you reshape your software until it reaches its natural _minima_.
 
-- taste at several levels of abstraction
+Taste is relevant at any level of abstraction: in same same manner you can have elegant code, you can also have an elegant software architecture.
+
 - taste in only some tachnical areas
 - correlated/intertwined with quality stardard, technical vision
