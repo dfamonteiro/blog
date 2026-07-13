@@ -56,3 +56,6 @@ Your ability to tell whether code feels right or not will naturally be dependent
 Taste is relevant at any level of abstraction: in same same manner you can have elegant code, you can also have an elegant software architecture.
 
 As a final note (and this more of a personal conjecture), taste appears to be intertwined with other positive attributes, such as attention to detail, a high personal quality standard and a clear technical vision of how things should be.
+
+<!-- https://web.archive.org/web/20260411175101/https://matthewsanabria.dev/posts/you-had-no-taste-before-ai/ -->
+<!-- https://news.ycombinator.com/item?id=33449065 -->
