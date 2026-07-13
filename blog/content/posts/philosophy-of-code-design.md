@@ -51,7 +51,8 @@ From this [article](https://x.com/mitchellh/article/2070665127331037290):
 
 Taste is the ability to tell whether a piece of code **_feels_** right. In the same way that physics systems trend towards a state of low entropy, taste is a driving force within you that makes you reshape your software until it reaches its natural _minima_.
 
+Your ability to tell whether code feels right or not will naturally be dependent on your areas of expertize as a software engineer. Take me, the writer of this blog post, as an example: while I can detect issues in backend almost subconsciously, the best I can do with frontend code is say "it looks ok".
+
 Taste is relevant at any level of abstraction: in same same manner you can have elegant code, you can also have an elegant software architecture.
 
-- taste in only some tachnical areas
-- correlated/intertwined with quality stardard, technical vision
+As a final note (and this more of a personal conjecture), taste appears to be intertwined with other positive attributes, such as attention to detail, a high personal quality standard and a clear technical vision of how things should be.
