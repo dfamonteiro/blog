@@ -49,13 +49,28 @@ From this [article](https://x.com/mitchellh/article/2070665127331037290):
 
 ### My take
 
-Taste is the ability to tell whether a piece of code **_feels_** right. In the same way that physics systems trend towards a state of low entropy, taste is a driving force within you that makes you reshape your software until it reaches its natural _minima_.
+Taste is the ability to tell whether a piece of code **_feels_** right. In the same way that physics systems trend towards a state of low entropy, taste is a driving force within you that makes you reshape your software astractions until it reaches its natural _minima_.
 
-Your ability to tell whether code feels right or not will naturally be dependent on your areas of expertize as a software engineer. Take me, the writer of this blog post, as an example: while I can detect issues in backend almost subconsciously, the best I can do with frontend code is say "it looks ok".
+Your ability to tell whether code feels right or not will naturally be dependent on your areas of expertize as a software engineer. Take me, the writer of this blog post, as an example: while I can detect issues in backend code almost subconsciously, the best I can do with frontend code is say "it looks ok".
 
 Taste is relevant at any level of abstraction: in same same manner you can have elegant code, you can also have an elegant software architecture.
 
 As a final note (and this more of a personal conjecture), taste appears to be intertwined with other positive attributes, such as attention to detail, a high personal quality standard and a clear technical vision of how things should be.
+
+## Taste now matters more than ever | why does taste matter | why should I care | your ability to output code doesn't really matter anymore
+
+- People with technical vision tend to be the driving force of software teams.
+- llms
+- self-driven is important
+- cost of writing drops
+- cost of validating code is the same
+- pressure on experienced developers
+- Being a person that just mechanically turns user stories into code is not a good idea
+
+## Can you improve your taste? John Ousterhout believes you can
+
+Read books, read blog posts, etc
+"A philosophy of software design" presents a vision of how
 
 <!-- https://web.archive.org/web/20260411175101/https://matthewsanabria.dev/posts/you-had-no-taste-before-ai/ -->
 <!-- https://news.ycombinator.com/item?id=33449065 -->
