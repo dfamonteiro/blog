@@ -61,7 +61,7 @@ As a final note (and this more of a personal conjecture), taste appears to be in
 
 You might be wondering why I am pontificating on this concept of "taste" in a blog post that is meant to be recommending a book. This is why: coding agents (and by extension LLMs) are reshaping the skillset required to be a competent software engineer.
 
-What does it mean to live in a world where the cost of writing code is a mere fraction of what it used to be? It means that all other aspects of your role as a software engineer become more important by proxy.
+What does it mean to live in a world where the cost of writing code is a mere fraction of what it used to be? It means that all other aspects of your role as a software engineer become more important by proxy. To be more specific, **your ability to review the code written by your coding agent is going to become absolutely critical**. If you don't have this skill, you risk turning your your codebase into an incomprehensible vibecoded mess.
 
 - People with technical vision tend to be the driving force of software teams.
 - llms
