@@ -71,6 +71,6 @@ So in short... you need to have _taste_.
 
 ## Can you improve your taste in software design? John Ousterhout believes you can
 
-All of this to say that you should read John Ousterhout's [_A Philosophy of Software Design_](https://www.goodreads.com/en/book/show/39996759-a-philosophy-of-software-design), which speaks at length about how software systems should be designed and how to manage complexity in software design. When I first read this book, I was taken aback by how much of my personal philosophy of how code should be structured is reflected in the author's words.
+All of this to say that you should read John Ousterhout's [_A Philosophy of Software Design_](https://www.goodreads.com/en/book/show/39996759-a-philosophy-of-software-design), which speaks at length about how software systems should be designed and how to manage complexity in software design. When I first read this book, I was taken aback by how much of my personal philosophy of how code should be structured is reflected in the author's words. If there's any way to improve your taste, it's by reading this book.
 
-You should read this book for chapter 3 alone: **Working Code Isn't Enough**. The first edition of this book was originally published in 2018 _and yet_ this specific chapter couldn't have been better targetted for this agentic era software engineering is about to enter.
+Chapter 3 alone makes it worth it: **Working Code Isn't Enough**. The first edition of this book was originally published in 2018 _and yet_ this specific chapter couldn't have been better targetted for this agentic era we're diving into headfirst.
