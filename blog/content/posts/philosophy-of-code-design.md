@@ -61,21 +61,14 @@ As a final note (and this more of a personal conjecture), taste appears to be in
 
 You might be wondering why I am pontificating on this concept of "taste" in a blog post that is meant to be recommending a book. This is why: coding agents (and by extension LLMs) are reshaping the skillset required to be a competent software engineer.
 
-What does it mean to live in a world where the cost of writing code is a mere fraction of what it used to be? It means that all other aspects of your role as a software engineer become more important by proxy. To be more specific, **your ability to review the code written by your coding agent is going to become absolutely critical**. If you don't have this skill, you risk turning your your codebase into an incomprehensible vibecoded mess.
+What does it mean to live in a world where the cost of writing code is a mere fraction of what it used to be?[^1] It means that all other aspects of your role as a software engineer become more important by proxy. To be more specific, **your ability to review the code written by your coding agent is going to become absolutely critical**. If you don't have this skill, you risk turning your your codebase into an incomprehensible vibecoded mess.
 
-- People with technical vision tend to be the driving force of software teams.
-- llms
-- self-driven is important
-- cost of writing drops
-- cost of validating code is the same
-- pressure on experienced developers
-- Being a person that just mechanically turns user stories into code is not a good idea
-- Reviewing untrustworthy code is called being a senior software engineer  
+[^1]: I'm not making any claims on whether or not we already live in this reality. Some of us probably already do, probably. As always, [the future is already here — it's just not very evenly distributed.](https://en.wikiquote.org/wiki/William_Gibson)
 
-## Can you improve your taste? John Ousterhout believes you can
+So in short... you need to have _taste_.
 
-Read books, read blog posts, etc
-"A philosophy of software design" presents a vision of how
+## Can you improve your taste in software design? John Ousterhout believes you can
 
-<!-- https://web.archive.org/web/20260411175101/https://matthewsanabria.dev/posts/you-had-no-taste-before-ai/ -->
-<!-- https://news.ycombinator.com/item?id=33449065 -->
+All of this to say that you should read John Ousterhout's [_A Philosophy of Software Design_](https://www.goodreads.com/en/book/show/39996759-a-philosophy-of-software-design), which speaks at length about how software systems should be managed and how to manage complexity in software design. When I first read this book, I was taken aback by how much of my personal philosophy of how code should be structured is reflected in the author's words.
+
+You should read this book for chapter 3 alone: **Working Code Isn't Enough**. The first edition of this book was originally published in 2018, and yet this specific chapter couldn't have been better targetted for this agentic era software engineering is about to enter.
