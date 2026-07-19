@@ -1,5 +1,5 @@
 +++ 
-draft = true
+draft = false
 date = 2026-07-12T18:23:07+01:00
 title = "John Ousterhout's \"A Philosophy of Software Design\" is a must-read book"
 description = ""
@@ -13,7 +13,9 @@ series = []
 
 Software engineers are not a fungible commodity. Two people could have the same age, graduate from the same course, have the exact same work experience, have the exact same life experience... and one of them writes much more elegant code than the other. How does this happen? Do some people just have an innate ability to write better structured code than others? Can this be taught?
 
-What is the name of this intangible quality that some engineers have and some don't? It's called **taste**.
+What is the name of this intangible quality that some engineers have and some don't?
+
+It's called **taste**.
 
 ## Defining taste
 
@@ -69,6 +71,6 @@ So in short... you need to have _taste_.
 
 ## Can you improve your taste in software design? John Ousterhout believes you can
 
-All of this to say that you should read John Ousterhout's [_A Philosophy of Software Design_](https://www.goodreads.com/en/book/show/39996759-a-philosophy-of-software-design), which speaks at length about how software systems should be managed and how to manage complexity in software design. When I first read this book, I was taken aback by how much of my personal philosophy of how code should be structured is reflected in the author's words.
+All of this to say that you should read John Ousterhout's [_A Philosophy of Software Design_](https://www.goodreads.com/en/book/show/39996759-a-philosophy-of-software-design), which speaks at length about how software systems should be designed and how to manage complexity in software design. When I first read this book, I was taken aback by how much of my personal philosophy of how code should be structured is reflected in the author's words.
 
-You should read this book for chapter 3 alone: **Working Code Isn't Enough**. The first edition of this book was originally published in 2018, and yet this specific chapter couldn't have been better targetted for this agentic era software engineering is about to enter.
+You should read this book for chapter 3 alone: **Working Code Isn't Enough**. The first edition of this book was originally published in 2018 _and yet_ this specific chapter couldn't have been better targetted for this agentic era software engineering is about to enter.
