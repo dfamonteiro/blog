@@ -51,13 +51,17 @@ From this [article](https://x.com/mitchellh/article/2070665127331037290):
 
 Taste is the ability to tell whether a piece of code **_feels_** right. In the same way that physics systems trend towards a state of low entropy, taste is a driving force within you that makes you reshape your software astractions until it reaches its natural _minima_.
 
-Your ability to tell whether code feels right or not will naturally be dependent on your areas of expertize as a software engineer. Take me, the writer of this blog post, as an example: while I can detect issues in backend code almost subconsciously, the best I can do with frontend code is say "it looks ok".
+Your ability to tell whether code feels right or not will naturally be dependent on your areas of expertize as a software engineer. Take me, the writer of this blog post, as an example: while I can detect potential issues in backend code almost subconsciously, the best I can do with frontend code is say "it looks ok".
 
 Taste is relevant at any level of abstraction: in same same manner you can have elegant code, you can also have an elegant software architecture.
 
-As a final note (and this more of a personal conjecture), taste appears to be intertwined with other positive attributes, such as attention to detail, a high personal quality standard and a clear technical vision of how things should be.
+As a final note (and this more of a personal conjecture), taste appears to be intertwined with other positive attributes that are important to software engineering, such as attention to detail, a high personal quality standard and a clear technical vision of how things should be.
 
-## Taste now matters more than ever | why does taste matter | why should I care | your ability to output code doesn't really matter anymore
+## Taste is about to become really freaking important
+
+You might be wondering why I am pontificating on this concept of "taste" in a blog post that is meant to be recommending a book. This is why: coding agents (and by extension LLMs) are reshaping the skillset required to be a competent software engineer.
+
+What does it mean to live in a world where the cost of writing code is a mere fraction of what it used to be? It means that all other aspects of your role as a software engineer become more important by proxy.
 
 - People with technical vision tend to be the driving force of software teams.
 - llms
@@ -66,6 +70,7 @@ As a final note (and this more of a personal conjecture), taste appears to be in
 - cost of validating code is the same
 - pressure on experienced developers
 - Being a person that just mechanically turns user stories into code is not a good idea
+- Reviewing untrustworthy code is called being a senior software engineer  
 
 ## Can you improve your taste? John Ousterhout believes you can
 
