@@ -65,7 +65,7 @@ You might be wondering why I am pontificating on this concept of "taste" in a bl
 
 What does it mean to live in a world where the cost of writing code is a mere fraction of what it used to be?[^1] It means that all other aspects of your role as a software engineer become more important by proxy. To be more specific, **your ability to review the code written by your coding agent is going to become absolutely critical**. If you don't have this skill, you risk turning your your codebase into an incomprehensible vibecoded mess.
 
-[^1]: I'm not making any claims on whether or not we already live in this reality. Some of us probably already do, probably. As always, [the future is already here — it's just not very evenly distributed.](https://en.wikiquote.org/wiki/William_Gibson)
+[^1]: I'm not making any claims on whether or not we already live in this reality. Some of us probably already do, though. As always, [the future is already here - it's just not very evenly distributed](https://en.wikiquote.org/wiki/William_Gibson).
 
 So in short... you need to have _taste_.
 
@@ -73,4 +73,4 @@ So in short... you need to have _taste_.
 
 All of this to say that you should read John Ousterhout's [_A Philosophy of Software Design_](https://www.goodreads.com/en/book/show/39996759-a-philosophy-of-software-design), which speaks at length about how software systems should be designed and how to manage complexity in software design. When I first read this book, I was taken aback by how much of my personal philosophy of how code should be structured is reflected in the author's words. If there's any way to improve your taste, it's by reading this book.
 
-Chapter 3 alone makes it worth it: **Working Code Isn't Enough**. The first edition of this book was originally published in 2018 _and yet_ this specific chapter couldn't have been better targetted for this agentic era we're diving into headfirst.
+Chapter 3 alone makes it a worthwhile read: **Working Code Isn't Enough**. The first edition of this book was originally published in 2018 _and yet_ this specific chapter couldn't have been better targetted for this agentic era we're diving into headfirst - it's almost like the author knows what he's talking about!
