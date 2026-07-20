@@ -1,6 +1,6 @@
 +++ 
 draft = false
-date = 2026-07-12T18:23:07+01:00
+date = 2026-07-19T18:23:07+01:00
 title = "John Ousterhout's \"A Philosophy of Software Design\" is a must-read book"
 description = ""
 slug = ""
