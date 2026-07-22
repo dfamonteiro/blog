@@ -11,7 +11,7 @@ externalLink = ""
 series = []
 +++
 
-Software engineers are not a fungible commodity. Two people could be the same age, graduate from the same course, have the exact same work experience, have the exact same life experience... and one of them writes much more elegant code than the other. How does this happen? Do some people just have an innate ability to write better structured code than others? Can this be taught?
+Software engineers are not a fungible commodity. Two people could be of the same age, graduate from the same course, have the exact same work experience, have the exact same life experience... and one of them writes much more elegant code than the other. How does this happen? Do some people just have an innate ability to write better structured code than others? Can this be taught?
 
 What is the name of this intangible quality that some engineers have and some don't?
 
@@ -19,9 +19,7 @@ It's called **taste**.
 
 ## Defining taste
 
-You won't find a [wikipedia](https://en.wikipedia.org/wiki/Taste_(disambiguation)) page for taste in the way it is described here - this idea of "taste" is frankly more part of programming folklore than anything else.
-
-Nevertheless, there are some who have tried to define taste - to several degrees of formality:
+You won't find a [wikipedia](https://en.wikipedia.org/wiki/Taste_(disambiguation)) page for taste in the way it is described here - to be honest, this idea of "taste" is more part of programming folklore than anything else. Nevertheless, there are some who have tried to define taste, to several degrees of formality:
 
 ### Linus Torvalds' take
 
@@ -51,13 +49,11 @@ From this [article](https://x.com/mitchellh/article/2070665127331037290):
 
 ### My take
 
-Taste is the ability to tell whether a piece of code **_feels_** right. In the same way that physics systems trend towards a state of low entropy, taste is a driving force within you that makes you reshape your software abstractions until they reach their natural _minima_.
+Taste is the ability to tell whether a piece of code _feels_ right. In the same way that physics systems trend towards a state of low entropy, taste is a driving force within you that compels you to reshape your software abstractions until they reach their natural _minima_.
 
 Your ability to tell whether code feels right or not will naturally be dependent on your areas of expertise as a software engineer. Take me, the writer of this blog post, as an example: while I can detect potential issues in backend code almost subconsciously, the best I can do with frontend code is say "it looks ok".
 
-Taste is relevant at any level of abstraction: in the same manner you can have elegant code, you can also have an elegant software architecture.
-
-As a final note (and this more of a personal conjecture), taste appears to be intertwined with other positive attributes that are important to software engineering, such as proactiveness, attention to detail, high personal quality standards and clear technical vision.
+As a final note, taste is relevant at any level of abstraction: in the same manner you can have elegant code, you can also have an elegant software architecture... or not.
 
 ## Taste is about to become really freaking important
 
@@ -73,4 +69,4 @@ So in short... you need to have _taste_.
 
 All of this to say that you should read John Ousterhout's [_A Philosophy of Software Design_](https://www.goodreads.com/en/book/show/39996759-a-philosophy-of-software-design), which speaks at length about how software systems should be designed and how to manage complexity in software design. When I first read this book, I was taken aback by how much of my personal philosophy of how code should be structured is reflected in the author's words. If there's any way to improve your taste, it's by reading this book.
 
-Chapter 3 alone makes it a worthwhile read: **Working Code Isn't Enough**. The first edition of this book was originally published in 2018 _and yet_ this specific chapter couldn't have been better targeted for this agentic era we're diving into headfirst - it's almost like the author knows what he's talking about!
+Chapter 3 alone makes it a worthwhile read: **Working Code Isn't Enough**. The first edition of this book was originally published in 2018 _and yet_ this specific chapter couldn't have been better targeted for this agentic era we're diving into headfirst - it's almost like the author of this book knows what he's talking about, so go read it!
