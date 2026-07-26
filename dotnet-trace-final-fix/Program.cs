@@ -82,10 +82,10 @@ class Program
     {
         foreach ((int threadId, var samples) in threadMap)
         {
-            for (int i = 1; i < samples.Count; i++)
+            for (int sampleIndex = 1; sampleIndex < samples.Count; sampleIndex++)
             {
-                var prev = samples[i - 1];
-                var current = samples[i];
+                var prev = samples[sampleIndex - 1];
+                var current = samples[sampleIndex];
 
                 if (current.StackTrace.Count < 100)
                 {
@@ -95,15 +95,37 @@ class Program
 
                 if (prev.StackTrace[0] != current.StackTrace[0])
                 {
-                    Console.WriteLine($"HIT {threadId} {current.TimestampMs}");
-                    int index = prev.StackTrace.FindIndex(frame => frame == current.StackTrace[0]);
-                    if (index == -1)
+                    var candidates = new List<int>();
+                    for (int i = 0; i < prev.StackTrace.Count; i++)
                     {
-                        // No matching stack frame, so one can assume this call stack is actually accurate
+                        if (prev.StackTrace[i] == current.StackTrace[0])
+                        {
+                            candidates.Add(i);
+                        }
+                    }
+
+                    if (candidates.Count == 0)
+                    {
+                        // No matching stack frame, so one can assume this call stack is accurate
                         continue;
                     }
+
+                    (int Index, int NumberOfMatches) bestCandidate = (-1, -1);
+                    foreach (int candidateIndex in candidates)
+                    {
+                        int numberOfMatches = 0;
+                        while (prev.StackTrace[candidateIndex + numberOfMatches] == current.StackTrace[numberOfMatches])
+                        {
+                            numberOfMatches++;
+                        }
+
+                        if (numberOfMatches > bestCandidate.NumberOfMatches)
+                        {
+                            bestCandidate = (candidateIndex, numberOfMatches);
+                        }
+                    }
                     
-                    for (int prevIndex = 0; prevIndex < index; prevIndex++)
+                    for (int prevIndex = 0; prevIndex < bestCandidate.Index; prevIndex++)
                     {
                         current.StackTrace.Insert(prevIndex, prev.StackTrace[prevIndex]);
                     }
@@ -111,6 +133,21 @@ class Program
             }
         }
     }
+
+    // HIT 18040192 9608.508291666667 | BEST (6, 89) 6 | 1
+    // HIT 18040192 9611.241166666667 | BEST (9, 87) 9 | 1
+    // HIT 18040192 9612.563625 | BEST (15, 92) 13 | 2
+    // HIT 18040192 9614.4395 | BEST (13, 92) 13 | 1
+    // HIT 18040192 9615.756125 | BEST (7, 8) 7 | 1
+    // HIT 18040192 9617.085208333334 | BEST (8, 85) 8 | 1
+    // HIT 18040192 9682.098958333334 | BEST (1, 71) 1 | 1
+    // HIT 18040192 9684.847333333333 | BEST (8, 72) 8 | 1
+    // HIT 18040192 9687.4855 | BEST (12, 77) 12 | 3
+    // HIT 18040192 9688.871541666667 | BEST (4, 96) 4 | 1
+    // HIT 18040192 9690.197333333334 | BEST (20, 73) 20 | 1
+    // HIT 18040192 9691.566333333334 | BEST (7, 86) 7 | 1
+    // HIT 18040192 9694.377541666667 | BEST (4, 90) 4 | 1
+    // HIT 18040192 9697.034416666667 | BEST (11, 80) 11 | 1
 
     public static void ConvertToSpeedscope(string path, Dictionary<int, List<SampleData>> threadMap)
     {
