@@ -73,7 +73,7 @@ This will be done in classic [ETL](https://en.wikipedia.org/wiki/Extract,_transf
 
 ### Extract
 
-In this initial step we load all the relevant data into a mapping of threads to lists of trace samples. This will be the main data structure we will be operating on.
+In this initial step we extract all the relevant data into a mapping of threads to lists of trace samples. This will be the main data structure we will be operating on.
 
 ```csharp
 private static void Convert(TraceFileFormat format, string fileToConvert, string outputFilename, bool continueOnError = false)
