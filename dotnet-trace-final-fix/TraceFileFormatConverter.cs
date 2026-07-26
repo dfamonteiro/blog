@@ -70,38 +70,68 @@ namespace Microsoft.Diagnostics.Tools.Trace
         private static void Convert(TraceFileFormat format, string fileToConvert, string outputFilename, bool continueOnError = false)
         {
             string etlxFilePath = TraceLog.CreateFromEventPipeDataFile(fileToConvert, null, new TraceLogOptions() { ContinueOnError = continueOnError });
-            using (SymbolReader symbolReader = new(TextWriter.Null) { SymbolPath = SymbolPath.MicrosoftSymbolServerPath })
-            using (TraceLog eventLog = new(etlxFilePath))
-            {
-                MutableTraceEventStackSource stackSource = new(eventLog)
-                {
-                    OnlyManagedCodeStacks = true // EventPipe currently only has managed code stacks.
-                };
-
-                SampleProfilerThreadTimeComputer computer = new(eventLog, symbolReader)
-                {
-                    IncludeEventSourceEvents = false // SpeedScope handles only CPU samples, events are not supported
-                };
-                computer.GenerateThreadTimeStacks(stackSource);
-
-                switch (format)
-                {
-                    case TraceFileFormat.Speedscope:
-                        SpeedScopeStackSourceWriter.WriteStackViewAsJson(stackSource, outputFilename);
-                        break;
-                    case TraceFileFormat.Chromium:
-                        ChromiumStackSourceWriter.WriteStackViewAsJson(stackSource, outputFilename, compress: false);
-                        break;
-                    default:
-                        // we should never get here
-                        throw new Exception($"Invalid TraceFileFormat \"{format}\"");
-                }
-            }
+            
+            // Retrieve the call stacks from the file
+            Dictionary<int, List<CallstackSample>> callStacks = GetCallstacks(etlxFilePath);
 
             if (File.Exists(etlxFilePath))
             {
                 File.Delete(etlxFilePath);
             }
         }
+
+        /// <summary>
+        /// Retrieves the call stack samples from the given etlx file.
+        /// </summary>
+        private static Dictionary<int, List<CallstackSample>> GetCallstacks(string etlxFilePath)
+        {
+            // threadId -> List of (timestamp, frames)
+            var result = new Dictionary<int, List<CallstackSample>>();
+
+            using (TraceLog eventLog = new(etlxFilePath))
+            {
+                var eventSource = eventLog.Events.GetSource();
+
+                // Subscribe to all trace events
+                eventSource.Dynamic.All += (TraceEvent eventData) =>
+                {
+                    var callStack = eventData.CallStack();
+                    if (callStack == null) return;
+
+                    int threadId = eventData.ThreadID;
+                    double timestamp = eventData.TimeStampRelativeMSec;
+
+                    if (!result.TryGetValue(threadId, out var samples))
+                    {
+                        samples = new List<CallstackSample>();
+                        result[threadId] = samples;
+                    }
+
+                    var frames = new List<string>();
+                    var currentFrame = callStack;
+
+                    while (currentFrame != null)
+                    {
+                        string methodName = currentFrame.CodeAddress.Method?.FullMethodName ?? "Native/Unresolved";
+
+                        frames.Add(methodName);
+                        currentFrame = currentFrame.Caller;
+                    }
+                    frames.Reverse(); // Make sure the "root frames" appear first
+
+                    samples.Add(new CallstackSample(timestamp, frames));
+                };
+
+                // Process the trace log
+                eventSource.Process();
+            }
+
+            return result;
+        }
+
+        /// <summary
+        /// Represents a singular call stack from a thread, sampled at a given TimestampMs.
+        /// </summary>
+        public record CallstackSample(double TimestampMs, List<string> StackTrace);
     }
 }

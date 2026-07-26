@@ -24,7 +24,7 @@ I was a bit disheartened after this experience: I can write all the guides in th
 
 ## We have to fix this at the source
 
-You can't fix this "in post". Trust me, [I've tried](dotnet-trace-100-limit.md) and the conclusion I reached was that asking the user to do any post-processing step will just discourage them from using this tool. This leaves us with only one final option: fixing `dotnet-trace` itself.
+You can't fix this in post. Trust me, [I tried](dotnet-trace-100-limit.md) and the conclusion I reached was that asking the user to do any post-processing step will just discourage them from using this tool. This leaves us with only one final option: fixing `dotnet-trace` itself.
 
 Trust me, this is easier than it sounds: the one method you need to modify is this one under [`src/Tools/dotnet-trace/TraceFileFormatConverter.cs`](https://github.com/dotnet/diagnostics/blob/main/src/Tools/dotnet-trace/TraceFileFormatConverter.cs):
 
@@ -68,3 +68,30 @@ private static void Convert(TraceFileFormat format, string fileToConvert, string
 ```
 
 `dotnet-trace` implements the conversion to the [speedscope](https://www.speedscope.app/) and [chromium](https://perfetto.dev/) formats by essencially [delegating that responsibility to the `perfview` project](https://github.com/microsoft/perfview/blob/f3ec1b38a6d7535e4f878510e5041f9da7d0fdb6/src/TraceEvent/Stacks/ChromiumStackSourceWriter.cs#L12). We will replace the contents of this method and implement this conversion ourselves.
+
+This will be done in classic [ETL](https://en.wikipedia.org/wiki/Extract,_transform,_load) fashion: **Extract**, **Transform** and **Load**.
+
+### Step 1: extract the call stacks from the .nettrace file
+
+In this initial step we load all the relevant data into a mapping of threads to lists of trace samples. This will be the main data structure we will be operating on.
+
+```csharp
+private static void Convert(TraceFileFormat format, string fileToConvert, string outputFilename, bool continueOnError = false)
+{
+    string etlxFilePath = TraceLog.CreateFromEventPipeDataFile(fileToConvert, null, new TraceLogOptions() { ContinueOnError = continueOnError });
+            
+    // Retrieve the call stacks from the file
+    // threadId -> List of (timestamp, frames)
+    Dictionary<int, List<CallstackSample>> callStacks = GetCallstacks(etlxFilePath);
+
+    if (File.Exists(etlxFilePath))
+    {
+        File.Delete(etlxFilePath);
+    }
+}
+
+/// <summary
+/// Represents a singular call stack from a thread, sampled at a given TimestampMs.
+/// </summary>
+public record CallstackSample(double TimestampMs, List<string> StackTrace);
+```
