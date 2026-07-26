@@ -71,7 +71,7 @@ private static void Convert(TraceFileFormat format, string fileToConvert, string
 
 This will be done in classic [ETL](https://en.wikipedia.org/wiki/Extract,_transform,_load) fashion: **Extract**, **Transform** and **Load**.
 
-### Step 1: extract the call stacks from the .nettrace file
+### Extract
 
 In this initial step we load all the relevant data into a mapping of threads to lists of trace samples. This will be the main data structure we will be operating on.
 
@@ -95,3 +95,7 @@ private static void Convert(TraceFileFormat format, string fileToConvert, string
 /// </summary>
 public record CallstackSample(double TimestampMs, List<string> StackTrace);
 ```
+
+### Transform
+
+### Load
