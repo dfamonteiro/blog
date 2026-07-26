@@ -484,3 +484,4 @@ $RECYCLE.BIN/
 # Trace Files
 *.chromium.json
 *.nettrace
+*.speedscope.json
