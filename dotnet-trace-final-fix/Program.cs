@@ -44,9 +44,7 @@ class Program
 
                 while (currentFrame != null)
                 {
-                    string methodName = currentFrame.CodeAddress.Method?.FullMethodName 
-                                        ?? currentFrame.CodeAddress.ModuleName 
-                                        ?? "Native/Unresolved";
+                    string methodName = currentFrame.CodeAddress.Method?.FullMethodName ?? "Native/Unresolved";
                     
                     frames.Add(methodName);
                     currentFrame = currentFrame.Caller;
