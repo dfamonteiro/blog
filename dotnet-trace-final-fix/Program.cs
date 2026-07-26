@@ -12,70 +12,77 @@ class Program
 
     static void Main(string[] args)
     {
-        string nettraceFile = Path.Combine(BASE_PATH, "dotnet-dsrouter_20240212_135920.nettrace");
-        
-        // --- PHASE 1: CONVERT NETTRACE TO ETLX ---
-        string etlxPath = TraceLog.CreateFromEventPipeDataFile(nettraceFile);
-
-        // threadId -> List of (timestamp, frames)
-        var threadMap = new Dictionary<int, List<SampleData>>();
-
-        // --- PHASE 2: PARSE CALL STACKS ---
-        using (var traceLog = new TraceLog(etlxPath))
+        if (false)
         {
-            var eventSource = traceLog.Events.GetSource();
+            
+        }
+        else
+        {
+            string nettraceFile = Path.Combine(BASE_PATH, "dotnet-dsrouter_20240212_135920.nettrace");
 
-            // Subscribe to all trace events
-            eventSource.Dynamic.All += (TraceEvent eventData) =>
+            // --- PHASE 1: CONVERT NETTRACE TO ETLX ---
+            string etlxPath = TraceLog.CreateFromEventPipeDataFile(nettraceFile);
+
+            // threadId -> List of (timestamp, frames)
+            var threadMap = new Dictionary<int, List<SampleData>>();
+
+            // --- PHASE 2: PARSE CALL STACKS ---
+            using (var traceLog = new TraceLog(etlxPath))
             {
-                var callStack = eventData.CallStack();
-                if (callStack == null) return;
+                var eventSource = traceLog.Events.GetSource();
 
-                int threadId = eventData.ThreadID;
-                double timestamp = eventData.TimeStampRelativeMSec;
-
-                if (!threadMap.TryGetValue(threadId, out var samples))
+                // Subscribe to all trace events
+                eventSource.Dynamic.All += (TraceEvent eventData) =>
                 {
-                    samples = new List<SampleData>();
-                    threadMap[threadId] = samples;
-                }
+                    var callStack = eventData.CallStack();
+                    if (callStack == null) return;
 
-                var frames = new List<string>();
-                var currentFrame = callStack;
+                    int threadId = eventData.ThreadID;
+                    double timestamp = eventData.TimeStampRelativeMSec;
 
-                while (currentFrame != null)
-                {
-                    string methodName = currentFrame.CodeAddress.Method?.FullMethodName ?? "Native/Unresolved";
-                    
-                    frames.Add(methodName);
-                    currentFrame = currentFrame.Caller;
-                }
-                frames.Reverse(); // Make sure the "root frames" appear first
+                    if (!threadMap.TryGetValue(threadId, out var samples))
+                    {
+                        samples = new List<SampleData>();
+                        threadMap[threadId] = samples;
+                    }
 
-                samples.Add(new SampleData(timestamp, frames));
+                    var frames = new List<string>();
+                    var currentFrame = callStack;
+
+                    while (currentFrame != null)
+                    {
+                        string methodName = currentFrame.CodeAddress.Method?.FullMethodName ?? "Native/Unresolved";
+
+                        frames.Add(methodName);
+                        currentFrame = currentFrame.Caller;
+                    }
+                    frames.Reverse(); // Make sure the "root frames" appear first
+
+                    samples.Add(new SampleData(timestamp, frames));
+                };
+
+                // Process the trace log
+                eventSource.Process();
+            }
+
+            FixCallStacks(threadMap);
+
+            Console.WriteLine("Extraction complete. Saving to JSON...");
+
+            // --- PHASE 3: DUMP TO JSON ---
+            var jsonOptions = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping // Allows < and > without escaping to \u003C and \u003E
             };
 
-            // Process the trace log
-            eventSource.Process();
+            string jsonOutput = JsonSerializer.Serialize(threadMap, jsonOptions);
+
+            File.WriteAllText(Path.Combine(BASE_PATH, "callstacks.json"), jsonOutput);
+
+            Console.WriteLine("Writing speedscope file...");
+            ConvertToSpeedscope(Path.Combine(BASE_PATH, "test.speedscope.json"), threadMap);
         }
-
-        FixCallStacks(threadMap);
-
-        Console.WriteLine("Extraction complete. Saving to JSON...");
-
-        // --- PHASE 3: DUMP TO JSON ---
-        var jsonOptions = new JsonSerializerOptions 
-        { 
-            WriteIndented = true,
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping // Allows < and > without escaping to \u003C and \u003E
-        };
-
-        string jsonOutput = JsonSerializer.Serialize(threadMap, jsonOptions);
-
-        File.WriteAllText(Path.Combine(BASE_PATH, "callstacks.json"), jsonOutput);
-
-        Console.WriteLine("Writing speedscope file...");
-        ConvertToSpeedscope(Path.Combine(BASE_PATH, "test.speedscope.json"), threadMap);
     }
 
     public static void FixCallStacks(Dictionary<int, List<SampleData>> threadMap)
