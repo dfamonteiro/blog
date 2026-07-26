@@ -1,5 +1,5 @@
 baseurl = "https://dfamonteiro.com/"
-title = "Daniel's blog"
+title = "Daniel Monteiro's blog"
 theme = "hugo-coder"
 languagecode = "en"
 defaultcontentlanguage = "en"
