@@ -1,6 +1,7 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Diagnostics.Tools.Trace;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Etlx;
 
@@ -12,9 +13,15 @@ class Program
 
     static void Main(string[] args)
     {
-        if (false)
+        if (true)
         {
-            
+            TraceFileFormatConverter.ConvertToFormat(
+                Console.Out,
+                Console.Error,
+                TraceFileFormat.Speedscope,
+                Path.Combine(BASE_PATH, "dotnet-dsrouter_20240212_135920.nettrace"),
+                Path.Combine(BASE_PATH, "test.speedscope.json")
+            );
         }
         else
         {
