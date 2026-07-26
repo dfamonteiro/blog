@@ -59,6 +59,8 @@ class Program
             eventSource.Process();
         }
 
+        FixCallStacks(threadMap);
+
         Console.WriteLine("Extraction complete. Saving to JSON...");
 
         // --- PHASE 3: DUMP TO JSON ---
@@ -74,6 +76,40 @@ class Program
 
         Console.WriteLine("Writing speedscope file...");
         ConvertToSpeedscope(Path.Combine(BASE_PATH, "test.speedscope.json"), threadMap);
+    }
+
+    public static void FixCallStacks(Dictionary<int, List<SampleData>> threadMap)
+    {
+        foreach ((int threadId, var samples) in threadMap)
+        {
+            for (int i = 1; i < samples.Count; i++)
+            {
+                var prev = samples[i - 1];
+                var current = samples[i];
+
+                if (current.StackTrace.Count < 100)
+                {
+                    // We aren't exceeding the stack frame limit here
+                    continue;
+                }
+
+                if (prev.StackTrace[0] != current.StackTrace[0])
+                {
+                    Console.WriteLine($"HIT {threadId} {current.TimestampMs}");
+                    int index = prev.StackTrace.FindIndex(frame => frame == current.StackTrace[0]);
+                    if (index == -1)
+                    {
+                        // No matching stack frame, so one can assume this call stack is actually accurate
+                        continue;
+                    }
+                    
+                    for (int prevIndex = 0; prevIndex < index; prevIndex++)
+                    {
+                        current.StackTrace.Insert(prevIndex, prev.StackTrace[prevIndex]);
+                    }
+                }
+            }
+        }
     }
 
     public static void ConvertToSpeedscope(string path, Dictionary<int, List<SampleData>> threadMap)
