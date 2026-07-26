@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text.Encodings.Web;
+using System.Text.Json;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Etlx;
 
@@ -6,24 +7,24 @@ namespace dotnet_trace_final_fix;
 
 class Program
 {
-    const string BASE_PATH = "C:\\Users\\Daniel\\Desktop\\github\\blog\\dotnet-trace-final-fix\\";
+    const string BASE_PATH = @"C:\Users\Daniel\Desktop\github\blog\dotnet-trace-final-fix\";
 
     static void Main(string[] args)
     {
-        // --- PHASE 2: RESOLVE SYMBOLS (TWO-PASS PARSE) ---
-        // This creates a .etlx file alongside your .nettrace file. 
-        // It reads the Rundown at the end of the file and maps it to the events.
-        string etlxPath = TraceLog.CreateFromEventPipeDataFile(BASE_PATH + "dotnet-dsrouter_20240212_135920.nettrace");
+        string nettraceFile = Path.Combine(BASE_PATH, "dotnet-dsrouter_20240212_135920.nettrace");
+        
+        // --- PHASE 1: CONVERT NETTRACE TO ETLX ---
+        string etlxPath = TraceLog.CreateFromEventPipeDataFile(nettraceFile);
 
+        // threadId -> List of (timestamp, frames)
+        var threadMap = new Dictionary<int, List<SampleData>>();
 
-        // --- PHASE 3: EXTRACT THE DICTIONARY ---
-        // threadId -> { timestamp -> [callstacks] }
-        var threadMap = new Dictionary<int, Dictionary<double, List<string>>>();
-
+        // --- PHASE 2: PARSE CALL STACKS ---
         using (var traceLog = new TraceLog(etlxPath))
         {
             var eventSource = traceLog.Events.GetSource();
 
+            // Subscribe to all trace events
             eventSource.Dynamic.All += (TraceEvent eventData) =>
             {
                 var callStack = eventData.CallStack();
@@ -32,37 +33,46 @@ class Program
                 int threadId = eventData.ThreadID;
                 double timestamp = eventData.TimeStampRelativeMSec;
 
-                if (!threadMap.ContainsKey(threadId))
+                if (!threadMap.TryGetValue(threadId, out var samples))
                 {
-                    threadMap[threadId] = new Dictionary<double, List<string>>();
+                    samples = new List<SampleData>();
+                    threadMap[threadId] = samples;
                 }
 
                 var frames = new List<string>();
                 var currentFrame = callStack;
 
-                // Walk the stack from top to bottom
                 while (currentFrame != null)
                 {
-                    string methodName = currentFrame.CodeAddress.Method?.FullMethodName ?? "Native/Unresolved";
+                    string methodName = currentFrame.CodeAddress.Method?.FullMethodName 
+                                        ?? currentFrame.CodeAddress.ModuleName 
+                                        ?? "Native/Unresolved";
+                    
                     frames.Add(methodName);
-
                     currentFrame = currentFrame.Caller;
                 }
 
-                threadMap[threadId][timestamp] = frames;
+                samples.Add(new SampleData(timestamp, frames));
             };
 
-            // Process the entire ETLX file synchronously
+            // Process the trace log
             eventSource.Process();
         }
 
         Console.WriteLine("Extraction complete. Saving to JSON...");
 
-        // --- PHASE 4: DUMP TO JSON ---
-        var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+        // --- PHASE 3: DUMP TO JSON ---
+        var jsonOptions = new JsonSerializerOptions 
+        { 
+            WriteIndented = true,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping // Allows < and > without escaping to \u003C and \u003E
+        };
+
         string jsonOutput = JsonSerializer.Serialize(threadMap, jsonOptions);
 
-        File.WriteAllText(BASE_PATH + "callstacks.json", jsonOutput);
-        Console.WriteLine("Done! Check callstacks.json");
+        File.WriteAllText(Path.Combine(BASE_PATH, "callstacks.json"), jsonOutput);
     }
 }
+
+// Named record/class ensures clean JSON serialization instead of ValueTuple formatting
+public record SampleData(double TimestampMs, List<string> StackTrace);
