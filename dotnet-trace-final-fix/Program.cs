@@ -49,6 +49,7 @@ class Program
                     frames.Add(methodName);
                     currentFrame = currentFrame.Caller;
                 }
+                frames.Reverse(); // Make sure the "root frames" appear first
 
                 samples.Add(new SampleData(timestamp, frames));
             };
