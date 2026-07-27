@@ -98,4 +98,81 @@ public record CallstackSample(double TimestampMs, List<string> StackTrace);
 
 ### Transform
 
+Now it's time to put our surgeon gloves on and start manipulating our call stacks. If a potentially truncated call stack is detected, the following is done:
+
+1. Compare the base stack frame with all the stack frames of the previous sample. The idea is that while call `abc()` might be the root frame of the truncated call stack, it might in reality be frame #10 and the first 10 traces were suppressed. The best way to check this to compare against the previous sample, which is assumed to have the _true_ call stack.
+2. Compare the matches and select the one that better aligns with the previous call stack - the candidate with the most overlap wins.
+3. Insert the missing stack frames - the call stack should be correct now.
+
+```csharp
+/// <summary>
+/// Fixes the call stacks truncated by the EventPipe's 100 stack frame limit.
+/// </summary>
+public static void FixCallStacks(Dictionary<int, List<CallstackSample>> threadMap)
+{
+    foreach ((int threadId, var samples) in threadMap)
+    {
+        for (int sampleIndex = 1; sampleIndex < samples.Count; sampleIndex++)
+        {
+            var previous = samples[sampleIndex - 1];
+            var current = samples[sampleIndex];
+
+            if (current.StackTrace.Count < 100)
+            {
+                // We aren't exceeding the stack frame limit here,
+                // therefore we don't need to fix anything.
+                continue;
+            }
+
+            if (previous.StackTrace[0] != current.StackTrace[0])
+            {
+                // Get list of stack traces from `previous` that matches
+                // the `current` base trace
+                var candidates = new List<int>();
+                for (int i = 0; i < previous.StackTrace.Count; i++)
+                {
+                    if (previous.StackTrace[i] == current.StackTrace[0])
+                    {
+                        candidates.Add(i);
+                    }
+                }
+
+                if (candidates.Count == 0)
+                {
+                    // If there's no matching stack frame from `previous`,
+                    // there's nothing we can do
+                    continue;
+                }
+
+                // Select the best candidate match from the list of candidates.
+                // The best candidate match is the one with the most call stack overlap
+                // between `previous` and `current`
+                (int Index, int Overlap) bestCandidate = (-1, -1);
+                foreach (int candidateIndex in candidates)
+                {
+                    int overlap = 0;
+                    while (previous.StackTrace[candidateIndex + overlap] == current.StackTrace[overlap])
+                    {
+                        // For as long as the stack frames keep matching,
+                        // keep increasing the overlap
+                        overlap++;
+                    }
+
+                    if (overlap > bestCandidate.Overlap)
+                    {
+                        bestCandidate = (candidateIndex, overlap);
+                    }
+                }
+                
+                // Insert the missing stack frames
+                for (int prevIndex = 0; prevIndex < bestCandidate.Index; prevIndex++)
+                {
+                    current.StackTrace.Insert(prevIndex, previous.StackTrace[prevIndex]);
+                }
+            }
+        }
+    }
+}
+```
+
 ### Load
