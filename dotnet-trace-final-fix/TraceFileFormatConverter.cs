@@ -181,6 +181,12 @@ namespace Microsoft.Diagnostics.Tools.Trace
                             {
                                 // For as long as the stack frames keep matching, keep increasing the overlap
                                 overlap++;
+
+                                if (candidateIndex + overlap == previous.StackTrace.Count || overlap == current.StackTrace.Count)
+                                {
+                                    // We have an index out of bounds, so we have to stop
+                                    break;
+                                }
                             }
 
                             if (overlap > bestCandidate.Overlap)
