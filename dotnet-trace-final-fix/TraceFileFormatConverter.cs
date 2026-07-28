@@ -205,9 +205,12 @@ namespace Microsoft.Diagnostics.Tools.Trace
             }
         }
 
-        /// <summary
-        /// Represents a singular call stack from a thread, sampled at a given TimestampMs.
+        /// <summary>
+        /// Represents an internal intermediate representation of a recorded stack trace sample 
+        /// before it is mapped to the final format.
         /// </summary>
+        /// <param name="TimestampMs">The relative timestamp of the sample in milliseconds.</param>
+        /// <param name="StackTrace">The ordered list of method names, from root to leaf.</param>
         public record CallstackSample(double TimestampMs, List<string> StackTrace);
     }
 }
