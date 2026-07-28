@@ -81,6 +81,19 @@ namespace Microsoft.Diagnostics.Tools.Trace
             {
                 File.Delete(etlxFilePath);
             }
+
+            switch (format)
+            {
+                case TraceFileFormat.Speedscope:
+                    SpeedscopeWriter.Convert(outputFilename, callStacks);
+                    break;
+                case TraceFileFormat.Chromium:
+                    // TODO
+                    break;
+                default:
+                    // we should never get here
+                    throw new Exception($"Invalid TraceFileFormat \"{format}\"");
+            }
         }
 
         /// <summary>
