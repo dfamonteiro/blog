@@ -26,7 +26,7 @@ I was a bit disheartened after this experience: I can write all the guides in th
 
 You can't fix this in post. Trust me, [I tried](dotnet-trace-100-limit.md) and the conclusion I reached was that asking the user to do any post-processing step will just discourage them from using this tool. This leaves us with only one final option: fixing `dotnet-trace` itself.
 
-Trust me, this is easier than it sounds: the one method you need to modify is this one under [`src/Tools/dotnet-trace/TraceFileFormatConverter.cs`](https://github.com/dotnet/diagnostics/blob/main/src/Tools/dotnet-trace/TraceFileFormatConverter.cs):
+Thankfully, this is easier than it may appear at first glance: the one method you need to modify is this one under [`src/Tools/dotnet-trace/TraceFileFormatConverter.cs`](https://github.com/dotnet/diagnostics/blob/main/src/Tools/dotnet-trace/TraceFileFormatConverter.cs):
 
 ```csharp
 private static void Convert(TraceFileFormat format, string fileToConvert, string outputFilename, bool continueOnError = false)
