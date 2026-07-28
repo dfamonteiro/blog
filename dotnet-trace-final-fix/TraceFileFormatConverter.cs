@@ -88,7 +88,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
                     SpeedscopeWriter.Convert(outputFilename, callStacks);
                     break;
                 case TraceFileFormat.Chromium:
-                    // TODO
+                    ChromiumWriter.Convert(outputFilename, callStacks);
                     break;
                 default:
                     // we should never get here
