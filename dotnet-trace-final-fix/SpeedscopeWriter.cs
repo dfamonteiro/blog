@@ -19,7 +19,7 @@ public static class SpeedscopeWriter
     /// </summary>
     /// <param name="path">The file path where the resulting Speedscope JSON document will be written.</param>
     /// <param name="threadMap">A dictionary mapping thread IDs to chronologically ordered lists of stack samples.</param>
-    public static void Convert(string path, Dictionary<int, List<CallstackSample>> threadMap)
+    internal static void Convert(string path, Dictionary<int, List<CallstackSample>> threadMap)
     {
         // 1. Build a shared frame registry to intern method names (string -> frameIndex)
         var sharedFrames = new List<SpeedscopeFrame>();
