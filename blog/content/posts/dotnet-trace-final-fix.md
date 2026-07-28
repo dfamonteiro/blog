@@ -104,7 +104,7 @@ Now it's time to put our surgeon gloves on and start manipulating our call stack
 2. Compare the matches and select the one that better aligns with the previous call stack - the candidate with the most overlap wins.
 3. Insert the missing stack frames - the call stack should be correct now.
 
-I recognize it might be difficult to understand the algorithm just from this sinopsis, so I cooked up a visualization just for you:
+I recognize it might be difficult to understand the algorithm just from this synopsis, so I cooked up a visualization just for you:
 
 <figure>
     <video controls autoplay loop muted width="100%">
