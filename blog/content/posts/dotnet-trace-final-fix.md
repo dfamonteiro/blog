@@ -100,7 +100,7 @@ public record CallstackSample(double TimestampMs, List<string> StackTrace);
 
 Now it's time to put our surgeon gloves on and start manipulating our call stacks. If a potentially truncated call stack is detected, the following is done:
 
-1. Compare the base stack frame against all the stack frames of the previous sample. The idea is that while call `abc()` might be the root frame of our truncated call stack, it might in reality be frame #10 and the actual first 10 traces were suppressed. The best way to check this to compare against the previous sample, which is assumed to have the _true_ call stack, meaning that `abc()` will appear "lower" in the stack.
+1. Compare the base stack frame against all the stack frames of the previous sample. The idea is that while call `abc()` might be the root frame of our truncated call stack, it might in reality be frame #10 and the actual first 10 traces were suppressed. The best way to check this is to compare `abc()` against the stack frames of the previous sample, which is assumed to be correct, meaning that `abc()` will appear "lower" in the stack.
 2. Compare the matches and select the one that better aligns with the previous call stack - the candidate with the most overlap wins.
 3. Insert the missing stack frames - the call stack should be correct now.
 
