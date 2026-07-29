@@ -193,4 +193,40 @@ public static void FixCallStacks(Dictionary<int, List<CallstackSample>> threadMa
 
 ### Load
 
-TODO SpeedscopeWriter & ChromiumWriter
+The final step is convert our `callStacks` data structure into our preferred trace format. The code behind this serialization is not that interesting, so I decided to outsource the implementation of `SpeedscopeWriter` and `ChromiumWriter` to Gemini.
+
+This is the final state of the `Convert` method:
+
+```csharp
+private static void Convert(TraceFileFormat format, string fileToConvert, string outputFilename, bool continueOnError = false)
+{
+    string etlxFilePath = TraceLog.CreateFromEventPipeDataFile(fileToConvert, null, new TraceLogOptions() { ContinueOnError = continueOnError });
+    
+    // Retrieve the call stacks from the file
+    Dictionary<int, List<CallstackSample>> callStacks = GetCallstacks(etlxFilePath);
+
+    // Fix the callstacks
+    FixCallStacks(callStacks);
+
+    if (File.Exists(etlxFilePath))
+    {
+        File.Delete(etlxFilePath);
+    }
+
+    switch (format)
+    {
+        case TraceFileFormat.Speedscope:
+            SpeedscopeWriter.Convert(outputFilename, callStacks);
+            break;
+        case TraceFileFormat.Chromium:
+            ChromiumWriter.Convert(outputFilename, callStacks);
+            break;
+        default:
+            // we should never get here
+            throw new Exception($"Invalid TraceFileFormat \"{format}\"");
+    }
+}
+```
+
+I'm going to do something truly sacrilegious... I'm going to delete this sample
+The gods of observability demand a blood sacrifice
