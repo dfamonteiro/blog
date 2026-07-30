@@ -237,9 +237,13 @@ After all this work, have we done it? Let's start with a simple test: a broken t
     <img src="/images/dotnet-trace-final-fix/github-diff-b.png" data-label="After"  alt="after" />
 </div>
 
-So far so good! But this trace is child's play compared to some traces I've collected at [Critical Manufacturing](https://www.criticalmanufacturing.com/), where the host of the system compiles code on-demand **_while serving a request_**[^1]! This is a call stack that can easily go 200-300 frames deep, and is the ultimate challenge for the adjustments we made to `dotnet-trace` in this blog post.
+So far so good! But this trace is child's play compared to some traces I've collected at [Critical Manufacturing](https://www.criticalmanufacturing.com/), where the host of the system can compile C# code on-demand **_while serving a request_**[^1]! This is a call stack that can easily go 200-300 frames deep, and is the ultimate challenge for the adjustments we made to `dotnet-trace` in this blog post.
 
 [^1]: There are very good reasons for doing this, see this [page](https://help.criticalmanufacturing.com/userguide/administration/dee_actions/) for more info.
+
+## So... does it _really_ work?
+
+todo
 
 I'm going to do something truly sacrilegious... I'm going to delete this sample
 The gods of observability demand a blood sacrifice

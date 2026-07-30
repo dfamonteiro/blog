@@ -36,7 +36,7 @@ public static class ChromiumWriter
                 Phase = "M", // Metadata phase
                 ProcessId = fakePid,
                 ThreadId = threadId,
-                Args = new Dictionary<string, object> { { "name", $"Thread {threadId}" } }
+                Args = new Dictionary<string, object> { { "name", "Thread" } } 
             });
 
             var sortedSamples = samples.OrderBy(s => s.TimestampMs).ToList();
