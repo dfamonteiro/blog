@@ -306,7 +306,7 @@ if (candidates.Count == 0)
 }
 ```
 
-Yes, I know, pure heresy. But you can't argue against the results:
+Yes, I know, pure heresy. But you can't argue against results:
 
 <div class="juxtapose" data-startingposition="50%" data-showlabels="true">
     <img src="/images/dotnet-trace-final-fix/cm-2-a.png" data-label="Before" alt="before" />
