@@ -178,8 +178,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
 
                         if (candidates.Count == 0)
                         {
-                            // If there's no matching stack frame from `previous`,
-                            // delete this trace.
+                            // If there's no matching stack frame from `previous`, delete this sample.
                             samples.RemoveAt(sampleIndex);
                             sampleIndex--;
                             continue;

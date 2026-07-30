@@ -260,26 +260,12 @@ The quality of the trace has improved significantly, but we're not there yet. If
 This is happening because the `ForceCompleteMemberByLocation` can not be found in the previous trace, and therefore we hit this code path in `FixCallStacks`:
 
 ```csharp
-if (previous.StackTrace[0] != current.StackTrace[0])
+if (candidates.Count == 0) // <==== No matches! ====
 {
-    // Get list of stack traces from `previous` that matches the `current` base trace
-    var candidates = new List<int>();
-    for (int i = 0; i < previous.StackTrace.Count; i++)
-    {
-        if (previous.StackTrace[i] == current.StackTrace[0])
-        {
-            candidates.Add(i);
-        }
-    }
-
-    if (candidates.Count == 0) // <==== No matches! ====
-    {
-        // If there's no matching stack frame from `previous`,
-        // there's nothing we can do
-        continue; 
-    }
-
-    //...
+    // If there's no matching stack frame from `previous`,
+    // there's nothing we can do
+    continue; 
+}
 ```
 
 I honestly thought this `if (candidates.Count == 0)` edge case would never be triggered. I mean, who on earth goes 100 function calls deep within a single millisecond?! The Rosylin compiler apparently.
@@ -291,28 +277,13 @@ I have an idea on how to fix this, but it's not pretty.
 I'm going to do something truly sacrilegious... instead of ignoring the problem, I'm going to straight up delete the samples that can't be rescued:
 
 ```csharp
-if (previous.StackTrace[0] != current.StackTrace[0])
+if (candidates.Count == 0)
 {
-    // Get list of stack traces from `previous` that matches the `current` base trace
-    var candidates = new List<int>();
-    for (int i = 0; i < previous.StackTrace.Count; i++)
-    {
-        if (previous.StackTrace[i] == current.StackTrace[0])
-        {
-            candidates.Add(i);
-        }
-    }
-
-    if (candidates.Count == 0)
-    {
-        // If there's no matching stack frame from `previous`,
-        // delete this trace.
-        samples.RemoveAt(sampleIndex);
-        sampleIndex--;
-        continue;
-    }
-    
-    //...
+    // If there's no matching stack frame from `previous`, delete this sample.
+    samples.RemoveAt(sampleIndex);
+    sampleIndex--;
+    continue;
+}
 ```
 
 Yes, I recognize this is the nuclear option, TODO
