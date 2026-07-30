@@ -243,7 +243,44 @@ So far so good! But this trace is child's play compared to some traces I've coll
 
 ## So... does it _really_ work?
 
-todo
+Let's run our tweaked `Convert` method against a trace from a [Critical Manufacturing](https://www.criticalmanufacturing.com/) MES host and let's see what happens:
+
+<div class="juxtapose" data-startingposition="32%" data-showlabels="true">
+    <img src="/images/dotnet-trace-final-fix/cm-1-a.png" data-label="Before" alt="before" />
+    <img src="/images/dotnet-trace-final-fix/cm-1-b.png" data-label="After"  alt="after" />
+</div>
+
+The quality of the trace has improved significantly, but we're not there yet. If we zoom in, we can still find disruptions:
+
+<figure>
+    <img src="/images/dotnet-trace-final-fix/disruptions.png" alt="A screenshot of a broken trace.">
+    <figcaption>A screenshot of a break in our trace.</figcaption>
+</figure>
+
+This is happening because the `ForceCompleteMemberByLocation` can not be found in the previous trace, and therefore we hit this code path in `FixCallStacks`:
+
+```csharp
+if (previous.StackTrace[0] != current.StackTrace[0])
+{
+    // Get list of stack traces from `previous` that matches the `current` base trace
+    var candidates = new List<int>();
+    for (int i = 0; i < previous.StackTrace.Count; i++)
+    {
+        if (previous.StackTrace[i] == current.StackTrace[0])
+        {
+            candidates.Add(i);
+        }
+    }
+
+    if (candidates.Count == 0) // <==== No matches! ====
+    {
+        // If there's no matching stack frame from `previous`,
+        // there's nothing we can do
+        continue; 
+    }
+```
+
+### The observability gods demand a blood sacrifice
 
 I'm going to do something truly sacrilegious... I'm going to delete this sample
 The gods of observability demand a blood sacrifice
