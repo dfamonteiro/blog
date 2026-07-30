@@ -245,9 +245,29 @@ So far so good! But this trace is child's play compared to some traces I've coll
 
 Let's run our tweaked `Convert` method against a trace from a [Critical Manufacturing](https://www.criticalmanufacturing.com/) MES host and let's see what happens:
 
-<div class="juxtapose" data-startingposition="32%" data-showlabels="true">
+<style>
+  /* 1. Make the thin vertical center line black */
+  .black-slider .jx-controller {
+      background-color: #000000 !important;
+  }
+
+  /* 2. Make the handle container background transparent/black */
+  .black-slider .jx-control {
+      background-color: #000000 !important;
+  }
+
+  /* 3. Turn the left and right arrow triangles black */
+  .black-slider .jx-arrow.jx-left {
+      border-right-color: #000000 !important;
+  }
+  .black-slider .jx-arrow.jx-right {
+      border-left-color: #000000 !important;
+  }
+</style>
+
+<div class="juxtapose black-slider" data-startingposition="50%" data-showlabels="true">
     <img src="/images/dotnet-trace-final-fix/cm-1-a.png" data-label="Before" alt="before" />
-    <img src="/images/dotnet-trace-final-fix/cm-1-b.png" data-label="After"  alt="after" />
+    <img src="/images/dotnet-trace-final-fix/cm-1-b.png" data-label="After" alt="after" />
 </div>
 
 The quality of the trace has improved significantly, but we're not there yet. If we zoom in, we can still find disruptions:
@@ -292,6 +312,12 @@ Yes, I know, pure heresy. But you can't argue against the results:
     <img src="/images/dotnet-trace-final-fix/cm-2-a.png" data-label="Before" alt="before" />
     <img src="/images/dotnet-trace-final-fix/cm-2-b.png" data-label="After"  alt="after" />
 </div>
+
+And I added some feedback in the cli to make sure you're aware of what's happening:
+
+```txt
+
+```
 
 <!-- Juxtapose CSS -->
 <link rel="stylesheet" href="https://cdn.knightlab.com/libs/juxtapose/latest/css/juxtapose.css">
