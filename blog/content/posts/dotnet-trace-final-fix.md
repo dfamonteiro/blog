@@ -278,12 +278,44 @@ if (previous.StackTrace[0] != current.StackTrace[0])
         // there's nothing we can do
         continue; 
     }
+
+    //...
 ```
+
+I honestly thought this `if (candidates.Count == 0)` edge case would never be triggered. I mean, who on earth goes 100 function calls deep within a single millisecond?! The Rosylin compiler apparently.
+
+I have an idea on how to fix this, but it's not pretty.
 
 ### The observability gods demand a blood sacrifice
 
-I'm going to do something truly sacrilegious... I'm going to delete this sample
-The gods of observability demand a blood sacrifice
+I'm going to do something truly sacrilegious... instead of ignoring the problem, I'm going to straight up delete the samples that can't be rescued:
+
+```csharp
+if (previous.StackTrace[0] != current.StackTrace[0])
+{
+    // Get list of stack traces from `previous` that matches the `current` base trace
+    var candidates = new List<int>();
+    for (int i = 0; i < previous.StackTrace.Count; i++)
+    {
+        if (previous.StackTrace[i] == current.StackTrace[0])
+        {
+            candidates.Add(i);
+        }
+    }
+
+    if (candidates.Count == 0)
+    {
+        // If there's no matching stack frame from `previous`,
+        // delete this trace.
+        samples.RemoveAt(sampleIndex);
+        sampleIndex--;
+        continue;
+    }
+    
+    //...
+```
+
+Yes, I recognize this is the nuclear option, TODO
 
 <!-- Juxtapose CSS -->
 <link rel="stylesheet" href="https://cdn.knightlab.com/libs/juxtapose/latest/css/juxtapose.css">
