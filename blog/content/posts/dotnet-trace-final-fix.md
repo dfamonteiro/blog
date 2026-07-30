@@ -228,5 +228,24 @@ private static void Convert(TraceFileFormat format, string fileToConvert, string
 }
 ```
 
+## So... does it work?
+
+After all this work, have we done it? Let's start with a simple test: a broken trace from [this github issue](https://github.com/dotnet/diagnostics/issues/4490#issuecomment-1939428734), which happens to be one of the first mentions of this limitation that I discovered:
+
+<div class="juxtapose" data-startingposition="80%" data-showlabels="true">
+    <img src="/images/dotnet-trace-final-fix/github-diff-a.png" data-label="Before" alt="before" />
+    <img src="/images/dotnet-trace-final-fix/github-diff-b.png" data-label="After"  alt="after" />
+</div>
+
+So far so good! But this trace is child's play compared to some traces I've collected at [Critical Manufacturing](https://www.criticalmanufacturing.com/), where the host of the system compiles code on-demand **_while serving a request_**[^1]! This is a call stack that can easily go 200-300 frames deep, and is the ultimate challenge for the adjustments we made to `dotnet-trace` in this blog post.
+
+[^1]: There are very good reasons for doing this, see this [page](https://help.criticalmanufacturing.com/userguide/administration/dee_actions/) for more info.
+
 I'm going to do something truly sacrilegious... I'm going to delete this sample
 The gods of observability demand a blood sacrifice
+
+<!-- Juxtapose CSS -->
+<link rel="stylesheet" href="https://cdn.knightlab.com/libs/juxtapose/latest/css/juxtapose.css">
+
+<!-- Juxtapose JS -->
+<script src="https://cdn.knightlab.com/libs/juxtapose/latest/js/juxtapose.min.js"></script>
