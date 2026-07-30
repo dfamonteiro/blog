@@ -313,12 +313,6 @@ Yes, I know, pure heresy. But you can't argue against the results:
     <img src="/images/dotnet-trace-final-fix/cm-2-b.png" data-label="After"  alt="after" />
 </div>
 
-And I added some feedback in the cli to make sure you're aware of what's happening:
-
-```txt
-
-```
-
 <!-- Juxtapose CSS -->
 <link rel="stylesheet" href="https://cdn.knightlab.com/libs/juxtapose/latest/css/juxtapose.css">
 
