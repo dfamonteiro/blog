@@ -313,6 +313,8 @@ Yes, I know, pure heresy. But you can't argue against results:
     <img src="/images/dotnet-trace-final-fix/cm-2-b.png" data-label="After"  alt="after" />
 </div>
 
+And what is the price I had to pay for perfect traces? 69 samples out of 2194244, or 0.003%. I'll take that deal any day of the week.
+
 <!-- Juxtapose CSS -->
 <link rel="stylesheet" href="https://cdn.knightlab.com/libs/juxtapose/latest/css/juxtapose.css">
 

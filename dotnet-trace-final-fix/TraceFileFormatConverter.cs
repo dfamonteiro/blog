@@ -243,7 +243,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
             }
 
             // 1. Print summary line
-            stdOut.WriteLine($"{deletedCount} samples out of {totalSampleCount} were deleted ({percentage:F3}%)");
+            stdOut.WriteLine($"{deletedCount} samples out of {totalSampleCount} could not be recovered and have been deleted ({percentage:F3}%)");
 
             // 2. Group deleted samples by thread
             var groupedByThread = deletedSamples
