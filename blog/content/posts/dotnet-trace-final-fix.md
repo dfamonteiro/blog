@@ -286,7 +286,12 @@ if (candidates.Count == 0)
 }
 ```
 
-Yes, I recognize this is the nuclear option, TODO
+Yes, I know, pure heresy. But you can't argue against the results:
+
+<div class="juxtapose" data-startingposition="50%" data-showlabels="true">
+    <img src="/images/dotnet-trace-final-fix/cm-2-a.png" data-label="Before" alt="before" />
+    <img src="/images/dotnet-trace-final-fix/cm-2-b.png" data-label="After"  alt="after" />
+</div>
 
 <!-- Juxtapose CSS -->
 <link rel="stylesheet" href="https://cdn.knightlab.com/libs/juxtapose/latest/css/juxtapose.css">
