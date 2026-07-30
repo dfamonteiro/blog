@@ -239,7 +239,7 @@ After all this work, have we done it? Let's start with a simple test: a broken t
 
 So far so good! But this trace is child's play compared to some traces I've collected at [Critical Manufacturing](https://www.criticalmanufacturing.com/), where the host of the system can compile C# code on-demand **_while serving a request_**[^1]! This is a call stack that can easily go 200-300 frames deep, and is definitely the ultimate challenge for the adjustments we made to `dotnet-trace` in this blog post.
 
-[^1]: There are very good extensibility reasons for doing this, I will leave this link [here](https://help.criticalmanufacturing.com/userguide/administration/dee_actions/) for more info.
+[^1]: There are very good extensibility-related reasons for doing this, I will leave this link [here](https://help.criticalmanufacturing.com/userguide/administration/dee_actions/) for more info.
 
 ## So... does it _really_ work?
 
