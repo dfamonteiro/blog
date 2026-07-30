@@ -43,7 +43,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
                     stdOut.WriteLine($"Processing trace data file '{fileToConvert}' to create a new {format} file '{outputFilename}'.");
                     try
                     {
-                        Convert(format, fileToConvert, outputFilename);
+                        Convert(stdOut, stdError, format, fileToConvert, outputFilename);
                     }
                     // TODO: On a broken/truncated trace, the exception we get from TraceEvent is a plain System.Exception type because it gets caught and rethrown inside TraceEvent.
                     // We should probably modify TraceEvent to throw a better exception.
@@ -52,7 +52,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
                         if (ex.ToString().Contains("Read past end of stream."))
                         {
                             stdOut.WriteLine("Detected a potentially broken trace. Continuing with best-efforts to convert the trace, but resulting speedscope file may contain broken stacks as a result.");
-                            Convert(format, fileToConvert, outputFilename, continueOnError: true);
+                            Convert(stdOut, stdError, format, fileToConvert, outputFilename, continueOnError: true);
                         }
                         else
                         {
@@ -67,7 +67,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
             stdOut.WriteLine("Conversion complete");
         }
 
-        private static void Convert(TraceFileFormat format, string fileToConvert, string outputFilename, bool continueOnError = false)
+        private static void Convert(TextWriter stdOut, TextWriter stdError, TraceFileFormat format, string fileToConvert, string outputFilename, bool continueOnError = false)
         {
             string etlxFilePath = TraceLog.CreateFromEventPipeDataFile(fileToConvert, null, new TraceLogOptions() { ContinueOnError = continueOnError });
             
@@ -75,7 +75,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
             Dictionary<int, List<CallstackSample>> callStacks = GetCallstacks(etlxFilePath);
 
             // Fix the callstacks
-            FixCallStacks(callStacks);
+            FixCallStacks(callStacks, stdOut);
 
             if (File.Exists(etlxFilePath))
             {
@@ -148,8 +148,11 @@ namespace Microsoft.Diagnostics.Tools.Trace
         /// <summary>
         /// Fixes the call stacks truncated by the EventPipe's 100 stack frame limit.
         /// </summary>
-        public static void FixCallStacks(Dictionary<int, List<CallstackSample>> threadMap)
+        public static void FixCallStacks(Dictionary<int, List<CallstackSample>> threadMap, TextWriter stdOut)
         {
+            int sampleCount = threadMap.Values.Select(samples => samples.Count).Sum();
+            List<(int ThreadId, int SampleIndex, double SampleTimestamp)> deletedSamples = new();
+
             foreach ((int threadId, var samples) in threadMap)
             {
                 for (int sampleIndex = 1; sampleIndex < samples.Count; sampleIndex++)
@@ -179,6 +182,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
                         if (candidates.Count == 0)
                         {
                             // If there's no matching stack frame from `previous`, delete this sample.
+                            deletedSamples.Add((threadId, sampleIndex, current.TimestampMs));
                             samples.RemoveAt(sampleIndex);
                             sampleIndex--;
                             continue;
@@ -217,6 +221,101 @@ namespace Microsoft.Diagnostics.Tools.Trace
                     }
                 }
             }
+
+            PrintDeletedSampleInfo(sampleCount, deletedSamples, stdOut);
+        }
+
+        /// <summary>
+        /// Writes a diagnostic summary of deleted call stack samples to the specified output stream.
+        /// </summary>
+        public static void PrintDeletedSampleInfo(
+            int totalSampleCount,
+            List<(int ThreadId, int SampleIndex, double SampleTimestamp)> deletedSamples,
+            TextWriter stdOut
+        )
+        {
+            int deletedCount = deletedSamples.Count;
+            double percentage = totalSampleCount > 0 ? (double)deletedCount / totalSampleCount * 100.0 : 0.0;
+            
+            if (deletedCount == 0)
+            {
+                return;
+            }
+
+            // 1. Print summary line
+            stdOut.WriteLine($"{deletedCount} samples out of {totalSampleCount} were deleted ({percentage:F3}%)");
+
+            // 2. Group deleted samples by thread
+            var groupedByThread = deletedSamples
+                .GroupBy(s => s.ThreadId)
+                .OrderBy(g => g.Key);
+
+            foreach (var threadGroup in groupedByThread)
+            {
+                int threadId = threadGroup.Key;
+                var samples = threadGroup.ToList();
+                int count = samples.Count;
+
+                var ranges = new List<string>();
+                var currentRun = new List<(int ThreadId, int SampleIndex, double SampleTimestamp)>();
+
+                // 3. Cluster contiguous deleted samples into ranges
+                foreach (var sample in samples)
+                {
+                    if (currentRun.Count == 0)
+                    {
+                        currentRun.Add(sample);
+                    }
+                    else
+                    {
+                        var prev = currentRun[^1];
+
+                        // Samples are contiguous if deleted at the same index
+                        bool isContiguous = sample.SampleIndex == prev.SampleIndex;
+
+                        if (isContiguous)
+                        {
+                            currentRun.Add(sample);
+                        }
+                        else
+                        {
+                            ranges.Add(FormatRun(currentRun));
+                            currentRun.Clear();
+                            currentRun.Add(sample);
+                        }
+                    }
+                }
+
+                if (currentRun.Count > 0)
+                {
+                    ranges.Add(FormatRun(currentRun));
+                }
+
+                // 4. Output thread summary line
+                string formattedRanges = string.Join(", ", ranges);
+                stdOut.WriteLine($"    Thread {threadId} ({count}): {formattedRanges}");
+            }
+        }
+
+        /// <summary>
+        /// Formats a single run of deleted samples into either a single timestamp ("12.034s") 
+        /// or a range ("7.678s-7.682s").
+        /// </summary>
+        private static string FormatRun(List<(int ThreadId, int SampleIndex, double SampleTimestamp)> run)
+        {
+            double startSec = run[0].SampleTimestamp / 1000.0;
+            string startStr = $"{startSec:F3}s";
+
+            if (run.Count == 1)
+            {
+                return startStr;
+            }
+
+            double endSec = run[^1].SampleTimestamp / 1000.0;
+            string endStr = $"{endSec:F3}s";
+
+            // If start and end round to the exact same millisecond string, show as a single timestamp
+            return startStr == endStr ? startStr : $"{startStr}-{endStr}";
         }
 
         /// <summary>
