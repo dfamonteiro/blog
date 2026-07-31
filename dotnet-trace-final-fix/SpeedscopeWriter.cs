@@ -1,3 +1,6 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,8 +25,8 @@ public static class SpeedscopeWriter
     internal static void Convert(string path, Dictionary<int, List<CallstackSample>> threadMap)
     {
         // 1. Build a shared frame registry to intern method names (string -> frameIndex)
-        var sharedFrames = new List<SpeedscopeFrame>();
-        var frameIndexMap = new Dictionary<string, int>();
+        List<SpeedscopeFrame> sharedFrames = new();
+        Dictionary<string, int> frameIndexMap = new();
 
         int GetFrameIndex(string frameName)
         {
@@ -36,26 +39,29 @@ public static class SpeedscopeWriter
             return index;
         }
 
-        var profiles = new List<SpeedscopeProfile>();
+        List<SpeedscopeProfile> profiles = new();
 
         // 2. Convert each thread into a Speedscope sampled profile
-        foreach (var (threadId, samples) in threadMap)
+        foreach ((int threadId, List<CallstackSample> samples) in threadMap)
         {
-            if (samples.Count == 0) continue;
+            if (samples.Count == 0)
+            {
+                continue;
+            }
 
             // Ensure samples are sorted chronologically
-            var sortedSamples = samples.OrderBy(s => s.TimestampMs).ToList();
+            List<CallstackSample> sortedSamples = samples.OrderBy(s => s.TimestampMs).ToList();
 
-            var sampleStackIndices = new List<List<int>>();
-            var weights = new List<double>();
+            List<List<int>> sampleStackIndices = new();
+            List<double> weights = new();
 
             for (int i = 0; i < sortedSamples.Count; i++)
             {
-                var current = sortedSamples[i];
+                CallstackSample current = sortedSamples[i];
 
                 // Convert stack frame strings into index arrays based on the shared frames
                 // Note: Speedscope expects stacks root-first (index 0 = root, last index = leaf)
-                var frameIndices = current.StackTrace
+                List<int> frameIndices = current.StackTrace
                     .Select(frameName => GetFrameIndex(frameName))
                     .ToList();
 
@@ -67,7 +73,7 @@ public static class SpeedscopeWriter
                 {
                     weight = sortedSamples[i + 1].TimestampMs - current.TimestampMs;
                 }
-                
+
                 // Safety check: ensure positive weights, as Speedscope renderer requires > 0
                 weights.Add(weight > 0 ? weight : 0.001);
             }
@@ -88,7 +94,7 @@ public static class SpeedscopeWriter
         }
 
         // 3. Assemble the top-level Speedscope document
-        var speedscopeDoc = new SpeedscopeDocument
+        SpeedscopeDocument speedscopeDoc = new()
         {
             Schema = "https://www.speedscope.app/file-format-schema.json",
             Shared = new SpeedscopeShared { Frames = sharedFrames },
@@ -98,7 +104,7 @@ public static class SpeedscopeWriter
         };
 
         // 4. Serialize to disk with relaxed escaping
-        var jsonOptions = new JsonSerializerOptions
+        JsonSerializerOptions jsonOptions = new()
         {
             WriteIndented = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -118,7 +124,7 @@ public static class SpeedscopeWriter
     public class SpeedscopeDocument
     {
         /// <summary>
-        /// The URI of the Speedscope JSON schema. 
+        /// The URI of the Speedscope JSON schema.
         /// Required by the Speedscope viewer to validate the file structure.
         /// </summary>
         [JsonPropertyName("$schema")]
@@ -184,7 +190,7 @@ public static class SpeedscopeWriter
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
-        /// The unit of measurement for the timeline and weights. 
+        /// The unit of measurement for the timeline and weights.
         /// Supported values are "milliseconds", "microseconds", "nanoseconds", "hz", or "bytes".
         /// </summary>
         public string Unit { get; set; } = "milliseconds";
@@ -200,7 +206,7 @@ public static class SpeedscopeWriter
         public double EndValue { get; set; }
 
         /// <summary>
-        /// A chronological list of sampled stack traces. 
+        /// A chronological list of sampled stack traces.
         /// Each inner list contains integers that index into the <see cref="SpeedscopeShared.Frames"/> array.
         /// The integer sequences must be ordered root-first (index 0 is the root/entrypoint, the last item is the leaf).
         /// </summary>
