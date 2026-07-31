@@ -44,7 +44,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
                     stdOut.WriteLine($"Processing trace data file '{fileToConvert}' to create a new {format} file '{outputFilename}'.");
                     try
                     {
-                        Convert(stdOut, stdError, format, fileToConvert, outputFilename);
+                        Convert(stdOut, format, fileToConvert, outputFilename);
                     }
                     // TODO: On a broken/truncated trace, the exception we get from TraceEvent is a plain System.Exception type because it gets caught and rethrown inside TraceEvent.
                     // We should probably modify TraceEvent to throw a better exception.
@@ -53,7 +53,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
                         if (ex.ToString().Contains("Read past end of stream."))
                         {
                             stdOut.WriteLine("Detected a potentially broken trace. Continuing with best-efforts to convert the trace, but resulting speedscope file may contain broken stacks as a result.");
-                            Convert(stdOut, stdError, format, fileToConvert, outputFilename, continueOnError: true);
+                            Convert(stdOut, format, fileToConvert, outputFilename, continueOnError: true);
                         }
                         else
                         {
@@ -68,7 +68,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
             stdOut.WriteLine("Conversion complete");
         }
 
-        private static void Convert(TextWriter stdOut, TextWriter stdError, TraceFileFormat format, string fileToConvert, string outputFilename, bool continueOnError = false)
+        private static void Convert(TextWriter stdOut, TraceFileFormat format, string fileToConvert, string outputFilename, bool continueOnError = false)
         {
             string etlxFilePath = TraceLog.CreateFromEventPipeDataFile(fileToConvert, null, new TraceLogOptions() { ContinueOnError = continueOnError });
 
