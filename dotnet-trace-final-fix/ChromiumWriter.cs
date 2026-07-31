@@ -1,3 +1,6 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,12 +25,15 @@ public static class ChromiumWriter
     /// <param name="threadMap">A dictionary mapping thread IDs to chronologically ordered lists of stack samples.</param>
     internal static void Convert(string path, Dictionary<int, List<CallstackSample>> threadMap)
     {
-        var events = new List<ChromiumTraceEvent>();
+        List<ChromiumTraceEvent> events = new();
         int fakePid = 1; // Group everything under a single logical process
 
-        foreach (var (threadId, samples) in threadMap)
+        foreach ((int threadId, List<CallstackSample> samples) in threadMap)
         {
-            if (samples.Count == 0) continue;
+            if (samples.Count == 0)
+            {
+                continue;
+            }
 
             // 1. Emit a Metadata event to label the thread properly in the viewer
             events.Add(new ChromiumTraceEvent
@@ -36,19 +42,19 @@ public static class ChromiumWriter
                 Phase = "M", // Metadata phase
                 ProcessId = fakePid,
                 ThreadId = threadId,
-                Args = new Dictionary<string, object> { { "name", "Thread" } } 
+                Args = new Dictionary<string, object> { { "name", "Thread" } }
             });
 
-            var sortedSamples = samples.OrderBy(s => s.TimestampMs).ToList();
-            
+            List<CallstackSample> sortedSamples = samples.OrderBy(s => s.TimestampMs).ToList();
+
             // Tracks frames currently "active" in the timeline: (MethodName, StartTimestampMs)
-            var activeStack = new List<(string Name, double StartTimeMs)>();
+            List<(string Name, double StartTimeMs)> activeStack = new();
 
             // 2. Synthesize B/E flamegraph slices by diffing consecutive stack samples
             for (int i = 0; i < sortedSamples.Count; i++)
             {
-                var currentSample = sortedSamples[i];
-                var currentStack = currentSample.StackTrace;
+                CallstackSample currentSample = sortedSamples[i];
+                List<string> currentStack = currentSample.StackTrace;
                 double currentTsMs = currentSample.TimestampMs;
 
                 // Find the index where the current stack diverges from the active tracked stack
@@ -63,7 +69,7 @@ public static class ChromiumWriter
                 // Pop frames that are no longer active and emit them as 'Complete' events
                 for (int j = activeStack.Count - 1; j >= matchCount; j--)
                 {
-                    var frame = activeStack[j];
+                    (string Name, double StartTimeMs) frame = activeStack[j];
                     double durationMs = currentTsMs - frame.StartTimeMs;
 
                     events.Add(new ChromiumTraceEvent
@@ -95,7 +101,7 @@ public static class ChromiumWriter
 
                 for (int j = activeStack.Count - 1; j >= 0; j--)
                 {
-                    var frame = activeStack[j];
+                    (string Name, double StartTimeMs) frame = activeStack[j];
                     double durationMs = finalTsMs - frame.StartTimeMs;
 
                     events.Add(new ChromiumTraceEvent
@@ -112,10 +118,10 @@ public static class ChromiumWriter
             }
         }
 
-        var document = new ChromiumTraceDocument { TraceEvents = events };
+        ChromiumTraceDocument document = new() { TraceEvents = events };
 
         // 4. Serialize to disk
-        var jsonOptions = new JsonSerializerOptions
+        JsonSerializerOptions jsonOptions = new()
         {
             WriteIndented = true,
             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
