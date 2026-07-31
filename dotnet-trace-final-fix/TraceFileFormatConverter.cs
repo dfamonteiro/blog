@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.Diagnostics.Symbols;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Etlx;
@@ -70,7 +71,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
         private static void Convert(TextWriter stdOut, TextWriter stdError, TraceFileFormat format, string fileToConvert, string outputFilename, bool continueOnError = false)
         {
             string etlxFilePath = TraceLog.CreateFromEventPipeDataFile(fileToConvert, null, new TraceLogOptions() { ContinueOnError = continueOnError });
-            
+
             // Retrieve the call stacks from the file
             Dictionary<int, List<CallstackSample>> callStacks = GetCallstacks(etlxFilePath);
 
@@ -102,29 +103,32 @@ namespace Microsoft.Diagnostics.Tools.Trace
         private static Dictionary<int, List<CallstackSample>> GetCallstacks(string etlxFilePath)
         {
             // threadId -> List of (timestamp, frames)
-            var result = new Dictionary<int, List<CallstackSample>>();
+            Dictionary<int, List<CallstackSample>> result = new();
 
             using (TraceLog eventLog = new(etlxFilePath))
             {
-                var eventSource = eventLog.Events.GetSource();
+                TraceLogEventSource eventSource = eventLog.Events.GetSource();
 
                 // Subscribe to all trace events
                 eventSource.Dynamic.All += (TraceEvent eventData) =>
                 {
-                    var callStack = eventData.CallStack();
-                    if (callStack == null) return;
+                    TraceCallStack callStack = eventData.CallStack();
+                    if (callStack == null)
+                    {
+                        return;
+                    }
 
                     int threadId = eventData.ThreadID;
                     double timestamp = eventData.TimeStampRelativeMSec;
 
-                    if (!result.TryGetValue(threadId, out var samples))
+                    if (!result.TryGetValue(threadId, out List<CallstackSample>? samples))
                     {
                         samples = new List<CallstackSample>();
                         result[threadId] = samples;
                     }
 
-                    var frames = new List<string>();
-                    var currentFrame = callStack;
+                    List<string> frames = new();
+                    TraceCallStack currentFrame = callStack;
 
                     while (currentFrame != null)
                     {
@@ -153,12 +157,12 @@ namespace Microsoft.Diagnostics.Tools.Trace
             int sampleCount = threadMap.Values.Select(samples => samples.Count).Sum();
             List<(int ThreadId, int SampleIndex, double SampleTimestamp)> deletedSamples = new();
 
-            foreach ((int threadId, var samples) in threadMap)
+            foreach ((int threadId, List<CallstackSample> samples) in threadMap)
             {
                 for (int sampleIndex = 1; sampleIndex < samples.Count; sampleIndex++)
                 {
-                    var previous = samples[sampleIndex - 1];
-                    var current = samples[sampleIndex];
+                    CallstackSample previous = samples[sampleIndex - 1];
+                    CallstackSample current = samples[sampleIndex];
 
                     if (current.StackTrace.Count < 100)
                     {
@@ -170,7 +174,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
                     if (previous.StackTrace[0] != current.StackTrace[0])
                     {
                         // Get list of stack traces from `previous` that matches the `current` base trace
-                        var candidates = new List<int>();
+                        List<int> candidates = new();
                         for (int i = 0; i < previous.StackTrace.Count; i++)
                         {
                             if (previous.StackTrace[i] == current.StackTrace[0])
@@ -212,7 +216,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
                                 bestCandidate = (candidateIndex, overlap);
                             }
                         }
-                        
+
                         // Insert the missing stack frames
                         for (int prevIndex = 0; prevIndex < bestCandidate.Index; prevIndex++)
                         {
@@ -236,7 +240,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
         {
             int deletedCount = deletedSamples.Count;
             double percentage = totalSampleCount > 0 ? (double)deletedCount / totalSampleCount * 100.0 : 0.0;
-            
+
             if (deletedCount == 0)
             {
                 return;
@@ -246,21 +250,21 @@ namespace Microsoft.Diagnostics.Tools.Trace
             stdOut.WriteLine($"{deletedCount} samples out of {totalSampleCount} could not be recovered and have been deleted ({percentage:F3}%)");
 
             // 2. Group deleted samples by thread
-            var groupedByThread = deletedSamples
+            IOrderedEnumerable<IGrouping<int, (int ThreadId, int SampleIndex, double SampleTimestamp)>> groupedByThread = deletedSamples
                 .GroupBy(s => s.ThreadId)
                 .OrderBy(g => g.Key);
 
-            foreach (var threadGroup in groupedByThread)
+            foreach (IGrouping<int, (int ThreadId, int SampleIndex, double SampleTimestamp)> threadGroup in groupedByThread)
             {
                 int threadId = threadGroup.Key;
-                var samples = threadGroup.ToList();
+                List<(int ThreadId, int SampleIndex, double SampleTimestamp)> samples = threadGroup.ToList();
                 int count = samples.Count;
 
-                var ranges = new List<string>();
-                var currentRun = new List<(int ThreadId, int SampleIndex, double SampleTimestamp)>();
+                List<string> ranges = new();
+                List<(int ThreadId, int SampleIndex, double SampleTimestamp)> currentRun = new();
 
                 // 3. Cluster contiguous deleted samples into ranges
-                foreach (var sample in samples)
+                foreach ((int ThreadId, int SampleIndex, double SampleTimestamp) sample in samples)
                 {
                     if (currentRun.Count == 0)
                     {
@@ -268,7 +272,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
                     }
                     else
                     {
-                        var prev = currentRun[^1];
+                        (int ThreadId, int SampleIndex, double SampleTimestamp) prev = currentRun[^1];
 
                         // Samples are contiguous if deleted at the same index
                         bool isContiguous = sample.SampleIndex == prev.SampleIndex;
@@ -298,7 +302,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
         }
 
         /// <summary>
-        /// Formats a single run of deleted samples into either a single timestamp ("12.034s") 
+        /// Formats a single run of deleted samples into either a single timestamp ("12.034s")
         /// or a range ("7.678s-7.682s").
         /// </summary>
         private static string FormatRun(List<(int ThreadId, int SampleIndex, double SampleTimestamp)> run)
@@ -319,7 +323,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
         }
 
         /// <summary>
-        /// Represents an internal intermediate representation of a recorded stack trace sample 
+        /// Represents an internal intermediate representation of a recorded stack trace sample
         /// before it is mapped to the final format.
         /// </summary>
         /// <param name="TimestampMs">The relative timestamp of the sample in milliseconds.</param>
