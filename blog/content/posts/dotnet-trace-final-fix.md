@@ -315,6 +315,13 @@ Yes, I know, pure heresy. But you can't argue against results:
 
 And what is the price I had to pay for perfect traces? 69 samples out of 2194244, or 0.003%. I'll take that deal any day of the week.
 
+## Putting everything together
+
+The core logic is now figured out, so the only task remaining is going through the bureaucracy of forking [dotnet/diagnostics](https://github.com/dotnet/diagnostics), intrducing our changes to
+
+Note: does the reader even care about this?
+Alternate subheading: Introducing `daniel-trace`
+
 <!-- Juxtapose CSS -->
 <link rel="stylesheet" href="https://cdn.knightlab.com/libs/juxtapose/latest/css/juxtapose.css">
 
