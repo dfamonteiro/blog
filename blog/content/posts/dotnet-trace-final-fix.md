@@ -317,9 +317,29 @@ And what is the price I had to pay for perfect traces? 69 samples out of 2194244
 
 ## Putting everything together
 
-The only task remaining is going through the bureaucracy of forking [dotnet/diagnostics](https://github.com/dotnet/diagnostics), introducing our changes, and compiling our very own customized `dotnet-trace`. In order to be able to distinguish between the canonical `dotnet-trace` and my own version, I renamed my version of this tool to `daniel-trace`... I couldn't come up with a better name, sorry.
+The only task remaining is going through the bureaucracy of forking [dotnet/diagnostics](https://github.com/dotnet/diagnostics), introducing our changes, and compiling our very own customized `dotnet-trace`.
+
+In order to be able to distinguish between the canonical `dotnet-trace` and my own version, I renamed my version of this tool to `daniel-trace`... I couldn't come up with a better name, sorry.
 
 !["Command line image of daniel-trace being executed"](/images/dotnet-trace-final-fix/daniel-trace.png)
+
+### Give it a go!
+
+You can install `daniel-trace` by downloading the relevant executable from this [page](). I only compiled executables targetting `win-x64` and `linux-x64`, but if you are running another architecture it should be easy enough to compile the project yourself - here's the link to my [fork](https://github.com/dfamonteiro/daniel-trace).
+
+`daniel-trace` is a drop-in replacement of `dotnet-trace` - just change the name and you should be good to go:
+
+```txt
+PS C:\Users\Daniel\Desktop\github\blog\dotnet-trace-final-fix> .\daniel-trace.exe convert .\dotnet_20260727_184408.nettrace --format Chromium          
+Processing trace data file 'C:\Users\Daniel\Desktop\github\blog\dotnet-trace-final-fix\dotnet_20260727_184408.nettrace' to create a new Chromium file 'C:\Users\Daniel\Desktop\github\blog\dotnet-trace-final-fix\dotnet_20260727_184408.chromium.json'.
+69 samples out of 2195227 could not be recovered and have been deleted (0.003%)
+    Thread 269 (7): 51.514s-51.524s
+    Thread 313 (1): 12.130s
+    Thread 330 (45): 17.697s-17.705s, 72.990s-72.999s, 74.921s-74.932s, 75.620s-75.661s, 76.705s-76.712s, 79.055s-79.057s
+    Thread 363 (16): 58.786s, 60.525s-60.546s, 60.992s-60.999s
+Conversion complete
+PS C:\Users\Daniel\Desktop\github\blog\dotnet-trace-final-fix>
+```
 
 <!-- Juxtapose CSS -->
 <link rel="stylesheet" href="https://cdn.knightlab.com/libs/juxtapose/latest/css/juxtapose.css">
