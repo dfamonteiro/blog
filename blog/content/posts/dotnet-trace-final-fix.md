@@ -294,7 +294,7 @@ I have an idea on how to fix this, but it's not pretty.
 
 ### The observability gods demand a blood sacrifice
 
-I'm going to do something truly sacrilegious... instead of ignoring the problem, I'm going to straight up delete the samples that can't be rescued:
+I'm going to do something truly sacrilegious... I'm going to just delete the samples that can't be rescued:
 
 ```csharp
 if (candidates.Count == 0)
@@ -317,10 +317,9 @@ And what is the price I had to pay for perfect traces? 69 samples out of 2194244
 
 ## Putting everything together
 
-The core logic is now figured out, so the only task remaining is going through the bureaucracy of forking [dotnet/diagnostics](https://github.com/dotnet/diagnostics), introducing our changes to `dotnet-trace` and checking if it works.
+The only task remaining is going through the bureaucracy of forking [dotnet/diagnostics](https://github.com/dotnet/diagnostics), introducing our changes, and compiling our very own customized `dotnet-trace`. In order to be able to distinguish between the canonical `dotnet-trace` and my own version, I renamed my version of this tool to `daniel-trace`... I couldn't come up with a better name, sorry.
 
-Note: does the reader even care about this?
-Alternate subheading: Introducing `daniel-trace`
+!["Command line image of daniel-trace being executed"](/images/dotnet-trace-final-fix/daniel-trace.png)
 
 <!-- Juxtapose CSS -->
 <link rel="stylesheet" href="https://cdn.knightlab.com/libs/juxtapose/latest/css/juxtapose.css">
