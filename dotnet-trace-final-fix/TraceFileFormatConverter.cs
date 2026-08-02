@@ -251,7 +251,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
 
                     if (previous.StackTrace[0] != current.StackTrace[0])
                     {
-                        // Get list of stack traces from `previous` that matches the `current` base trace
+                        // Get list of stack traces from `previous` that matches the `current` base frame
                         List<int> candidates = new();
                         for (int i = 0; i < previous.StackTrace.Count; i++)
                         {

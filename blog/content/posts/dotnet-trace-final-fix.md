@@ -11,14 +11,14 @@ externalLink = ""
 series = []
 +++
 
-I've had enough of workarounds to `dotnet-trace`'s fundamental limitation of 100 stack frames. Just to recap from my [previous misadventures](../dotnet-trace-100-limit), if you attach `dotnet-trace` to your application and your application has, for example, a call stack 120 calls deep, the "root" 20 stack frames get cut from the call stack that `dotnet-trace` receives, and you end up with completely unusable traces like these:
+I've had enough of workarounds for `dotnet-trace`'s limit of 100 stack frames. Just to recap from my [previous misadventures](../dotnet-trace-100-limit), if you attach `dotnet-trace` to your application and your application has, for example, a call stack 120 calls deep, the "root" 20 stack frames get cut from the call stack that `dotnet-trace` receives, and you end up with completely unusable traces like these:
 
 <figure>
     <img src="/images/dotnet-trace-final-fix/colleague-trace.png" alt="A screenshot of a broken trace.">
     <figcaption>A screenshot of a broken trace.</figcaption>
 </figure>
 
-This isn't any random trace: it comes from me guiding a work colleague through [using `dotnet-trace`](../using-dotnet-trace-with-perfetto), and the grand result is this abominable rectangle that looks more like a [spectogram](https://en.wikipedia.org/wiki/Spectrogram) than an actual trace visualization.
+This isn't any random trace: it comes from me guiding a work colleague through [using `dotnet-trace`](../using-dotnet-trace-with-perfetto), and the grand result is this abominable rectangle that looks more like a [spectrogram](https://en.wikipedia.org/wiki/Spectrogram) than an actual trace visualization.
 
 I was a bit disheartened after this experience: I can write all the guides in the world about [how to use `dotnet-trace`](../using-dotnet-trace-with-perfetto), but if a person's first experience with using `dotnet-trace` results in _this_, then it will all be for naught.
 
@@ -67,7 +67,7 @@ private static void Convert(TraceFileFormat format, string fileToConvert, string
 }
 ```
 
-`dotnet-trace` implements the conversion to the [speedscope](https://www.speedscope.app/) and [chromium](https://perfetto.dev/) formats by essencially [delegating that responsibility to the `perfview` project](https://github.com/microsoft/perfview/blob/f3ec1b38a6d7535e4f878510e5041f9da7d0fdb6/src/TraceEvent/Stacks/ChromiumStackSourceWriter.cs#L12). We will replace the contents of this method and implement this conversion ourselves.
+`dotnet-trace` implements the conversion to the [speedscope](https://www.speedscope.app/) and [chromium](https://perfetto.dev/) formats by essentially [delegating that responsibility to the `perfview` project](https://github.com/microsoft/perfview/blob/f3ec1b38a6d7535e4f878510e5041f9da7d0fdb6/src/TraceEvent/Stacks/ChromiumStackSourceWriter.cs#L12). We will replace the contents of this method and implement this conversion ourselves.
 
 This will be done in classic [ETL](https://en.wikipedia.org/wiki/Extract,_transform,_load) fashion: **Extract**, **Transform** and **Load**.
 
@@ -98,9 +98,9 @@ public record CallstackSample(double TimestampMs, List<string> StackTrace);
 
 ### Transform
 
-Now it's time to put our surgeon gloves on and start manipulating our call stacks. If a potentially truncated call stack is detected, the following is done:
+Now it's time to put our surgeon's gloves on and start manipulating our call stacks. If a potentially truncated call stack is detected, the following is done:
 
-1. Compare the base stack frame against all the stack frames of the previous sample. The idea is that while call `abc()` might be the root frame of our truncated call stack, it might in reality be frame #10 and the actual first 10 traces were suppressed. The best way to check this is to compare `abc()` against the stack frames of the previous sample, which is assumed to be correct, meaning that `abc()` will appear "lower" in the stack.
+1. Compare the base stack frame against all the stack frames of the previous sample. The idea is that while call `abc()` might be the root frame of our truncated call stack, it might in reality be frame #10 and the actual first 10 frames were suppressed. The best way to check this is to compare `abc()` against the stack frames of the previous sample, which is assumed to be correct, meaning that `abc()` will appear "lower" in the stack.
 2. Compare the matches and select the one that better aligns with the previous call stack - the candidate with the most overlap wins.
 3. Insert the missing stack frames - the call stack should be correct now.
 
@@ -138,7 +138,7 @@ public static void FixCallStacks(Dictionary<int, List<CallstackSample>> threadMa
 
             if (previous.StackTrace[0] != current.StackTrace[0])
             {
-                // Get list of stack traces from `previous` that matches the `current` base trace
+                // Get list of stack traces from `previous` that matches the `current` base frame
                 var candidates = new List<int>();
                 for (int i = 0; i < previous.StackTrace.Count; i++)
                 {
@@ -193,7 +193,7 @@ public static void FixCallStacks(Dictionary<int, List<CallstackSample>> threadMa
 
 ### Load
 
-The final step is convert our `callStacks` data structure into our preferred trace format. The code behind this serialization is not that interesting, so I decided to outsource the implementation of `SpeedscopeWriter` and `ChromiumWriter` to Gemini.
+The final step is to convert our `callStacks` data structure into our preferred trace format. The code behind this serialization is not that interesting, so I decided to outsource the implementation of `SpeedscopeWriter` and `ChromiumWriter` to Gemini.
 
 This is the final state of the `Convert` method:
 
@@ -239,11 +239,11 @@ After all this work, have we done it? Let's start with a simple test: a broken t
 
 So far so good! But this trace is child's play compared to some traces I've collected at [Critical Manufacturing](https://www.criticalmanufacturing.com/), where the host of the system can compile C# code on-demand **_while serving a request_**[^1]! This is a call stack that can easily go 200-300 frames deep, and is definitely the ultimate challenge for the adjustments we made to `dotnet-trace` in this blog post.
 
-[^1]: There are very good extensibility-related reasons for doing this, I will leave this link [here](https://help.criticalmanufacturing.com/userguide/administration/dee_actions/) for more info.
+[^1]: There are very good extensibility-related reasons for doing this - I will leave this link [here](https://help.criticalmanufacturing.com/userguide/administration/dee_actions/) for more info.
 
 ## So... does it _really_ work?
 
-Let's run our tweaked `Convert` method against a trace from a [Critical Manufacturing](https://www.criticalmanufacturing.com/) MES host and let's see what happens:
+Let's run our tweaked `Convert` method against a trace from a [Critical Manufacturing](https://www.criticalmanufacturing.com/) MES host and see what happens:
 
 <style>
   /* 1. Make the thin vertical center line black */
@@ -277,7 +277,7 @@ The quality of the trace has improved significantly, but we're not there yet. If
     <figcaption>A screenshot of a break in our trace.</figcaption>
 </figure>
 
-This is happening because the `ForceCompleteMemberByLocation` can not be found in the previous trace, and therefore we hit this code path in `FixCallStacks`:
+This is happening because the `ForceCompleteMemberByLocation` function call can not be found in the previous trace, and therefore we hit this code path in `FixCallStacks`:
 
 ```csharp
 if (candidates.Count == 0) // <==== No matches! ====
@@ -288,7 +288,7 @@ if (candidates.Count == 0) // <==== No matches! ====
 }
 ```
 
-I honestly thought this `if (candidates.Count == 0)` edge case would never be triggered. I mean, who on earth goes 100 function calls deep within a single millisecond?! The Rosylin compiler apparently.
+I honestly thought this `if (candidates.Count == 0)` edge case would never be triggered. I mean, who on earth goes 100 function calls deep within a single millisecond?! The Roslyn compiler apparently.
 
 I have an idea on how to fix this, but it's not pretty.
 
