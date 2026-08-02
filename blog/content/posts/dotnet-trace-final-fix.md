@@ -350,6 +350,21 @@ PS C:\Users\Daniel\Desktop\github\blog\dotnet-trace-final-fix>
 
 Have fun analysing traces!
 
+### One more thing...[^2]
+
+[^2]: Pretend I'm wearing a black turtleneck while you read this final chapter.
+
+Besides the improvements I mentioned earlier in this blog post, I also took the opportunity to add a couple of optional flags to the `collect` and `convert` commands:
+
+- `--first-span`: Remove spans from the call stack starting from the root until a span that matches the filter is found. Supports unix-style wildcards.
+- `--span-filter`: Remove spans from the call stack that don't match the filter. Supports unix-style wildcards.
+
+With these two optional arguments, you can do TODO. For my colleagues, I can just tell them to run this command TODO
+
+```txt
+daniel-trace convert .\dotnet_20260727_184408.nettrace --format Chromium --first-span "Cmf*.Services.*Controller.*" --span-filter "Cmf*"
+```
+
 <!-- Juxtapose CSS -->
 <link rel="stylesheet" href="https://cdn.knightlab.com/libs/juxtapose/latest/css/juxtapose.css">
 
