@@ -18,7 +18,9 @@ class Program
                 Console.Error,
                 TraceFileFormat.Chromium,
                 "C:\\Users\\Daniel\\Desktop\\github\\blog\\dotnet-trace-final-fix\\finalboss\\dotnet_20260727_184408.nettrace",
-                "C:\\Users\\Daniel\\Desktop\\github\\blog\\dotnet-trace-final-fix\\finalboss\\test.chromium.json"
+                "C:\\Users\\Daniel\\Desktop\\github\\blog\\dotnet-trace-final-fix\\finalboss\\test.chromium.json",
+                "Cmf*.Services.*Controller.*",
+                null
             );
     }
 }

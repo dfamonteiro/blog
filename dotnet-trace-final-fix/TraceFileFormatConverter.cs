@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.Diagnostics.Symbols;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Etlx;
@@ -33,7 +34,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
             return Path.ChangeExtension(outputfile, TraceFileFormatExtensions[format]);
         }
 
-        internal static void ConvertToFormat(TextWriter stdOut, TextWriter stdError, TraceFileFormat format, string fileToConvert, string outputFilename)
+        internal static void ConvertToFormat(TextWriter stdOut, TextWriter stdError, TraceFileFormat format, string fileToConvert, string outputFilename, string firstSpan, string spanFilter)
         {
             switch (format)
             {
@@ -44,7 +45,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
                     stdOut.WriteLine($"Processing trace data file '{fileToConvert}' to create a new {format} file '{outputFilename}'.");
                     try
                     {
-                        Convert(stdOut, format, fileToConvert, outputFilename);
+                        Convert(stdOut, format, fileToConvert, outputFilename, false, firstSpan, spanFilter);
                     }
                     // TODO: On a broken/truncated trace, the exception we get from TraceEvent is a plain System.Exception type because it gets caught and rethrown inside TraceEvent.
                     // We should probably modify TraceEvent to throw a better exception.
@@ -53,7 +54,7 @@ namespace Microsoft.Diagnostics.Tools.Trace
                         if (ex.ToString().Contains("Read past end of stream."))
                         {
                             stdOut.WriteLine("Detected a potentially broken trace. Continuing with best-efforts to convert the trace, but resulting speedscope file may contain broken stacks as a result.");
-                            Convert(stdOut, format, fileToConvert, outputFilename, continueOnError: true);
+                            Convert(stdOut, format, fileToConvert, outputFilename, true, firstSpan, spanFilter);
                         }
                         else
                         {
@@ -68,20 +69,24 @@ namespace Microsoft.Diagnostics.Tools.Trace
             stdOut.WriteLine("Conversion complete");
         }
 
-        private static void Convert(TextWriter stdOut, TraceFileFormat format, string fileToConvert, string outputFilename, bool continueOnError = false)
+        private static void Convert(TextWriter stdOut, TraceFileFormat format, string fileToConvert, string outputFilename, bool continueOnError, string firstSpan, string spanFilter)
         {
             string etlxFilePath = TraceLog.CreateFromEventPipeDataFile(fileToConvert, null, new TraceLogOptions() { ContinueOnError = continueOnError });
 
             // Retrieve the call stacks from the file
             Dictionary<int, List<CallstackSample>> callStacks = GetCallstacks(etlxFilePath);
 
-            // Fix the callstacks
-            FixCallStacks(callStacks, stdOut);
-
             if (File.Exists(etlxFilePath))
             {
                 File.Delete(etlxFilePath);
             }
+
+            // Fix the callstacks
+            FixCallStacks(callStacks, stdOut);
+
+            FilterByFirstSpan(callStacks, firstSpan);
+
+            FilterBySpan(callStacks, spanFilter);
 
             switch (format)
             {
@@ -94,6 +99,62 @@ namespace Microsoft.Diagnostics.Tools.Trace
                 default:
                     // we should never get here
                     throw new Exception($"Invalid TraceFileFormat \"{format}\"");
+            }
+        }
+
+        /// <summary>
+        /// For every call stack sample, only keep stack frames that match spanFilter. Supports wildcards(*).
+        /// </summary>
+        private static void FilterBySpan(Dictionary<int, List<CallstackSample>> callStacks, string spanFilter)
+        {
+            if (spanFilter == null)
+            {
+                return;
+            }
+
+            string regexPattern = "^" + Regex.Escape(spanFilter).Replace("\\*", ".*").Replace("\\?", ".") + "$";
+            Regex regex = new Regex(regexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+            foreach ((int threadId, List<CallstackSample> samples) in callStacks)
+            {
+                foreach (CallstackSample sample in samples)
+                {
+                    sample.StackTrace.RemoveAll(frame => !regex.IsMatch(frame));
+                }
+            }
+        }
+
+        /// <summary>
+        /// For every call stack sample, remove stack frames until firstSpan is found. Supports wildcards(*).
+        /// </summary>
+        private static void FilterByFirstSpan(Dictionary<int, List<CallstackSample>> callStacks, string firstSpan)
+        {
+            if (firstSpan == null)
+            {
+                return;
+            }
+
+            string regexPattern = "^" + Regex.Escape(firstSpan).Replace("\\*", ".*").Replace("\\?", ".") + "$";
+            Regex regex = new Regex(regexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+            foreach ((int threadId, List<CallstackSample> samples) in callStacks)
+            {
+                foreach (CallstackSample sample in samples)
+                {
+                    List<string> stackTrace = sample.StackTrace;
+                    int matchIndex = stackTrace.FindIndex(frame => regex.IsMatch(frame));
+
+                    if (matchIndex > 0)
+                    {
+                        // If there's a match, clear everything before the match
+                        stackTrace.RemoveRange(0, matchIndex);
+                    }
+                    else if (matchIndex == -1)
+                    {
+                        // If no match found, clear the whole stack trace
+                        stackTrace.Clear();
+                    }
+                }
             }
         }
 
