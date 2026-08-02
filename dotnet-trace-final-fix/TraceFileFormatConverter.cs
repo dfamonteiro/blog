@@ -88,6 +88,8 @@ namespace Microsoft.Diagnostics.Tools.Trace
 
             FilterBySpan(callStacks, spanFilter);
 
+            RemoveEmptyThreads(callStacks);
+
             switch (format)
             {
                 case TraceFileFormat.Speedscope:
@@ -99,6 +101,21 @@ namespace Microsoft.Diagnostics.Tools.Trace
                 default:
                     // we should never get here
                     throw new Exception($"Invalid TraceFileFormat \"{format}\"");
+            }
+        }
+
+        /// <summary>
+        /// Removes threads containing only empty call stacks
+        /// </summary>
+        private static void RemoveEmptyThreads(Dictionary<int, List<CallstackSample>> callStacks)
+        {
+            List<int> threads = callStacks.Keys.ToList();
+            foreach (int thread in threads)
+            {
+                if (callStacks[thread].All(callStack => callStack.StackTrace.Count == 0))
+                {
+                    callStacks.Remove(thread);
+                }
             }
         }
 
