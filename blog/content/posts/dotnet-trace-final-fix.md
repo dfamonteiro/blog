@@ -325,7 +325,14 @@ In order to be able to distinguish between the canonical `dotnet-trace` and my o
 
 ### Give it a go!
 
-You can install `daniel-trace` by downloading the relevant executable from this [page](). I only compiled executables targetting `win-x64` and `linux-x64`, but if you are running another architecture it should be easy enough to compile the project yourself - here's the link to my [fork](https://github.com/dfamonteiro/daniel-trace).
+You can install `daniel-trace` by downloading the relevant executable:
+
+- Windows: [x64](https://github.com/dfamonteiro/daniel-trace/releases/download/daniel-trace-1/daniel-trace.exe)
+- Linux: [x64](https://github.com/dfamonteiro/daniel-trace/releases/download/daniel-trace-1/daniel-trace)
+
+If you are running another architecture (Arm, etc.) it should be easy enough to compile the project yourself - here's the link to my [fork](https://github.com/dfamonteiro/daniel-trace) of the [dotnet/diagnostics](https://github.com/dotnet/diagnostics) repository.
+
+### Usage
 
 `daniel-trace` is a drop-in replacement of `dotnet-trace` - just change the name and you should be good to go:
 
@@ -340,6 +347,8 @@ Processing trace data file 'C:\Users\Daniel\Desktop\github\blog\dotnet-trace-fin
 Conversion complete
 PS C:\Users\Daniel\Desktop\github\blog\dotnet-trace-final-fix>
 ```
+
+Have fun analysing traces!
 
 <!-- Juxtapose CSS -->
 <link rel="stylesheet" href="https://cdn.knightlab.com/libs/juxtapose/latest/css/juxtapose.css">
