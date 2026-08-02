@@ -11,20 +11,20 @@ externalLink = ""
 series = []
 +++
 
-I've had enough of workarounds to `dotnet-trace`'s fundamental limitation of 100 stack frames. Just to recap from my [previous misadventures](dotnet-trace-100-limit.md), if you attach `dotnet-trace` to your application and your application has, for example, a call stack 120 calls deep, the "root" 20 stack frames get cut from the call stack that `dotnet-trace` receives, and you end up with completely unusable traces like these:
+I've had enough of workarounds to `dotnet-trace`'s fundamental limitation of 100 stack frames. Just to recap from my [previous misadventures](../dotnet-trace-100-limit), if you attach `dotnet-trace` to your application and your application has, for example, a call stack 120 calls deep, the "root" 20 stack frames get cut from the call stack that `dotnet-trace` receives, and you end up with completely unusable traces like these:
 
 <figure>
     <img src="/images/dotnet-trace-final-fix/colleague-trace.png" alt="A screenshot of a broken trace.">
     <figcaption>A screenshot of a broken trace.</figcaption>
 </figure>
 
-This isn't any random trace: it comes from me guiding a work colleague through [using `dotnet-trace`](./using-dotnet-trace-with-perfetto.md), and the grand result is this abominable rectangle that looks more like a [spectogram](https://en.wikipedia.org/wiki/Spectrogram) than an actual trace visualization.
+This isn't any random trace: it comes from me guiding a work colleague through [using `dotnet-trace`](../using-dotnet-trace-with-perfetto), and the grand result is this abominable rectangle that looks more like a [spectogram](https://en.wikipedia.org/wiki/Spectrogram) than an actual trace visualization.
 
-I was a bit disheartened after this experience: I can write all the guides in the world about [how to use `dotnet-trace`](./using-dotnet-trace-with-perfetto.md), but if a person's first experience with using `dotnet-trace` results in _this_, then it will all be for naught.
+I was a bit disheartened after this experience: I can write all the guides in the world about [how to use `dotnet-trace`](../using-dotnet-trace-with-perfetto), but if a person's first experience with using `dotnet-trace` results in _this_, then it will all be for naught.
 
 ## We have to fix this at the source
 
-You can't fix this in post. Trust me, [I tried](dotnet-trace-100-limit.md) and the conclusion I reached was that asking the user to do any post-processing step will just discourage them from using this tool. This leaves us with only one final option: fixing `dotnet-trace` itself.
+You can't fix this in post. Trust me, [I tried](../dotnet-trace-100-limit) and the conclusion I reached was that asking the user to do any post-processing step will just discourage them from using this tool. This leaves us with only one final option: fixing `dotnet-trace` itself.
 
 Thankfully, this is easier than it may appear at first glance: the one method you need to modify is this one under [`src/Tools/dotnet-trace/TraceFileFormatConverter.cs`](https://github.com/dotnet/diagnostics/blob/main/src/Tools/dotnet-trace/TraceFileFormatConverter.cs):
 
@@ -359,7 +359,7 @@ Besides the improvements I mentioned earlier in this blog post, I also took the 
 - `--first-span`: Remove spans from the call stack starting from the root until a span that matches the filter is found. Supports unix-style wildcards.
 - `--span-filter`: Remove spans from the call stack that don't match the filter. Supports unix-style wildcards.
 
-With these two optional arguments, you can do TODO. For my colleagues, I can just tell them to run this command TODO
+With these two optional arguments, you can perform very fine-grained filtering directly with `daniel-trace` instead of having to [do it in the Perfetto trace viewer](../using-dotnet-trace-with-perfetto#analysing-traces-with-perfetto).
 
 ```txt
 daniel-trace convert .\dotnet_20260727_184408.nettrace --format Chromium --first-span "Cmf*.Services.*Controller.*" --span-filter "Cmf*"
