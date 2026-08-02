@@ -66,8 +66,8 @@ public static class ChromiumWriter
                     matchCount++;
                 }
 
-                // Pop frames that are no longer active and emit them as 'Complete' events
-                for (int j = activeStack.Count - 1; j >= matchCount; j--)
+                // Emit popped frames in Root -> Leaf order so Perfetto orders the spans correctly
+                for (int j = matchCount; j < activeStack.Count; j++)
                 {
                     (string Name, double StartTimeMs) frame = activeStack[j];
                     double durationMs = currentTsMs - frame.StartTimeMs;
@@ -82,9 +82,10 @@ public static class ChromiumWriter
                         ProcessId = fakePid,
                         ThreadId = threadId
                     });
-
-                    activeStack.RemoveAt(j);
                 }
+
+                // Trim popped frames off the stack
+                activeStack.RemoveRange(matchCount, activeStack.Count - matchCount);
 
                 // Push new frames onto the active stack
                 for (int j = matchCount; j < currentStack.Count; j++)
@@ -99,7 +100,7 @@ public static class ChromiumWriter
                 // Assign a 1ms fallback duration for the final snapshot so it doesn't have 0 width
                 double finalTsMs = sortedSamples.Last().TimestampMs + 1.0;
 
-                for (int j = activeStack.Count - 1; j >= 0; j--)
+                for (int j = 0; j < activeStack.Count; j++)
                 {
                     (string Name, double StartTimeMs) frame = activeStack[j];
                     double durationMs = finalTsMs - frame.StartTimeMs;
