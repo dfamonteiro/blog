@@ -354,9 +354,9 @@ Have fun analysing traces!
 
 ### Oh, and one more thing...[^2]
 
-[^2]: Pretend I'm wearing a black turtleneck while you read this final chapter.
+[^2]: Pretend I'm wearing a [black turtleneck](https://www.youtube.com/watch?v=cO-2NAl7Sm0) while you read this final chapter.
 
-Besides the improvements I mentioned earlier in this blog post, I also took the opportunity to add a couple of optional flags to the `collect` and `convert` commands:
+Besides the improvements mentioned earlier in this blog post, I also took the opportunity to add a couple of optional flags to the `collect` and `convert` commands:
 
 - `--first-span`: Remove spans from the call stack starting from the root until a span that matches the filter is found. Supports unix-style wildcards.
 - `--span-filter`: Remove spans from the call stack that don't match the filter. Supports unix-style wildcards.
