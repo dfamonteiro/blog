@@ -199,6 +199,8 @@ PS C:\Users\Daniel\Desktop\github\blog\dotnet-trace> python .\fix_spikes.py .\do
 fixed_dotnet_20251230_003728.chromium.json
 ```
 
+**2026-08-05 update:** If you are hitting this limitation, [consider using `daniel-trace` instead of `dotnet-trace`](../dotnet-trace-final-fix).
+
 ### The anatomy of a host service call
 
 We took the 30,000-foot view in the previous section, now it's time to put one of these service calls under the microscope. These services' call stacks are absolutely massive (~100 stack frames), so we're going to start at the base of the trace and work our way down:

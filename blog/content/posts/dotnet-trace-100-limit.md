@@ -11,6 +11,8 @@ externalLink = ""
 series = []
 +++
 
+**2026-08-05 update:** The workaround detailed in this blog post has been superseded by a bespoke version of [`dotnet-trace` I developed that directly addresses this issue at the source](../dotnet-trace-final-fix).
+
 The [dotnet-trace](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-trace) command line tool is a rather neat piece of technology: by taking advantage of the .NET runtime's [EventPipe](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/eventpipe) component, it is able to collect tracing data in a way that is both consistent and agnostic to the underlying operating system.
 
 It gets even better though: you can start and stop collecting traces **_without having to restart the target application_**! This makes it a particularly useful tool for analysing performance issues in long-running containerized .NET applications, a common need in companies that run their workloads in Kubernetes clusters.
