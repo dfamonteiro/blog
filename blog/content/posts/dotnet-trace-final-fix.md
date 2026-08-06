@@ -11,22 +11,24 @@ externalLink = ""
 series = []
 +++
 
-I've had enough of workarounds for `dotnet-trace`'s limit of 100 stack frames. Just to recap from my [previous misadventures](../dotnet-trace-100-limit), if you attach `dotnet-trace` to your application and your application has, for example, a call stack 120 calls deep, the "root" 20 stack frames get cut from the call stack that `dotnet-trace` receives, and you end up with completely unusable traces like these:
+I've had enough of workarounds for `dotnet-trace`'s limit of 100 stack frames.
+
+Just to recap from my [previous misadventures](../dotnet-trace-100-limit), if you attach `dotnet-trace` to your application and your application has, for example, a call stack 120 calls deep, the "root" 20 stack frames get cut from the call stack that `dotnet-trace` receives, and you end up with completely unusable traces like these:
 
 <figure>
     <img src="/images/dotnet-trace-final-fix/colleague-trace.png" alt="A screenshot of a broken trace.">
     <figcaption>A screenshot of a broken trace.</figcaption>
 </figure>
 
-This isn't any random trace: it comes from me guiding a work colleague through [using `dotnet-trace`](../using-dotnet-trace-with-perfetto), and the grand result is this abominable rectangle that looks more like a [spectrogram](https://en.wikipedia.org/wiki/Spectrogram) than an actual trace visualization.
+This isn't any random trace: it comes from me guiding a work colleague through [using `dotnet-trace`](../using-dotnet-trace-with-perfetto), and the grand result is this abominable rectangle that looks more like a [spectrogram](https://en.wikipedia.org/wiki/Spectrogram) than an actual trace visualization!
 
 I was a bit disheartened after this experience: I can write all the guides in the world about [how to use `dotnet-trace`](../using-dotnet-trace-with-perfetto), but if a person's first experience with using `dotnet-trace` results in _this_, then it will all be for naught.
 
 ## We have to fix this at the source
 
-You can't fix this in post. Trust me, [I tried](../dotnet-trace-100-limit) and the conclusion I reached was that asking the user to do any post-processing step will just discourage them from using this tool. This leaves us with only one final option: fixing `dotnet-trace` itself.
+You can't fix this in post. I know this because [I tried that approach before](../dotnet-trace-100-limit), and the conclusion I reached was that asking the user to do any post-processing step will just discourage them from using this tool. This leaves us with only one final option: fixing `dotnet-trace` itself.
 
-Thankfully, this is easier than it may appear at first glance: the one method you need to modify is this one under [`src/Tools/dotnet-trace/TraceFileFormatConverter.cs`](https://github.com/dotnet/diagnostics/blob/main/src/Tools/dotnet-trace/TraceFileFormatConverter.cs):
+Thankfully, this is easier than it may appear at first glance: the one method you need to modify is this static `Convert` method one under [`src/Tools/dotnet-trace/TraceFileFormatConverter.cs`](https://github.com/dotnet/diagnostics/blob/main/src/Tools/dotnet-trace/TraceFileFormatConverter.cs):
 
 ```csharp
 private static void Convert(TraceFileFormat format, string fileToConvert, string outputFilename, bool continueOnError = false)
@@ -67,7 +69,7 @@ private static void Convert(TraceFileFormat format, string fileToConvert, string
 }
 ```
 
-`dotnet-trace` implements the conversion to the [speedscope](https://www.speedscope.app/) and [chromium](https://perfetto.dev/) formats by essentially [delegating that responsibility to the `perfview` project](https://github.com/microsoft/perfview/blob/f3ec1b38a6d7535e4f878510e5041f9da7d0fdb6/src/TraceEvent/Stacks/ChromiumStackSourceWriter.cs#L12). We will replace the contents of this method and implement this conversion ourselves.
+`dotnet-trace` implements the conversion to the [speedscope](https://www.speedscope.app/) and [chromium](https://perfetto.dev/) formats by essentially [delegating that responsibility to the `perfview` project](https://github.com/microsoft/perfview/blob/f3ec1b38a6d7535e4f878510e5041f9da7d0fdb6/src/TraceEvent/Stacks/ChromiumStackSourceWriter.cs#L12). We will replace the contents of this method and implement this conversion ourselves in this blog post.
 
 This will be done in classic [ETL](https://en.wikipedia.org/wiki/Extract,_transform,_load) fashion: **Extract**, **Transform** and **Load**.
 
@@ -100,7 +102,7 @@ public record CallstackSample(double TimestampMs, List<string> StackTrace);
 
 Now it's time to put our surgeon's gloves on and start manipulating our call stacks. If a potentially truncated call stack is detected, the following is done:
 
-1. Compare the base stack frame against all the stack frames of the previous sample. The idea is that while call `abc()` might be the root frame of our truncated call stack, it might in reality be frame #10 and the actual first 10 frames were suppressed. The best way to check this is to compare `abc()` against the stack frames of the previous sample, which is assumed to be correct, meaning that `abc()` will appear "lower" in the stack.
+1. Compare the base stack frame against all the stack frames of the previous sample. The idea is that while call `abc()` might be the root frame of our truncated call stack, it might in reality be frame #10 and the actual first 10 frames were suppressed.
 2. Compare the matches and select the one that better aligns with the previous call stack - the candidate with the most overlap wins.
 3. Insert the missing stack frames - the call stack should be correct now.
 
@@ -313,13 +315,13 @@ Yes, I know, pure heresy. But you can't argue against results:
     <img src="/images/dotnet-trace-final-fix/cm-2-b.png" data-label="After"  alt="after" />
 </div>
 
-And what is the price I had to pay for perfect traces? 69 samples out of 2194244, or 0.003%. I'll take that deal any day of the week.
+And what is the price to pay for these perfect traces? 69 samples out of 2194244, or 0.003%. I'll take that deal any day of the week.
 
 ## Putting everything together
 
 The only task remaining is going through the bureaucracy of forking [dotnet/diagnostics](https://github.com/dotnet/diagnostics), introducing our changes, and compiling our very own customized `dotnet-trace`.
 
-In order to be able to distinguish between the canonical `dotnet-trace` and my own version, I renamed my version of this tool to `daniel-trace`... I couldn't come up with a better name, sorry.
+In order to be able to distinguish between the canonical `dotnet-trace` and my own version, I renamed my own version of this tool to `daniel-trace`... I couldn't come up with a better name, sorry.
 
 !["Command line image of daniel-trace being executed"](/images/dotnet-trace-final-fix/daniel-trace.png)
 
@@ -350,7 +352,7 @@ PS C:\Users\Daniel\Desktop\github\blog\dotnet-trace-final-fix>
 
 Have fun analysing traces!
 
-### One more thing...[^2]
+### Oh, and one more thing...[^2]
 
 [^2]: Pretend I'm wearing a black turtleneck while you read this final chapter.
 
