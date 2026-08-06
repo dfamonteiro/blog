@@ -1,5 +1,5 @@
 +++ 
-draft = true
+draft = false
 date = 2026-08-05T22:00:11+01:00
 title = "Fixing dotnet-trace's 100 stack frame limit once and for all"
 description = ""
