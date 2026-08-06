@@ -363,9 +363,17 @@ Besides the improvements I mentioned earlier in this blog post, I also took the 
 
 With these two optional arguments, you can perform very fine-grained filtering directly with `daniel-trace` instead of having to [do it in the Perfetto trace viewer](../using-dotnet-trace-with-perfetto#analysing-traces-with-perfetto).
 
+For example, to filter traces from the [Critical Manufacturing](https://www.criticalmanufacturing.com/) host, you would run something like this command:
+
 ```txt
-daniel-trace convert .\dotnet_20260727_184408.nettrace --format Chromium --first-span "Cmf*.Services.*Controller.*" --span-filter "Cmf*"
+daniel-trace collect -p 123 --format Chromium --first-span "Cmf*.Services.*Controller.*" --span-filter "Cmf*"
 ```
+
+And you get the following trace out of the box:
+
+!["Image of a very elegant and filtered trace"](/images/dotnet-trace-final-fix/final-trace.png)
+
+That's about as good as it gets!
 
 <!-- Juxtapose CSS -->
 <link rel="stylesheet" href="https://cdn.knightlab.com/libs/juxtapose/latest/css/juxtapose.css">
