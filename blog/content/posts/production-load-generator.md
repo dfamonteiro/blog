@@ -13,11 +13,15 @@ series = []
 
 Do you happen to have a spare factory laying around?
 
-Probably not, and that's a problem for us at Critical Manufacturing: how do we ensure that our MES will work as expected at the factory, _before actually deploying_ our MES in that said factory? This is not a problem that is solved by standard functional testing - functional tests only validate that features work; it tells us nothing about how a given feature behaves under load.
+Probably not, and that's a problem for us at Critical Manufacturing: how do we ensure that our MES will work as expected at the factory, _before actually deploying_ our MES in that said factory? This is not a problem that is solved by standard functional testing - functional tests only validate that features work; they tell us nothing about how a given feature behaves under load.
 
-This is an especially pertinent problem in the electronics industry: a very nasty mix of high production volumes combined with onerous traceability and quality tracking requirements will bring your MES to its knees if you are not careful. It is therefore critical for electronics projects to understand how their MES customization behaves under very high loads, because that's the reality in which our MES will operate.
+This is an especially pertinent problem in the electronics industry: a very nasty mix of high production volumes combined with onerous traceability and quality tracking requirements will bring your MES to its knees if you are not careful! It is therefore critical for electronics projects to understand how their MES customization behaves under very high loads, because that's the reality in which our MES will operate.
 
-## Introducing the PLG
+There is only one issue: how do you simulate realistic factory conditions, without running the MES against an real factory? You can't do it... or can you?
+
+## Introducing the Production Load Generator
+
+This was the problem I was tasked with solving
 
 The PLG represents a technological leap forward in Critical Manufacturing's internal factory simulation capabilities.
 bla bla stateful load generator bla bla line load generator
