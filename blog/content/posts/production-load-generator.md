@@ -11,8 +11,13 @@ externalLink = ""
 series = []
 +++
 
-Think of potencial intros.
-Testing an Manufacturing Execution System effectively is incredibly hard. One can do all sorts of testing and yet not feel confident. Especially evident
+Testing a Manufacturing Execution System (MES) effectively is incredibly hard. You can have perfect testing coverage, excellent integration and GUI tests, full IoT testing coverage... and yet, this is no guarantee that a go-live of an MES in a factory will go smoothly.
+
+Why?
+
+## Everyone has a test plan until they get punched in the face
+
+Reality has this rather impolite tendency of challenging the core assumptions with which you build your software
 
 ## Do you have a factory laying around?
 
