@@ -21,7 +21,9 @@ There is only one issue: how do you simulate realistic factory conditions, witho
 
 ## Introducing the Production Load Generator
 
-The Production Load Generator project (or PLG) is a tool that stress-tests an MES system **by simulating the factory that MES system is being built for**, and represents a significant leap forward in Critical Manufacturing's internal factory simulation capabilities. In matter of fact, you can think of the PLG as a factory simulator disguised as a load generator!
+The Production Load Generator project (or PLG) is a tool that stress-tests an MES system **by simulating the factory that MES system is being built for**. It also represents a significant leap forward in Critical Manufacturing's internal factory simulation capabilities. In matter of fact, you can think of the PLG as a factory simulator disguised as a load generator!
+
+The PLG is a load generator designed specifically for Critical Manufacturing's needs blabla C# async, we worry about concurrency, users only need to focus figuring out the business logic behind the scenarios - usually IoT.
 
 ## So early results
 
