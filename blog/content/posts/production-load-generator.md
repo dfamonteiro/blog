@@ -11,9 +11,11 @@ externalLink = ""
 series = []
 +++
 
-Testing a Manufacturing Execution System (MES) effectively is incredibly hard. You can have perfect testing coverage, excellent integration and GUI tests, full IoT testing coverage... and yet, this is no guarantee that a go-live of an MES in a factory will go smoothly.
+Do you happen to have a spare factory laying around?
 
-Why?
+Probably not, and that's a problem for us at Critical Manufacturing: how do we ensure that our MES will work as expected at the factory, _before actually deploying_ our MES in that said factory? This is not a problem that is solved by standard functional testing - functional tests only validate that features work, it tells us nothing about how a feature behaves under load.
+
+Understanding how our MES behaves under very high production volume scenarios is absolutely critical to avoid nasty surprises after the MES goes live
 
 ## Everyone has a test plan until they get punched in the face
 
