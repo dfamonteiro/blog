@@ -33,6 +33,46 @@ Now that you are more aware of the philosophy and motivations behind the Product
 
 ## So... how does it work?
 
+You can get started with the PLG by setting up a standalone C# project with following `.csproj` file:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Cmf.LightBusinessObjects">
+      <HintPath>..\Libs\LBOs\NetStandard\Cmf.LightBusinessObjects.dll</HintPath>
+    </Reference>
+
+    <PackageReference Include="Cmf.Common.TestUtilities" Version="11.2.0.1227846" />
+    <PackageReference Include="Cmf.ProductionLoadGenerator" Version="0.4.3" />
+    <PackageReference Include="Cmf.LoadBalancing" Version="11.2.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
+```
+
+Let's go through every reference to understand their purpose:
+
+1. The `Cmf.LightBusinessObjects.dll` is an automatically generated DLL that wraps every single API provided by the MES with C# methods and objects. Every single API call done by the load generator to the MES goes through this DLL.
+2. The `Cmf.Common.TestUtilities` and `Cmf.LoadBalancing` nugets play a supporting role to the `Cmf.LightBusinessObjects.dll`: they are here to make interacting with the MES via LBOs a far more ergonomic experience.
+3. The `Cmf.ProductionLoadGenerator` is our load generator. It's written in async C# (for scalability purposes) and can be used either in a standalone fashion, or as a smaller component in a larger testing framework.
+4. `appsettings.json` contains the settings for our load scenario.
+
+You might be wondering: why C#? The reason is quite simple: Critical Manufacturing lives and breathes C#. Our backend is written in this language, and so are our tests. 
+
 ## Excellent documentation is the bare minimum
 
 ## Early results
