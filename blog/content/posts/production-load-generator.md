@@ -109,27 +109,9 @@ public interface ILoadScenario
     /// </summary>
     string ScenarioName { get; }
 
-    /// <summary>
-    /// Sets up the load scenario.
-    /// </summary>
-    /// <param name="configuration">
-    ///   Configurations for the load scenario.
-    /// </param>
-    Task SetupAsync(IConfiguration configuration);
-
-    /// <summary>
-    /// Runs the load scenario.
-    /// </summary>
-    /// <param name="cancellationToken">
-    ///   Cancellation token for the scenario.
-    ///   It may already come preconfigured with a timeout.
-    /// </param>
-    Task RunAsync(CancellationToken cancellationToken);
-
-    /// <summary>
-    /// Cleanup that is called after the load scenario execution.
-    /// </summary>
-    Task TeardownAsync();
+    Task SetupAsync(IConfiguration configuration); // Sets up the load scenario.
+    Task RunAsync(CancellationToken cancellationToken); // Runs the load scenario.
+    Task TeardownAsync(); // Cleanup called after the load scenario execution.
 }
 ```
 
@@ -137,7 +119,7 @@ This interface is designed to mesh well with the `LoadScenarioRunner` from the p
 
 - The `ScenarioName` is used as an identifier by the `LoadScenarioRunner` class.
 - The `IConfiguration` argument passed in `SetupAsync` contains the entire `appsettings.json` file, so feel free to add all the custom settings you want!
-- By passing a preconfigured `CancellationToken` in `RunAsync`, you are able to set the duration of the load test directly in `appsettings.json`.
+- The `CancellationToken` in `RunAsync` comes preconfigured with a timeout set to the duration in `appsettings.json`.
 
 <!-- ## Excellent documentation is the bare minimum
 
