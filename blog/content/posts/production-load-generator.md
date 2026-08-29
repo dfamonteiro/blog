@@ -62,7 +62,7 @@ dotnet sln add LoadTests.csproj
 dotnet add package Cmf.ProductionLoadGenerator
 ```
 
-Every project will need to read a settings file and to setup the connection with the MES. I recommend using the `LoadScenarioRunner` utility class to handle this bureaucracy for you:
+Every project will need to read a settings file and to setup the connection with the MES. You should use the `LoadScenarioRunner` utility class to handle this bureaucracy for you:
 
 ```csharp
 using Cmf.ProductionLoadGenerator.LoadScenarioRunner;
@@ -110,7 +110,7 @@ Which load scenario is executed and for how long is determined by the `appsettin
 }
 ```
 
-## Excellent documentation is the bare minimum
+<!-- ## Excellent documentation is the bare minimum
 
 ## Early results
 
@@ -120,4 +120,4 @@ Testimonies TODO
 
 ## Final thoughs
 
-The project I'm most proud of
+The project I'm most proud of -->
