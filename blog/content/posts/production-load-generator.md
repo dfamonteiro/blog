@@ -46,15 +46,9 @@ The first thing you should know about the PLG is that it's not a load generator 
 
 ### Getting started
 
-To get started with the PLG, setup a standalone C# project named `LoadTests` and add the `Cmf​.ProductionLoadGenerator` NuGet package:
+In order to help users of the Production Load Generator getting started with creating scenarios, we provide a `LoadScenarioRunner` class that acts as the entry point of the application. This is responsible for connecting to a specific MES environment and running the specified load scenario against that environment.
 
-```powershell
-# Install the latest PLG version
-# You will need access to Critical Manufacturing's NuGet repository to do this
-dotnet add package Cmf.ProductionLoadGenerator
-```
-
-Every project will need to read a settings file and to setup the connection with the MES. You should use the `LoadScenarioRunner` utility class to handle this bureaucracy for you:
+The goal of this component is to provide a standardized way to define, configure, and run load scenarios in a way that is consistent across projects:
 
 ```csharp
 class Program
