@@ -36,7 +36,7 @@ The goal of the Production Load Generator is simple: **make it as easy as possib
 
 The Production Load Generator is equal parts a load generator and a factory simulator, which makes it very useful for other purposes within Critical Manufacturing, such as showcasing features of the MES that can only be assessed properly when the MES is running around the clock (for example, our reports and dashboards).
 
-Now that you get the gist of what the Production Load Generator is supposed to be, let's see how it works in practice.
+Now that you get the broad strokes of what the Production Load Generator is supposed to be, let's see how it works in practice.
 
 ## So... how does it work?
 
