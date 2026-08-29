@@ -46,7 +46,7 @@ The first thing you should know about the PLG is that it's not a load generator 
 
 ### Getting started
 
-In order to help users of the Production Load Generator getting started with creating scenarios, we provide a `LoadScenarioRunner` class that acts as the entry point of the application. This is responsible for connecting to a specific MES environment and running the specified load scenario against that environment.
+In order to help users of the Production Load Generator getting started with creating scenarios, we provide a `LoadScenarioRunner` class that acts as the entry point of the application. This class is responsible for connecting to a specific MES environment and running the specified load scenario against that environment.
 
 The goal of this component is to provide a standardized way to define, configure, and run load scenarios in a way that is consistent across projects:
 
@@ -93,7 +93,7 @@ Which load scenario is executed, for how long, and against which MES environment
 
 ### Setting up a load scenario
 
-In order to keep things consistent across projects, the PLG provides an `ILoadScenario` interface that all load scenario classes must implement.
+All load scenarios must implement the `ILoadScenario` interface shown below:
 
 ```csharp
 public interface ILoadScenario
@@ -109,20 +109,13 @@ public interface ILoadScenario
 }
 ```
 
-This interface is designed to mesh well with the `LoadScenarioRunner` from the previous chapter:
+Don't get into specifics.
+Why? Target specific count.
 
-- The `ScenarioName` is used as an identifier by the `LoadScenarioRunner` class.
-- The `IConfiguration` argument passed in `SetupAsync` contains the entire `appsettings.json` file, so feel free to add all the custom settings you want!
-- The `CancellationToken` in `RunAsync` comes preconfigured with a timeout set to the duration in `appsettings.json`.
+### The ProductionLoadGenerator class
 
-<!-- ## Excellent documentation is the bare minimum
+### The LineLoadGenerator class
 
 ## Early results
 
-40 simulated lines
-
-Testimonies TODO
-
-## Final thoughs
-
-The project I'm most proud of -->
+## Final thoughts
