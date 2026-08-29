@@ -49,14 +49,6 @@ The first thing you should know about the PLG is that it's not a load generator 
 To get started with the PLG, setup a standalone C# project named `LoadTests` and add the `Cmf​.ProductionLoadGenerator` NuGet package:
 
 ```powershell
-# Create project in new folder
-dotnet new console -o LoadTests
-
-# Create solution for the project
-cd LoadTests
-dotnet new sln
-dotnet sln add LoadTests.csproj
-
 # Install the latest PLG version
 # You will need access to Critical Manufacturing's NuGet repository to do this
 dotnet add package Cmf.ProductionLoadGenerator
@@ -65,11 +57,6 @@ dotnet add package Cmf.ProductionLoadGenerator
 Every project will need to read a settings file and to setup the connection with the MES. You should use the `LoadScenarioRunner` utility class to handle this bureaucracy for you:
 
 ```csharp
-using Cmf.ProductionLoadGenerator.LoadScenarioRunner;
-using LoadTests;
-
-namespace CLI;
-
 class Program
 {
     static async Task Main(string[] args)
@@ -84,7 +71,7 @@ class Program
 }
 ```
 
-Which load scenario is executed and for how long is determined by the `appsettings.json` file:
+Which load scenario is executed, for how long, and against which MES environment is determined by the `appsettings.json` file:
 
 ```json
 {
@@ -109,6 +96,48 @@ Which load scenario is executed and for how long is determined by the `appsettin
     }
 }
 ```
+
+### Setting up a load scenario
+
+In order to keep things consistent across projects, the PLG provides an `ILoadScenario` interface that all load scenario classes must implement.
+
+```csharp
+public interface ILoadScenario
+{
+    /// <summary>
+    /// The name of the scenario.
+    /// </summary>
+    string ScenarioName { get; }
+
+    /// <summary>
+    /// Sets up the load scenario.
+    /// </summary>
+    /// <param name="configuration">
+    ///   Configurations for the load scenario.
+    /// </param>
+    Task SetupAsync(IConfiguration configuration);
+
+    /// <summary>
+    /// Runs the load scenario.
+    /// </summary>
+    /// <param name="cancellationToken">
+    ///   Cancellation token for the scenario.
+    ///   It may already come preconfigured with a timeout.
+    /// </param>
+    Task RunAsync(CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Cleanup that is called after the load scenario execution.
+    /// </summary>
+    Task TeardownAsync();
+}
+```
+
+This interface is designed to mesh well with the `LoadScenarioRunner` from the previous chapter:
+
+- The `ScenarioName` is used as an identifier by the `LoadScenarioRunner` class.
+- The `IConfiguration` argument passed in `SetupAsync` contains the entire `appsettings.json` file, so feel free to add all the custom settings you want!
+- By passing a preconfigured `CancellationToken` in `RunAsync`, you are able to set the duration of the load test directly in `appsettings.json`.
 
 <!-- ## Excellent documentation is the bare minimum
 
