@@ -40,6 +40,26 @@ Now that you get the broad strokes of what the Production Load Generator is supp
 
 ## So... how does it work?
 
+The first thing you should know about the PLG is that it's not a load generator application that works out-of-the-box.[^2] It is instead an async C# project that provides you with the tools you need to write your load tests (_a la_ [K6](https://k6.io/) or [NBomber](https://nbomber.com/)). You are responsible for setting up the business logic, and the PLG is responsible for executing your business logic in a way that accurately represents a factory's production flow.
+
+[^2]: But you can absolutely develop a load generator application backed by the PLG if you want!
+
+To get started with the PLG, my recommendation is to setup a standalone C# project named `LoadTests` and add the `Cmf.ProductionLoadGenerator` NuGet package:
+
+```powershell
+# Create project in new folder
+dotnet new console -o LoadTests
+
+# Create solution for the project
+cd LoadTests
+dotnet new sln
+dotnet sln add LoadTests.csproj
+
+# Install the latest PLG version
+# You will need access to Critical Manufacturing's NuGet repository to do this
+dotnet add package Cmf.ProductionLoadGenerator
+```
+
 ## Excellent documentation is the bare minimum
 
 ## Early results
