@@ -44,7 +44,9 @@ The first thing you should know about the PLG is that it's not a load generator 
 
 [^2]: But you can absolutely develop a load generator application backed by the PLG if you want!
 
-To get started with the PLG, my recommendation is to setup a standalone C# project named `LoadTests` and add the `Cmf.ProductionLoadGenerator` NuGet package:
+### Getting started
+
+To get started with the PLG, setup a standalone C# project named `LoadTests` and add the `Cmf​.ProductionLoadGenerator` NuGet package:
 
 ```powershell
 # Create project in new folder
@@ -58,6 +60,54 @@ dotnet sln add LoadTests.csproj
 # Install the latest PLG version
 # You will need access to Critical Manufacturing's NuGet repository to do this
 dotnet add package Cmf.ProductionLoadGenerator
+```
+
+Every project will need to read a settings file and to setup the connection with the MES. I recommend using the `LoadScenarioRunner` utility class to handle this bureaucracy for you:
+
+```csharp
+using Cmf.ProductionLoadGenerator.LoadScenarioRunner;
+using LoadTests;
+
+namespace CLI;
+
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        await new LoadScenarioRunner()
+            .AddLoadScenarios([
+                new FirstLoadScenario() // Add your load scenarios here
+            ])
+            .SetDefaultConfiguration() // Load the appsettings.json file and the env variables
+            .RunAsync();
+    }
+}
+```
+
+Which load scenario is executed and for how long is determined by the `appsettings.json` file:
+
+```json
+{
+    "TargetEnvironment": "Local",
+    "ScenarioToRun": "First load scenario",
+    "ScenarioDuration": "00:01:00",
+
+    "Environments": {
+        "Local": {
+            "HostAddress": "localhost:80",
+            "ClientTenantName": "IndustryTemplates",
+
+            "IsUsingLoadBalancer": false,
+            "UseSSL": false,
+
+            "SecurityPortalClientId": "MES",
+            "SecurityPortalBaseAddress": "http://localhost/SecurityPortal/",
+            "SecurityPortalAccessToken": "[Your PAT]",
+
+            "Culture": "en-US"
+        }
+    }
+}
 ```
 
 ## Excellent documentation is the bare minimum
