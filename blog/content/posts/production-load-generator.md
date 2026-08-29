@@ -30,9 +30,9 @@ Only one problem though... how do you simulate a factory?
 
 ## Introducing the Production Load Generator
 
-The Production Load Generator project (more informally known as "PLG") is an internal tool that stress-tests an MES system by simulating the factory that the MES system is being built for, hence the name: it's a **Load Generator** that replicates the **Production Load** of a factory.
+The Production Load Generator project (more informally known as "PLG") is a tool that stress-tests an MES system by simulating the factory that the MES system is being built for, hence the name: it's a **Load Generator** that replicates the **Production Load** of a factory.
 
-This simulation-first approach means that this tool is a very good factory simulator in its own right, and it therefore represents a significant leap forward in [Critical Manufacturing](https://www.criticalmanufacturing.com/)'s internal factory simulation capabilities.
+This simulation-first approach means that the PLG is a very good factory simulator in its own right, which makes it very useful to test features of the MES that can only be assessed properly when the MES is processing large amounts of data (for example, our [Data Platform](https://www.criticalmanufacturing.com/mes-for-industry-4-0/the-data-platform-for-manufacturers/)).
 
 The Production Load Generator has been developed with one core tenet: **ease of use**. The reason for this is that teams only adopt new tools if their benefits far outweigh their learning curve[^2]. Therefore, every decision I made during the development of this project was done with the goal to make the usage of the PLG as pleasant as it can possibly be.
 
