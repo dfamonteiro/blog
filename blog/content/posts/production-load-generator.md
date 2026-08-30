@@ -126,6 +126,10 @@ TODO segway into talking about the load generator classes
 
 ### The ProductionLoadGenerator class
 
+This eponymous load generator  is the most important component of the Production Load Generator project.
+
+The fundamental insight that drives the design of this load generator is the concept of a [**stateful load generator**](/posts/stateful-load-generators/): instead of thinking of materials as entities that travel linearly from the start to the end of the flow, we should instead think of them as state machines whose state represents their manufacturing progress, and are able to transition between states by executing MES services.
+
 ### The LineLoadGenerator class
 
 ## Early results
