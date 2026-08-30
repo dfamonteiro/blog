@@ -126,18 +126,93 @@ The methods in this class should be pretty self-explanatory: you setup your load
 
 Everything that I've shown so far is just generic infrastructure for running load tests in a standardized manner and doesn't differ that much from other publicly available load generators. It is nevertheless a necessary foundation on top of which the PLG's load generators run on.
 
-These load generator classes that the PLG provides are tailored for simulating manufacturing processes, and are what makes the Production Load Generator uniquely suited for [Critical Manufacturing](https://www.criticalmanufacturing.com/)'s needs:
+These load generator classes are the reason for the PLG's existence: they are _excellent_ at simulating manufacturing processes, and are what makes the Production Load Generator uniquely suited for [Critical Manufacturing](https://www.criticalmanufacturing.com/)'s factory simulation needs:
 
 ### The ProductionLoadGenerator class
 
-This eponymous load generator  is the most important component of the Production Load Generator project.
+This eponymous load generator works by treating the materials processed by the factory as independent concurrent state machines whose state represents their manufacturing progress, and are able to transition between states by executing MES services. When the materials reach an unrecognized state, they are dropped by the load generator.
 
-The fundamental insight that drives the design of this load generator is the concept of a [**stateful load generator**](/posts/stateful-load-generators/): instead of thinking of materials as entities that travel linearly from the start to the end of the flow, we should instead think of them as state machines whose state represents their manufacturing progress, and are able to transition between states by executing MES services.
+Users are able to define a state machine for the material by defining **handlers** which map a particular state to an action. For example, the following state handler table:
 
-TODO: image
+$$\begin{array}{ll} \hline \mathbf{State\ Pattern} & \mathbf{Action} \\\\ \hline \mathtt{\ast @Queued} & \mathtt{dispatch()} \\\\ \mathtt{\ast @Dispatched} & \mathtt{track\\_in()} \\\\ \mathtt{\ast @InProcess} & \mathtt{track\\_out()} \\\\ \mathtt{\ast @Processed} & \mathtt{move\\_next()} \\\\ \hline \end{array}$$
+
+Would yield the following state machine:
+
+<figure>
+    <img src="/images/wafer-system-state-loop.excalidraw.svg" alt="The Wafer system state loop">
+    <figcaption>A very simple state machine.</figcaption>
+</figure>
+
+In practice, writing the actual code requires a bit more business logic, but the core idea remains unchanged:
+
+```csharp
+public async Task RunAsync()
+{
+    ProductionLoadGenerator loadGenerator = new ProductionLoadGenerator()
+        .AddHandler(new Handler
+        {
+            Name = "Queued Handler",
+            StatePattern = "*@Queued",
+            Handle = async input =>
+            {
+                // Find a resource to dispatch our material to
+                Resource dispatchResource = await input.Entity.GetResourceForDispatchAsync();
+
+                // Dispatch our material
+                await input.Entity.DispatchAsync(dispatchResource);
+
+                // Return the new material state.
+                // This string will be used by the PLG to find a new handler for the material.
+                return input.Entity.State();
+            },
+        })
+        .AddHandler(new Handler
+        {
+            Name = "Dispatched Handler",
+            StatePattern = "*@Dispatched",
+            Handle = async input =>
+            {
+                await input.Entity.TrackInAsync();
+                return input.Entity.State();
+            },
+        })
+        .AddHandler(new Handler
+        {
+            Name = "InProcess Handler",
+            StatePattern = "*@InProcess",
+            Handle = async input =>
+            {
+                await input.Entity.TrackOutAsync();
+                return input.Entity.State();
+            },
+        })
+        .AddHandler(new Handler
+        {
+            Name = "Processed Handler",
+            StatePattern = "*@Processed",
+            Handle = async input =>
+            {
+                await input.Entity.ComplexMoveNextAsync();
+                return input.Entity.State();
+            },
+        });
+}
+```
+
+It's understandably difficult to get an intuition for how this load generator works just from reading this short sinopsys. If you are looking for more details on the inner workings and motivations behind this load generator, I suggest reading this [blog post](/posts/stateful-load-generators/) which delves deep into this state machine-based load generator concept.
 
 ### The LineLoadGenerator class
 
+TODO
+
+<!-- While PLG focused on the materials, LLG focused on the machines that process the materials -->
+
+<!-- While the `ProductionLoadGenerator` can (albeit with varying degrees of effort) simulate most manufacturing processes you can thing of, it's not a one-size-fits all solution. For example, it struggles with manufacturing lines -->
+
 ## Early results
 
+TODO
+
 ## Final thoughts
+
+It's very rare to have the opportunity to start a completely a new project from start blabla
