@@ -122,7 +122,7 @@ internal class FirstLoadScenario : ILoadScenario
 
 The methods in this class should be pretty self-explanatory: you setup your load generators and the MES in `SetupAsync`, run the load generators in `RunAsync` until the `cancellationToken` is triggered, and finally revert all MES configurations to their original state in `TeardownAsync`.
 
-Everything that I've shown so far is just basic infrastructure for running load tests in a standardized manner and doesn't differ that much other publicly available load generators. It is nevertheless the foundation on top of which the PLG's load generators run on.
+Everything that I've shown so far is just generic infrastructure for running load tests in a standardized manner and doesn't differ that much from other publicly available load generators. It is nevertheless a necessary foundation on top of which the PLG's load generators run on. These load generator classes that the PLG provides are tailor-made for simulating manufacturing processes, and are what makes the Production Load Generator truly inovative.
 
 ### The ProductionLoadGenerator class
 
