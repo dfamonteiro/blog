@@ -91,23 +91,35 @@ Which load scenario is executed, for how long, and against which MES environment
 }
 ```
 
-### Setting up a load scenario
+### Creating a load scenario
 
-All load scenarios must implement the `ILoadScenario` interface shown below:
+Creating a new load scenario is as easy as creating a new class that implements the PLG's `ILoadScenario` interface and adding it to `LoadScenarioRunner`:
 
 ```csharp
-public interface ILoadScenario
+internal class FirstLoadScenario : ILoadScenario
 {
-    /// <summary>
-    /// The name of the scenario.
-    /// </summary>
-    string ScenarioName { get; }
+    public string ScenarioName => "First load scenario";
 
-    Task SetupAsync(IConfiguration configuration); // Sets up the load scenario.
-    Task RunAsync(CancellationToken cancellationToken); // Runs the load scenario.
-    Task TeardownAsync(); // Cleanup called after the load scenario execution.
+    // Sets up the load scenario.
+    public async Task SetupAsync(IConfiguration configuration)
+    {
+        // ...
+    }
+
+    // Runs the load scenario.
+    public async Task RunAsync(CancellationToken cancellationToken)
+    {
+        // ...
+    }
+
+    // Cleanup called after the load scenario execution.
+    public async Task TeardownAsync()
+    {
+        // ...
+    }
 }
 ```
+
 
 Don't get into specifics.
 Why? Target specific count.
