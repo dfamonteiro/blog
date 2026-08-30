@@ -120,9 +120,9 @@ internal class FirstLoadScenario : ILoadScenario
 }
 ```
 
+For the sake of keeping this blog post succint I will refrain from delving into the details of developing these load scenarios, as we already have plenty of examples of load scenarios in this tool's documentation. Nevertheless, the important thing to know is that you setup your load generators and the MES in `SetupAsync`, run the load generators in `RunAsync` until the `cancellationToken` is triggered, and revert any MES configurations you have changed in `TeardownAsync`.
 
-Don't get into specifics.
-Why? Target specific count.
+TODO segway into talking about the load generator classes
 
 ### The ProductionLoadGenerator class
 
