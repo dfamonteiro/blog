@@ -34,7 +34,7 @@ The Production Load Generator project (more informally known as "PLG") is a tool
 
 The goal of the Production Load Generator is simple: **make it as easy as possible for MES customization teams to simulate their customer's factories**, so that performance issues that previously would only show up in production now appear far earlier in the project's lifecycle. The easier the PLG is to use, the more likely teams are to adopt this tool, so a lot of care and attention was put into the PLG's overall developer experience.
 
-The Production Load Generator is equal parts a load generator and a factory simulator, which makes it very useful for other purposes within Critical Manufacturing, such as showcasing features of the MES that can only be assessed properly when the MES is running around the clock (for example, our reports and dashboards).
+The Production Load Generator is equal parts a load generator and a factory simulator, which makes it very useful for other purposes within [Critical Manufacturing](https://www.criticalmanufacturing.com/), such as showcasing features of the MES that can only be assessed properly when the MES is running around the clock (for example, our reports and dashboards).
 
 Now that you get the broad strokes of what the Production Load Generator is meant to be, let's see how it works in practice.
 
@@ -122,7 +122,11 @@ internal class FirstLoadScenario : ILoadScenario
 
 The methods in this class should be pretty self-explanatory: you setup your load generators and the MES in `SetupAsync`, run the load generators in `RunAsync` until the `cancellationToken` is triggered, and finally revert all MES configurations to their original state in `TeardownAsync`.
 
-Everything that I've shown so far is just generic infrastructure for running load tests in a standardized manner and doesn't differ that much from other publicly available load generators. It is nevertheless a necessary foundation on top of which the PLG's load generators run on. These load generator classes that the PLG provides are tailor-made for simulating manufacturing processes, and are what makes the Production Load Generator truly inovative.
+-----------------
+
+Everything that I've shown so far is just generic infrastructure for running load tests in a standardized manner and doesn't differ that much from other publicly available load generators. It is nevertheless a necessary foundation on top of which the PLG's load generators run on.
+
+These load generator classes that the PLG provides are tailored for simulating manufacturing processes, and are what makes the Production Load Generator uniquely suited for [Critical Manufacturing](https://www.criticalmanufacturing.com/)'s needs:
 
 ### The ProductionLoadGenerator class
 
