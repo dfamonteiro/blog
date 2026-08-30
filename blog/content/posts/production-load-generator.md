@@ -36,7 +36,7 @@ The goal of the Production Load Generator is simple: **make it as easy as possib
 
 The Production Load Generator is equal parts a load generator and a factory simulator, which makes it very useful for other purposes within Critical Manufacturing, such as showcasing features of the MES that can only be assessed properly when the MES is running around the clock (for example, our reports and dashboards).
 
-Now that you get the broad strokes of what the Production Load Generator is supposed to be, let's see how it works in practice.
+Now that you get the broad strokes of what the Production Load Generator is meant to be, let's see how it works in practice.
 
 ## So... how does it work?
 
@@ -46,9 +46,9 @@ The first thing you should know about the PLG is that it's not a load generator 
 
 ### Getting started
 
-In order to help users of the Production Load Generator getting started with creating scenarios, we provide a `LoadScenarioRunner` class that acts as the entry point of the application. This class is responsible for connecting to a specific MES environment and running the specified load scenario against that environment.
+In order to help users of the Production Load Generator getting started with creating scenarios, we provide a `LoadScenarioRunner` class that acts as the entry point of the application. This class is responsible for connecting to a specific MES environment and running the specified load scenario against that environment.[^3]
 
-The goal of this component is to provide a standardized way to define, configure, and run load scenarios in a way that is consistent across projects:
+[^3]: Providing this component also comes with another advantage: standardization across projects of how load scenarios are defined, configured, and run.
 
 ```csharp
 class Program
@@ -93,7 +93,7 @@ Which load scenario is executed, for how long, and against which MES environment
 
 ### Creating a load scenario
 
-Creating a new load scenario is as easy as creating a new class that implements the PLG's `ILoadScenario` interface and adding it to `LoadScenarioRunner`:
+Creating a new load scenario is as easy as creating a new class that implements the PLG's `ILoadScenario` interface:
 
 ```csharp
 internal class FirstLoadScenario : ILoadScenario
@@ -120,7 +120,7 @@ internal class FirstLoadScenario : ILoadScenario
 }
 ```
 
-For the sake of keeping this blog post succint I will refrain from delving into the details of developing these load scenarios, as we already have plenty of examples of load scenarios in this tool's documentation. Nevertheless, the important thing to know is that you setup your load generators and the MES in `SetupAsync`, run the load generators in `RunAsync` until the `cancellationToken` is triggered, and revert any MES configurations you have changed in `TeardownAsync`.
+The methods in this class should be pretty self-explanatory: you setup your load generators and the MES in `SetupAsync`, run the load generators in `RunAsync` until the `cancellationToken` is triggered, and finally revert any MES configurations you have changed in `TeardownAsync`.
 
 TODO segway into talking about the load generator classes
 
@@ -129,6 +129,8 @@ TODO segway into talking about the load generator classes
 This eponymous load generator  is the most important component of the Production Load Generator project.
 
 The fundamental insight that drives the design of this load generator is the concept of a [**stateful load generator**](/posts/stateful-load-generators/): instead of thinking of materials as entities that travel linearly from the start to the end of the flow, we should instead think of them as state machines whose state represents their manufacturing progress, and are able to transition between states by executing MES services.
+
+TODO: image
 
 ### The LineLoadGenerator class
 
