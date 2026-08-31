@@ -130,7 +130,7 @@ These load generator classes are the reason for the PLG's existence: they are _e
 
 ### The ProductionLoadGenerator class
 
-This eponymous load generator works by treating the materials processed by the factory as independent concurrent state machines whose state represents their manufacturing progress, and are able to transition between states by executing MES services. When the materials reach an unrecognized state, they are dropped by the load generator.
+This eponymous load generator works by treating the materials processed by the factory as independent concurrent state machines whose state represents their manufacturing progress, and are able to transition between states by executing MES services.
 
 Users are able to define a state machine for the material by defining **handlers** which map a particular state to an action. For example, the following state handler table:
 
