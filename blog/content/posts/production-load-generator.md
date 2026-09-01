@@ -203,16 +203,108 @@ It's understandably difficult to get an intuition for how this load generator wo
 
 ### The LineLoadGenerator class
 
-TODO
+TODO IoT
+TODO Image of assembly line
 
-<!-- While PLG focused on the materials, LLG focused on the machines that process the materials -->
+While the `ProductionLoadGenerator` is an incredibly versatile simulator, it struggles with modelling queue-based manufacturing processes, such as SMT Lines and car assembly lines. The `LineLoadGenerator` is a load generator designed exactly for this purpose: **simulating manufacturing lines**.
 
-<!-- While the `ProductionLoadGenerator` can (albeit with varying degrees of effort) simulate most manufacturing processes you can thing of, it's not a one-size-fits all solution. For example, it struggles with manufacturing lines -->
+A key detail about these types of setups is that they’re susceptible to traffic jams: if a station at the end of the line breaks, the entire line backs up until the problem is fixed. This dynamic places constraints on how materials travel through the manufacturing line which are hard to model with a standard `ProductionLoadGenerator`.
 
-## Early results
+-----------------
 
-TODO
+The `LineLoadGenerator` has two core components:
+
+#### LineEquipment
+
+The `LineEquipment` class is the core building block of the `LineLoadGenerator`: it represents an individual piece of equipment in a manufacturing line: a conveyor belt, a P&P machine, an SMT oven, etc. It has three core properties: the **name**, the **number of inputs** and the **number of outputs**.
+
+In 90% of scenarios your `LineEquipment` objects will only have 1 input and 1 output, but in dual-lane SMT lines you will need to set the number of inputs and outputs to 2 or more.
+
+The `LineEquipment` is an **abstract class**, meaning that in order to use this class you will need to first create a class that inherits from `LineEquipment` and implements the `RunAsync` method. This method governs the behaviour of the line equipment you are trying to emulate.
+
+Below you will find an example of a minimalistic MES Resource simulator that receives a panel from the input, tracks the panel in and out in the MES, and sends the panel to the next line equipment:
+
+```csharp
+/// <summary>
+/// Represents a generic MES resource
+/// </summary>
+class MESResource : LineEquipment
+{
+    public MESResource(string name) : base(name) {}
+
+    public async override Task SetupAsync()
+    {
+        // Line equipment setup logic goes here, if necessary
+        // Implementation of this method is optional
+    }
+
+    protected override async Task RunAsync(CancellationToken cancellationToken)
+    {
+        Resource resource = await GenericGetsScenarioAsync.GetObjectByNameAsync<Resource>(Name);
+
+        while (true)
+        {
+            Material panel = await ReceiveAsync(cancellationToken);
+
+            await resource.LoadAsync();
+            await panel.ComplexTrackInAsync(resource);
+
+            await resource.LoadAsync();
+            await panel.ComplexTrackOutMaterialAsync();
+
+            await SendAsync(panel, cancellationToken);
+        }
+    }
+}
+```
+
+#### LineLoadGenerator
+
+The `LineLoadGenerator` is where the the `LineEquipment` building blocks are linked together into simulated manufacturing lines. Besides what is inherited from `BaseLoadGenerator`, it features the following methods:
+
+- **AddLink**: Links two line equipments together.
+- **AddEquipment**: Adds an equipment to the `LineLoadGenerator` and links it to the previous equipment.
+- **StartAsync**: Starts the execution of all line equipment objects managed by this load generator.
+
+```csharp
+LineLoadGenerator SMTLine = new LineLoadGenerator();
+
+SMTLine = new LineLoadGenerator()
+    .SetName("SMT Line")
+    .AddEquipment(new MESResource("PRT01", 2, 2))
+    .AddEquipment(new MESResource("SPI01", 2, 2))
+    .AddEquipment(new MESResource("PnP01", 2, 2))
+    .AddEquipment(new MESResource("PnP02", 2, 2))
+    .AddEquipment(new MESResource("PnP03", 2, 2))
+    .AddEquipment(new MESResource("OVN01", 2, 2))
+    .AddEquipment(new MESResource("AOI01", 2, 2));
+```
+
+<figure>
+    <img src="/images/production-load-generator/BasicSMTLineDiagram.excalidraw.png" alt="A very simple simulated SMT line">
+    <figcaption>A very simple simulated SMT line.</figcaption>
+</figure>
+
+## Early results look promising
+
+The Production Load Generator has already been used by some teams to validate some performance-critical scenarios, and so far the feedback I've gotten by my colleagues is that it's pretty intuitive to use, which is a massive relief! One of the goals of the PLG is to make load tests against our MES dramatically easier to perform - mission completed, it seems.
+
+I terms of performance, the PLG has proven to be so effective at stress-testing the MES that teams are becoming limited by our internal development infrastructure - to the point that requests for dedicated database hardware are now being made to open the door for bigger load tests. This request for more hardware is completely understandable, though... if you want to simulate a factory with 40 SMT lines running concurrently, there's no going around it: [you're gonna need a bigger boat](https://www.youtube.com/watch?v=2I91DJZKRxs).
+
+<figure>
+    <img src="/images/production-load-generator/bigger-boat.png" alt="A shark named PLG attacking a boat named MES">
+    <figcaption>Extremely accurate visualization of the PLG stress-testing our MES.</figcaption>
+</figure>
+
+And last but not least, we need to discuss how teams are collecting performance data from their load tests. While the PLG is capable of logging every HTTP request it makes (via the `HttpClient`'s [ActivitySource](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/distributed-tracing-builtin-activities#http-client-request)), teams prefer to lean on our MES's excellent [observability](https://www.criticalmanufacturing.com/observability/) dashboards. One key advantage on leaning on the MES itself for monitoring its performance, is that the techniques used to analyse the performance of the MES during the load test are directly transferrable to analysing the performance of the MES in production.
 
 ## Final thoughts
 
-It's very rare to have the opportunity to start a completely a new project from start blabla
+It's very rare to be given the opportunity to start a completely a new project from scratch, and I couldn't be happier with how the Production Load Generator is flourishing. To get this far it took a lot of effort from a lot of people, to whom I'm eternally grateful:
+
+- I'd like to thank [Óscar Martins](https://www.linkedin.com/in/oscarmartins/) for the political sponsorship and [Miguel Torres](https://www.linkedin.com/in/miguelangelotorres/) for the technical sponsorship & guidance.
+- I'd like to thank [Fábio Reis](https://www.linkedin.com/in/fabioreis23/) for promoting this tool to other parts of the company.
+- I'd like to thank the entire Electronics Template team for their contributions to the PLG. In no particular order, thank you to [Eduardo Oliveira](https://www.linkedin.com/in/eduardoliv/), [Flávio Rodrigues](https://www.linkedin.com/in/fl%C3%A1vio-rodrigues-63505110b/), [Erik Barba](https://www.linkedin.com/in/erik-alejandro-olalde-barba-b062251ab/), [Roberto García](https://www.linkedin.com/in/robertramgar/), Oscar Trejo, [Isaac Mateus](https://www.linkedin.com/in/isaac-mateus-b30240207/), [Daniel Pereira](https://www.linkedin.com/in/daniel-pereira-902905153/), and [Pedro Limas](https://www.linkedin.com/in/pedrolimas/).
+- I would like to thank [Diogo Paredes](https://www.linkedin.com/in/diogo-paredes/), [Eliana Vieira](https://www.linkedin.com/in/eliana-vieira-553710100/) and [Gonçalo Dias](https://www.linkedin.com/in/gon%C3%A7alo-dias/) for taking a chance on this project, with a special thank you to [Francisco Azevedo](https://www.linkedin.com/in/francisco-azevedo-48bb0b16b/) for his extensive feedback.
+
+And finally, I would like to thank you for reading my blog post!
