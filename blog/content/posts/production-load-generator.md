@@ -203,30 +203,29 @@ It's understandably difficult to get an intuition for how this load generator wo
 
 ### The LineLoadGenerator class
 
+<!-- 
 TODO IoT
-TODO Image of assembly line
+TODO observability screenshots -->
 
 While the `ProductionLoadGenerator` is an incredibly versatile simulator, it struggles with modelling queue-based manufacturing processes, such as SMT Lines and car assembly lines. The `LineLoadGenerator` is a load generator designed exactly for this purpose: **simulating manufacturing lines**.
 
-A key detail about these types of setups is that they’re susceptible to traffic jams: if a station at the end of the line breaks, the entire line backs up until the problem is fixed. This dynamic places constraints on how materials travel through the manufacturing line which are hard to model with a standard `ProductionLoadGenerator`.
+<figure>
+    <img src="/images/production-load-generator/assembly-line.png" alt="The Wafer system state loop">
+    <figcaption>A Boeing 787 assembly line in North Charleston, South Carolina. Issues at one of the assembly stations can result in cascading delays for every airframe that is directly or indirectly blocked by the disrupted station. In other words: you have a traffic jam until the bottleneck is fixed.<br>(image source: <a href="https://www.seattletimes.com/business/boeing-aerospace/parts-delays-force-boeing-to-slow-787-jet-assembly-line-in-s-c/">The Seattle Times</a>)</figcaption>
+</figure>
 
------------------
-
-The `LineLoadGenerator` has two core components:
+The `LineLoadGenerator` has two core components: the `LineEquipment` class which represents a singular machine with inputs and outputs, and the `LineLoadGenerator` which is responsible for piecing and wiring these `LineEquipment` objects together like they're legos.
 
 #### LineEquipment
 
 The `LineEquipment` class is the core building block of the `LineLoadGenerator`: it represents an individual piece of equipment in a manufacturing line: a conveyor belt, a P&P machine, an SMT oven, etc. It has three core properties: the **name**, the **number of inputs** and the **number of outputs**.
 
-In 90% of scenarios your `LineEquipment` objects will only have 1 input and 1 output, but in dual-lane SMT lines you will need to set the number of inputs and outputs to 2 or more.
-
 The `LineEquipment` is an **abstract class**, meaning that in order to use this class you will need to first create a class that inherits from `LineEquipment` and implements the `RunAsync` method. This method governs the behaviour of the line equipment you are trying to emulate.
-
-Below you will find an example of a minimalistic MES Resource simulator that receives a panel from the input, tracks the panel in and out in the MES, and sends the panel to the next line equipment:
 
 ```csharp
 /// <summary>
-/// Represents a generic MES resource
+/// Represents a generic MES resource that receives a panel from the input, 
+/// tracks the panel in and out in the MES, and sends the panel to the next line equipment.
 /// </summary>
 class MESResource : LineEquipment
 {
@@ -260,30 +259,30 @@ class MESResource : LineEquipment
 
 #### LineLoadGenerator
 
-The `LineLoadGenerator` is where the the `LineEquipment` building blocks are linked together into simulated manufacturing lines. Besides what is inherited from `BaseLoadGenerator`, it features the following methods:
+The `LineLoadGenerator` is where the the `LineEquipment` building blocks are linked together into simulated manufacturing lines.
 
-- **AddLink**: Links two line equipments together.
-- **AddEquipment**: Adds an equipment to the `LineLoadGenerator` and links it to the previous equipment.
-- **StartAsync**: Starts the execution of all line equipment objects managed by this load generator.
+The following `LineLoadGenerator` code:
 
 ```csharp
-LineLoadGenerator SMTLine = new LineLoadGenerator();
-
-SMTLine = new LineLoadGenerator()
+LineLoadGenerator SMTLine = new LineLoadGenerator()
     .SetName("SMT Line")
-    .AddEquipment(new MESResource("PRT01", 2, 2))
-    .AddEquipment(new MESResource("SPI01", 2, 2))
-    .AddEquipment(new MESResource("PnP01", 2, 2))
-    .AddEquipment(new MESResource("PnP02", 2, 2))
-    .AddEquipment(new MESResource("PnP03", 2, 2))
-    .AddEquipment(new MESResource("OVN01", 2, 2))
-    .AddEquipment(new MESResource("AOI01", 2, 2));
+    .AddEquipment(new MESResource("PRT01"))
+    .AddEquipment(new MESResource("SPI01"))
+    .AddEquipment(new MESResource("PnP01"))
+    .AddEquipment(new MESResource("PnP02"))
+    .AddEquipment(new MESResource("PnP03"))
+    .AddEquipment(new MESResource("OVN01"))
+    .AddEquipment(new MESResource("AOI01"));
 ```
+
+Would result in the following manufacturing line:
 
 <figure>
     <img src="/images/production-load-generator/BasicSMTLineDiagram.excalidraw.png" alt="A very simple simulated SMT line">
     <figcaption>A very simple simulated SMT line.</figcaption>
 </figure>
+
+Notice how all the `LineEquipment` are linked for you - by default, the newly added simulated equipment is automatically connected to the equipment at the end of the line. Sometimes you get to have nice things!
 
 ## Early results look promising
 
