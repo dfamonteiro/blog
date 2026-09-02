@@ -203,10 +203,6 @@ It's understandably difficult to get an intuition for how this load generator wo
 
 ### The LineLoadGenerator class
 
-<!-- 
-TODO IoT
-TODO observability screenshots -->
-
 While the `ProductionLoadGenerator` is an incredibly versatile simulator, it struggles with modelling queue-based manufacturing processes, such as SMT Lines and car assembly lines. The `LineLoadGenerator` is a load generator designed exactly for this purpose: **simulating manufacturing lines**.
 
 <figure>
@@ -220,7 +216,9 @@ The `LineLoadGenerator` has two core components: the `LineEquipment` class which
 
 The `LineEquipment` class is the core building block of the `LineLoadGenerator`: it represents an individual piece of equipment in a manufacturing line: a conveyor belt, a P&P machine, an SMT oven, etc. It has three core properties: the **name**, the **number of inputs** and the **number of outputs**.
 
-The `LineEquipment` is an **abstract class**, meaning that in order to use this class you will need to first create a class that inherits from `LineEquipment` and implements the `RunAsync` method. This method governs the behaviour of the line equipment you are trying to emulate.
+The `LineEquipment` is an **abstract class**, meaning that you are expected to create subclasses that inherit from `LineEquipment` and implements the `RunAsync` method. This method governs the behaviour of the line equipment you are trying to emulate and is expected to run for the duration of the load test.
+
+Here is example of how a `LineEquipment` subclass looks like in practice:
 
 ```csharp
 /// <summary>
@@ -230,12 +228,6 @@ The `LineEquipment` is an **abstract class**, meaning that in order to use this 
 class MESResource : LineEquipment
 {
     public MESResource(string name) : base(name) {}
-
-    public async override Task SetupAsync()
-    {
-        // Line equipment setup logic goes here, if necessary
-        // Implementation of this method is optional
-    }
 
     protected override async Task RunAsync(CancellationToken cancellationToken)
     {
@@ -257,9 +249,65 @@ class MESResource : LineEquipment
 }
 ```
 
+Pay close attention to the `ReceiveAsync` and `SendAsync` methods in the example above: this is how the simulated machine interacts with the outside world[^4] - by receiving panels from its inputs, and once "processing" is done, sending the panels via its outputs.[^5] To what these inputs and outputs are connected, the simulated equipment doesn't know (nor should it) - the linking of the `LineEquipment`'s inputs and outputs falls under the `LineLoadGenerator`'s purview.
+
+[^4]: It may help to think of the `LineLoadGenerator` as an implementation of the [actor model](https://en.wikipedia.org/wiki/Actor_model), with the `LineEquipment` objects being actors that can only communicate with a limited set of other actors by sending or receiving materials.
+
+[^5]: And in case you're wondering, a `SendAsync` call only returns when matched by a `ReceiveAsync` call from the upstream machine. This handover mechanism is backed by a zero-capacity MPMC queue which is detailed in a [previous blog post](/posts/perfect-handover/).
+
+-----------------
+
+You might be wondering: and what about IoT? And what if I also want to to stress-test the [ConnectIoT](https://www.criticalmanufacturing.com/mes-for-industry-4-0/connect-iot/) layer as part of my load tests? Can I get my `LineEquipment` objects to communicate via IoT protocols?
+
+The answer is **yes**. By leveraging the IoT plugins of our `IoTTestOrchestrator` framework (detailed at length in this [blog post](https://j-roque.com/posts/20250516-testinglowcode/) by my colleague & IoT expert [João Roque](https://www.linkedin.com/in/j-roque/)), you can get your `LineEquipment` to talk via whatever IoT protocol you wish.
+
+Here's an example of a simulated machine that communicates via the [Hermes Protocol](https://www.the-hermes-standard.info/):
+
+```csharp
+protected override async Task RunAsync(CancellationToken cancellationToken)
+{
+    while (!cancellationToken.IsCancellationRequested)
+    {
+        Material panel = await ReceiveAsync(cancellationToken);
+
+        // Send BoardArrived Hermes message
+        HermesPlugin!.SendMessage(new BoardArrived
+        {
+            MachineId = Name,
+            UpstreamLaneId = 1,
+            SlotId = 1,
+            BoardTransfer = BoardArrivalTransferType.Transferred,
+            BoardId = panel.Name,
+            FailedBoard = FailedBoardType.UnknownQuality,
+            FlippedBoard = FlippedBoardType.TopSideUp,
+            BoardIdCreatedBy = "UpstreamMachine1",
+        });
+
+        // Simulate cycle time
+        await LoadGenerator!.Delay(CycleTime, cancellationToken);
+
+        // Send BoardDeparted Hermes message
+        HermesPlugin!.SendMessage(new BoardDeparted
+        {
+            MachineId = Name,
+            DownstreamLaneId = 1,
+            MagazineId = "magazineId" + DateTime.Now.ToString("HHmmssffff"),
+            BoardTransfer = BoardDepartureTransferType.Removed,
+            BoardId = panel.Name,
+            BoardIdCreatedBy = "UpstreamMachine1",
+        });
+
+        await SendAsync(panel, cancellationToken);
+
+        // Simulate the equipment getting ready for receiving the next panel
+        await LoadGenerator!.Delay(InterCycleTime, cancellationToken);
+    }
+}
+```
+
 #### LineLoadGenerator
 
-The `LineLoadGenerator` is where the the `LineEquipment` building blocks are linked together into simulated manufacturing lines.
+The `LineLoadGenerator` class is where the the `LineEquipment` building blocks are linked together into simulated manufacturing lines.
 
 The following `LineLoadGenerator` code:
 
@@ -282,7 +330,9 @@ Would result in the following manufacturing line:
     <figcaption>A very simple simulated SMT line.</figcaption>
 </figure>
 
-Notice how all the `LineEquipment` are linked for you - by default, the newly added simulated equipment is automatically connected to the equipment at the end of the line. Sometimes you get to have nice things!
+Notice how all the `LineEquipment` are linked for you - by default, the newly added simulated equipment is automatically connected to the equipment at the end of the line. Sometimes you can have nice things!
+
+As a final note, it's important to point out that the `LineLoadGenerator` is not limited to only single-lane SMT lanes - it's more than capable of simulating dual-lane setups and can even handle factories that mix and match single-lane and dual-lane equipment.
 
 ## Early results look promising
 
