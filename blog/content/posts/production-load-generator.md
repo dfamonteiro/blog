@@ -1,6 +1,6 @@
 +++ 
-draft = true
-date = 2026-08-10T23:45:05+01:00
+draft = false
+date = 2026-09-03T00:44:09+01:00
 title = "Introducing the Production Load Generator: test your MES by simulating the entire factory"
 description = ""
 slug = ""
