@@ -211,7 +211,7 @@ While the `ProductionLoadGenerator` is an incredibly versatile simulator, it str
 
 <figure>
     <img src="/images/production-load-generator/assembly-line.png" alt="The Wafer system state loop">
-    <figcaption>A Boeing 787 assembly line in North Charleston, South Carolina. Issues at one of the assembly stations can result in cascading delays for every airframe that is directly or indirectly blocked by the disrupted station. In other words: you have a traffic jam until the bottleneck is fixed.<br>(image source: <a href="https://www.seattletimes.com/business/boeing-aerospace/parts-delays-force-boeing-to-slow-787-jet-assembly-line-in-s-c/">The Seattle Times</a>)</figcaption>
+    <figcaption>A Boeing 787 assembly line in North Charleston, South Carolina. Issues at one of the assembly stations can result in cascading delays for every airframe that is blocked by lack of progress at the disrupted station. In other words: you have a traffic jam until the bottleneck is fixed.<br>(image source: <a href="https://www.seattletimes.com/business/boeing-aerospace/parts-delays-force-boeing-to-slow-787-jet-assembly-line-in-s-c/">The Seattle Times</a>)</figcaption>
 </figure>
 
 The `LineLoadGenerator` has two core components: the `LineEquipment` class which represents a singular machine with inputs and outputs, and the `LineLoadGenerator` which is responsible for piecing and wiring these `LineEquipment` objects together like they're legos.
