@@ -336,7 +336,7 @@ Would result in the following simulated manufacturing line:
     <figcaption>A very simple simulated SMT line.</figcaption>
 </figure>
 
-Notice how all the `LineEquipment` are linked for you - by default, the newly added simulated equipment is automatically connected to the end of the line. Sometimes you can have nice things!
+Notice how all the `LineEquipment` are already linked for you - by default, the newly added simulated equipment is automatically connected to the end of the line. Sometimes you can have nice things!
 
 -----------------
 
