@@ -340,7 +340,7 @@ Notice how all the `LineEquipment` are linked for you - by default, the newly ad
 
 -----------------
 
-This is just the tip of the iceberg of what the `LineLoadGenerator` can do: this load generator is more than capable of simulating machines with multiple inputs and outputs, and can handle incredibly complex multi-lane assembly lines with ease.
+This is just the tip of the iceberg of what the `LineLoadGenerator` can do: this load generator is more than capable of simulating machines with multiple inputs and outputs, and can handle incredibly complex multi-lane assembly lines with ease. You might think this is overkill but I can asssure you it's not: we have seen some truly unique SMT setups over the years at [Critical Manufacturing](https://www.criticalmanufacturing.com/), and we need this flexibility to be able to simulate them all.
 
 ## Early results look promising
 
