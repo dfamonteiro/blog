@@ -216,9 +216,11 @@ The goal of this load generator is to make the creation of simulated assembly li
 
 #### LineEquipment
 
-The `LineEquipment` class is the core building block of the `LineLoadGenerator`: it represents a singular piece of equipment in a manufacturing line: a conveyor belt, a P&P machine, an SMT oven, etc. It has three core properties: the **name**, the **number of inputs** and the **number of outputs**. The outputs of a `LineEquipment` object are the inputs of _another_ `LineEquipment` object - this linking of inputs to outputs is transparent to the `LineEquipment` and is entirely managed by the `LineLoadGenerator`.
+The `LineEquipment` class is the core building block of the `LineLoadGenerator`: it represents a singular piece of equipment in a manufacturing line (i.e. a conveyor belt, a P&P machine, an SMT oven, etc). It has three core properties: the **name**, the **number of inputs** and the **number of outputs**. The outputs of one `LineEquipment` object are the inputs of another `LineEquipment` object.[^4]
 
-The `LineEquipment` is an **abstract class**, meaning that you are expected to create subclasses that inherit from `LineEquipment` and implements the `RunAsync` method. This method governs the behaviour of the line equipment you are trying to emulate and is expected to run for the duration of the load test.
+[^4]: This linking of inputs to outputs is transparent to the `LineEquipment` and is entirely managed by the `LineLoadGenerator`.
+
+The `LineEquipment` class is an **abstract class**, meaning that you are expected to create subclasses that inherit from `LineEquipment` and implements the `RunAsync` method. This method governs the behaviour of the line equipment you are trying to emulate and is expected to run for the duration of the load test.
 
 Here is example of how a `LineEquipment` subclass looks like in practice:
 
@@ -251,13 +253,11 @@ class MESResource : LineEquipment
 }
 ```
 
-Pay close attention to the `ReceiveAsync` and `SendAsync` methods in the example above: this is how the simulated machine interacts with the outside world - by receiving panels from its inputs, and once "processing" is done, sending the panels via its outputs.[^4] [^5]
+Pay close attention to the `ReceiveAsync` and `SendAsync` methods in the example above: this is how the simulated machine interacts with the outside world - by receiving panels from its inputs, and, once "processing" is done, sending the panels via its outputs.[^5] [^6]
 
-<!-- In matter of fact you can think of the `LineLoadGenerator` as an implementation of the [actor model](https://en.wikipedia.org/wiki/Actor_model) -->
+[^5]: It may help to think of the `LineLoadGenerator` as an implementation of the [actor model](https://en.wikipedia.org/wiki/Actor_model), with the `LineEquipment` objects being actors that can only communicate with a limited set of other actors by sending or receiving materials.
 
-[^4]: It may help to think of the `LineLoadGenerator` as an implementation of the [actor model](https://en.wikipedia.org/wiki/Actor_model), with the `LineEquipment` objects being actors that can only communicate with a limited set of other actors by sending or receiving materials.
-
-[^5]: And in case you're wondering, a `SendAsync` call only returns when matched by a `ReceiveAsync` call from the upstream machine. This handover mechanism is backed by a zero-capacity MPMC queue which is detailed in a [previous blog post](/posts/perfect-handover/).
+[^6]: And in case you're wondering, a `SendAsync` call only returns when matched by a `ReceiveAsync` call from the upstream machine. This handover mechanism is backed by a zero-capacity MPMC queue which is detailed in a [previous blog post](/posts/perfect-handover/).
 
 ##### And what about IoT?
 
@@ -309,7 +309,7 @@ protected override async Task RunAsync(CancellationToken cancellationToken)
 }
 ```
 
-The `IoTTestOrchestrator` framework is doing all of the heavy lifting here - connecting to the [ConnectIoT](https://help.criticalmanufacturing.com/11.3/tutorials/modules/connect-iot-equipment-integration/connectiot/equipment-integration/ei_introduction/) driver instance, sending `CheckAlive` messages, providing an interface through which we can send and receive IoT messages, etc. It really is an excellent bit of technology that you can take full advantage of in the PLG.
+The `IoTTestOrchestrator` framework is doing all of the heavy lifting here - connecting to the [ConnectIoT](https://help.criticalmanufacturing.com/11.3/tutorials/modules/connect-iot-equipment-integration/connectiot/equipment-integration/ei_introduction/) driver instance, sending `CheckAlive` messages, providing an interface through which we can send and receive IoT messages, etc. It really is an excellent bit of technology that you can take full advantage of in your PLG load tests.
 
 #### LineLoadGenerator
 
@@ -340,7 +340,7 @@ Notice how all the `LineEquipment` are already linked for you - by default, the 
 
 -----------------
 
-This is just the tip of the iceberg of what the `LineLoadGenerator` can do: this load generator is more than capable of simulating machines with multiple inputs and outputs, and can handle incredibly complex multi-lane assembly lines with ease. You might think this is overkill but I can asssure you it's not: we have seen some truly unique SMT setups over the years at [Critical Manufacturing](https://www.criticalmanufacturing.com/), and we need this flexibility to be able to simulate them all.
+This is just the tip of the iceberg of what the `LineLoadGenerator` can do: this load generator is more than capable of simulating machines with multiple inputs and outputs, and can handle incredibly complex multi-lane assembly lines with ease. You might think this is overkill but I can asssure you it's not: we have seen some truly unique SMT setups over the years at [Critical Manufacturing](https://www.criticalmanufacturing.com/), and the PLG needs this flexibility to be able to simulate them all.
 
 ## Early results look promising
 
