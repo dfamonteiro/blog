@@ -30,11 +30,11 @@ Only one problem though... how do you simulate a factory?
 
 ## Introducing the Production Load Generator
 
-The Production Load Generator project (more informally known as "PLG") is a tool that stress-tests an MES system **by simulating the factory that the MES system is being built for**, hence the name: it's a **Load Generator** that replicates the **Production Load** of a factory in our MES.
+The Production Load Generator project (more informally known as "PLG") is a tool that stress-tests an MES system **by simulating the factory that the MES system is being built for**, hence the name: it's a **Load Generator** that replicates the **Production Load** of a factory in the [Critical Manufacturing MES](https://www.criticalmanufacturing.com/).
 
 The goal of the Production Load Generator is simple: **make it as easy as possible for MES customization teams to simulate their customer's factories**, so that performance issues that previously would only show up in production now appear far earlier in the project's lifecycle. The easier the PLG is to use, the more likely teams are to adopt this tool, so a lot of care and attention was put into the PLG's overall developer experience.
 
-The Production Load Generator is equal parts a load generator and a factory simulator, which makes it very useful for other purposes within [Critical Manufacturing](https://www.criticalmanufacturing.com/), such as showcasing features of the MES that can only be assessed properly when the MES is running around the clock (for example, our reports and dashboards).
+The Production Load Generator is equal parts a load generator and a factory simulator, which makes it very useful for other purposes within [Critical Manufacturing](https://www.criticalmanufacturing.com/), such as showcasing features of the MES that otherwise can only be assessed properly when the MES is running around the clock in production (for example, our reports and dashboards).
 
 Now that you get the broad strokes of what the Production Load Generator is meant to be, let's see how it works in practice.
 
