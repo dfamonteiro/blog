@@ -32,7 +32,7 @@ Only one problem though... how do you simulate a factory?
 
 The Production Load Generator project (more informally known as "PLG") is a tool that stress-tests an MES system **by simulating the factory that the MES system is being built for**, hence the name: it's a **Load Generator** that replicates the **Production Load** of a factory in the [Critical Manufacturing MES](https://www.criticalmanufacturing.com/).
 
-The goal of the Production Load Generator is simple: **make it as easy as possible for MES customization teams to simulate their customer's factories**, so that performance issues that previously would only show up in production now appear far earlier in the project's lifecycle. The easier the PLG is to use, the more likely teams are to adopt this tool, so a lot of care and attention was put into the PLG's overall developer experience.
+The goal of the Production Load Generator is simple: **make it as easy as possible for MES customization teams to simulate their customers' factories**, so that performance issues that previously would only show up in production now appear far earlier in the project's lifecycle. The easier the PLG is to use, the more likely teams are to adopt this tool, so a lot of care and attention was put into the PLG's overall developer experience.
 
 The Production Load Generator is equal parts a load generator and a factory simulator, which makes it very useful for other purposes within [Critical Manufacturing](https://www.criticalmanufacturing.com/), such as showcasing features of the MES that otherwise can only be assessed properly when the MES is running around the clock in production (for example, our reports and dashboards).
 
@@ -46,7 +46,7 @@ The first thing you should know about the PLG is that it's not a load generator 
 
 ### Getting started
 
-In order to help users of the Production Load Generator getting started with creating scenarios, we provide a `LoadScenarioRunner` class that acts as the entry point of the application. This class is responsible for connecting to a specific MES environment and running the specified load scenario against that environment.[^3]
+In order to help users of the Production Load Generator get started with creating scenarios, we provide a `LoadScenarioRunner` class that acts as the entry point of the application. This class is responsible for connecting to a specific MES environment and running the specified load scenario against that environment.[^3]
 
 [^3]: Providing this component also comes with another advantage: standardization across projects of how load scenarios are defined, configured, and run.
 
@@ -126,7 +126,7 @@ The methods in this class should be pretty self-explanatory: you setup your load
 
 Everything that I've shown so far is just generic infrastructure for running load tests in a standardized manner and doesn't differ that much from other publicly available load generators. It is nevertheless a necessary foundation on top of which the PLG's load generators run on.
 
-These load generator classes are the reason for the PLG's existence: they are _excellent_ at simulating manufacturing processes, and are what makes the Production Load Generator uniquely suited for [Critical Manufacturing](https://www.criticalmanufacturing.com/)'s factory simulation needs:
+These load generator classes are the reason for the PLG's existence: they are _excellent_ at simulating manufacturing processes, and are what make the Production Load Generator uniquely suited for [Critical Manufacturing](https://www.criticalmanufacturing.com/)'s factory simulation needs:
 
 ### The ProductionLoadGenerator class
 
@@ -199,7 +199,7 @@ public async Task RunAsync()
 }
 ```
 
-It's understandably difficult to get an intuition for how this load generator works just from reading this short synopsys, so if you looking for more details about this state machine-based load generator concept, I suggest reading this [blog post](/posts/stateful-load-generators/) I wrote back in 2025.
+It's understandably difficult to get an intuition for how this load generator works just from reading this short synopsis, so if you're looking for more details about this state machine-based load generator concept, I suggest reading this [blog post](/posts/stateful-load-generators/) I wrote back in 2025.
 
 ### The LineLoadGenerator class
 
@@ -220,9 +220,9 @@ The `LineEquipment` class is the core building block of the `LineLoadGenerator`:
 
 [^4]: This linking of inputs to outputs is transparent to the `LineEquipment` and is entirely managed by the `LineLoadGenerator`.
 
-The `LineEquipment` class is an **abstract class**, meaning that you are expected to create subclasses that inherit from `LineEquipment` and implements the `RunAsync` method. This method governs the behaviour of the line equipment you are trying to emulate and is expected to run for the duration of the load test.
+The `LineEquipment` class is an **abstract class**, meaning that you are expected to create subclasses that inherit from `LineEquipment` and implement the `RunAsync` method. This method governs the behaviour of the line equipment you are trying to emulate and is expected to run for the duration of the load test.
 
-Here is example of how a `LineEquipment` subclass looks like in practice:
+Here is an example of how a `LineEquipment` subclass looks like in practice:
 
 ```csharp
 /// <summary>
@@ -261,7 +261,7 @@ Pay close attention to the `ReceiveAsync` and `SendAsync` methods in the example
 
 ##### And what about IoT?
 
-You might be wondering: and what about IoT? And what if I also want to to stress-test the [ConnectIoT](https://www.criticalmanufacturing.com/mes-for-industry-4-0/connect-iot/) layer as part of my load tests? Can I get my `LineEquipment` objects to communicate via IoT protocols?
+You might be wondering: and what about IoT? And what if I also want to stress-test the [ConnectIoT](https://www.criticalmanufacturing.com/mes-for-industry-4-0/connect-iot/) layer as part of my load tests? Can I get my `LineEquipment` objects to communicate via IoT protocols?
 
 The answer is **yes**. By leveraging the IoT protocol simulator plugins of our `IoTTestOrchestrator` framework (detailed at length in this [blog post](https://j-roque.com/posts/20250516-testinglowcode/) by my colleague & IoT expert [João Roque](https://www.linkedin.com/in/j-roque/)), you can get your `LineEquipment` to talk via whatever IoT protocol you wish.
 
@@ -313,7 +313,7 @@ The `IoTTestOrchestrator` framework is doing all of the heavy lifting here - con
 
 #### LineLoadGenerator
 
-The `LineLoadGenerator` class is where the the `LineEquipment` building blocks are linked together into simulated manufacturing lines.
+The `LineLoadGenerator` class is where the `LineEquipment` building blocks are linked together into simulated manufacturing lines.
 
 The following `LineLoadGenerator` code:
 
@@ -340,24 +340,24 @@ Notice how all the `LineEquipment` are already linked for you - by default, the 
 
 -----------------
 
-This is just the tip of the iceberg of what the `LineLoadGenerator` can do: this load generator is more than capable of simulating machines with multiple inputs and outputs, and can handle incredibly complex multi-lane assembly lines with ease. You might think this is overkill but I can asssure you it's not: we have seen some truly unique SMT setups over the years at [Critical Manufacturing](https://www.criticalmanufacturing.com/), and the PLG needs this flexibility to be able to simulate them all.
+This is just the tip of the iceberg of what the `LineLoadGenerator` can do: this load generator is more than capable of simulating machines with multiple inputs and outputs, and can handle incredibly complex multi-lane assembly lines with ease. You might think this is overkill but I can assure you it's not: we have seen some truly unique SMT setups over the years at [Critical Manufacturing](https://www.criticalmanufacturing.com/), and the PLG needs this flexibility to be able to simulate them all.
 
 ## Early results look promising
 
 The Production Load Generator has already been used by some teams to validate some performance-critical scenarios, and so far the feedback I've gotten by my colleagues is that it's pretty intuitive to use, which is a massive relief! One of the goals of the PLG is to make load tests against our MES dramatically easier to perform - mission accomplished.
 
-I terms of performance, the PLG has proven to be so effective at stress-testing the MES that teams are becoming limited by our internal development infrastructure - to the point that requests for dedicated database hardware are now being made to open the door for more extensive load tests. This request for more hardware is completely understandable, though... if you want to simulate a factory with 40 SMT lines running concurrently, there's no going around it: [you're gonna need a bigger boat](https://www.youtube.com/watch?v=2I91DJZKRxs).
+In terms of performance, the PLG has proven to be so effective at stress-testing the MES that teams are becoming limited by our internal development infrastructure - to the point that requests for dedicated database hardware are now being made to open the door for more extensive load tests. This request for more hardware is completely understandable, though... if you want to simulate a factory with 40 SMT lines running concurrently, there's no going around it: [you're gonna need a bigger boat](https://www.youtube.com/watch?v=2I91DJZKRxs).
 
 <figure>
     <img src="/images/production-load-generator/bigger-boat.png" alt="A shark named PLG attacking a boat named MES">
     <figcaption>Extremely accurate visualization of the PLG stress-testing our MES.</figcaption>
 </figure>
 
-And last but not least, we need to discuss how teams are collecting performance data from their load tests. While the PLG is capable of logging every HTTP request it makes (via the `HttpClient`'s [ActivitySource](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/distributed-tracing-builtin-activities#http-client-request)), teams prefer to lean on our MES's excellent [observability](https://www.criticalmanufacturing.com/observability/) dashboards. One key advantage on leaning on the MES itself for monitoring its performance, is that the techniques used to analyse the performance of the MES during the load test are directly transferrable to analysing the performance of the MES in production.
+And last but not least, we need to discuss how teams are collecting performance data from their load tests. While the PLG is capable of logging every HTTP request it makes (via the `HttpClient`'s [ActivitySource](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/distributed-tracing-builtin-activities#http-client-request)), teams prefer to lean on our MES's excellent [observability](https://www.criticalmanufacturing.com/observability/) dashboards. One key advantage of leaning on the MES itself for monitoring its performance, is that the techniques used to analyse the performance of the MES during the load test are directly transferrable to analysing the performance of the MES in production.
 
 ## Final thoughts
 
-It's very rare to be given the opportunity to start a completely a new project from scratch, and I couldn't be happier with how the Production Load Generator is flourishing. To get this far it took a lot of effort from a lot of people, to whom I'm eternally grateful:
+It's very rare to be given the opportunity to start a completely new project from scratch, and I couldn't be happier with how the Production Load Generator is flourishing. To get this far, it took a lot of effort from a lot of people, to whom I'm eternally grateful:
 
 - I'd like to thank [Óscar Martins](https://www.linkedin.com/in/oscarmartins/) for the political sponsorship and [Miguel Torres](https://www.linkedin.com/in/miguelangelotorres/) for the technical sponsorship & guidance.
 - I'd like to thank [Fábio Reis](https://www.linkedin.com/in/fabioreis23/) for promoting this tool to other parts of the company.
