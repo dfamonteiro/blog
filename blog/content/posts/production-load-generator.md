@@ -11,13 +11,13 @@ externalLink = ""
 series = []
 +++
 
-Do you happen to have a spare factory laying around? I assume you don't.
+Do you happen to have a spare factory laying around? I assume not.
 
 Sadly, we also don't have a spare factory at [Critical Manufacturing](https://www.criticalmanufacturing.com/), which poses some issues for us: how do we ensure that our MES[^1] will work as expected at the factory, _before actually deploying our MES in said factory_? This is not a problem solved by standard functional testing - functional tests do help by validating that features work as expected in a vacuum, but what will happen when the factory is producing at full capacity, putting the MES under maximum stress?
 
 [^1]: A _Manufacturing Execution System_ is a software system responsible for the bookkeeping of a factory's production. It is generally used in highly sophisticated industries, such as the semiconductor industry and the medical devices industry, where a high level of material tracking and control is required.
 
-This is an especially pertinent problem in the electronics industry: a very nasty mix of high production volumes combined with onerous traceability and quality tracking requirements will bring your MES to its knees if you are not careful! It is therefore critical for projects in this industry to understand how their MES customizations behave under very high loads, because that's the harsh reality in which these manufacturing execution systems will operate, day in and day out.
+This is an especially pertinent problem in the electronics industry: a very nasty mix of high production volumes combined with onerous traceability and quality tracking requirements will bring your MES to its knees if you are not careful! It is therefore critical for projects in this industry to understand how their MES customizations behave under very high loads, because that's the harsh reality in which these manufacturing execution systems will operate day in and day out.
 
 <figure>
     <img src="/images/production-load-generator/qualitel.png" alt="A screenshot of a broken trace.">
@@ -34,7 +34,7 @@ The Production Load Generator project (more informally known as "PLG") is a tool
 
 The goal of the Production Load Generator is simple: **make it as easy as possible for MES customization teams to simulate their customers' factories**, so that performance issues that previously would only show up in production now appear far earlier in the project's lifecycle. The easier the PLG is to use, the more likely teams are to adopt this tool, so a lot of care and attention was put into the PLG's overall developer experience.
 
-The Production Load Generator is equal parts a load generator and a factory simulator, which makes it very useful for other purposes within [Critical Manufacturing](https://www.criticalmanufacturing.com/), such as showcasing features of the MES that otherwise can only be assessed properly when the MES is running around the clock in production (for example, our reports and dashboards).
+The Production Load Generator is equal parts a load generator and a factory simulator, which makes it very useful for other purposes within [Critical Manufacturing](https://www.criticalmanufacturing.com/) such as showcasing features of the MES that otherwise can only be assessed properly when the MES is running around the clock in production (for example, our reports and dashboards).
 
 Now that you get the broad strokes of what the Production Load Generator is meant to be, let's see how it works in practice.
 
@@ -120,7 +120,7 @@ internal class FirstLoadScenario : ILoadScenario
 }
 ```
 
-The methods in this class should be pretty self-explanatory: you setup your load generators and the MES in `SetupAsync`, run the load generators in `RunAsync` until the `cancellationToken` is triggered, and finally revert all MES configurations to their original state in `TeardownAsync`.
+The methods in this class are pretty self-explanatory: you setup your load generators and the MES in `SetupAsync`, run the load generators in `RunAsync` until the `cancellationToken` is triggered, and finally revert all MES configurations to their original state in `TeardownAsync`.
 
 -----------------
 
@@ -203,14 +203,14 @@ It's understandably difficult to get an intuition for how this load generator wo
 
 ### The LineLoadGenerator class
 
-While the state machine-based `ProductionLoadGenerator` is an incredibly versatile simulator, it struggles with modelling queue-based manufacturing processes, such as SMT Lines and car assembly lines. The `LineLoadGenerator` is a load generator designed exactly for this purpose: **simulating manufacturing lines**.
+While the state machine-based `ProductionLoadGenerator` is an incredibly versatile simulator, it struggles with modelling queue-based manufacturing processes, such as SMT Lines and car assembly lines. The `LineLoadGenerator` is a load generator designed for exactly this purpose: **simulating manufacturing lines**.
 
 <figure>
     <img src="/images/production-load-generator/assembly-line.png" alt="The Wafer system state loop">
-    <figcaption>A Boeing 787 assembly line in North Charleston, South Carolina. Issues at one of the assembly stations can result in cascading delays for every airframe that is blocked by lack of progress at the disrupted station. In other words: you have a traffic jam until the bottleneck is fixed.<br>(image source: <a href="https://www.seattletimes.com/business/boeing-aerospace/parts-delays-force-boeing-to-slow-787-jet-assembly-line-in-s-c/">The Seattle Times</a>)</figcaption>
+    <figcaption>A Boeing 787 assembly line in North Charleston, South Carolina. Issues at one of the assembly stations can result in cascading delays for every airframe that is blocked by the lack of progress at the disrupted station. In other words: you have a traffic jam until the bottleneck is fixed.<br>(image source: <a href="https://www.seattletimes.com/business/boeing-aerospace/parts-delays-force-boeing-to-slow-787-jet-assembly-line-in-s-c/">The Seattle Times</a>)</figcaption>
 </figure>
 
-The `LineLoadGenerator` has two core abstractions: the `LineEquipment` class which represents a singular machine with inputs and outputs, and the `LineLoadGenerator` which is responsible for piecing and wiring these `LineEquipment` objects together.
+The `LineLoadGenerator` has two core abstractions: the `LineEquipment` class which represents a singular machine with inputs and outputs, and the `LineLoadGenerator` which is responsible for piecing and wiring these `LineEquipment` objects together into a cohesive production line.
 
 The goal of this load generator is to make the creation of simulated assembly lines as simple as putting lego blocks together, while giving the user full control of the behaviour of these individual blocks.
 
@@ -222,7 +222,7 @@ The `LineEquipment` class is the core building block of the `LineLoadGenerator`:
 
 The `LineEquipment` class is an **abstract class**, meaning that you are expected to create subclasses that inherit from `LineEquipment` and implement the `RunAsync` method. This method governs the behaviour of the line equipment you are trying to emulate and is expected to run for the duration of the load test.
 
-Here is an example of how a `LineEquipment` subclass looks like in practice:
+Here is an example of what a `LineEquipment` subclass looks like in practice:
 
 ```csharp
 /// <summary>
@@ -257,13 +257,13 @@ Pay close attention to the `ReceiveAsync` and `SendAsync` methods in the example
 
 [^5]: It may help to think of the `LineLoadGenerator` as an implementation of the [actor model](https://en.wikipedia.org/wiki/Actor_model), with the `LineEquipment` objects being actors that can only communicate with a limited set of other actors by sending or receiving materials.
 
-[^6]: And in case you're wondering, a `SendAsync` call only returns when matched by a `ReceiveAsync` call from the upstream machine. This handover mechanism is backed by a zero-capacity MPMC queue which is detailed in a [previous blog post](/posts/perfect-handover/).
+[^6]: And in case you're wondering, a `SendAsync` call only returns when matched by a `ReceiveAsync` call from the downstream machine. This handover mechanism is backed by a zero-capacity MPMC queue which is detailed in a [previous blog post](/posts/perfect-handover/).
 
 ##### And what about IoT?
 
 You might be wondering: and what about IoT? And what if I also want to stress-test the [ConnectIoT](https://www.criticalmanufacturing.com/mes-for-industry-4-0/connect-iot/) layer as part of my load tests? Can I get my `LineEquipment` objects to communicate via IoT protocols?
 
-The answer is **yes**. By leveraging the IoT protocol simulator plugins of our `IoTTestOrchestrator` framework (detailed at length in this [blog post](https://j-roque.com/posts/20250516-testinglowcode/) by my colleague & IoT expert [João Roque](https://www.linkedin.com/in/j-roque/)), you can get your `LineEquipment` to talk via whatever IoT protocol you wish.
+Yes, you can! By leveraging the IoT protocol simulator plugins of our `IoTTestOrchestrator` framework (detailed at length in this [blog post](https://j-roque.com/posts/20250516-testinglowcode/) by my colleague & IoT expert [João Roque](https://www.linkedin.com/in/j-roque/)), you can get your `LineEquipment` to talk via whatever IoT protocol you wish.
 
 Here's an example of a simulated machine that communicates via the [Hermes Protocol](https://www.the-hermes-standard.info/):
 
@@ -309,7 +309,7 @@ protected override async Task RunAsync(CancellationToken cancellationToken)
 }
 ```
 
-The `IoTTestOrchestrator` framework is doing all of the heavy lifting here - connecting to the [ConnectIoT](https://help.criticalmanufacturing.com/11.3/tutorials/modules/connect-iot-equipment-integration/connectiot/equipment-integration/ei_introduction/) driver instance, sending `CheckAlive` messages, providing an interface through which we can send and receive IoT messages, etc. It really is an excellent bit of technology that you can take full advantage of in your PLG load tests.
+The `IoTTestOrchestrator` framework is doing all of the heavy lifting here - connecting to the [ConnectIoT](https://help.criticalmanufacturing.com/11.3/tutorials/modules/connect-iot-equipment-integration/connectiot/equipment-integration/ei_introduction/) driver instance, sending `CheckAlive` messages, acting as a courier through which we can send and receive IoT messages, etc. It really is an excellent bit of technology that you can take full advantage of in your PLG load tests.
 
 #### LineLoadGenerator
 
@@ -338,9 +338,7 @@ Would result in the following simulated manufacturing line:
 
 Notice how all the `LineEquipment` are already linked for you - by default, the newly added simulated equipment is automatically connected to the end of the line. Sometimes you can have nice things!
 
------------------
-
-This is just the tip of the iceberg of what the `LineLoadGenerator` can do: this load generator is more than capable of simulating machines with multiple inputs and outputs, and can handle incredibly complex multi-lane assembly lines with ease. You might think this is overkill but I can assure you it's not: we have seen some truly unique SMT setups over the years at [Critical Manufacturing](https://www.criticalmanufacturing.com/), and the PLG needs this flexibility to be able to simulate them all.
+This is just the tip of the iceberg of what the `LineLoadGenerator` can do: this load generator is more than capable of simulating machines with multiple inputs and outputs and can handle incredibly complex multi-lane assembly lines without issue. You might think this is overkill but I can assure you it's not: we have seen some truly unique SMT setups over the years at [Critical Manufacturing](https://www.criticalmanufacturing.com/), and the PLG needs this flexibility to be able to simulate them all with ease.
 
 ## Early results look promising
 
