@@ -4,7 +4,7 @@
         {
             "label": "Run Hugo Server",
             "type": "shell",
-            "command": "cd ./blog/; hugo server -D",
+            "command": "cd ./blog/; hugo server -D --openBrowser",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
@@ -28,6 +28,20 @@
                 "env": {
                     "HUGO_POST_TITLE": "${input:hugoPostTitle}"
                 }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "List Hugo Tags",
+            "type": "shell",
+            "command": "Get-ChildItem content/posts -Filter *.md -File | ForEach-Object { Select-String -Path $_.FullName -Pattern '^tags\\s*=' | ForEach-Object { $tags = $_.Line -replace '^tags\\s*=\\s*\\[', '' -replace '\\]\\s*$', ''; $tags -split ',' | ForEach-Object { $_.Trim().Trim([char]34) } } } | Where-Object { $_ } | Sort-Object -Unique",
+            "options": {
+                "cwd": "${workspaceFolder}/blog"
             },
             "problemMatcher": [],
             "presentation": {
