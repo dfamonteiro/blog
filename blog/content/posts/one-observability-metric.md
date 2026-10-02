@@ -21,7 +21,11 @@ To answer this problem, we need a source of performance data: server logs, trace
 
 ## Weeding out the obvious candidates
 
+### Sort by p95
+
 "sort by p95" doesn't work because you could end up with background services that only end up being executed once a day and is not critical
+
+### Sort by service execution count
 
 "sort by service execution count" doesn't work because this because, at least in our case, basic entity loads will top the list.
 
