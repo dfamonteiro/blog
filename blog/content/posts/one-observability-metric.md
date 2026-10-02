@@ -11,15 +11,13 @@ externalLink = ""
 series = []
 +++
 
-While I was talking with some colleagues regarding their load-testing efforts, an interesting question came up:
+I was talking with some colleagues regarding their [load-testing](/posts/production-load-generator/) efforts, when an interesting question came up during the conversation:
 
-> How do we determine which services deserve the most optimization engineering effort?
+> How do we determine which services deserve the most optimization engineering effort?[^1]
 
-NOTE: Obviously some business understanding would help here, but we're looking for a purely mechanical ranking.
+[^1]: In a lot of cases, just by having a good understanding of the business problems the software is solving, you know which API endpoints are performance-sensitive. For the sake of this blog post, let's assume we are disavowed of any and all business intuition.
 
-NOTE: We have a diverse set of services, so it's not immediately obvious what are the obvious targets.
-
-Thankfully the critical manufacturing MES has open telemetry support and therefore we have reams of observability data stored in clickhouse, so it's really a matter of selecting the right query. But which one?
+To answer this problem, we need a source of performance data: server logs, traces, anything. Thankfully, the product I work on has open telemetry support and therefore we have reams of observability data stored in clickhouse, so it's really a matter of selecting the right query. But which one?
 
 ## Weeding out the obvious candidates
 
