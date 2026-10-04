@@ -15,9 +15,9 @@ I was talking with some colleagues regarding their [load-testing](/posts/product
 
 > How do we determine which services deserve the most optimization engineering effort?[^1]
 
-[^1]: In many cases, just by having a good understanding of the business problems the software is solving you know which API endpoints are performance-sensitive. For the sake of this blog post, let's assume we are disavowed of any and all business intuition.
+[^1]: In many cases, just by having a good understanding of the business problems the software is solving you know which API endpoints are performance-sensitive. For the sake of this blog post, let's assume we are devoid of any and all business intuition.
 
-To answer this problem, we need a source of performance data: server logs, traces, etc - thankfully, the product I work on has open telemetry support and therefore we have reams of observability data stored in clickhouse, so it's really a matter of crafting the right query. But which one?
+To answer this problem, we need a source of performance data: server logs, traces, etc - thankfully, the product I work on has OpenTelemetry support and therefore we have reams of observability data stored in ClickHouse, so it's really a matter of crafting the right query. But which one?
 
 ## Why not use p95 latency
 
@@ -46,7 +46,7 @@ Now, all that is left to do is to pick a service from this ranking and start opt
 
 ## Steve Jobs got there first
 
-You will not be surprised to hear that this metric is not a new idea at all: Datadog has [Total Time Spent](https://docs.datadoghq.com/tracing/services/resource_page/#avg-time-per-request), Splunk has [Total Response Time](https://help.splunk.com/en/splunk-observability-cloud/monitor-application-performance/monitor-database-query-performance), and all the other observability vendors probably have something similar. But going even further back, I reckon that Steve Jobs has beaten all of us to this idea, as I recall reading this anectdotal tale from his [biography](https://www.goodreads.com/book/show/11084145-steve-jobs):
+You will not be surprised to hear that this metric is not a new idea at all: Datadog has [Total Time Spent](https://docs.datadoghq.com/tracing/services/resource_page/#avg-time-per-request), Splunk has [Total Response Time](https://help.splunk.com/en/splunk-observability-cloud/monitor-application-performance/monitor-database-query-performance), and all the other observability vendors probably have something similar. But going even further back, I reckon that Steve Jobs has beaten all of us to this idea, as I recall reading this anecdotal tale from his [biography](https://www.goodreads.com/book/show/11084145-steve-jobs):
 
 > One day Jobs came into the cubicle of Larry Kenyon, an engineer
 > who was working on the Macintosh operating system, and complained
