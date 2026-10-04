@@ -17,25 +17,30 @@ I was talking with some colleagues regarding their [load-testing](/posts/product
 
 [^1]: In a lot of cases, just by having a good understanding of the business problems the software is solving, you know which API endpoints are performance-sensitive. For the sake of this blog post, let's assume we are disavowed of any and all business intuition.
 
-To answer this problem, we need a source of performance data: server logs, traces, anything. Thankfully, the product I work on has open telemetry support and therefore we have reams of observability data stored in clickhouse, so it's really a matter of selecting the right query. But which one?
+To answer this problem, we need a source of performance data: server logs, traces, etc - thankfully, the product I work on has open telemetry support and therefore we have reams of observability data stored in clickhouse, so it's really a matter of crafting the right query. But which one?
 
-## Weeding out the obvious candidates
+## Why not use p95 latency
 
-### Sort by p95
+Your first thought might be to sort by [p95/p99](https://en.wikipedia.org/wiki/Latency_(engineering)#Tail_latency) and be done with it. This will not work for my particular circumstances because our p95 rankings are poluted by services that are executed perhaps once per week and take ~20s to complete. Should these rarely executed services be my top optimization targets? Probably not.
 
-"sort by p95" doesn't work because you could end up with background services that only end up being executed once a day and is not critical
-
-### Sort by service execution count
-
-"sort by service execution count" doesn't work because this because, at least in our case, basic entity loads will top the list.
-
-We have two ends of the spectrum and we need something in the middle.
+The number of times a service is executed **must be taken into account**.
 
 ## The solution: sort by Total Execution Time
 
-What I ended up suggesting to my colleagues was to multiply the service execution count by the average service execution time, and sort by descending order. (represents the time the host spends executing this service in total, hence the name)
+What I ended up suggesting to my colleagues was to multiply the service execution count by the average service execution time, and sort by descending order:
 
-TODO: some SQL (with a comment explaining how this can be simplified to a sum)
+```sql
+SELECT TOP 20
+    ServiceName,
+    SUM(DATEDIFF(MILLISECOND, ServiceStartTime, ServiceEndTime)) AS TotalExecutionTime
+    -- Note: AVG(x) * COUNT(x) can be simplified down to SUM(x)
+FROM [dbo].[T_ServiceHistory]
+WHERE ServiceEndTime >= DATEADD(DAY, -7, GETDATE()) -- Avoid a full table scan
+GROUP BY ServiceName
+ORDER BY TotalExecutionTime DESC;
+```
+
+The beauty of this metric is that it shows you where your system is spending its CPU time.
 
 ## Steve Jobs got there first
 
