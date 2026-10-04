@@ -1,5 +1,5 @@
 ﻿+++ 
-draft = true
+draft = false
 date = 2026-10-04T19:36:49+01:00
 title = "One observability metric to rule them all"
 description = ""
@@ -17,7 +17,7 @@ I was talking with some colleagues regarding their [load-testing](/posts/product
 
 [^1]: In many cases, just by having a good understanding of the business problems the software is solving you know which API endpoints are performance-sensitive. For the sake of this blog post, let's assume we are devoid of any and all business intuition.
 
-To answer this problem, we need a source of performance data: server logs, traces, etc - thankfully, the product I work on has OpenTelemetry support and therefore we have reams of observability data stored in ClickHouse, so it's really a matter of crafting the right query. But which one?
+To solve this riddle, we need a source of performance data: server logs, traces, etc - thankfully, the product I work on has OpenTelemetry support and therefore we have reams of observability data stored in ClickHouse, so it's really a matter of crafting the right query. But which one?
 
 ## Why not use p95 latency
 
