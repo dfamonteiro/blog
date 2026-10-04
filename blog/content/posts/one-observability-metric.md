@@ -21,7 +21,7 @@ To answer this problem, we need a source of performance data: server logs, trace
 
 ## Why not use p95 latency
 
-Your first thought might be to sort by [p95/p99](https://en.wikipedia.org/wiki/Latency_(engineering)#Tail_latency) and be done with it. This will not work for my particular circumstances because our p95 rankings are poluted by services that are executed perhaps once per week and take ~20s to complete. Should these rarely executed services be my top optimization targets? Probably not.
+Your first thought might be to sort by [p95/p99](https://en.wikipedia.org/wiki/Latency_(engineering)#Tail_latency) and be done with it. This will not work for my particular circumstances because our p95 rankings are polluted by services that are executed perhaps once per week and take ~20s to complete. Should these rarely executed services be my top optimization targets? Probably not.
 
 The number of times a service is executed **must be taken into account**.
 
@@ -40,7 +40,7 @@ GROUP BY ServiceName
 ORDER BY TotalExecutionTime DESC;
 ```
 
-The beauty of this metric is that it shows you where your system is spending its CPU time.
+The beauty of this metric is that it shows you where your system is spending its time.
 
 ## Steve Jobs got there first
 
