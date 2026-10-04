@@ -49,6 +49,17 @@
                 "focus": true,
                 "panel": "shared"
             }
+        },
+        {
+            "label": "Print Current Timestamp",
+            "type": "shell",
+            "command": "(Get-Date).ToString('yyyy-MM-ddTHH:mm:ssK')",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            }
         }
     ],
     "inputs": [

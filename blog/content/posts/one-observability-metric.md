@@ -1,6 +1,6 @@
 ﻿+++ 
 draft = true
-date = 2026-09-28T23:37:07+01:00
+date = 2026-10-04T19:36:49+01:00
 title = "One observability metric to rule them all"
 description = ""
 slug = ""
@@ -15,7 +15,7 @@ I was talking with some colleagues regarding their [load-testing](/posts/product
 
 > How do we determine which services deserve the most optimization engineering effort?[^1]
 
-[^1]: In a lot of cases, just by having a good understanding of the business problems the software is solving, you know which API endpoints are performance-sensitive. For the sake of this blog post, let's assume we are disavowed of any and all business intuition.
+[^1]: In many cases, just by having a good understanding of the business problems the software is solving you know which API endpoints are performance-sensitive. For the sake of this blog post, let's assume we are disavowed of any and all business intuition.
 
 To answer this problem, we need a source of performance data: server logs, traces, etc - thankfully, the product I work on has open telemetry support and therefore we have reams of observability data stored in clickhouse, so it's really a matter of crafting the right query. But which one?
 
