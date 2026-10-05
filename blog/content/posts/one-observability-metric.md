@@ -46,7 +46,7 @@ Now, all that is left to do is to pick a service from this ranking and start opt
 
 ## Steve Jobs got there first
 
-You will not be surprised to hear that this metric is not a new idea at all: Datadog has [Total Time Spent](https://docs.datadoghq.com/tracing/services/resource_page/#avg-time-per-request), Splunk has [Total Response Time](https://help.splunk.com/en/splunk-observability-cloud/monitor-application-performance/monitor-database-query-performance), and all the other observability vendors probably have something similar. But going even further back, I reckon that Steve Jobs has beaten all of us to this idea, as I recall reading this anecdotal tale from his [biography](https://www.goodreads.com/book/show/11084145-steve-jobs):
+You will not be surprised to hear that this metric is not a new idea at all: Datadog has [Total Time Spent](https://docs.datadoghq.com/tracing/services/resource_page/#avg-time-per-request), Splunk has [Total Response Time](https://help.splunk.com/en/splunk-observability-cloud/monitor-application-performance/monitor-database-query-performance), and all the other observability vendors probably also have something similar. But going even further back, I reckon that Steve Jobs has beaten all of us to this idea, as I recall reading this anecdotal tale from his [biography](https://www.goodreads.com/book/show/11084145-steve-jobs):
 
 > One day Jobs came into the cubicle of Larry Kenyon, an engineer
 > who was working on the Macintosh operating system, and complained
