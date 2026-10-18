@@ -1,0 +1,9 @@
+<!-- P project file for the provable starter model -->
+<Project>
+  <ProjectName>provable</ProjectName>
+  <InputFiles>
+    <PFile>./PSrc/</PFile>
+    <PFile>./PTst/</PFile>
+  </InputFiles>
+  <OutputDir>./PGenerated/</OutputDir>
+</Project>
